@@ -40,7 +40,9 @@ import moment from 'moment'
 import marked from 'marked'
 import Post from '@/lib/util/post'
 import PostPreview from './PostPreview'
+import ContentUtil from '@/lib/util/content-util'
 const post = new Post()
+const contentUtil = new ContentUtil()
 
 export default {
   components: {
@@ -107,7 +109,8 @@ export default {
       this.hovered = false
     },
     showPost(post) {
-      post.htmlContent = marked(post.content, { breaks: true })
+      const content = contentUtil.formatDomainToLocal(post.content, this.$store.state.setting.source)
+      post.htmlContent = marked(content, { breaks: true })
       this.currentPost = post
       this.preview = true
     },

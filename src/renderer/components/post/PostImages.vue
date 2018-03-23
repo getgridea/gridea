@@ -65,7 +65,7 @@ export default {
     },
     copyMarkdownImage(image) {
       const clip =  new Clipboard('.item', {
-        text: () => `![描述文字](${this.setting.domain}/post-images/${image})`,
+        text: () => `![描述文字](file://${this.setting.source}/post-images/${image})`,
       })
       console.log('clip', clip)
       this.$Message.success('😏 已复制!')

@@ -56,7 +56,9 @@ import fse from 'fs-extra'
 import moment from 'moment'
 import matter from 'gray-matter'
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor'
+import ContentUtil from '@/lib/util/content-util'
 import PostImages from './PostImages'
+const contentUtil = new ContentUtil()
 
 export default {
   components: {
@@ -82,15 +84,18 @@ export default {
         toolbar: ['bold', 'italic', 'heading', 'code', 'quote', 'unordered-list', 'ordered-list', 'link', 'preview', 'fullscreen', 'guide'],
       },
       imageModalVisible: false,
+      setting: null,
     }
   },
   mounted() {
+    this.setting = this.$store.state.setting
     console.log(this.post)
+
     if (this.post) {
       this.form.title = this.post.data.title
       this.form.tags = (this.post.data.tags || '').split(' ')
       this.form.date = moment(this.post.data.date).format('YYYY-MM-DD HH:mm:ss')
-      this.form.content = this.post.content
+      this.form.content = contentUtil.formatDomainToLocal(this.post.content, this.setting.source)
       this.form.fileName = this.post.fileName
     }
     console.log(this.form)
@@ -98,13 +103,17 @@ export default {
   },
   methods: {
     async save() {
+      const content = contentUtil.formatLocalToDomain(this.form.content, this.setting.domain)
+
       const mdStr = `---
 title: ${this.form.title}
 date: ${this.form.date}
 tags: ${this.form.tags.join(' ')}
 ---
-${this.form.content}
+${content}
 `
+      console.log(mdStr)
+
       try {
         const basePath = this.$db.get('remote').value().source
         // write file must use fse, beause fs.writeFile need callback
@@ -196,5 +205,12 @@ ${this.form.content}
 }
 .ivu-tag:not(.ivu-tag-border):not(.ivu-tag-dot):not(.ivu-tag-checked) {
   background: #eee;
+}
+</style>
+<style lang="scss">
+.markdown-editor .editor-preview-active, .markdown-editor .editor-preview-active-side {
+  img {
+    max-width: 100%;
+  }
 }
 </style>

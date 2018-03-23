@@ -7,7 +7,7 @@
         :key="index"
         @click="copyMarkdownImage(image)"
       >
-        <img :src="`static/post-images/${image}`" width="100%" height="100%">
+        <img :src="`file://${setting.source}/post-images/${image}`" width="100%" height="100%">
       </div>
     </div>
     <div class="upload-container">
@@ -42,7 +42,11 @@ export default {
   },
   methods: {
     async fetchPostImages() {
-      this.images = await postImages.getImages(`${__static}/post-images`)
+      try {
+        this.images = await postImages.getImages(`${this.setting.source}/post-images`)
+      } catch (e) {
+        console.log('ERROR: ', e.message)
+      }
     },
     handleUpload(file) {
       this.file = file
@@ -53,8 +57,6 @@ export default {
         this.$Message.error('😞 抱歉已经存在同名的图片，请修改名称后重新上传。')
         return
       }
-      // 上传到应用
-      await fse.copySync(`${this.file.path}`, `${__static}/post-images/${this.file.name}`)
       // 上传到源文件目录
       await fse.copySync(`${this.file.path}`, `${this.setting.source}/post-images/${this.file.name}`)
       this.file = null

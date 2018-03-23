@@ -2,8 +2,6 @@
 
 import { app, BrowserWindow, Menu } from 'electron'
 
-// import server from '../../server' // eslint-disable-line no-unused-vars
-
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -25,6 +23,9 @@ function createWindow() {
     height: 563,
     useContentSize: true,
     width: 1000,
+    webPreferences: {
+      webSecurity: false, // FIXED: Not allowed to load local resource
+    },
   })
 
   mainWindow.loadURL(winURL)

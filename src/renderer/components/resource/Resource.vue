@@ -20,7 +20,7 @@
           title="你确认删除这张图片吗？"
           @on-ok="deleteImage(image)"
         >
-          <img :src="`static/post-images/${image}`" width="100%" height="100%">
+          <img :src="`file://${setting.source}/post-images/${image}`" width="100%" height="100%">
         </i-poptip>
       </div>
     </div>
@@ -49,7 +49,7 @@ export default {
       return false
     },
     async fetchPostImages() {
-      this.images = await fse.readdir(`${__static}/post-images`)
+      this.images = await fse.readdir(`${this.setting.source}/post-images`)
     },
     async upload() {
       if (this.images.includes(this.file.name)) {
@@ -57,8 +57,6 @@ export default {
         return
       }
 
-      // 上传到应用
-      await fse.copySync(`${this.file.path}`, `${__static}/post-images/${this.file.name}`)
       // 上传到源文件目录
       await fse.copySync(`${this.file.path}`, `${this.setting.source}/post-images/${this.file.name}`)
       this.file = null
@@ -66,7 +64,6 @@ export default {
       await this.fetchPostImages()
     },
     async deleteImage(image) {
-      await fse.removeSync(`${__static}/post-images/${image}`)
       await fse.removeSync(`${this.setting.source}/post-images/${image}`)
       this.$Message.success('图片已删除')
       await this.fetchPostImages()

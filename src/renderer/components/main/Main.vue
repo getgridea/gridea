@@ -26,18 +26,19 @@ export default {
       setting: null,
     }
   },
-  async mounted() {
+  async created() {
     // remote setting
     const config = this.$db.get('remote').value()
     this.acUpdateSetting(config)
     // website setting
-    const siteConfig = await this.$site.get('config').value()
-    const menus = await this.$site.get('menus').value()
+    const siteConfig = this.$site.get('config').value()
+    const menus = this.$site.get('menus').value()
     this.acUpdateWebsiteSetting(siteConfig)
     this.acUpdateWebsiteMenus(menus)
 
     this.setting = this.$store.state.setting
     await this.syncImages()
+    console.log(this.$route.path)
   },
   methods: {
     ...mapActions({

@@ -1,10 +1,12 @@
 <template>
   <div class="left">
     <div class="logo">
-      <div>
-        <img src="~@/assets/logo.png" alt="Hve" width="80px" height="80px">
-      </div>
-      Hve
+      <i-tooltip content="Back to welcome" placement="bottom" style="cursor: pointer;">
+        <div @click="$router.push({name: 'welcome', params: {force: 'force'}})">
+          <img src="~@/assets/logo.png" alt="Hve" width="80px" height="80px">
+        </div>
+        Hve
+      </i-tooltip>
       <p>A static blog build tool.</p>
     </div>
     <i-menu active-name="1" width="160px" @on-select="changeMenu">

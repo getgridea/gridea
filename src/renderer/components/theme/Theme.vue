@@ -62,7 +62,7 @@ export default {
       avatarSrc: null,
     }
   },
-  async created() {
+  created() {
     const website = this.$store.state.website
     this.form.title = website.title
     this.form.pageSize = website.pageSize
@@ -79,10 +79,11 @@ export default {
       acUpdateSetting: types.actions.UPDATE_SETTING,
     }),
     async save() {
+      await this.$site.set('isSet', true).write()
       await this.$site.set('config', this.form).write()
       await this.acUpdateSetting(this.form)
       this.$Message.success('网站设置已保存')
-      console.log('saved')
+      this.$router.push('/welcome')
     },
     fetchAvatar() {
       this.avatarSrc = 'static/images/avatar.jpg'

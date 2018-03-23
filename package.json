@@ -1,5 +1,5 @@
 {
-  "name": "hve",
+  "name": "Hve",
   "version": "0.3.2",
   "author": "EryouHao<haoeryou@qq.com>",
   "description": "An electron-vue project",
@@ -23,7 +23,7 @@
     "server": "node server/index.js"
   },
   "build": {
-    "productName": "hve",
+    "productName": "Hve",
     "appId": "org.simulatedgreg.electron-vue",
     "directories": {
       "output": "build"

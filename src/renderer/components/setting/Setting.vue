@@ -106,9 +106,11 @@ export default {
       this.form.source = e.target.files[0].path
     },
     async save() {
+      await this.$db.set('isSet', true).write()
       await this.$db.set('remote', this.form).write()
       this.acUpdateSetting(this.form)
       this.$Message.success('update success.')
+      this.$router.push('/welcome')
     },
   },
 }

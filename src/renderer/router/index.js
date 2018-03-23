@@ -7,13 +7,20 @@ import Setting from '@/components/setting/Setting'
 import Theme from '@/components/theme/Theme'
 import Page from '@/components/page/Page'
 import Resource from '@/components/resource/Resource'
+import Welcome from '@/components/welcome/Welcome'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/welcome',
+      name: 'welcome',
+      component: Welcome,
+      props: true,
+    },
+    {
+      path: '/main',
       component: Main,
       children: [
         {
@@ -56,7 +63,7 @@ export default new Router({
     },
     {
       path: '*',
-      redirect: '/post-list',
+      redirect: '/welcome',
     },
   ],
 })

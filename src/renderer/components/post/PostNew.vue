@@ -1,24 +1,24 @@
 <template>
   <div class="form-container">
     <i-form label-position="top">
-      <i-form-item label="标题">
+      <i-form-item label="🛫 标题">
         <i-input v-model="form.title" @on-blur="checkTitle"></i-input>
       </i-form-item>
-      <i-form-item label="链接" v-if="showLink">
+      <i-form-item label="🔗 链接" v-if="showLink">
         <i-input v-model="form.fileName">
           <span slot="prepend">http://xxx.com/post/yyyy-mm-dd/</span>
           <span slot="append">.html</span>
         </i-input>
       </i-form-item>
-      <i-form-item label="标签">
+      <i-form-item label="️️️🏷️ 标签">
         <i-tag
           v-for="(tag, index) in tags"
           :key="index"
-          :checked="false"
+          :checked="tag.checked"
           checkable
           color="blue"
           @click.native="selectTag(tag)"
-        >{{ tag}}</i-tag>
+        >{{ tag.name }}</i-tag>
         <i-input
           v-model="newTag"
           placeholder="New Tag"
@@ -27,14 +27,15 @@
           @on-enter="addTag"
         ></i-input>
       </i-form-item>
-      <i-form-item label="图片库">
+      <i-form-item label="🏞 图片库">
         <i-button @click="imageModalVisible = true" icon="images"></i-button>
       </i-form-item>
-      <i-form-item label="内容">
+      <i-form-item label="📝 内容">
         <div class="markdown-con">
           <markdown-editor class="md-editor" :configs="configs" preview-class="markdown-body" v-model="form.content"></markdown-editor>
           <div class="btns">
             <i-button type="primary" @click="save">保 存</i-button>
+            <i-button type="text" @click="$router.push('/post-list')">取 消</i-button>
           </div>
         </div>
       </i-form-item>
@@ -51,8 +52,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { tags } from '@/store/types'
 import fse from 'fs-extra'
 import moment from 'moment'
 import matter from 'gray-matter'
@@ -63,6 +62,9 @@ export default {
   components: {
     MarkdownEditor,
     PostImages,
+  },
+  props: {
+    post: Object,
   },
   data() {
     return {
@@ -83,13 +85,18 @@ export default {
     }
   },
   mounted() {
+    console.log(this.post)
+    if (this.post) {
+      this.form.title = this.post.data.title
+      this.form.tags = (this.post.data.tags || '').split(' ')
+      this.form.date = moment(this.post.data.date).format('YYYY-MM-DD HH:mm:ss')
+      this.form.content = this.post.content
+      this.form.fileName = this.post.fileName
+    }
+    console.log(this.form)
     this.initTags()
   },
   methods: {
-    ...mapActions({
-      acUpdateTags: tags.actions.UPDATE_TAGS,
-      acAddTag: tags.actions.ADD_TAG,
-    }),
     async save() {
       const mdStr = `---
 title: ${this.form.title}
@@ -112,15 +119,17 @@ ${this.form.content}
       }
     },
     addTag() {
-      this.tags.push(this.newTag)
-      this.acAddTag(this.newTag)
+      this.tags.push({
+        name: this.newTag,
+        checked: false,
+      })
       this.newTag = ''
     },
     selectTag(tag) {
-      if (!this.form.tags.includes(tag)) {
-        this.form.tags.push(tag)
+      if (!this.form.tags.includes(tag.name)) {
+        this.form.tags.push(tag.name)
       } else {
-        const index = this.form.tags.indexOf(tag)
+        const index = this.form.tags.indexOf(tag.name)
         this.form.tags.splice(index, 1)
       }
     },
@@ -133,10 +142,19 @@ ${this.form.content}
         }
       })
       tags = Array.from(new Set(tags))
-      this.acUpdateTags(tags)
-      this.tags = this.$store.state.tags.tags.slice()
+      this.tags = tags.map((tag) => {
+        return {
+          name: tag,
+          checked: this.form.tags.includes(tag),
+        }
+      })
     },
     checkTitle() {
+      // 编辑
+      if (this.post) {
+        this.showLink = true
+        return
+      }
       if (this.form.title !== '') {
         this.showLink = true
         this.form.fileName = this.form.title

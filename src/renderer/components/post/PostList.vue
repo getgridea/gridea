@@ -8,19 +8,21 @@
       @mouseout="blur"
     >
       <span @click="showPost(post)">{{ post.data.title }}</span>
-      <i-poptip
-        v-if="hovered && currentIndex === index"
-        confirm
-        title="您确认删除吗？"
-        placement="left"
-        @on-ok="deletePost(post)">
-        <i-button
-          type="error"
-          size="small"
-          shape="circle"
-          icon="android-delete"
-        ></i-button>
-      </i-poptip>
+      <span v-if="hovered && currentIndex === index">
+        <i-button style="margin-right: 8px;" icon="edit" type="primary" shape="circle" size="small" @click="editPost(post)"></i-button>
+        <i-poptip
+          confirm
+          title="您确认删除吗？"
+          placement="left"
+          @on-ok="deletePost(post)">
+          <i-button
+            type="error"
+            size="small"
+            shape="circle"
+            icon="android-delete"
+          ></i-button>
+        </i-poptip>
+      </span>
       <time v-else>{{ post.data.date | formatDate }}</time>
     </p>
     <div class="new-post">
@@ -92,6 +94,9 @@ export default {
       } catch (e) {
         console.log(e)
       }
+    },
+    editPost(post) {
+      this.$router.push({name: 'new-post', params: { post: post }})
     },
     hover(index) {
       this.currentIndex = index

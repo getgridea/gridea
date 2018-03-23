@@ -20,11 +20,13 @@ export default new Router({
           path: '/post-list',
           name: 'post-list',
           component: PostList,
+          props: true,
         },
         {
           path: '/new',
           name: 'new-post',
           component: PostNew,
+          props: true,
         },
         {
           path: '/theme',

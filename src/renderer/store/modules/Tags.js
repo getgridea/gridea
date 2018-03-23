@@ -6,10 +6,19 @@ const state = {
 
 const mutations = {
   [types.mutations.UPDATE_TAGS](state, payload) {
-    state.tags = payload
+    state.tags = []
+    payload.forEach(i => {
+      state.tags.push({
+        name: i,
+        checked: false,
+      })
+    })
   },
   [types.mutations.ADD_TAG](state, tag) {
-    state.tags.push(tag)
+    state.tags.push({
+      name: tag,
+      checked: false,
+    })
   },
 }
 

@@ -55,20 +55,24 @@ class Post {
 
   // 页面
   async renderSinglePage(pages, config) {
-    for (let page of pages) {
-      const contentHtml = marked(page.content, { breaks: true })
-      const template = pug.compileFile(`${config.templatePath}/page.pug`, {
-        filename: 'index.html',
-        basedir: config.templatePath,
-        pretty: true,
-      })
-      const pageHtml = template({
-        title: page.data.title,
-        content: contentHtml,
-      })
-      const html = await this._renderHtmlWithLayout(pageHtml, config)
-      fse.ensureDir(`${config.outputPath}/${page.linkName}`)
-      await fs.writeFileAsync(`${config.outputPath}/${page.linkName}/index.html`, html)
+    try {
+      for (let page of pages) {
+        const contentHtml = marked(page.content, { breaks: true })
+        const template = pug.compileFile(`${config.templatePath}/page.pug`, {
+          filename: 'index.html',
+          basedir: config.templatePath,
+          pretty: true,
+        })
+        const pageHtml = template({
+          title: page.data.title,
+          content: contentHtml,
+        })
+        const html = await this._renderHtmlWithLayout(pageHtml, config)
+        await fse.ensureDir(`${config.outputPath}/${page.linkName}`)
+        await fs.writeFileAsync(`${config.outputPath}/${page.linkName}/index.html`, html)
+      }
+    } catch (e) {
+      console.log('渲染页面出错：', e.message)
     }
   }
 

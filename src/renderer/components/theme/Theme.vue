@@ -85,16 +85,14 @@ export default {
       console.log('saved')
     },
     fetchAvatar() {
-      this.avatarSrc = 'static/images/default.png'
       this.avatarSrc = 'static/images/avatar.jpg'
+      this.avatarSrc = `file://${this.setting.source}/images/avatar.jpg`
     },
     handleUpload(file) {
       this.file = file
       return false
     },
     async upload() {
-      // 上传到应用
-      await fse.copySync(`${this.file.path}`, `${__static}/images/avatar.jpg`)
       // 上传到源文件目录
       await fse.copySync(`${this.file.path}`, `${this.setting.source}/images/avatar.jpg`)
       this.file = null

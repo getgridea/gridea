@@ -139,6 +139,7 @@ export default {
         cursor: pointer;
       }
       &:hover {
+        color: #57a3f3;
         background: #eee;
         padding-left: 15px;
       }

@@ -3,15 +3,21 @@
     <sidebar></sidebar>
     <div class="right">
       <div class="content">
-        <router-view></router-view>
+        <transition class="slide-fade">
+          <router-view></router-view>
+        </transition>
       </div>
       <div class="copy">
-        2018 &copy; EryouHao
+        Power by
+        <a @click="openInBrowser('https://github.com/SimulatedGREG/electron-vue')">electron-vue</a> |
+        Design & Develop 
+        <a @click="openInBrowser('https://github.com/EryouHao')">EryouHao</a>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { shell } from 'electron'
 import fse from 'fs-extra'
 import { mapActions } from 'vuex'
 import { setting, website } from '@/store/types'
@@ -55,6 +61,9 @@ export default {
         await fse.copy(sourceAvatarPath, appAvatarPath)
       }
     },
+    openInBrowser(url) {
+      shell.openExternal(url)
+    },
   },
 }
 </script>
@@ -88,5 +97,14 @@ export default {
       color: #9ea7b4;
     }
   }
+}
+
+// 动画
+.slide-fade-enter-active, .slide-fade-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+.slide-fade-enter, .slide-fade-leat-to {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>

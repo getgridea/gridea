@@ -1,0 +1,12 @@
+div.sidebar
+  div.logo-container
+    img(src=`${domain}/images/avatar.jpg`, class='logo')
+    h1= website.title
+  div.menu
+    ul
+      li
+        a(class='active' href=`${domain}/index.html`) 首页
+      each menu in website.menus
+        li
+          a(href=`${domain}/${menu.link}/index.html`)= menu.name
+  div.footer Powered by Hve.Designed by fehey.

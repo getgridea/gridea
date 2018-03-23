@@ -1,0 +1,18 @@
+{
+  "config": {
+    "title": "Hve",
+    "pageSize": 5,
+    "gitmentClientId": "",
+    "gitmentClientSecret": "",
+    "menus": [
+      {
+        "name": "友链",
+        "link": "friends"
+      },
+      {
+        "name": "关于",
+        "link": "about"
+      }
+    ]
+  }
+}

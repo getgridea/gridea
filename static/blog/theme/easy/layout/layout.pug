@@ -1,0 +1,8 @@
+doctype html
+html
+  include ./partials/head
+  body
+    div.main
+      include ./partials/menu
+      div.container !{content}
+    script hljs.initHighlightingOnLoad()

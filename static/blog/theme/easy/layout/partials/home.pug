@@ -1,0 +1,17 @@
+div.post-container
+  each post in articles
+    article
+      h2
+        a(href=`${domain}/post/${post.fileName}.html` class='title')= post.data.title
+      p= post.abstract
+      div.footer
+        div.time
+          time= post.data.date
+        div.tag-container
+          each tag in post.data.tags
+            span= `#${tag}`
+div.pagination
+  if prevLink !== ''
+    a(href=`${prevLink}`) 上一页
+  if nextLink !== ''
+    a(href=`${nextLink}`) 下一页

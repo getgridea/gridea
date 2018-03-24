@@ -11,7 +11,11 @@ export default {
   data() {
     return {
       loading: false,
+      setting: null,
     }
+  },
+  mounted() {
+    this.setting = this.$store.state.setting
   },
   methods: {
     async preview() {
@@ -19,7 +23,7 @@ export default {
       await build.previewBuild()
       this.loading = false
       this.$Message.success(`🎉 您的站点已生成预览啦！`)
-      // shell.openExternal('http://localhost:4000')
+      // shell.openExternal(`file://${this.setting.source}/index.html`)
     },
   },
 }

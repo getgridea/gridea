@@ -10,6 +10,7 @@ const blogPath = path.join(remote.app.getPath('documents'), 'hve-blog')
 if (!fse.pathExistsSync(blogPath)) {
   fse.ensureDirSync(blogPath)
   fse.copySync(`${__static}/blog`, blogPath)
+  fse.copySync(`${__static}/blog/.gitignore`, `${blogPath}/.gitignore`)
 }
 
 // db.json

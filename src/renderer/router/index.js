@@ -6,6 +6,7 @@ import PostNew from '@/components/post/PostNew'
 import Setting from '@/components/setting/Setting'
 import Theme from '@/components/theme/Theme'
 import Page from '@/components/page/Page'
+import PageNew from '@/components/page/PageNew'
 import Resource from '@/components/resource/Resource'
 import Welcome from '@/components/welcome/Welcome'
 
@@ -44,6 +45,12 @@ export default new Router({
           path: '/page',
           name: 'page',
           component: Page,
+        },
+        {
+          path: '/page-new',
+          name: 'page-new',
+          component: PageNew,
+          props: true,
         },
         {
           path: '/setting',

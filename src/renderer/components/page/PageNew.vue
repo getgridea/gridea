@@ -1,19 +1,20 @@
 <template>
   <div class="new-common-page">
     <i-form label-position="top">
-      <i-form-item label="标题">
+      <i-form-item label="🛫 标题">
         <i-input v-model="form.title" @on-blur="checkTitle"></i-input>
       </i-form-item>
-      <i-form-item label="链接（建议用英文，例如：about）" v-if="showLink">
+      <i-form-item label="🔗 链接（建议用英文，例如：about）" v-if="showLink">
         <i-input v-model="form.linkName">
           <span slot="prepend">http://xxx.com/</span>
         </i-input>
       </i-form-item>
-      <i-form-item label="内容">
+      <i-form-item label="📝 内容">
         <div class="markdown-con">
           <markdown-editor class="md-editor" preview-class="markdown-body" v-model="form.content"></markdown-editor>
           <div class="btns">
             <i-button type="primary" @click="save">保存</i-button>
+            <i-button type="text" @click="$router.push('/page')">返回</i-button>
           </div>
         </div>
       </i-form-item>
@@ -97,7 +98,8 @@ ${this.form.content}
         // 更新 store 中菜单
         const menus = await this.$site.get('menus').value()
         this.acUpdateWebsiteMenus(menus)
-        this.$Message.success('Page is saved!')
+        this.$Message.success('🎉 页面更新好啦!')
+        this.$router.push('/page')
       } catch (e) {
         console.log(e)
       }

@@ -26,11 +26,9 @@ const mutations = {
 
 const actions = {
   [types.actions.UPDATE_SETTING]({ commit }, form) {
-    console.log('form: ', form)
     commit(types.mutations.UPDATE_SETTING, form)
   },
   [types.actions.UPDATE_MENUS]({ commit }, menus) {
-    console.log('menus: ', menus)
     commit(types.mutations.UPDATE_MENUS, menus)
   },
 }

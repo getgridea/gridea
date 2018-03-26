@@ -2,20 +2,9 @@
   <div class="single-page">
     <h2>
       页面设置
-      <i-dropdown
-        class="new-page"
-        trigger="click"
-        placement="bottom-end"
-        @on-click="newPage"
-      >
-        <i-button type="primary" icon="android-add">
-          新单页
-        </i-button>
-        <i-dropdown-menu slot="list">
-            <i-dropdown-item name="common">普通页</i-dropdown-item>
-            <i-dropdown-item name="custom">自定义</i-dropdown-item>
-        </i-dropdown-menu>
-      </i-dropdown>
+      <i-button class="new-page" type="primary" icon="android-add" @click="$router.push('/page-new')">
+        新单页
+      </i-button>
     </h2>
     <div class="card-container">
       <i-card class="card" v-for="page in pageList" :key="page.data.index">
@@ -30,13 +19,11 @@
           @on-click="updatePage(page, $event)"
         >
           <a href="javascript:void(0)">
-            设置
+            操作
             <i-icon type="arrow-down-b"></i-icon>
           </a>
           <i-dropdown-menu slot="list">
             <i-dropdown-item name="edit">编辑</i-dropdown-item>
-            <i-dropdown-item name="open" disabled>开启</i-dropdown-item>
-            <i-dropdown-item name="close">关闭</i-dropdown-item>
             <i-dropdown-item name="delete">删除</i-dropdown-item>
           </i-dropdown-menu>
         </i-dropdown>
@@ -45,91 +32,94 @@
         </div>
       </i-card>
     </div>
-    <!-- 普通页 -->
-    <page-common v-if="showNewCommonPage" :page="currentPage"></page-common>
   </div>
 </template>
 
 <script>
+import fse from 'fs-extra'
 import Post from '@/lib/util/post'
-import PageCommon from './PageCommon'
 const post = new Post()
 
 export default {
-  components: {
-    PageCommon,
-  },
   data() {
     return {
       pageList: [],
       menus: [],
-      showNewCommonPage: false,
-      pageType: '',
-      currentPage: null,
+      setting: null,
     }
   },
   async created() {
-    // init pages
-    this.$db.defaults({ pages: [] })
-    // empty pages
-    await this.$db.get('pages').remove().write()
-    // read pages
-    this.pageList = await this.getSinglePageList()
-    await this.$db.set('pages', this.pageList).write()
-    this.pageList = await this.$db
-      .get('pages')
-      .sortBy('data.index')
-      .desc()
-      .value()
-    // update site menu
-    this.menus = this.pageList.map(page => {
-      console.log(page)
-      return {
-        name: page.data.title,
-        link: page.linkName,
-      }
-    })
-    // init menus
-    this.$site.defaults({ 'menus': [] })
-    // empty menus
-    this.$site.get('menus').remove().write()
-    // set menus
-    this.$site.set('menus', this.menus).write()
+    this.setting = this.$store.state.setting
+
+    await this.fetchPageList()
+    await this.updateMenus()
   },
   methods: {
-    async getSinglePageList() {
-      const pageList = await post.getPageList(`${this.$store.state.setting.source}/pages`)
-      return pageList
+    async fetchPageList() {
+      await this.$db.defaults({ pages: [] })
+      await this.$db
+        .get('pages')
+        .remove()
+        .write()
+
+      this.pageList = await post.getPageList(`${this.setting.source}/pages`)
+      await this.$db.set('pages', this.pageList).write()
+
+      this.pageList = await this.$db
+        .get('pages')
+        .sortBy('data.index')
+        .desc()
+        .value()
     },
-    newPage(type) {
-      this.showNewCommonPage = true
-      this.currentPage = null
+    async updateMenus() {
+      this.menus = this.pageList.map(page => {
+        return {
+          name: page.data.title,
+          link: page.linkName,
+        }
+      })
+      await this.$site.defaults({ menus: [] })
+      await this.$site
+        .get('menus')
+        .remove()
+        .write()
+      await this.$site.set('menus', this.menus).write()
     },
     updatePage(page, type) {
-      // 编辑
-      if (type === 'edit') {
-        this.showNewCommonPage = true
-        this.currentPage = page
+      switch (type) {
+        case 'edit':
+          this.$router.push({ name: 'page-new', params: { page: page } })
+          break
+        case 'delete':
+          this.removePage(page)
+          break
+        default:
+          return false
       }
     },
-    test() {
-      console.log('clicked')
+    async removePage(page) {
+      this.menus = this.menus.filter(menu => menu.link !== page.linkName)
+      this.pageList = this.pageList.filter(p => p.linkName !== page.linkName)
+
+      await fse.remove(`${this.setting.source}/pages/${page.linkName}`)
+
+      await this.updateMenus()
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-  .single-page {
-    padding: 20px;
-    .new-page {
-      float: right;
-    }
+.single-page {
+  padding: 20px;
+  .new-page {
+    float: right;
   }
-  .card-container {
-    padding: 20px 0;
-    .card {
-      margin-bottom: 20px;
-    }
+}
+.card-container {
+  padding: 20px 0;
+  .card {
+    margin-bottom: 20px;
   }
+}
 </style>

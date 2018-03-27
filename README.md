@@ -1,6 +1,8 @@
-# hve
+# Hve
+这是一个开源的，基于 electron-vue、iview 开发的一个静态博客客户端工具，正在开发和内测中，目前只有 Mac 版，目前只有 Mac 版，目前只有 Mac 版
 
 ![hve](https://sfault-image.b0.upaiyun.com/248/462/248462553-5aba16121aa6a_articlex)
+
 ## 快速上手
 欢迎使用 Hve，本文档将帮助你快速上手。如果使用过程中遇到问题，请加群或提 Issues，我会尽力帮你解答。
 

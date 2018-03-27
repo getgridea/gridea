@@ -49,7 +49,7 @@ function createWindow() {
         {role: 'pasteandmatchstyle'},
         {role: 'delete'},
         {role: 'selectall'},
-        {role: 'toggledevtools'},
+        // {role: 'toggledevtools'},
       ],
     },
   ]

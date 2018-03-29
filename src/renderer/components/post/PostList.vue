@@ -26,11 +26,28 @@
       <time v-else>{{ post.data.date | formatDate }}</time>
     </p>
     <div class="new-post">
-      <router-link to="/new">
-        <i-button type="primary" shape="circle" icon="plus-round" size="large"></i-button>
-      </router-link>
+      <div>
+        <router-link to="/new">
+          <i-button type="primary" shape="circle" icon="plus-round" size="large"></i-button>
+        </router-link>
+      </div>
+      <div style="margin-top: 8px;">
+        <i-tooltip content="导入 Markdown" placement="left">
+          <i-button shape="circle" icon="filing" size="large" @click="postImportVisible = true"></i-button>
+        </i-tooltip>
+      </div>
     </div>
     <post-preview v-if="preview" :post="currentPost"></post-preview>
+    <i-modal v-model="postImportVisible" title="Markdown 导入">
+      <post-import
+        v-if="postImportVisible"
+       :postList="postList"
+       v-on:fetchPost="fetchPost"
+      ></post-import>
+      <div slot="footer">
+        🗞 可同时上传多个 Markdown 文件哦
+      </div>
+    </i-modal>
   </div>
 </template>
 
@@ -40,6 +57,7 @@ import moment from 'moment'
 import marked from 'marked'
 import Post from '@/lib/util/post'
 import PostPreview from './PostPreview'
+import PostImport from './PostImport'
 import ContentUtil from '@/lib/util/content-util'
 const post = new Post()
 const contentUtil = new ContentUtil()
@@ -47,6 +65,7 @@ const contentUtil = new ContentUtil()
 export default {
   components: {
     PostPreview,
+    PostImport,
   },
   data() {
     return {
@@ -55,23 +74,28 @@ export default {
       currentIndex: -1,
       preview: false,
       currentPost: null,
+      postImportVisible: false,
     }
   },
-  async created() {
-    // Init posts
-    this.$db.defaults({ posts: [] })
-
-    // Empty posts
-    await this.$db.get('posts').remove().write()
-
-    // Read posts and write to db
-    const postList = await this.getPostList()
-    await this.$db.set('posts', postList).write()
-
-    // Sort articles by time when displaying articles
-    this.postList = await this.queryPosts()
+  created() {
+    this.fetchPost()
   },
   methods: {
+    async fetchPost() {
+      this.postImportVisible = false
+      // Init posts
+      this.$db.defaults({ posts: [] })
+
+      // Empty posts
+      await this.$db.get('posts').remove().write()
+
+      // Read posts and write to db
+      const postList = await this.getPostList()
+      await this.$db.set('posts', postList).write()
+
+      // Sort articles by time when displaying articles
+      this.postList = await this.queryPosts()
+    },
     async queryPosts() {
       const list = await this.$db.get('posts')
         .sortBy('data.date')

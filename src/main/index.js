@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow, Menu } from 'electron'
+// import { autoUpdater } from 'electron-updater'
 
 /**
  * Set `__static` path to static files in production
@@ -80,14 +81,24 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-/*
-import { autoUpdater } from 'electron-updater'
+// autoUpdater.on('update-downloaded', () => {
+//   if (process.env.NODE_ENV !== 'production') {
+//     dialog.showMessageBox({
+//       type: 'info',
+//       title: '发现更新',
+//       message: '更新，为了更好的创作体验',
+//       buttons: ['更新', '取消'],
+//     }, (btnIndex) => {
+//       if (btnIndex === 0) {
+//         const isSilent = true
+//         const isForceRunAfter = true
+//         autoUpdater.quitAndInstall(isSilent, isForceRunAfter)
+//       }
+//     })
+//   }
+// })
 
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
-
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */
+// app.on('ready', () => {
+//   console.log('run.. ready!')
+//   if (process.env.NODE_ENV !== 'production') autoUpdater.checkForUpdates()
+// })

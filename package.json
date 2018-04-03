@@ -1,6 +1,6 @@
 {
   "name": "Hve",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "author": "EryouHao<haoeryou@qq.com>",
   "description": "An electron-vue project",
   "license": "SEE LICENSE IN LICENSE",
@@ -105,6 +105,7 @@
     "electron-builder": "^19.19.1",
     "electron-debug": "^1.4.0",
     "electron-devtools-installer": "^2.2.0",
+    "electron-updater": "^2.21.4",
     "eslint": "^4.4.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",

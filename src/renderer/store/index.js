@@ -1,17 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import setting from './modules/setting'
-import tags from './modules/tags'
-import website from './modules/website'
+import modules from './modules'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    setting,
-    tags,
-    website,
-  },
-  strict: process.env.NODE_ENV !== 'production',
+  modules,
+  strict: process.env.NODE_ENV !== 'production'
 })

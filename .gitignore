@@ -9,19 +9,3 @@ npm-debug.log
 npm-debug.log.*
 thumbs.db
 !.gitkeep
-
-# build result
-public/*
-.tmp/*
-
-# source
-blog/posts/*
-blog/public/*
-blog/config.yml
-blog/data.db
-blog/.*
-blog/pages/*
-static/post-images/*
-
-yarn.lock
-package-lock.json

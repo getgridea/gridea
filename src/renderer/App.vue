@@ -1,13 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <v-navigation-drawer
-        fixed
-        :mini-variant="miniVariant"
-        :clipped="clipped"
-        v-model="drawer"
-        app
-      >
+      <v-navigation-drawer fixed clipped v-model="drawer" app :mobile-break-point="640" :width="240" floating>
         <v-list>
           <v-list-tile 
             router
@@ -25,34 +19,10 @@
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
-      <v-toolbar fixed app flat dense :clipped-left="clipped">
+      <v-toolbar fixed app flat dense clipped-left>
         <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-btn 
-          icon
-          @click.native.stop="miniVariant = !miniVariant"
-        >
-          <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
-        </v-btn>
-        <v-btn
-          icon
-          @click.native.stop="clipped = !clipped"
-        >
-          <v-icon>web</v-icon>
-        </v-btn>
-        <v-btn
-          icon
-          @click.native.stop="fixed = !fixed"
-        >
-          <v-icon>remove</v-icon>
-        </v-btn>
         <v-toolbar-title v-text="title"></v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn
-          icon
-          @click.native.stop="rightDrawer = !rightDrawer"
-        >
-          <v-icon>menu</v-icon>
-        </v-btn>
       </v-toolbar>
       <v-content>
         <v-container fluid fill-height>
@@ -61,23 +31,7 @@
           </v-slide-y-transition>
         </v-container>
       </v-content>
-      <v-navigation-drawer
-        temporary
-        fixed
-        :right="right"
-        v-model="rightDrawer"
-        app
-      >
-        <v-list>
-          <v-list-tile @click.native="right = !right">
-            <v-list-tile-action>
-              <v-icon light>compare_arrows</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-navigation-drawer>
-      <v-footer :fixed="fixed" app>
+      <v-footer fixed app>
         <v-spacer></v-spacer>
         <span>&copy; 2018</span>
       </v-footer>
@@ -91,17 +45,15 @@ import Component from 'vue-class-component'
 
 @Component
 export default class App extends Vue {
-  clipped = false
   drawer = true
-  fixed = false
   items = [
-    { icon: 'apps', title: 'Welcome', to: '/' },
-    { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
+    { icon: 'apps', title: '文章', to: '/posts' },
+    { icon: 'bubble_chart', title: '主题', to: '/theme' },
+    { icon: 'bubble_chart', title: '页面', to: '/page' },
+    { icon: 'bubble_chart', title: '配置', to: '/setting' },
+    { icon: 'bubble_chart', title: '资源', to: '/source' }
   ]
-  miniVariant = false
-  right = true
-  rightDrawer = false
-  title = 'Vuetify.js'
+  title = 'Hve Next'
   
 }
 </script>

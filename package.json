@@ -58,7 +58,7 @@
     "vue": "^2.4.2",
     "vue-electron": "^1.0.6",
     "vue-router": "^2.5.3",
-    "vuetify": "1.0.0",
+    "vuetify": "^1.2.5",
     "vuex": "^2.3.1"
   },
   "devDependencies": {

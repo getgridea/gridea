@@ -6,18 +6,18 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/posts',
       name: 'welcome-view',
       component: require('@/components/WelcomeView').default
     },
     {
-      path: '/inspire',
+      path: '/theme',
       name: 'inspire',
       component: require('@/components/InspireView').default
     },
     {
       path: '*',
-      redirect: '/'
+      redirect: '/posts'
     }
   ]
 })

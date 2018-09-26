@@ -1,12 +1,6 @@
 <template>
-  <v-layout row wrap justify-center id="wrapper">
-    <v-flex xs12 md4 offset-md1 class="text-xs-center centered">
-      <img id="logo" class="logo" src="~@/assets/logo.png" alt="electron-vue">
-    </v-flex>
-    <v-flex xs12 md6 class="text-xs-center centered">
-      <img id="logo" class="logo" src="/static/v.png" alt="Vuetifyjs">
-    </v-flex>
-    <v-flex xs10 class="mt-3">
+  <v-layout row wrap id="wrapper">
+    <v-flex xs12 class="mt-3">
       <v-card>
         <v-card-text>
           <p>Welcome to the Electron-vue + Vuetify template.</p>
@@ -22,10 +16,10 @@
         </v-card-actions>
       </v-card>
     </v-flex>
-    <v-flex xs10 class="mt-4">
+    <v-flex xs12 class="mt-4">
       <system-information></system-information>
     </v-flex>
-    <v-flex xs10 class="mt-4">
+    <v-flex xs12 class="mt-4">
       <v-card>
         <v-card-title class="headline">Docs</v-card-title>
         <v-divider></v-divider>

@@ -10,7 +10,7 @@ const BabiliWebpackPlugin = require('babili-webpack-plugin')
 
 let mainConfig = {
   entry: {
-    main: path.join(__dirname, '../src/main/index.js')
+    main: path.join(__dirname, '../src/main/index.ts')
   },
   externals: [
     ...Object.keys(dependencies || {})
@@ -18,14 +18,11 @@ let mainConfig = {
   module: {
     rules: [
       {
-        test: /\.(js)$/,
-        enforce: 'pre',
+        test: /\.tsx?$/,
+        loader: "ts-loader",
         exclude: /node_modules/,
-        use: {
-          loader: 'eslint-loader',
-          options: {
-            formatter: require('eslint-friendly-formatter')
-          }
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
         }
       },
       {
@@ -52,7 +49,7 @@ let mainConfig = {
     new webpack.NoEmitOnErrorsPlugin()
   ],
   resolve: {
-    extensions: ['.js', '.json', '.node']
+    extensions: ['.js', '.ts', '.json', '.node']
   },
   target: 'electron-main'
 }

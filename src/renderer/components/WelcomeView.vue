@@ -43,18 +43,25 @@
   </v-layout>
 </template>
 
-<script>
-  import SystemInformation from './WelcomeView/SystemInformation'
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import SystemInformation from './WelcomeView/SystemInformation.vue'
 
-  export default {
-    name: 'welcome',
-    components: { SystemInformation },
-    methods: {
-      open (link) {
-        this.$electron.shell.openExternal(link)
-      }
-    }
+@Component({
+  components: {
+    SystemInformation,
   }
+})
+export default class WelcomeView extends Vue {
+
+  name = 'welcome'
+  
+  public open (link: string) {
+    this.$electron.shell.openExternal(link)
+  }
+
+}
 </script>
 
 <style scoped>

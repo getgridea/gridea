@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "strict": true,
+    "sourceMap": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "noImplicitThis": true
+  },
+  "include": ["./src/**/*"]
+}

@@ -79,29 +79,31 @@
       </v-navigation-drawer>
       <v-footer :fixed="fixed" app>
         <v-spacer></v-spacer>
-        <span>&copy; 2017</span>
+        <span>&copy; 2018</span>
       </v-footer>
     </v-app>
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'hve-next',
-    data: () => ({
-      clipped: false,
-      drawer: true,
-      fixed: false,
-      items: [
-        { icon: 'apps', title: 'Welcome', to: '/' },
-        { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
-    })
-  }
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+
+@Component
+export default class App extends Vue {
+  clipped = false
+  drawer = true
+  fixed = false
+  items = [
+    { icon: 'apps', title: 'Welcome', to: '/' },
+    { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
+  ]
+  miniVariant = false
+  right = true
+  rightDrawer = false
+  title = 'Vuetify.js'
+  
+}
 </script>
 
 <style>

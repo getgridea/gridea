@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <v-navigation-drawer fixed clipped v-model="drawer" app :mobile-break-point="640" :width="240" floating>
+      <v-navigation-drawer fixed clipped v-model="drawer" app :mobile-break-point="640" :width="160" floating>
         <v-list>
           <v-list-tile 
             router
@@ -25,7 +25,7 @@
         <v-spacer></v-spacer>
       </v-toolbar>
       <v-content>
-        <v-container fluid fill-height>
+        <v-container fluid>
           <v-slide-y-transition mode="out-in">
             <router-view></router-view>
           </v-slide-y-transition>
@@ -47,7 +47,7 @@ import Component from 'vue-class-component'
 export default class App extends Vue {
   drawer = true
   items = [
-    { icon: 'apps', title: '文章', to: '/posts' },
+    { icon: 'apps', title: '文章', to: '/articles' },
     { icon: 'bubble_chart', title: '主题', to: '/theme' },
     { icon: 'bubble_chart', title: '页面', to: '/page' },
     { icon: 'bubble_chart', title: '配置', to: '/setting' },

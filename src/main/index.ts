@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
+import App from '../services/app'
 
 /**
  * Set `__static` path to static files in production
@@ -30,6 +31,14 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+  const setting = {
+    mainWindow,
+    app,
+    baseDir: __dirname,
+  }
+  // Init app
+  const appInstance = new App(setting)
+  console.log(appInstance) // DELETE ME
 }
 
 app.on('ready', createWindow)

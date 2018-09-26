@@ -6,9 +6,9 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/posts',
-      name: 'welcome-view',
-      component: require('@/components/WelcomeView').default
+      path: '/articles',
+      name: 'articles',
+      component: require('@/components/article/Articles').default
     },
     {
       path: '/theme',
@@ -17,7 +17,7 @@ export default new Router({
     },
     {
       path: '*',
-      redirect: '/posts'
+      redirect: '/articles'
     }
   ]
 })

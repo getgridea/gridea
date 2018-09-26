@@ -54,7 +54,9 @@
     }
   },
   "dependencies": {
+    "@types/fs-extra": "^5.0.4",
     "axios": "^0.16.1",
+    "fs-extra": "^7.0.0",
     "vue": "^2.4.2",
     "vue-electron": "^1.0.6",
     "vue-router": "^2.5.3",

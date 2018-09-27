@@ -54,12 +54,23 @@
     }
   },
   "dependencies": {
+    "@types/bluebird": "^3.5.24",
     "@types/fs-extra": "^5.0.4",
+    "@types/lowdb": "^1.0.5",
     "axios": "^0.16.1",
+    "bluebird": "^3.5.2",
+    "dayjs": "^1.7.7",
     "fs-extra": "^7.0.0",
+    "gray-matter": "^4.0.1",
+    "junk": "^2.1.0",
+    "lodash": "^4.17.11",
+    "lowdb": "^1.0.0",
+    "marked": "^0.5.1",
+    "pug": "^2.0.3",
     "vue": "^2.4.2",
     "vue-electron": "^1.0.6",
     "vue-router": "^2.5.3",
+    "vue-simplemde": "^0.4.8",
     "vuetify": "^1.2.5",
     "vuex": "^2.3.1"
   },

@@ -1,14 +1,24 @@
 <template>
   <div class="">
-    <v-card>
-      <v-data-table :headers="headers" :items="items">
-
+    <v-card flat>
+      <v-card-title>
+        文 章
+        <v-spacer></v-spacer>
+        <v-btn depressed small color="primary" @click="$router.push('/articles/create')">新文章</v-btn>
+      </v-card-title>
+      <v-data-table :headers="headers" :items="items" hide-actions>
+        <template slot="items" slot-scope="props">
+          <td>{{ props.item.data.title }}</td>
+          <td>{{ $dayjs(props.item.data.date).format('YYYY-MM-DD') || '-' }}</td>
+          <td>编辑</td>
+        </template>
       </v-data-table>
     </v-card>
   </div>
 </template>
 
 <script lang="ts">
+import { ipcRenderer, Event } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
@@ -21,7 +31,7 @@ export default class Articles extends Vue {
     },
     {
       text: '创建时间',
-      value: 'createAt',
+      value: 'data.date',
     },
     {
       text: '操作',
@@ -31,6 +41,18 @@ export default class Articles extends Vue {
   ]
 
   items = []
+  
+  mounted() {
+    this.init()
+  }
+
+  init() {
+    ipcRenderer.send('app-site-reload', {})
+    ipcRenderer.once('app-site-loaded', (event: Event, result: any) => {
+      console.log(result)
+      this.items = result.posts
+    })
+  }
 }
 </script>
 

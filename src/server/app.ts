@@ -1,6 +1,8 @@
 import { BrowserWindow } from 'electron'
 import * as fse from 'fs-extra'
 import * as path from 'path'
+import Posts from './posts'
+import EventClasses from './events/index'
 
 type Setting = {
   mainWindow: BrowserWindow,
@@ -21,6 +23,7 @@ export default class App {
     this.appDir = path.join(this.app.getPath('documents'), 'hve-next')
     
     this.checkDir()
+    this.initEvents()
   }
 
   /**
@@ -39,6 +42,28 @@ export default class App {
       path.join(__dirname, '..', 'default-themes'),
       path.join(this.appDir, 'themes')
     )
+  }
+
+  /**
+   *  Load site config and data
+   */
+  public loadSite() {
+    const posts = new Posts(this)
+    const postList = posts.list()
+    return {
+      config: {
+        site: 'hve-next',
+      },
+      posts: postList
+    }
+  }
+
+  private initEvents(): void {
+    const classNames = Object.keys(EventClasses)
+    console.log('clasNames:::', classNames)
+    for (const className of classNames) {
+      new EventClasses[className](this)
+    }
   }
 
 }

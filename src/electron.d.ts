@@ -1,7 +1,9 @@
-import { MainInterface } from "electron"
+import { AllElectron } from "electron"
+import * as dayjs from 'dayjs'
 
 declare module "vue/types/vue" {
   interface Vue {
-    readonly $electron: MainInterface
+    readonly $electron: AllElectron,
+    $dayjs: any,
   }
 }

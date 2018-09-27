@@ -26,6 +26,7 @@
 </template>
 
 <script lang="ts">
+import { ipcRenderer, Event } from 'electron'
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
 import Vue from 'vue'
 import Component from 'vue-class-component'
@@ -58,7 +59,14 @@ export default class ArticleUpdate extends Vue {
   }
 
   saveDraft() {
-
+    const form = {
+      ...this.form,
+    }
+    console.log('form: ', form)
+    ipcRenderer.send('app-post-create', form)
+    ipcRenderer.once('app-post-created', (event: Event, data: any) => {
+      console.log(data)
+    })
   }
 
   publish() {

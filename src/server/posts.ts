@@ -3,6 +3,8 @@ import Model from './model'
 import * as fse from 'fs-extra'
 import * as path from 'path'
 const junk = require('junk')
+import { IPost } from './interfaces/post'
+import ContentHelper from './helpers/content-helper'
 import * as matter from 'gray-matter'
 import * as Bluebird from 'bluebird'
 Bluebird.promisifyAll(fs)
@@ -60,5 +62,23 @@ export default class Posts extends Model {
     const posts = this.$posts.get('posts').value()
     console.log('查询结果:::', posts)
     return posts
+  }
+
+  savePostToFile(post: IPost): IPost | null {
+    console.log(post)
+    const helper = new ContentHelper()
+    const content = helper.changeImageUrlLocalToDomain(post.content, '')
+    const mdStr =
+    `
+      ---
+      title: ${post.title}
+      date: ${post.date}
+      tags: ${post.tags.join(' ')}
+      ---
+      ${content}
+    `
+    console.log(mdStr)
+    const data = null
+    return data
   }
 }

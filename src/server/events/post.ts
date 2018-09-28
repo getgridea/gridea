@@ -1,6 +1,6 @@
 import { ipcMain, Event } from 'electron'
 import { IPost } from '../interfaces/post'
-
+import Posts from '../posts'
 export default class PostEvents {
   constructor(appInstance: any) {
     ipcMain.on('app-post-list', (event: Event) => {
@@ -8,14 +8,15 @@ export default class PostEvents {
     })
 
     ipcMain.on('app-post-create', (event: Event, post: IPost) => {
-      const data = this.savePost(post)
+      const posts = new Posts(appInstance)
+      const data = posts.savePostToFile(post)
       event.sender.send('app-post-created', data)
     })
+    this.sayHello()
   }
 
-  savePost(post: IPost): IPost | null {
-    console.log(post)
-    const data = null
-    return data
+  sayHello() {
+    console.log('hello 文章')
   }
+
 }

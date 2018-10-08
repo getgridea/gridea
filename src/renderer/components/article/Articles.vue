@@ -4,13 +4,17 @@
       <v-card-title>
         文 章
         <v-spacer></v-spacer>
-        <v-btn depressed small color="primary" @click="$router.push('/articles/create')">新文章</v-btn>
+        <v-btn depressed color="primary" @click="$router.push('/articles/create')">新文章</v-btn>
       </v-card-title>
       <v-data-table :headers="headers" :items="items" hide-actions>
         <template slot="items" slot-scope="props">
           <td>{{ props.item.data.title }}</td>
           <td>{{ $dayjs(props.item.data.date).format('YYYY-MM-DD') || '-' }}</td>
-          <td>编辑</td>
+          <td>
+            <v-icon @click="editPost(props.item)">
+              edit
+            </v-icon>
+          </td>
         </template>
       </v-data-table>
     </v-card>
@@ -21,9 +25,13 @@
 import { ipcRenderer, Event } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import { Action } from 'vuex-class'
+import { IPost } from '../../interfaces/post'
 
 @Component
 export default class Articles extends Vue {
+  @Action('post/updatePosts') updatePosts!: (posts: IPost[]) => void
+
   headers = [
     {
       text: '标题',
@@ -51,7 +59,12 @@ export default class Articles extends Vue {
     ipcRenderer.once('app-site-loaded', (event: Event, result: any) => {
       console.log(result)
       this.items = result.posts
+      this.updatePosts(this.items)
     })
+  }
+
+  editPost(post: IPost) {
+    this.$router.push({ name: 'articles-edit', params: { articleFileName: post.fileName } })
   }
 }
 </script>

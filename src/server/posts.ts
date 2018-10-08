@@ -68,17 +68,19 @@ export default class Posts extends Model {
     console.log(post)
     const helper = new ContentHelper()
     const content = helper.changeImageUrlLocalToDomain(post.content, '')
-    const mdStr =
-    `
-      ---
-      title: ${post.title}
-      date: ${post.date}
-      tags: ${post.tags.join(' ')}
-      ---
-      ${content}
-    `
-    console.log(mdStr)
-    const data = null
-    return data
+    const mdStr = `---
+title: ${post.title}
+date: ${post.date}
+tags: ${post.tags.join(' ')}
+---
+${content}
+`
+    try {
+      // write file must use fse, beause fs.writeFile need callback
+      fse.writeFile(`${this.postDir}/${post.fileName}.md`, mdStr)
+    } catch (e) {
+      console.error('ERROR: ', e)
+    }
+    return post
   }
 }

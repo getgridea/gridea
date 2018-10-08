@@ -30,16 +30,21 @@ import { ipcRenderer, Event } from 'electron'
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import { State } from 'vuex-class'
+import { IPost } from '../../interfaces/post'
+import { Post } from '../../store/modules/post'
 
 @Component({
   components: { MarkdownEditor },
 })
 export default class ArticleUpdate extends Vue {
+  @State('post') post!: Post
+
   modal = false
   form = {
     title: '',
     fileName: '',
-    tags: [],
+    tags: [] as string[],
     date: this.$dayjs(new Date()).format('YYYY-MM-DD'),
     content: '',
     published: false,
@@ -58,6 +63,19 @@ export default class ArticleUpdate extends Vue {
     spellChecker: false,
   }
 
+  mounted() {
+    const { articleFileName } = this.$route.params
+    const currentPost: IPost | undefined = this.post.posts.find((item: IPost) => item.fileName === articleFileName)
+    if (currentPost) {
+      this.form.title = currentPost.data.title
+      this.form.fileName = currentPost.fileName
+      this.form.tags = currentPost.data.tags && currentPost.data.tags.split(' ') || []
+      this.form.date = this.$dayjs(currentPost.data.date).format('YYYY-MM-DD')
+      this.form.content = currentPost.content
+      this.form.published = currentPost.data.published
+    }
+  }
+
   saveDraft() {
     const form = {
       ...this.form,
@@ -65,7 +83,7 @@ export default class ArticleUpdate extends Vue {
     console.log('form: ', form)
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-      console.log(data)
+      this.$router.push({ name: 'articles' })
     })
   }
 

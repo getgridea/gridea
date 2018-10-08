@@ -5,7 +5,7 @@ import zhHans from 'vuetify/src/locale/zh-Hans'
 import * as Dayjs from 'dayjs'
 import App from './App.vue'
 import router from './router'
-// import store from './store'
+import store from './store/index'
 
 Vue.use(Vuetify, {
   lang: {
@@ -25,7 +25,7 @@ Vue.prototype.$dayjs = Dayjs
 new Vue({
   components: { App },
   router,
-  // store,
+  store,
   render(createElement: any) {
     return createElement(App)
   },

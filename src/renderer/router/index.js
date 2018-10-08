@@ -7,7 +7,12 @@ export default new Router({
   routes: [
     {
       path: '/articles/create',
-      name: 'articles-craete',
+      name: 'articles-create',
+      component: require('@/components/article/ArticleUpdate').default
+    },
+    {
+      path: '/articles/:articleFileName',
+      name: 'articles-edit',
       component: require('@/components/article/ArticleUpdate').default
     },
     {

@@ -58,6 +58,7 @@ export default class Posts extends Model {
 
   async list() {
     console.log('执行了')
+    await this.savePosts()
     // await this.$posts.defaults({ posts: [] }).write()
     const posts = await this.$posts.get('posts').value()
     console.log('查询结果:::', posts)
@@ -72,6 +73,7 @@ export default class Posts extends Model {
 title: ${post.title}
 date: ${post.date}
 tags: ${post.tags.join(' ')}
+published: ${post.published}
 ---
 ${content}
 `

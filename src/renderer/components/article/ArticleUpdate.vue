@@ -80,7 +80,6 @@ export default class ArticleUpdate extends Vue {
     const form = {
       ...this.form,
     }
-    console.log('form: ', form)
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
       this.$bus.$emit('snackbar-display', { color: 'success', snackbar: true, message: '草稿已保存' })
@@ -93,6 +92,7 @@ export default class ArticleUpdate extends Vue {
       ...this.form,
     }
     form.published = true
+    console.log('发布时的 form: ', form)
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
       this.$bus.$emit('snackbar-display', { color: 'success', snackbar: true, message: '🎉  恭喜，您又多了一篇新创作！' })

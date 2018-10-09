@@ -33,4 +33,9 @@ export default class Tags extends Model {
     return tags
   }
 
+  public async deleteTag(tagValue: string) {
+    const tag = await this.$posts.get('tags').remove({ value: tagValue }).write()
+    return tag
+  }
+
 }

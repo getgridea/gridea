@@ -49,7 +49,11 @@ export default class ArticleUpdate extends Vue {
     content: '',
     published: false,
   }
-  tags = ['测试', '前端', 'Vue.js', 'JavaScript']
+  
+  get tags() {
+    return this.site.tags.map((tag: any) => tag.name)
+  }
+
   configs = {
     toolbar: ['bold', 'italic', 'heading', 'code', 'quote', 'unordered-list', 'ordered-list', 'link', 'preview', 'fullscreen', 'guide', {
       name: 'image',

@@ -1,4 +1,6 @@
 import Model from './model'
+import { ITag } from './interfaces/tag'
+import slug from './helpers/slug'
 
 export default class Tags extends Model {
   
@@ -18,14 +20,21 @@ export default class Tags extends Model {
     list = Array.from(new Set([...list]))
     const UsedTags = list.map((item: any) => {
       return {
-        value: item,
+        name: item,
         used: true,
       }
     })
-    console.log('已经使用的 tags', UsedTags)
     const UnusedTags = this.$posts.get('tags').filter({ used: false }).value()
-    console.log('未被使用的 tags', UnusedTags)
-    this.$posts.set('tags', [...UsedTags, ...UnusedTags]).write()
+    
+    let tags = [...UsedTags, ...UnusedTags]
+    const result: ITag[] = []
+    tags.forEach((item: ITag) => {
+      if (!result.find((tag: ITag) => tag.name === item.name)) {
+        item.slug = slug(item.name)
+        result.push(item)
+      }
+    })
+    this.$posts.set('tags', result).write()
   }
   
   list() {
@@ -33,8 +42,19 @@ export default class Tags extends Model {
     return tags
   }
 
+  public async saveTag(tag: ITag) {
+    const tags = await this.$posts.get('tags').value()
+    if (tag.index >= 0) {
+      tags[tag.index] = tag
+    } else {
+      tags.push(tag)
+    }
+    await this.$posts.set('tags', tags).write()
+    return tags
+  }
+
   public async deleteTag(tagValue: string) {
-    const tag = await this.$posts.get('tags').remove({ value: tagValue }).write()
+    const tag = await this.$posts.get('tags').remove({ name: tagValue }).write()
     return tag
   }
 

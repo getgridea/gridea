@@ -1,4 +1,6 @@
 export interface ITag {
-  value: string
+  name: string
   used: boolean
+  slug?: string
+  index: number
 }

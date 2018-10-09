@@ -2,19 +2,38 @@
   <div class="">
     <v-card flat>
       <v-card-title>
-        标 签
+        <span class="headline">标 签</span>
         <v-spacer></v-spacer>
         <v-btn depressed color="primary" @click="newTag">新标签</v-btn>
       </v-card-title>
       <v-chip
-        v-for="tag in site.tags"
-        :key="tag.value"
+        small
+        @click.stop="tag.used ? null : updateTag(tag, index)"
+        v-for="(tag, index) in site.tags"
+        :key="tag.name"
         :close="!tag.used"
-        @input="handleDelete(tag.value)"
+        @input="handleDelete(tag.name)"
       >
-        {{ tag.value }}
+        {{ tag.name }}
       </v-chip>
     </v-card>
+
+    <v-dialog v-model="visible" :width="320">
+      <v-card>
+        <v-card-title>
+          🏷️
+        </v-card-title>
+        <v-card-text>
+          <v-text-field label="标签名" v-model="form.name"></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat @click="visible = false">取消</v-btn>
+          <v-btn flat color="primary" @click="saveTag">保存</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </div>
 </template>
 
@@ -29,20 +48,38 @@ import { Site } from '../../store/modules/site'
 export default class Tags extends Vue {
   @State('site') site!: Site
 
-  // 将标签文件中的标签列表和文章中使用的标签进行并集同步
-  syncTags() {
-
+  visible = false
+  
+  form = {
+    name: null,
+    index: -1,
   }
   
   newTag() {
+    this.form.name = null
+    this.form.index = -1
+    this.visible = true
+  }
+  updateTag(tag: any, index: number) {
+    console.log(tag)
+    this.visible = true
+    this.form.name = tag.name
+    this.form.index = index
+  }
 
+  saveTag() {
+    ipcRenderer.send('tag-save', { ...this.form, used: false })
+    ipcRenderer.once('tag-saved', (event: Event, result: any) => {
+      this.$bus.$emit('site-reload')
+      this.visible = false
+    })
   }
   handleDelete(tagValue: string) {
     console.log('clicked', tagValue)
     ipcRenderer.send('tag-delete', tagValue)
     ipcRenderer.once('tag-deleted', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
-      console.log('delete success')
+      this.visible = false
     })
   }
 }

@@ -2,7 +2,7 @@
   <div class="">
     <v-card flat>
       <v-card-title>
-        文 章
+        <span class="headline">文 章</span>
         <v-spacer></v-spacer>
         <v-btn depressed color="primary" @click="$router.push('/articles/create')">新文章</v-btn>
       </v-card-title>

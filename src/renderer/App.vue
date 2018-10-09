@@ -49,15 +49,21 @@
 </template>
 
 <script lang="ts">
+import { ipcRenderer, Event } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import ISnackbar from './interfaces/snackbar'
+import { Action } from 'vuex-class'
+import { Site } from './store/modules/site'
 
 @Component
 export default class App extends Vue {
+  @Action('site/updateSite') updateSite!: (siteData: Site) => void
+
   drawer = true
   items = [
     { icon: 'apps', title: '文章', to: '/articles' },
+    { icon: 'bubble_chart', title: '标签', to: '/tags' },
     { icon: 'bubble_chart', title: '主题', to: '/theme' },
     { icon: 'bubble_chart', title: '页面', to: '/page' },
     { icon: 'bubble_chart', title: '配置', to: '/setting' },
@@ -69,11 +75,22 @@ export default class App extends Vue {
   snackbar = false
   message = ''
   
-  mounted() {
+  created() {
     this.$bus.$on('snackbar-display', (params: ISnackbar) => {
       this.color = params.color
       this.snackbar = params.snackbar
       this.message = params.message
+    })
+    this.$bus.$on('site-reload', () => {
+      this.reloadSite()
+    })
+  }
+
+  public reloadSite() {
+    ipcRenderer.send('app-site-reload', {})
+    ipcRenderer.once('app-site-loaded', (event: Event, result: Site) => {
+      console.log(result)
+      this.updateSite(result)
     })
   }
 }

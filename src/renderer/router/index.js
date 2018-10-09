@@ -21,6 +21,11 @@ export default new Router({
       component: require('@/components/article/Articles').default
     },
     {
+      path: '/tags',
+      name: 'tags',
+      component: require('@/components/tags/Index').default
+    },
+    {
       path: '/theme',
       name: 'inspire',
       component: require('@/components/InspireView').default

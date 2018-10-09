@@ -2,6 +2,7 @@ import { BrowserWindow } from 'electron'
 import * as fse from 'fs-extra'
 import * as path from 'path'
 import Posts from './posts'
+import Tags from './tags'
 import EventClasses from './events/index'
 
 type Setting = {
@@ -50,11 +51,16 @@ export default class App {
   public async loadSite() {
     const posts = new Posts(this)
     const postList = await posts.list()
+
+    const tags = new Tags(this)
+    const tagList = await tags.list()
+
     return {
       config: {
         site: 'hve-next',
       },
-      posts: postList
+      posts: postList,
+      tags: tagList,
     }
   }
 

@@ -6,7 +6,7 @@
         <v-spacer></v-spacer>
         <v-btn depressed color="primary" @click="$router.push('/articles/create')">新文章</v-btn>
       </v-card-title>
-      <v-data-table :headers="headers" :items="items" hide-actions :pagination.sync="pagination">
+      <v-data-table :headers="headers" :items="site.posts" hide-actions :pagination.sync="pagination">
         <template slot="items" slot-scope="props">
           <td>{{ props.item.data.title }}</td>
           <td>{{ $dayjs(props.item.data.date).format('YYYY-MM-DD') || '-' }}</td>
@@ -22,15 +22,14 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import { Action } from 'vuex-class'
+import { State } from 'vuex-class'
 import { IPost } from '../../interfaces/post'
 
 @Component
 export default class Articles extends Vue {
-  @Action('post/updatePosts') updatePosts!: (posts: IPost[]) => void
+  @State('site') site!: any
 
   headers = [
     {
@@ -52,20 +51,9 @@ export default class Articles extends Vue {
     sortBy: 'data.date',
     descending: true,
   }
-
-  items = []
   
   mounted() {
-    this.init()
-  }
-
-  init() {
-    ipcRenderer.send('app-site-reload', {})
-    ipcRenderer.once('app-site-loaded', (event: Event, result: any) => {
-      console.log(result)
-      this.items = result.posts
-      this.updatePosts(this.items)
-    })
+    this.$bus.$emit('site-reload')
   }
 
   editPost(post: IPost) {

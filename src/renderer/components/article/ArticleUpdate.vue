@@ -32,13 +32,13 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { State } from 'vuex-class'
 import { IPost } from '../../interfaces/post'
-import { Post } from '../../store/modules/post'
+import { Site } from '../../store/modules/site'
 
 @Component({
   components: { MarkdownEditor },
 })
 export default class ArticleUpdate extends Vue {
-  @State('post') post!: Post
+  @State('site') site!: Site
 
   modal = false
   form = {
@@ -65,7 +65,7 @@ export default class ArticleUpdate extends Vue {
 
   mounted() {
     const { articleFileName } = this.$route.params
-    const currentPost: IPost | undefined = this.post.posts.find((item: IPost) => item.fileName === articleFileName)
+    const currentPost: IPost | undefined = this.site.posts.find((item: IPost) => item.fileName === articleFileName)
     if (currentPost) {
       this.form.title = currentPost.data.title
       this.form.fileName = currentPost.fileName
@@ -92,7 +92,6 @@ export default class ArticleUpdate extends Vue {
       ...this.form,
     }
     form.published = true
-    console.log('发布时的 form: ', form)
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
       this.$bus.$emit('snackbar-display', { color: 'success', snackbar: true, message: '🎉  恭喜，您又多了一篇新创作！' })

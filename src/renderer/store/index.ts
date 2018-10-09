@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import post from './modules/post'
+import site from './modules/site'
 
 
 
@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    post,
+    site,
   },
   strict: process.env.NODE_ENV !== 'production'
 })

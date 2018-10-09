@@ -56,15 +56,15 @@ export default class Posts extends Model {
     return true
   }
 
-  list() {
+  async list() {
     console.log('执行了')
     // await this.$posts.defaults({ posts: [] }).write()
-    const posts = this.$posts.get('posts').value()
+    const posts = await this.$posts.get('posts').value()
     console.log('查询结果:::', posts)
     return posts
   }
 
-  savePostToFile(post: IPost): IPost | null {
+  async savePostToFile(post: IPost): Promise<IPost | null> {
     console.log(post)
     const helper = new ContentHelper()
     const content = helper.changeImageUrlLocalToDomain(post.content, '')
@@ -77,7 +77,7 @@ ${content}
 `
     try {
       // write file must use fse, beause fs.writeFile need callback
-      fse.writeFile(`${this.postDir}/${post.fileName}.md`, mdStr)
+      await fse.writeFile(`${this.postDir}/${post.fileName}.md`, mdStr)
     } catch (e) {
       console.error('ERROR: ', e)
     }

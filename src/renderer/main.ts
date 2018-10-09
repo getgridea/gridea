@@ -6,6 +6,7 @@ import * as Dayjs from 'dayjs'
 import App from './App.vue'
 import router from './router'
 import store from './store/index'
+import VueBus from './vue-bus'
 
 Vue.use(Vuetify, {
   lang: {
@@ -16,6 +17,8 @@ Vue.use(Vuetify, {
     primary: '#006cff',
   },
 })
+Vue.use(VueBus)
+
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.config.productionTip = false
 

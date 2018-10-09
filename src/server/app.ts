@@ -47,9 +47,9 @@ export default class App {
   /**
    *  Load site config and data
    */
-  public loadSite() {
+  public async loadSite() {
     const posts = new Posts(this)
-    const postList = posts.list()
+    const postList = await posts.list()
     return {
       config: {
         site: 'hve-next',

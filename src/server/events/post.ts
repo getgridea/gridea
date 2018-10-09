@@ -7,9 +7,9 @@ export default class PostEvents {
       // const post = new Post()
     })
 
-    ipcMain.on('app-post-create', (event: Event, post: IPost) => {
+    ipcMain.on('app-post-create', async (event: Event, post: IPost) => {
       const posts = new Posts(appInstance)
-      const data = posts.savePostToFile(post)
+      const data = await posts.savePostToFile(post)
       event.sender.send('app-post-created', data)
     })
     this.sayHello()

@@ -33,15 +33,25 @@
       </v-content>
       <v-footer fixed app>
         <v-spacer></v-spacer>
-        <span>&copy; 2018</span>
+        <span>&copy; 2018 EryouHao</span>
+        <v-spacer></v-spacer>
       </v-footer>
     </v-app>
+
+    <v-snackbar v-model="snackbar" :color="color" top>
+      {{ message }}
+      <v-icon dark @click="snackbar = false">
+        close
+      </v-icon>
+    </v-snackbar>
+
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import ISnackbar from './interfaces/snackbar'
 
 @Component
 export default class App extends Vue {
@@ -54,7 +64,18 @@ export default class App extends Vue {
     { icon: 'bubble_chart', title: '资源', to: '/source' }
   ]
   title = 'Hve Next'
+
+  color = 'success'
+  snackbar = false
+  message = ''
   
+  mounted() {
+    this.$bus.$on('snackbar-display', (params: ISnackbar) => {
+      this.color = params.color
+      this.snackbar = params.snackbar
+      this.message = params.message
+    })
+  }
 }
 </script>
 

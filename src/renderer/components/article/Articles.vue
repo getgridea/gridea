@@ -6,12 +6,12 @@
         <v-spacer></v-spacer>
         <v-btn depressed color="primary" @click="$router.push('/articles/create')">新文章</v-btn>
       </v-card-title>
-      <v-data-table :headers="headers" :items="items" hide-actions>
+      <v-data-table :headers="headers" :items="items" hide-actions :pagination.sync="pagination">
         <template slot="items" slot-scope="props">
           <td>{{ props.item.data.title }}</td>
           <td>{{ $dayjs(props.item.data.date).format('YYYY-MM-DD') || '-' }}</td>
           <td>
-            <v-icon @click="editPost(props.item)">
+            <v-icon @click="editPost(props.item)" small>
               edit
             </v-icon>
           </td>
@@ -47,6 +47,11 @@ export default class Articles extends Vue {
       sortable: false,
     },
   ]
+
+  pagination = {
+    sortBy: 'data.date',
+    descending: true,
+  }
 
   items = []
   

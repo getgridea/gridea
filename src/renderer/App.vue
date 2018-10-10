@@ -71,15 +71,20 @@ export default class App extends Vue {
   ]
   title = 'Hve Next'
 
-  color = 'success'
-  snackbar = false
-  message = ''
+  color?: string = 'success'
+  snackbar?: boolean = false
+  message?: string = ''
   
   created() {
-    this.$bus.$on('snackbar-display', (params: ISnackbar) => {
-      this.color = params.color
-      this.snackbar = params.snackbar
-      this.message = params.message
+    this.$bus.$on('snackbar-display', (params: ISnackbar | string) => {
+      if (typeof params === 'string') {
+        this.snackbar = true
+        this.message = params  
+      } else {
+        this.color = params.color
+        this.snackbar = params.snackbar || true
+        this.message = params.message
+      }
     })
     this.$bus.$on('site-reload', () => {
       this.reloadSite()

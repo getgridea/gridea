@@ -86,7 +86,7 @@ export default class ArticleUpdate extends Vue {
     }
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-      this.$bus.$emit('snackbar-display', { color: 'success', snackbar: true, message: '草稿已保存' })
+      this.$bus.$emit('snackbar-display', '草稿已保存')
       this.$router.push({ name: 'articles' })
     })
   }
@@ -98,7 +98,7 @@ export default class ArticleUpdate extends Vue {
     form.published = true
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-      this.$bus.$emit('snackbar-display', { color: 'success', snackbar: true, message: '🎉  恭喜，您又多了一篇新创作！' })
+      this.$bus.$emit('snackbar-display', '🎉  恭喜，您又多了一篇新创作！')
       this.$router.push({ name: 'articles' })
     })
   }

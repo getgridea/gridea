@@ -27,8 +27,8 @@ export default new Router({
     },
     {
       path: '/theme',
-      name: 'inspire',
-      component: require('@/components/InspireView').default
+      name: 'theme',
+      component: require('@/components/theme/Index').default
     },
     {
       path: '*',

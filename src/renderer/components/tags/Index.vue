@@ -2,7 +2,7 @@
   <div class="">
     <v-card flat>
       <v-card-title>
-        <span class="headline">标 签</span>
+        <span class="headline">🏷️ 标 签</span>
         <v-spacer></v-spacer>
         <v-btn depressed color="primary" @click="newTag">新标签</v-btn>
       </v-card-title>
@@ -71,6 +71,7 @@ export default class Tags extends Vue {
     ipcRenderer.send('tag-save', { ...this.form, used: false })
     ipcRenderer.once('tag-saved', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
+      this.$bus.$emit('snackbar-display', '标签已保存')
       this.visible = false
     })
   }
@@ -79,6 +80,7 @@ export default class Tags extends Vue {
     ipcRenderer.send('tag-delete', tagValue)
     ipcRenderer.once('tag-deleted', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
+      this.$bus.$emit('snackbar-display', '标签已删除')
       this.visible = false
     })
   }

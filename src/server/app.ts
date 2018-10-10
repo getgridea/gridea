@@ -4,6 +4,7 @@ import * as path from 'path'
 import Posts from './posts'
 import Tags from './tags'
 import EventClasses from './events/index'
+import Theme from './theme'
 
 type Setting = {
   mainWindow: BrowserWindow,
@@ -55,12 +56,16 @@ export default class App {
     const tags = new Tags(this)
     const tagList = await tags.list()
 
+    const theme = new Theme(this)
+    const themeConfig = await theme.getThemeConfig()
+
     return {
       config: {
         site: 'hve-next',
       },
       posts: postList,
       tags: tagList,
+      themeConfig: themeConfig,
     }
   }
 

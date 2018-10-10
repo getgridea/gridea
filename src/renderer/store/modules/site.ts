@@ -1,16 +1,26 @@
 import { ActionTree, Module, MutationTree } from 'vuex'
 import { IPost } from '../../interfaces/post'
 import { ITag } from '../../interfaces/tag'
+import { ITheme } from '../../interfaces/theme'
 
 export interface Site {
   config: any
   posts: IPost[]
   tags: ITag[]
+  themeConfig: ITheme
 }
 const postState: Site = {
   config: {},
   posts: [],
   tags: [],
+  themeConfig: {
+    themeName: '',
+    pageSize: 10,
+    siteName: '',
+    siteDescription: '',
+    footerInfo: 'Powered by Hve',
+    showFeatureImage: true,
+  },
 }
 
 const mutations: MutationTree<Site> = {
@@ -18,6 +28,7 @@ const mutations: MutationTree<Site> = {
     state.posts = siteData.posts
     state.tags = siteData.tags
     state.config = siteData.config
+    state.themeConfig = siteData.themeConfig
   },
   updatePosts(state, posts: IPost[]) {
     state.posts = posts

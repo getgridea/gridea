@@ -9,10 +9,5 @@ export default class SiteEvents {
       const result = await appInstance.loadSite()
       event.sender.send('app-site-loaded', result)
     })
-    this.sayHello()
-  }
-
-  sayHello() {
-    console.log('hello world')
   }
 }

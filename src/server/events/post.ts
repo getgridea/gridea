@@ -12,11 +12,6 @@ export default class PostEvents {
       const data = await posts.savePostToFile(post)
       event.sender.send('app-post-created', data)
     })
-    this.sayHello()
-  }
-
-  sayHello() {
-    console.log('hello 文章')
   }
 
 }

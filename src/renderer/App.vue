@@ -18,6 +18,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
+        <v-btn @click="preview">预览</v-btn>
       </v-navigation-drawer>
       <v-toolbar fixed app flat dense clipped-left>
         <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
@@ -96,6 +97,13 @@ export default class App extends Vue {
     ipcRenderer.once('app-site-loaded', (event: Event, result: Site) => {
       console.log(result)
       this.updateSite(result)
+    })
+  }
+
+  public preview() {
+    ipcRenderer.send('html-render')
+    ipcRenderer.once('html-rendered', (event: Event, result: any) => {
+      console.log('渲染完毕')
     })
   }
 }

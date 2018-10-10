@@ -57,16 +57,13 @@ export default class Posts extends Model {
   }
 
   async list() {
-    console.log('执行了')
     await this.savePosts()
     // await this.$posts.defaults({ posts: [] }).write()
     const posts = await this.$posts.get('posts').value()
-    console.log('查询结果:::', posts)
     return posts
   }
 
   async savePostToFile(post: IPost): Promise<IPost | null> {
-    console.log(post)
     const helper = new ContentHelper()
     const content = helper.changeImageUrlLocalToDomain(post.content, '')
     const mdStr = `---

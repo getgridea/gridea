@@ -1,28 +1,39 @@
 import { BrowserWindow } from 'electron'
 import * as fse from 'fs-extra'
 import * as path from 'path'
+import EventClasses from './events/index'
 import Posts from './posts'
 import Tags from './tags'
-import EventClasses from './events/index'
 import Theme from './theme'
+import Renderer from './renderer'
 
-type Setting = {
-  mainWindow: BrowserWindow,
-  app: any,
-  baseDir: string,
-}
+import { IApplicationDb, Setting } from './interfaces/application'
 
 export default class App {
   mainWindow: BrowserWindow
   app: any
   baseDir: string
   appDir: string
+  db: IApplicationDb
 
   constructor(setting: Setting) {
     this.mainWindow = setting.mainWindow
     this.app = setting.app
     this.baseDir = setting.baseDir
     this.appDir = path.join(this.app.getPath('documents'), 'hve-next')
+    
+    this.db = {
+      posts: [],
+      tags: [],
+      themeConfig: {
+        themeName: '',
+        pageSize: 10,
+        siteName: '',
+        siteDescription: '',
+        footerInfo: 'Powered by Hve',
+        showFeatureImage: true,
+      },
+    }
     
     this.checkDir()
     this.initEvents()
@@ -58,23 +69,27 @@ export default class App {
 
     const theme = new Theme(this)
     const themeConfig = await theme.getThemeConfig()
-
-    return {
-      config: {
-        site: 'hve-next',
-      },
+    
+    this.db = {
       posts: postList,
       tags: tagList,
       themeConfig: themeConfig,
     }
+
+    this.initEvents()
+    return this.db
   }
 
   private initEvents(): void {
     const classNames = Object.keys(EventClasses)
-    console.log('clasNames:::', classNames)
     for (const className of classNames) {
       new EventClasses[className](this)
     }
+  }
+
+  public renderHtml() {
+    const renderer = new Renderer(this)
+    renderer.renderPost()
   }
 
 }

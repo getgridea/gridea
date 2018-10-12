@@ -1,0 +1,47 @@
+block vars
+  -
+    var posts = [
+      {
+        data: {
+          title: '云南之旅',
+          date: '2018-10-06',
+          tags: ['生活'],
+          feature: '/images/yunnan.jpeg'
+        },
+        abstract: '人生第一次做飞机，到了距离北京 2982 公里的昆明，展开了 6 天 5 晚的云南之旅。',
+        fileName: 'yun-nan-zhi-lv',
+      },
+      {
+        data: {
+          title: '云南之旅',
+          date: '2018-10-06',
+          tags: ['生活'],
+          feature: '/images/yunnan.jpeg'
+        },
+        abstract: '人生第一次做飞机，到了距离北京 2982 公里的昆明，展开了 6 天 5 晚的云南之旅。',
+        fileName: 'yun-nan-zhi-lv',
+      },
+      {
+        data: {
+          title: '云南之旅',
+          date: '2018-10-06',
+          tags: ['生活'],
+          feature: '/images/yunnan.jpeg'
+        },
+        abstract: '人生第一次做飞机，到了距离北京 2982 公里的昆明，展开了 6 天 5 晚的云南之旅。',
+        fileName: 'yun-nan-zhi-lv',
+      },
+    ]
+
+.post-container
+    each post in posts
+      article.post
+        a(href="#")
+          h2.post-title= post.data.title
+        .post-info
+          time.post-time · #{post.data.date} ·
+          each tag in post.data.tags
+            a.post-tag(href="#") # #{tag}
+        a.post-feature-image(href="#")
+            img(src=post.data.feature)
+        p.post-abstract= post.abstract

@@ -1,0 +1,12 @@
+extends layouts/default
+
+block vars
+  -
+    var tag = {
+      name: '生活',
+      slug: 'sheng-huo'
+    }
+
+block content
+  .current-tag-container
+    h2.title 标签：#{tag.name}

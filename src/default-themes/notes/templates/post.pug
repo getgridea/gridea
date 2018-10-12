@@ -1,0 +1,52 @@
+extends layouts/default
+
+block vars
+  -
+    var post = {
+      data: {
+        title: '云南之旅',
+        date: '2018-10-06',
+        tags: ['生活'],
+        feature: '/images/yunnan.jpeg'
+      },
+      content: `<p>vuetify 是一款基于 Vue.js 非常漂亮的 UI 组件库。良好的 <code>typescript</code> 支持。<br>终于修好了一个 bug，哈哈哈😂</p>
+        <pre><code class="lang-javascript hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Person</span>(<span class="hljs-params">name, age</span>) </span>{
+          <span class="hljs-keyword">this</span>.name = name;
+          <span class="hljs-keyword">this</span>.age = age;
+
+          <span class="hljs-keyword">this</span>.say = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">msg</span>) </span>{
+            <span class="hljs-built_in">console</span>.log(msg);
+          }
+        }
+
+        <span class="hljs-keyword">var</span> zhangsan = <span class="hljs-keyword">new</span> Person(<span class="hljs-string">'张三'</span>, <span class="hljs-number">18</span>);
+        zhangsan.say(<span class="hljs-string">'hello'</span>); <span class="hljs-comment">// "hello"</span>
+        </code></pre>
+        <p>人生第一次做飞机，到了距离北京 2982 公里的昆明，展开了 6 天 5 晚的云南之旅。</p>
+        <img src="/images/yunnan.jpeg" />
+      `,
+      abstract: '人生第一次做飞机，到了距离北京 2982 公里的昆明，展开了 6 天 5 晚的云南之旅。',
+      fileName: 'yun-nan-zhi-lv',
+      nextPost: {
+        title: 'TypeScript 初体验',
+        fileName: 'typescript-start',
+      },
+    }
+
+block content
+  .post-detail
+    article.post
+      h2.post-title= post.data.title
+      .post-info
+        time.post-time · #{post.data.date} ·
+        each tag in post.data.tags
+          a.post-tag(href="#") # #{tag}
+      .post-content !{post.content}
+
+  if post.nextPost
+    .next-post
+      .next 下一篇
+      a(href="#")
+        h3.post-title= post.nextPost.title
+
+

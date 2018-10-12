@@ -1,0 +1,12 @@
+extends layouts/default
+
+block vars
+  -
+    var about = {
+      content: 'Front End Engineer'
+    }
+
+block content
+  .post-detail
+    .post
+      .post-content= about.content

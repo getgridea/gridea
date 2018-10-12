@@ -7,6 +7,7 @@ import * as pug from 'pug'
 import * as dayjs from 'dayjs'
 import Model from './model'
 import { IPostDb } from './interfaces/post'
+import { IPagination } from './interfaces/renderer'
 
 
 export default class Renderer extends Model {
@@ -76,5 +77,31 @@ export default class Renderer extends Model {
     }
     return true
   }
+
+  /**
+   * 渲染分页
+   */
+  public renderPagination(pagination: IPagination) {
+    const template = pug.compileFile(`${this.themePath}/templates/includes/pagination.pug`, {
+      pretty: true,
+    })
+    const html = template({
+      pagination,
+    })
+    return html
+  }
+
+  /**
+   * 渲染文章列表
+   */
+   public renderPostList(postList: any[]) {
+     const template = pug.compileFile(`${this.themePath}/templates/includes/post-list.pug`, {
+       pretty: true,
+     })
+     const html = template({
+       postList,
+     })
+     return html
+   }
 
 }

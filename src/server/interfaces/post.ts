@@ -1,3 +1,4 @@
+import { ITag }  from './tag'
 export interface IPost {
   title: string
   fileName: string
@@ -23,4 +24,19 @@ export interface IPostDb {
   data: IPostData
 
   fileName: string
+}
+
+export interface ITagRenderData extends ITag {
+  link: string
+}
+
+export interface IPostRenderData {
+  content: string
+  fileName: string
+  abstract: string
+  title: string
+  tags: ITagRenderData[]
+  date: string
+  feature: string
+  link: string
 }

@@ -7,7 +7,7 @@ import * as pug from 'pug'
 import * as dayjs from 'dayjs'
 import * as stylus from 'stylus'
 import Model from './model'
-import { IPostDb, IPostRenderData } from './interfaces/post'
+import { IPostDb, IPostRenderData, ITagRenderData } from './interfaces/post'
 import { ITag } from './interfaces/tag'
 
 
@@ -78,8 +78,7 @@ export default class Renderer extends Model {
       
       if (i === 0 && this.postsData.length > pageSize) {
         await fse.ensureDir(`${this.outputDir}/page`)
-        
-        renderPath = `${this.outputDir}/index.html`
+
         renderData.pagination.next = `${this.db.themeConfig.domain}/page/2/`
 
       } else if (i > 0 && this.postsData.length > pageSize) {
@@ -97,7 +96,7 @@ export default class Renderer extends Model {
       }
 
       const html = template(renderData)
-      console.log('👏', renderPath)
+      console.log('👏  PostList Page:', renderPath)
       await fs.writeFileSync(renderPath, html)
     }
   }
@@ -130,9 +129,63 @@ export default class Renderer extends Model {
    * 渲染标签详情页
    */
   async renderTagDetail() {
-    // const template = pug.compileFile(`${this.themePath}/templates/post.pug`, {
-    //   pretty: true,
-    // })
+    const template = pug.compileFile(`${this.themePath}/templates/tag.pug`, {
+      pretty: true,
+    })
+
+    const usedTags = this.db.tags.filter((tag: ITag) => tag.used)
+    const { pageSize } = this.db.themeConfig
+
+    for (let i = 0; i < usedTags.length; i += 1) {
+      const posts = this.postsData.filter((post: IPostRenderData) => {
+        return post.tags.find((tag: ITagRenderData) => tag.slug === usedTags[i].slug)
+      })
+
+      const currentTag = usedTags[i]
+
+      const tagFolderPath = `${this.outputDir}/tag/${currentTag.slug}`
+      const tagDomainPath = `${this.db.themeConfig.domain}/tag/${currentTag.slug}/`
+      await fse.ensureDir(`${this.outputDir}/tag`)
+      await fse.ensureDir(tagFolderPath)
+
+      for (let i = 0; i * pageSize < posts.length; i += 1) {
+        const renderData = {
+          tag: currentTag,
+          posts: posts.slice(i * pageSize, (i + 1) * pageSize),
+          pagination: {
+            prev: '',
+            next: '',
+          },
+          themeConfig: this.db.themeConfig,
+        }
+  
+        // 分页
+        let renderPath = `${tagFolderPath}/index.html`
+  
+        if (i === 0 && posts.length > pageSize) {
+          await fse.ensureDir(`${tagFolderPath}/page`)
+          
+          renderData.pagination.next = `${tagDomainPath}/page/2/`
+  
+        } else if (i > 0 && posts.length > pageSize) {
+          await fse.ensureDir(`${tagFolderPath}/page/${i + 1}`)
+          
+          renderPath = `${tagFolderPath}/page/${i + 1}/index.html`
+          
+          renderData.pagination.prev = i === 1
+            ? `${tagDomainPath}`
+            : `${tagDomainPath}/page/${i}/`
+  
+          renderData.pagination.next = (i + 1) * pageSize < posts.length
+            ? `${tagDomainPath}/page/${i + 2}/`
+            : ''
+        }
+  
+        const html = template(renderData)
+        console.log('👏  Tag Page:', renderPath)
+        await fs.writeFileSync(renderPath, html)
+      }
+    }
   }
 
   /**

@@ -14,6 +14,7 @@ export default class RendererEvents {
         await renderer.buildCss()
         await renderer.renderPostList()
         await renderer.renderPostDetail()
+        await renderer.renderTagDetail()
       }
       event.sender.send('html-rendered', null)
     })

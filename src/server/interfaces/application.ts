@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron'
-import { IPost } from './post'
+import { IPostDb } from './post'
 import { ITag } from './tag'
 import { ITheme } from './theme'
 
@@ -10,7 +10,7 @@ export interface Setting {
 }
 
 export interface IApplicationDb {
-  posts: IPost[],
+  posts: IPostDb[],
   tags: ITag[],
   themeConfig: ITheme,
 }

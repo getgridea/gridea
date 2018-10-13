@@ -5,4 +5,5 @@ export interface ITheme {
   siteDescription: string
   footerInfo: string
   showFeatureImage: boolean
+  domain: string
 }

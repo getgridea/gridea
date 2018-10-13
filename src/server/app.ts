@@ -32,6 +32,7 @@ export default class App {
         siteDescription: '',
         footerInfo: 'Powered by Hve',
         showFeatureImage: true,
+        domain: '',
       },
     }
     
@@ -89,7 +90,8 @@ export default class App {
 
   public renderHtml() {
     const renderer = new Renderer(this)
-    renderer.renderPost()
+    console.log(renderer)
+    // renderer.renderPostList()
   }
 
 }

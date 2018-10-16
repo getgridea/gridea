@@ -15,7 +15,7 @@
             </v-date-picker>
           </v-dialog>
           <div>内容</div>
-          <markdown-editor class="md-editor" :configs="configs" preview-class="markdown-body" v-model="form.content"></markdown-editor>
+          <markdown-editor ref="markdownEditor" class="md-editor" :configs="configs" preview-class="markdown-body" v-model="form.content"></markdown-editor>
           <v-btn depressed @click="$router.push('/articles')">取消</v-btn>
           <v-btn depressed @click="saveDraft">存草稿</v-btn>
           <v-btn depressed color="primary" @click="publish">发布</v-btn>
@@ -38,6 +38,10 @@ import { Site } from '../../store/modules/site'
   components: { MarkdownEditor },
 })
 export default class ArticleUpdate extends Vue {
+  $refs!: {
+    markdownEditor: HTMLDivElement
+  }
+
   @State('site') site!: Site
 
   modal = false
@@ -78,6 +82,8 @@ export default class ArticleUpdate extends Vue {
       this.form.content = currentPost.content
       this.form.published = currentPost.data.published
     }
+    
+    this.initEditor()
   }
 
   saveDraft() {
@@ -100,6 +106,13 @@ export default class ArticleUpdate extends Vue {
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
       this.$bus.$emit('snackbar-display', '🎉  恭喜，您又多了一篇新创作！')
       this.$router.push({ name: 'articles' })
+    })
+  }
+
+  initEditor() {
+    this.$refs.markdownEditor.addEventListener('drag', function (e) {
+      console.log(e)
+      
     })
   }
 }

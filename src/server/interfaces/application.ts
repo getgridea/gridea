@@ -13,6 +13,7 @@ export interface IApplicationDb {
   posts: IPostDb[],
   tags: ITag[],
   themeConfig: ITheme,
+  themes: string[],
 }
 
 export interface IApplication {

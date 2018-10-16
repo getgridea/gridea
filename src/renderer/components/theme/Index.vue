@@ -6,7 +6,7 @@
       </v-card-title>
       <v-container fluid>
         <v-form>
-          <v-select v-model="form.themeName" :items="themes" label="选择主题" outline />
+          <v-select v-model="form.themeName" :items="site.themes" label="选择主题" outline />
           <v-text-field label="网站名称" v-model="form.siteName" />
           <v-text-field label="网站描述" v-model="form.siteDescription" />
           <v-text-field label="底部信息" v-model="form.footerInfo" />
@@ -43,10 +43,6 @@ import { Site } from '../../store/modules/site'
 @Component
 export default class Theme extends Vue {
   @State('site') site!: Site
-
-  themes = [
-    'easy',
-  ]
 
   form = {
     themeName: '',

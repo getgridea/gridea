@@ -34,6 +34,7 @@ export default class App {
         showFeatureImage: true,
         domain: '',
       },
+      themes: [],
     }
     
     this.checkDir()
@@ -70,11 +71,13 @@ export default class App {
 
     const theme = new Theme(this)
     const themeConfig = await theme.getThemeConfig()
+    const themes = await theme.getThemeList()
     
     this.db = {
       posts: postList,
       tags: tagList,
       themeConfig: themeConfig,
+      themes: themes,
     }
 
     this.initEvents()

@@ -8,6 +8,7 @@ export interface Site {
   posts: IPost[]
   tags: ITag[]
   themeConfig: ITheme
+  themes: string[],
 }
 const postState: Site = {
   config: {},
@@ -21,6 +22,7 @@ const postState: Site = {
     footerInfo: 'Powered by Hve',
     showFeatureImage: true,
   },
+  themes: [],
 }
 
 const mutations: MutationTree<Site> = {
@@ -29,6 +31,7 @@ const mutations: MutationTree<Site> = {
     state.tags = siteData.tags
     state.config = siteData.config
     state.themeConfig = siteData.themeConfig
+    state.themes = siteData.themes
   },
   updatePosts(state, posts: IPost[]) {
     state.posts = posts

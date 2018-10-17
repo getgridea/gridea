@@ -29,6 +29,9 @@
         </v-form>
       </v-container>
     </v-card>
+    <!-- 编辑器点击图片上传用 -->
+    <input ref="uploadInput" class="upload-input" type="file" @change="fileChangeHandler">
+    
   </div>
 </template>
 
@@ -47,6 +50,7 @@ import { Site } from '../../store/modules/site'
 export default class ArticleUpdate extends Vue {
   $refs!: {
     editor: any
+    uploadInput: any
   }
 
   @State('site') site!: Site
@@ -66,14 +70,14 @@ export default class ArticleUpdate extends Vue {
   }
 
   configs = {
-    toolbar: ['bold', 'italic', 'heading', 'code', 'quote', 'unordered-list', 'ordered-list', 'link', 'preview', 'fullscreen', 'guide', {
+    toolbar: ['bold', 'italic', 'heading', 'code', 'quote', 'unordered-list', 'ordered-list', {
       name: 'image',
-      action: function insertImage(editor: any) {
-        console.log('editor', editor)
+      action: (editor: any) => {
+        this.$refs.uploadInput.click()
       },
       className: 'fa fa-picture-o',
       title: '图片',
-    }],
+    }, 'link', 'preview', 'fullscreen', 'guide'],
     promptURLs: true,
     spellChecker: false,
   }
@@ -153,8 +157,37 @@ export default class ArticleUpdate extends Vue {
     })
   }
 
+  /**
+   * 单张图片上传
+   */
+  fileChangeHandler(e: any) {
+    const file = (e.target.files || e.dataTransfer)[0]
+    if (!file) {
+      return
+    }
+    const isImage = file.type.indexOf('image') !== -1
+    if (!isImage) {
+      return
+    }
+    if (file && isImage) {
+      this.uploadImageFiles([
+        {
+          name: file.name,
+          path: file.path,
+          type: file.type,
+        }
+      ])
+    }
+  }
+
 }
 </script>
+
+<style lang="stylus" scoped>
+.upload-input
+  display none
+</style>
+
 
 <style>
 @import '~simplemde/dist/simplemde.min.css';

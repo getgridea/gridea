@@ -3,7 +3,7 @@ import Model from './model'
 import * as fse from 'fs-extra'
 import * as path from 'path'
 const junk = require('junk')
-import { IPost } from './interfaces/post'
+import { IPost, IPostDb } from './interfaces/post'
 import ContentHelper from './helpers/content-helper'
 import * as matter from 'gray-matter'
 import * as Bluebird from 'bluebird'
@@ -11,10 +11,12 @@ Bluebird.promisifyAll(fs)
 
 export default class Posts extends Model {
   postDir: string
+  postImageDir: string
 
   constructor(appInstance: any) {
     super(appInstance)
     this.postDir = path.join(this.appDir, 'posts')
+    this.postImageDir = path.join(this.appDir, 'post-images')
     this.savePosts()
   }
 
@@ -59,13 +61,18 @@ export default class Posts extends Model {
   async list() {
     await this.savePosts()
     // await this.$posts.defaults({ posts: [] }).write()
-    const posts = await this.$posts.get('posts').value()
+    let posts = await this.$posts.get('posts').value()
+    const helper = new ContentHelper()
+    posts = posts.map((post: IPostDb) => {
+      post.content = helper.changeImageUrlDomainToLocal(post.content, this.appDir)
+      return post
+    })
     return posts
   }
 
   async savePostToFile(post: IPost): Promise<IPost | null> {
     const helper = new ContentHelper()
-    const content = helper.changeImageUrlLocalToDomain(post.content, '')
+    const content = helper.changeImageUrlLocalToDomain(post.content, this.db.themeConfig.domain)
     const mdStr = `---
 title: ${post.title}
 date: ${post.date}
@@ -81,5 +88,20 @@ ${content}
       console.error('ERROR: ', e)
     }
     return post
+  }
+
+  async uploadImages(files: any[]) {
+    console.log('传过来的 files', files)
+    await fse.ensureDir(this.postImageDir)
+    const results = []
+    for (let i = 0; i < files.length; i += 1) {
+      const extendName = files[i].name.split('.').pop()
+      const newFileName = new Date().getTime()
+      const filePath = `${this.postImageDir}/${newFileName}.${extendName}`
+      await fse.copySync(files[i].path, filePath)
+      results.push(filePath)
+      console.log('复制成功')
+    }
+    return results
   }
 }

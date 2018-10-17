@@ -15,7 +15,14 @@
             </v-date-picker>
           </v-dialog>
           <div>内容</div>
-          <markdown-editor ref="markdownEditor" class="md-editor" :configs="configs" preview-class="markdown-body" v-model="form.content"></markdown-editor>
+          <markdown-editor
+            id="markdown-editor"
+            ref="editor"
+            class="md-editor"
+            :configs="configs"
+            preview-class="markdown-body"
+            v-model="form.content"
+          ></markdown-editor>
           <v-btn depressed @click="$router.push('/articles')">取消</v-btn>
           <v-btn depressed @click="saveDraft">存草稿</v-btn>
           <v-btn depressed color="primary" @click="publish">发布</v-btn>
@@ -39,7 +46,7 @@ import { Site } from '../../store/modules/site'
 })
 export default class ArticleUpdate extends Vue {
   $refs!: {
-    markdownEditor: HTMLDivElement
+    editor: any
   }
 
   @State('site') site!: Site
@@ -110,11 +117,42 @@ export default class ArticleUpdate extends Vue {
   }
 
   initEditor() {
-    this.$refs.markdownEditor.addEventListener('drag', function (e) {
-      console.log(e)
-      
+    console.log(this.$refs.editor)
+    if (this.$refs.editor !== null) {
+      this.$refs.editor.simplemde.codemirror.on(('drop'), (editor: any, e: DragEvent) => {
+        const dataList = e.dataTransfer.files
+        const imageFiles = []
+        
+        for (let i = 0; i < dataList.length; i += 1) {
+          if (dataList[i].type.indexOf('image') === -1) {
+            console.log('仅支持图片拖拽')
+          }
+          imageFiles.push({
+            name: dataList[i].name,
+            path: dataList[i].path,
+            type: dataList[i].type,
+          })
+        }
+        console.log(imageFiles)
+        this.uploadImageFiles(imageFiles)
+        e.preventDefault()
+      })
+    }
+  }
+
+  uploadImageFiles(files: any[]) {
+    ipcRenderer.send('image-upload', files)
+    ipcRenderer.once('image-uploaded', (event: Event, data: any) => {
+      for (let i = 0; i < data.length; i += 1) {
+        const url = `![](file://${data[i]})`
+        const editor = this.$refs.editor.simplemde.codemirror
+
+        // 在光标处插入 https://codemirror.net/doc/manual.html#replaceSelection
+        editor.replaceSelection(url)
+      }
     })
   }
+
 }
 </script>
 
@@ -138,5 +176,9 @@ export default class ArticleUpdate extends Vue {
 }
 .editor-toolbar a {
   color: #000 !important;
+}
+.CodeMirror .editor-preview .markdown-body .editor-preview-active img {
+  max-width: 100%;
+  display: block;
 }
 </style>

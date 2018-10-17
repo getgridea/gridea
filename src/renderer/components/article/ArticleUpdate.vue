@@ -14,7 +14,22 @@
               <v-btn flat color="primary" @click="$refs.dialog.save(form.date)">选择</v-btn>
             </v-date-picker>
           </v-dialog>
-          <div>内容</div>
+          <!-- 文章大图 -->
+          <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
+            <img :src="`file://${featureImage.path}`" height="150" v-if="featureImage.path"/>
+            <div>
+              <v-btn outline :block="!featureImage.path" @click="pickFile">{{ featureImage.name || '文章大图' }}</v-btn>
+              <v-btn flat outline v-if="featureImage.path" @click="featureImage = {}"><v-icon>clear</v-icon></v-btn>
+            </div>
+            <input
+              type="file"
+              style="display: none"
+              ref="image"
+              accept="image/*"
+              @change="onFilePicked"
+            >
+          </v-flex>
+          <div class="title">📝 正 文</div>
           <markdown-editor
             id="markdown-editor"
             ref="editor"
@@ -52,6 +67,7 @@ export default class ArticleUpdate extends Vue {
   $refs!: {
     editor: any
     uploadInput: any
+    image: any
   }
 
   @State('site') site!: Site
@@ -64,10 +80,6 @@ export default class ArticleUpdate extends Vue {
     date: this.$dayjs(new Date()).format('YYYY-MM-DD'),
     content: '',
     published: false,
-  }
-  
-  get tags() {
-    return this.site.tags.map((tag: any) => tag.name)
   }
 
   configs = {
@@ -83,6 +95,12 @@ export default class ArticleUpdate extends Vue {
     spellChecker: false,
   }
 
+  featureImage = {}
+  
+  get tags() {
+    return this.site.tags.map((tag: any) => tag.name)
+  }
+
   mounted() {
     const { articleFileName } = this.$route.params
     const currentPost: IPost | undefined = this.site.posts.find((item: IPost) => item.fileName === articleFileName)
@@ -96,6 +114,29 @@ export default class ArticleUpdate extends Vue {
     }
     
     this.initEditor()
+  }
+
+  pickFile() {
+    this.$refs.image.click()
+  }
+
+  onFilePicked (e: any) {
+    console.log(e)
+    const file = (e.target.files || e.dataTransfer)[0]
+    if (!file) {
+      return
+    }
+    const isImage = file.type.indexOf('image') !== -1
+    if (!isImage) {
+      return
+    }
+    if (file && isImage) {
+      this.featureImage = {
+        name: file.name,
+        path: file.path,
+        type: file.type,
+      }
+    }
   }
 
   saveDraft() {
@@ -216,6 +257,8 @@ export default class ArticleUpdate extends Vue {
 <style lang="stylus" scoped>
 .upload-input
   display none
+.title
+  padding: 16px 0 0
 </style>
 
 
@@ -224,7 +267,7 @@ export default class ArticleUpdate extends Vue {
 /* @import '~github-markdown-css'; */
 .CodeMirror {
   border-radius: 0;
-  border-color: #fff;
+  border-color: #101010;
   box-shadow: 0 0 5px #eee;
 }
 .editor-toolbar {

@@ -2,11 +2,11 @@
   <div class="">
     <v-card flat>
       <v-card-title>
-        <span class="headline">文 章</span>
+        <span class="headline">文 章 ( {{ site.posts.length }} )</span>
         <v-spacer></v-spacer>
         <v-btn depressed color="primary" @click="$router.push('/articles/create')">新文章</v-btn>
       </v-card-title>
-      <v-data-table :headers="headers" :items="site.posts" hide-actions :pagination.sync="pagination">
+      <v-data-table :headers="headers" :items="site.posts" :pagination.sync="pagination">
         <template slot="items" slot-scope="props">
           <td>{{ props.item.data.title }}</td>
           <td>{{ $dayjs(props.item.data.date).format('YYYY-MM-DD') || '-' }}</td>

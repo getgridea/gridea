@@ -1,6 +1,6 @@
 import Model from './model'
 import { ITag } from './interfaces/tag'
-import slug from './helpers/slug'
+import slug from '../helpers/slug'
 
 export default class Tags extends Model {
   

@@ -31,6 +31,12 @@ slug.defaults.modes['rfc3986-non-unicode-with-dots-no-lower'] = {
 
 slug.defaults.mode = 'rfc3986-non-unicode';
 
+/**
+ * Slugify 文本
+ * @param textToSlugify 待 slugify 的文本
+ * @param filenameMode 
+ * @param saveLowerChars 
+ */
 function createSlug(textToSlugify: any, filenameMode = false, saveLowerChars = false) {
   textToSlugify = transliterate(textToSlugify)
 

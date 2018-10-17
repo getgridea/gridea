@@ -4,7 +4,7 @@
       <v-container fluid>
         <v-form>
           <v-text-field v-model="form.title" :counter="24" label="标题"></v-text-field>
-          <v-text-field v-model="form.fileName" label="文件名（同文章链接名）"></v-text-field>
+          <v-text-field v-show="false" v-model="form.fileName" label="文件名（文章链接地址）"></v-text-field>
           <v-select v-model="form.tags" :items="tags" label="标签" multiple small-chips deletable-chips></v-select>
           <v-dialog ref="dialog" v-model="modal" :return-value.sync="form.date" persistent lazy full-width width="290px">
             <v-text-field slot="activator" v-model="form.date" label="写作日期" prepend-icon="event" readonly></v-text-field>
@@ -41,6 +41,7 @@ import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { State } from 'vuex-class'
+import slug from '../../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
 
@@ -101,9 +102,12 @@ export default class ArticleUpdate extends Vue {
     const form = {
       ...this.form,
     }
+    form.fileName = form.fileName === '' ? slug(form.title) : form.fileName
+    form.published = false
+
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-      this.$bus.$emit('snackbar-display', '草稿已保存')
+      this.$bus.$emit('snackbar-display', '🎉  草稿保存成功')
       this.$router.push({ name: 'articles' })
     })
   }
@@ -112,10 +116,11 @@ export default class ArticleUpdate extends Vue {
     const form = {
       ...this.form,
     }
+    form.fileName = form.fileName === '' ? slug(form.title) : form.fileName
     form.published = true
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-      this.$bus.$emit('snackbar-display', '🎉  恭喜，您又多了一篇新创作！')
+      this.$bus.$emit('snackbar-display', '🎉  文章发布成功')
       this.$router.push({ name: 'articles' })
     })
   }
@@ -123,7 +128,10 @@ export default class ArticleUpdate extends Vue {
   initEditor() {
     console.log(this.$refs.editor)
     if (this.$refs.editor !== null) {
-      this.$refs.editor.simplemde.codemirror.on(('drop'), (editor: any, e: DragEvent) => {
+      const { codemirror } = this.$refs.editor.simplemde
+
+      // 拖拽上传
+      codemirror.on(('drop'), (editor: any, e: DragEvent) => {
         const dataList = e.dataTransfer.files
         const imageFiles = []
         
@@ -141,6 +149,28 @@ export default class ArticleUpdate extends Vue {
         this.uploadImageFiles(imageFiles)
         e.preventDefault()
       })
+
+      // 复制、截图上传
+      // codemirror.on('paste', (editor: any, e: any) => {
+      //   if (!(e.clipboardData && e.clipboardData.items)) {
+      //     return
+      //   }
+      //   try {
+      //     const dataList = e.clipboardData.items
+      //     const image = dataList[0].getAsFile()
+
+      //     if (dataList[0].kind === 'file' && image.type.indexOf('image') !== -1) {
+      //       console.log(image)
+      //       this.uploadImageFiles([{
+      //         name: image.name,
+      //         path: image.path,
+      //         type: image.type,
+      //       }])
+      //     }
+      //   } catch (e) {
+      //     this.$bus.$emit('snackbar-display', { color: 'error', message: '粘贴的不是图片' })
+      //   }
+      // })
     }
   }
 

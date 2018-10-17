@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import App from '../server/app'
 
 /**
@@ -27,6 +27,7 @@ function createWindow () {
     webPreferences: {
       webSecurity: false, // FIXED: Not allowed to load local resource
     },
+    frame: false, // 去除默认窗口栏
   })
 
   mainWindow.loadURL(winURL)
@@ -57,6 +58,25 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+ipcMain.on('min-window', () => {
+  mainWindow && mainWindow.minimize()
+})
+
+ipcMain.on('max-window', () => {
+  if (mainWindow) {
+    if (mainWindow.isMaximized()) {
+      mainWindow.unmaximize()
+    } else {
+      mainWindow.maximize()
+    }
+  }
+})
+
+ipcMain.on('close-window', () => {
+  mainWindow && mainWindow.close()
+})
+
 
 /**
  * Auto Updater

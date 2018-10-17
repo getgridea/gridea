@@ -20,10 +20,13 @@
         </v-list>
         <v-btn @click="preview">预览</v-btn>
       </v-navigation-drawer>
-      <v-toolbar fixed app flat dense clipped-left>
-        <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-toolbar fixed app flat dense clipped-left class="header-bar">
+        <v-toolbar-side-icon class="btn" small @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <v-toolbar-title style="color: #006cff" v-text="title"></v-toolbar-title>
         <v-spacer></v-spacer>
+        <v-btn class="btn" icon small @click="$electron.ipcRenderer.send('min-window')"><v-icon>remove</v-icon></v-btn>
+        <v-btn class="btn" icon small @click="$electron.ipcRenderer.send('max-window')"><v-icon>add</v-icon></v-btn>
+        <v-btn class="btn" icon small @click="$electron.ipcRenderer.send('close-window')"><v-icon>close</v-icon></v-btn>
       </v-toolbar>
       <v-content>
         <v-container fluid>
@@ -112,4 +115,44 @@ export default class App extends Vue {
 <style>
   @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
   /* Global CSS */
+  
+  .header-bar {
+    -webkit-app-region: drag;
+  }
+  .header-bar .btn {
+    -webkit-app-region: no-drag;
+  }
+  ::-webkit-scrollbar{
+    width: 1px;
+    height: 6px;
+    border-radius: 4px;
+    background-color: #fff;
+
+  }
+    /*滚动条两端的箭头*/
+  ::-webkit-scrollbar-button{
+    display: none;
+  }
+    /*	经测试好像并不能控制什么	*/
+  ::-webkit-scroll-track{
+    display: none;
+  }
+    /*	滚动条内侧部分 去掉	*/
+  ::-webkit-scrollbar-track-piece {
+    display: none;
+  }
+
+  /*	滚动条中可以拖动的那部分	*/
+  ::-webkit-scrollbar-thumb{
+    background-color: #eee;
+    opacity: 0.7;
+    border-radius: 4px;
+  }
+  /*	变角部分	*/
+  ::-webkit-scrollbar-corner {
+    display: none;
+  }
+  ::-webkit-resizer{
+    display: none;
+  }
 </style>

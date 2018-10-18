@@ -22,7 +22,7 @@
       </v-navigation-drawer>
       <v-toolbar fixed app flat dense clipped-left class="header-bar">
         <v-toolbar-side-icon class="btn" small @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-toolbar-title style="color: #006cff" v-text="title"></v-toolbar-title>
+        <v-toolbar-title v-text="title"></v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn class="btn" icon small @click="$electron.ipcRenderer.send('min-window')"><v-icon>remove</v-icon></v-btn>
         <v-btn class="btn" icon small @click="$electron.ipcRenderer.send('max-window')"><v-icon>add</v-icon></v-btn>
@@ -67,13 +67,12 @@ export default class App extends Vue {
   drawer = true
   items = [
     { icon: 'apps', title: '文章', to: '/articles' },
+    { icon: 'bubble_chart', title: '菜单', to: '/menu' },
     { icon: 'bubble_chart', title: '标签', to: '/tags' },
     { icon: 'bubble_chart', title: '主题', to: '/theme' },
-    { icon: 'bubble_chart', title: '页面', to: '/page' },
     { icon: 'bubble_chart', title: '配置', to: '/setting' },
-    { icon: 'bubble_chart', title: '资源', to: '/source' }
   ]
-  title = 'Hve Next'
+  title = 'HVE'
 
   color?: string = 'success'
   snackbar?: boolean = false

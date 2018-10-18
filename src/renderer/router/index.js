@@ -21,6 +21,11 @@ export default new Router({
       component: require('@/components/article/Articles').default
     },
     {
+      path: '/menu',
+      name: 'menu',
+      component: require('@/components/menu/Index').default
+    },
+    {
       path: '/tags',
       name: 'tags',
       component: require('@/components/tags/Index').default
@@ -29,6 +34,11 @@ export default new Router({
       path: '/theme',
       name: 'theme',
       component: require('@/components/theme/Index').default
+    },
+    {
+      path: '/setting',
+      name: 'setting',
+      component: require('@/components/setting/Index').default
     },
     {
       path: '*',

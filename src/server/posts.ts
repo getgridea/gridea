@@ -65,23 +65,41 @@ export default class Posts extends Model {
     const helper = new ContentHelper()
     posts = posts.map((post: IPostDb) => {
       post.content = helper.changeImageUrlDomainToLocal(post.content, this.appDir)
+      post.data.feature = post.data.feature ? helper.changeFeatureImageUrlDomainToLocal(post.data.feature, this.appDir) : post.data.feature
+      console.log('feature:::: ', post.data.feature)
       return post
     })
     return posts
   }
 
+  /**
+   * 保存文章到文件
+   * @param post 文章
+   */
   async savePostToFile(post: IPost): Promise<IPost | null> {
     const helper = new ContentHelper()
     const content = helper.changeImageUrlLocalToDomain(post.content, this.db.themeConfig.domain)
+    const extendName = (post.featureImage.name || 'jpg').split('.').pop()
+
     const mdStr = `---
 title: ${post.title}
 date: ${post.date}
 tags: ${post.tags.join(' ')}
 published: ${post.published}
+feature: ${post.featureImage.name ? `/post-images/${post.fileName}.${extendName}` : ''}
 ---
 ${content}
 `
     try {
+
+      // 存在文章大图
+      if (post.featureImage.path) {
+        
+        const filePath = `${this.postImageDir}/${post.fileName}.${extendName}`
+
+        await fse.copySync(post.featureImage.path, filePath)
+      }
+
       // write file must use fse, beause fs.writeFile need callback
       await fse.writeFile(`${this.postDir}/${post.fileName}.md`, mdStr)
     } catch (e) {

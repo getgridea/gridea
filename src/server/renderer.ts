@@ -203,7 +203,6 @@ export default class Renderer extends Model {
       if (err) {
         console.log(err)
       }
-      console.log('cssString: ', cssString)
       await fs.writeFileSync(`${cssFolderPath}/main.css`, cssString)
     })
   }

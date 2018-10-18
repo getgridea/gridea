@@ -1,10 +1,12 @@
 export default class ContentHelper {
   localReg: RegExp
   domainReg: RegExp
+  featureReg: RegExp
   
   constructor() {
     this.localReg = /\(file.*\/post-images\//g
     this.domainReg = /\(.*\/post-images\//g
+    this.featureReg = /\.*\/post-images\//g
   }
 
   /**
@@ -24,4 +26,12 @@ export default class ContentHelper {
   changeImageUrlDomainToLocal(content: string, localPath: string) {
     return content.replace(this.domainReg, `(file://${localPath}/post-images/`)
   }
+
+  /**
+   * 将 feature 图片路径，变更为本地路径
+   */
+  changeFeatureImageUrlDomainToLocal(content: string, localPath: string) {
+    return content.replace(this.featureReg, `file://${localPath}/post-images/`)
+  }
+
 }

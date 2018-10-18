@@ -3,6 +3,7 @@ export interface IPostData {
   date: string
   published: boolean
   tags: string,
+  feature: string,
 }
 
 export interface IPost {

@@ -6,6 +6,11 @@ export interface IPost {
   date: string
   content: string
   published: boolean
+  featureImage: {
+    name?: string,
+    path?: string,
+    type?: string,
+  }
 }
 
 export interface IPostData {

@@ -16,10 +16,10 @@
           </v-dialog>
           <!-- 文章大图 -->
           <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-            <img :src="`file://${featureImage.path}`" height="150" v-if="featureImage.path"/>
+            <img :src="`file://${form.featureImage.path}`" height="150" v-if="form.featureImage.path"/>
             <div>
-              <v-btn outline :block="!featureImage.path" @click="pickFile">{{ featureImage.name || '文章大图' }}</v-btn>
-              <v-btn flat outline v-if="featureImage.path" @click="featureImage = {}"><v-icon>clear</v-icon></v-btn>
+              <v-btn outline :block="!form.featureImage.path" @click="pickFile">{{ form.featureImage.name || '文章大图' }}</v-btn>
+              <v-btn flat outline v-if="form.featureImage.path" @click="form.featureImage = {}"><v-icon>clear</v-icon></v-btn>
             </div>
             <input
               type="file"
@@ -80,6 +80,7 @@ export default class ArticleUpdate extends Vue {
     date: this.$dayjs(new Date()).format('YYYY-MM-DD'),
     content: '',
     published: false,
+    featureImage: {},
   }
 
   configs = {
@@ -94,8 +95,6 @@ export default class ArticleUpdate extends Vue {
     promptURLs: true,
     spellChecker: false,
   }
-
-  featureImage = {}
   
   get tags() {
     return this.site.tags.map((tag: any) => tag.name)
@@ -131,7 +130,7 @@ export default class ArticleUpdate extends Vue {
       return
     }
     if (file && isImage) {
-      this.featureImage = {
+      this.form.featureImage = {
         name: file.name,
         path: file.path,
         type: file.type,

@@ -80,7 +80,11 @@ export default class ArticleUpdate extends Vue {
     date: this.$dayjs(new Date()).format('YYYY-MM-DD'),
     content: '',
     published: false,
-    featureImage: {},
+    featureImage: {
+      path: '',
+      name: '',
+      type: '',
+    },
   }
 
   configs = {
@@ -110,6 +114,7 @@ export default class ArticleUpdate extends Vue {
       this.form.date = this.$dayjs(currentPost.data.date).format('YYYY-MM-DD')
       this.form.content = currentPost.content
       this.form.published = currentPost.data.published
+      this.form.featureImage.path = currentPost.data.feature
     }
     
     this.initEditor()

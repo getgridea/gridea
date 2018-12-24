@@ -12,18 +12,6 @@
           <v-text-field label="底部信息" v-model="form.footerInfo" />
           <v-switch label="是否显示文章大图" v-model="form.showFeatureImage" />
           <v-slider label="每页文章数" v-model="form.pageSize" thumb-label="always" :min="1" :max="20" always-dirty />
-          <v-subheader class="pl-0">
-            社交链接 
-            <v-btn fab flat dark small color="primary">
-              <v-icon dark>add</v-icon>
-            </v-btn>
-          </v-subheader>
-          <v-chip close>
-            <v-avatar>
-              <v-icon>movie</v-icon>
-            </v-avatar>
-            知乎
-          </v-chip>
           <div>
             <v-btn depressed color="primary" @click="saveTheme">保 存</v-btn>
           </div>
@@ -62,8 +50,13 @@ export default class Theme extends Vue {
   }
   
   mounted() {
-    console.log('主题', this.site)
-    this.form = this.site.themeConfig
+    const config = this.site.themeConfig
+    this.form.themeName = config.themeName
+    this.form.pageSize = config.pageSize
+    this.form.siteName = config.siteName
+    this.form.siteDescription = config.siteDescription
+    this.form.footerInfo = config.footerInfo
+    this.form.showFeatureImage = config.showFeatureImage
   }
 }
 </script>

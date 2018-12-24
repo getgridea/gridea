@@ -7,7 +7,7 @@
           time.post-time · #{post.date} ·
           each tag in post.tags
             a.post-tag(href=tag.link) # #{tag.name}
-        if post.feature
+        if themeConfig.showFeatureImage && post.feature
           a.post-feature-image(href=post.link)
             img(src=post.feature)
         p.post-abstract= post.abstract

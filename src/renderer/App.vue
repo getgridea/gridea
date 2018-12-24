@@ -105,7 +105,7 @@ export default class App extends Vue {
   public preview() {
     ipcRenderer.send('html-render')
     ipcRenderer.once('html-rendered', (event: Event, result: any) => {
-      console.log('渲染完毕')
+      this.$bus.$emit('snackbar-display', '🎉  渲染完毕，快去预览吧！')
     })
   }
 }

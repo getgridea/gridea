@@ -114,7 +114,8 @@ export default class ArticleUpdate extends Vue {
       this.form.date = this.$dayjs(currentPost.data.date).format('YYYY-MM-DD')
       this.form.content = currentPost.content
       this.form.published = currentPost.data.published
-      this.form.featureImage.path = currentPost.data.feature
+      this.form.featureImage.path = currentPost.data.feature.substring(7)
+      this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
     }
     
     this.initEditor()

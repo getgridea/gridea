@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <v-navigation-drawer fixed clipped v-model="drawer" app :mobile-break-point="640" :width="160" floating>
+      <v-navigation-drawer class="navbar" fixed clipped v-model="drawer" app :mobile-break-point="640" :width="160" floating>
         <v-list>
           <v-list-tile 
             router
@@ -18,7 +18,10 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
-        <v-btn @click="preview">预览</v-btn>
+        <div class="btn-container">
+          <v-btn depressed style="width: 90%;" color="info" @click="preview">预 览</v-btn>
+          <v-btn depressed style="width: 90%;" color="success" @click="preview">发 布</v-btn>
+        </div>
       </v-navigation-drawer>
       <v-toolbar fixed app flat dense clipped-left class="header-bar">
         <v-toolbar-side-icon class="btn" small @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
@@ -66,11 +69,11 @@ export default class App extends Vue {
 
   drawer = true
   items = [
-    { icon: 'apps', title: '文章', to: '/articles' },
-    { icon: 'bubble_chart', title: '菜单', to: '/menu' },
-    { icon: 'bubble_chart', title: '标签', to: '/tags' },
-    { icon: 'bubble_chart', title: '主题', to: '/theme' },
-    { icon: 'bubble_chart', title: '配置', to: '/setting' },
+    { icon: 'notes', title: '文章', to: '/articles' },
+    { icon: 'view_list', title: '菜单', to: '/menu' },
+    { icon: 'style', title: '标签', to: '/tags' },
+    { icon: 'color_lens', title: '主题', to: '/theme' },
+    { icon: 'settings', title: '配置', to: '/setting' },
   ]
   title = 'HVE'
 
@@ -153,5 +156,14 @@ export default class App extends Vue {
   }
   ::-webkit-resizer{
     display: none;
+  }
+
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .btn-container {
+    padding-bottom: 8px;
   }
 </style>

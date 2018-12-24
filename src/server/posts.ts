@@ -61,15 +61,16 @@ export default class Posts extends Model {
   async list() {
     await this.savePosts()
     // await this.$posts.defaults({ posts: [] }).write()
-    let posts = await this.$posts.get('posts').value()
+    const posts = await this.$posts.get('posts').value()
     const helper = new ContentHelper()
-    posts = posts.map((post: IPostDb) => {
-      post.content = helper.changeImageUrlDomainToLocal(post.content, this.appDir)
-      post.data.feature = post.data.feature ? helper.changeFeatureImageUrlDomainToLocal(post.data.feature, this.appDir) : post.data.feature
-      console.log('feature:::: ', post.data.feature)
-      return post
+
+    const list = posts.map((post: IPostDb) => {
+      const item = JSON.parse(JSON.stringify(post))
+      item.content = helper.changeImageUrlDomainToLocal(item.content, this.appDir)
+      item.data.feature = item.data.feature ? helper.changeFeatureImageUrlDomainToLocal(item.data.feature, this.appDir) : item.data.feature
+      return item
     })
-    return posts
+    return list
   }
 
   /**

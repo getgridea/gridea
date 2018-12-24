@@ -2,6 +2,8 @@
   h1.site-title= themeConfig.siteName 
   p.site-description= themeConfig.siteDescription
   .menu-container
-    a.menu(href="#") 首页
-    a.menu(href="#") 项目
-    a.menu(href="#") 关于
+    each menu in menus
+      if menu.openType === 'External'
+        a.menu(href=menu.link target='_blank')= menu.name
+      else
+        a.menu(href=menu.link)= menu.name

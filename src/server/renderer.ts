@@ -66,6 +66,7 @@ export default class Renderer extends Model {
 
     for (let i = 0; i * pageSize < this.postsData.length; i += 1) {
       const renderData = {
+        menus: this.db.menus,
         posts: this.postsData.slice(i * pageSize, (i + 1) * pageSize),
         pagination: {
           prev: '',
@@ -116,6 +117,7 @@ export default class Renderer extends Model {
       }
 
       const html = template({
+        menus: this.db.menus,
         post,
         themeConfig: this.db.themeConfig,
       })
@@ -151,6 +153,7 @@ export default class Renderer extends Model {
       for (let i = 0; i * pageSize < posts.length; i += 1) {
         const renderData = {
           tag: currentTag,
+          menus: this.db.menus,
           posts: posts.slice(i * pageSize, (i + 1) * pageSize),
           pagination: {
             prev: '',

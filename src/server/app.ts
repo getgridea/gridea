@@ -4,6 +4,7 @@ import * as path from 'path'
 import EventClasses from './events/index'
 import Posts from './posts'
 import Tags from './tags'
+import Menus from './menus'
 import Theme from './theme'
 import Renderer from './renderer'
 
@@ -25,6 +26,7 @@ export default class App {
     this.db = {
       posts: [],
       tags: [],
+      menus: [],
       themeConfig: {
         themeName: '',
         pageSize: 10,
@@ -69,6 +71,9 @@ export default class App {
     const tags = new Tags(this)
     const tagList = await tags.list()
 
+    const menus = new Menus(this)
+    const menuList = await menus.list()
+
     const theme = new Theme(this)
     const themeConfig = await theme.getThemeConfig()
     const themes = await theme.getThemeList()
@@ -76,6 +81,7 @@ export default class App {
     this.db = {
       posts: postList,
       tags: tagList,
+      menus: menuList,
       themeConfig: themeConfig,
       themes: themes,
     }
@@ -87,6 +93,8 @@ export default class App {
   private initEvents(): void {
     const classNames = Object.keys(EventClasses)
     for (const className of classNames) {
+
+      // tslint:disable-next-line
       new EventClasses[className](this)
     }
   }

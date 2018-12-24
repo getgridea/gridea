@@ -6,7 +6,39 @@
         <v-spacer></v-spacer>
         <v-btn depressed color="primary" @click="newMenu">新菜单</v-btn>
       </v-card-title>
+      <v-data-table :headers="headers" :items="site.menus">
+        <template slot="items" slot-scope="props">
+          <td>{{ props.item.name }}</td>
+          <td>{{ props.item.openType }}</td>
+          <td>{{ props.item.slug }}</td>
+          <td>{{ props.item.link }}</td>
+          <td>
+            <v-icon @click="editMenu(props.item)" small>
+              edit
+            </v-icon>
+          </td>
+        </template>
+      </v-data-table>
+
     </v-card>
+
+    <v-dialog v-model="visible" :width="480">
+      <v-card>
+        <v-card-text>
+          <v-text-field label="📋  名称" v-model="form.name"></v-text-field>
+          <v-radio-group v-model="form.openType" row>
+            <v-radio v-for="item in menuTypes" :key="item" :label="item" :value="item"></v-radio>
+          </v-radio-group>
+          <v-text-field label="Slug" v-model="form.slug"></v-text-field>
+          <v-text-field label="Link" v-model="form.link"></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat @click="visible = false">取消</v-btn>
+          <v-btn flat color="primary" @click="saveMenu">保存</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -15,48 +47,92 @@ import { ipcRenderer, Event } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { State } from 'vuex-class'
-import { Site } from '../../store/modules/site'
+import { MenuTypes } from '../../../helpers/enums'
+import { IMenu } from '../../interfaces/menu'
+
+interface IForm {
+  name: any
+  index: any
+  openType: string
+  slug: string
+  link: string
+}
 
 @Component
 export default class Tags extends Vue {
-  @State('site') site!: Site
+  @State('site') site!: any
+
+  headers = [
+    {
+      text: '名称',
+      value: 'title',
+    },
+    {
+      text: '打开方式',
+      value: 'openType',
+    },
+    {
+      text: 'Slug',
+      value: 'slug',
+    },
+    {
+      text: 'Link',
+      value: 'link',
+    },
+    {
+      text: '操作',
+      value: 'id',
+      sortable: false,
+    },
+  ]
 
   visible = false
+
+  menuTypes = MenuTypes
   
-  form = {
+  form: IForm = {
     name: null,
-    index: -1,
+    index: null,
+    openType: MenuTypes.Internal,
+    slug: '/',
+    link: '',
   }
   
   newMenu() {
     this.form.name = null
-    this.form.index = -1
+    this.form.index = null
     this.visible = true
   }
-  updateTag(tag: any, index: number) {
+  updateMenu(tag: any, index: number) {
     console.log(tag)
     this.visible = true
     this.form.name = tag.name
     this.form.index = index
   }
 
-  saveTag() {
-    ipcRenderer.send('tag-save', { ...this.form, used: false })
-    ipcRenderer.once('tag-saved', (event: Event, result: any) => {
+  saveMenu() {
+    console.log('click save menu', this.form)
+    ipcRenderer.send('menu-save', { ...this.form })
+    ipcRenderer.once('menu-saved', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
-      this.$bus.$emit('snackbar-display', '标签已保存')
+      this.$bus.$emit('snackbar-display', '菜单已保存')
       this.visible = false
     })
   }
-  handleDelete(tagValue: string) {
-    console.log('clicked', tagValue)
-    ipcRenderer.send('tag-delete', tagValue)
-    ipcRenderer.once('tag-deleted', (event: Event, result: any) => {
-      this.$bus.$emit('site-reload')
-      this.$bus.$emit('snackbar-display', '标签已删除')
-      this.visible = false
-    })
+
+  editMenu(menu: IMenu) {
+    // TODO
   }
+
+  // handleDelete(tagValue: string) {
+  //   console.log('clicked', tagValue)
+  //   ipcRenderer.send('tag-delete', tagValue)
+  //   ipcRenderer.once('tag-deleted', (event: Event, result: any) => {
+  //     this.$bus.$emit('site-reload')
+  //     this.$bus.$emit('snackbar-display', '标签已删除')
+  //     this.visible = false
+  //   })
+  // }
 }
 </script>
 

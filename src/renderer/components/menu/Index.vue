@@ -13,8 +13,11 @@
           <td>{{ props.item.slug }}</td>
           <td>{{ props.item.link }}</td>
           <td>
-            <v-icon @click="editMenu(props.item)" small>
+            <v-icon @click="editMenu(props.item, props.index)" small>
               edit
+            </v-icon>
+            <v-icon @click="deleteMenu(props.item.name)" small>
+              delete
             </v-icon>
           </td>
         </template>
@@ -103,11 +106,13 @@ export default class Tags extends Vue {
     this.form.index = null
     this.visible = true
   }
-  updateMenu(tag: any, index: number) {
-    console.log(tag)
+  editMenu(menu: IMenu, index: number) {
     this.visible = true
-    this.form.name = tag.name
     this.form.index = index
+    this.form.name = menu.name
+    this.form.openType = menu.openType
+    this.form.slug = menu.slug
+    this.form.link = menu.link
   }
 
   saveMenu() {
@@ -120,19 +125,14 @@ export default class Tags extends Vue {
     })
   }
 
-  editMenu(menu: IMenu) {
-    // TODO
+  deleteMenu(menuValue: string) {
+    ipcRenderer.send('menu-delete', menuValue)
+    ipcRenderer.once('menu-deleted', (event: Event, result: any) => {
+      this.$bus.$emit('site-reload')
+      this.$bus.$emit('snackbar-display', '菜单已删除')
+      this.visible = false
+    })
   }
-
-  // handleDelete(tagValue: string) {
-  //   console.log('clicked', tagValue)
-  //   ipcRenderer.send('tag-delete', tagValue)
-  //   ipcRenderer.once('tag-deleted', (event: Event, result: any) => {
-  //     this.$bus.$emit('site-reload')
-  //     this.$bus.$emit('snackbar-display', '标签已删除')
-  //     this.visible = false
-  //   })
-  // }
 }
 </script>
 

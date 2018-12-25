@@ -56,6 +56,11 @@ export default class App {
     fse.mkdirSync(path.join(this.appDir, 'themes'))
 
     fse.copySync(
+      path.join(__dirname, '..', 'default-config'),
+      path.join(this.appDir, 'config')
+    )
+
+    fse.copySync(
       path.join(__dirname, '..', 'default-themes'),
       path.join(this.appDir, 'themes')
     )

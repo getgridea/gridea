@@ -1,0 +1,12 @@
+{
+  "posts": [],
+  "tags": [],
+  "menus": [
+    {
+      "link": "/",
+      "name": "首页",
+      "openType": "Internal",
+      "slug": "/"
+    }
+  ]
+}

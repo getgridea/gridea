@@ -6,7 +6,7 @@ import { IApplicationDb, IApplication } from './interfaces/application'
 
 export default class Model {
   appDir: string
-  $site: any
+  $setting: any
   $posts: any
   $theme: any
   db: IApplicationDb
@@ -19,9 +19,9 @@ export default class Model {
   }
 
   private initDataStore(): void {
-    const siteAdapter = new FileSync(path.join(this.appDir, 'config/site.json'))
-    const site = low(siteAdapter)
-    this.$site = site
+    const settingAdapter = new FileSync(path.join(this.appDir, 'config/setting.json'))
+    const setting = low(settingAdapter)
+    this.$setting = setting
 
     const postsAdapter = new FileSync(path.join(this.appDir, 'config/posts.json'))
     const posts = low(postsAdapter)

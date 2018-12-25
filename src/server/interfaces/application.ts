@@ -3,8 +3,9 @@ import { IPostDb } from './post'
 import { ITag } from './tag'
 import { ITheme } from './theme'
 import { IMenu } from './menu'
+import { ISetting } from './setting'
 
-export interface Setting {
+export interface IApplicationSetting {
   mainWindow: BrowserWindow
   app: any
   baseDir: string
@@ -16,6 +17,7 @@ export interface IApplicationDb {
   menus: IMenu[],
   themeConfig: ITheme,
   themes: string[],
+  setting: ISetting,
 }
 
 export interface IApplication {

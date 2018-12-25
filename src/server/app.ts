@@ -7,8 +7,9 @@ import Tags from './tags'
 import Menus from './menus'
 import Theme from './theme'
 import Renderer from './renderer'
+import Setting from './setting'
 
-import { IApplicationDb, Setting } from './interfaces/application'
+import { IApplicationDb, IApplicationSetting } from './interfaces/application'
 
 export default class App {
   mainWindow: BrowserWindow
@@ -17,7 +18,7 @@ export default class App {
   appDir: string
   db: IApplicationDb
 
-  constructor(setting: Setting) {
+  constructor(setting: IApplicationSetting) {
     this.mainWindow = setting.mainWindow
     this.app = setting.app
     this.baseDir = setting.baseDir
@@ -37,6 +38,14 @@ export default class App {
         domain: '',
       },
       themes: [],
+      setting: {
+        domain: '',
+        repository: '',
+        branch: '',
+        username: '',
+        email: '',
+        token: '',
+      },
     }
     
     this.checkDir()
@@ -70,25 +79,29 @@ export default class App {
    *  Load site config and data
    */
   public async loadSite() {
-    const posts = new Posts(this)
-    const postList = await posts.list()
+    const postsInstance = new Posts(this)
+    const posts = await postsInstance.list()
 
-    const tags = new Tags(this)
-    const tagList = await tags.list()
+    const tagsInstance = new Tags(this)
+    const tags = await tagsInstance.list()
 
-    const menus = new Menus(this)
-    const menuList = await menus.list()
+    const menusInstance = new Menus(this)
+    const menus = await menusInstance.list()
 
-    const theme = new Theme(this)
-    const themeConfig = await theme.getThemeConfig()
-    const themes = await theme.getThemeList()
+    const themeInstance = new Theme(this)
+    const themeConfig = await themeInstance.getThemeConfig()
+    const themes = await themeInstance.getThemeList()
+
+    const settingInstance = new Setting(this)
+    const setting = await settingInstance.getSetting() 
     
     this.db = {
-      posts: postList,
-      tags: tagList,
-      menus: menuList,
-      themeConfig: themeConfig,
-      themes: themes,
+      posts,
+      tags,
+      menus,
+      themeConfig,
+      themes,
+      setting,
     }
 
     this.initEvents()

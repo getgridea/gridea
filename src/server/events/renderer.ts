@@ -9,16 +9,16 @@ export default class RendererEvents {
 
     ipcMain.on('html-render', async (event: Event, params: any) => {
       
-      renderer.db.themeConfig.domain = renderer.outputDir // 预览时 domain 是输出目录
-
+      
       if (renderer.db.themeConfig.themeName) {
-        await renderer.formatPostsForRender()
-        await renderer.buildCss()
-        await renderer.renderPostList()
-        await renderer.renderPostDetail()
-        await renderer.renderTagDetail()
+        await renderer.preview()
       }
       event.sender.send('html-rendered', null)
+    })
+
+    ipcMain.on('site-publish', async (event: Event, params: any) => {
+      const result = await renderer.publish()
+      event.sender.send('site-published', result)
     })
 
   }

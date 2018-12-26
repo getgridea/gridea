@@ -71,6 +71,7 @@
     "lowdb": "^1.0.0",
     "marked": "^0.5.1",
     "pug": "^2.0.3",
+    "simple-git": "^1.107.0",
     "slug": "^0.9.1",
     "stylus": "^0.54.5",
     "transliteration": "^1.6.6",

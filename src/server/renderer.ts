@@ -4,6 +4,8 @@ Bluebird.promisifyAll(fs)
 import * as fse from 'fs-extra'
 import * as marked from 'marked'
 import * as pug from 'pug'
+import * as simpleGit from 'simple-git/promise'
+import { SimpleGit } from 'simple-git/promise'
 import * as dayjs from 'dayjs'
 import * as stylus from 'stylus'
 import Model from './model'
@@ -15,11 +17,84 @@ export default class Renderer extends Model {
   outputDir: string = `${this.appDir}/output`
   themePath: string = ''
   postsData: IPostRenderData[] = []
+  git: SimpleGit
 
   constructor(appInstance: any)  {
     super(appInstance)
 
     this.loadConfig()
+
+    this.git = simpleGit(this.outputDir)
+  }
+
+  async preview() {
+    this.db.themeConfig.domain = this.outputDir
+    await this.renderAll()
+  }
+
+  async publish() {
+    this.db.themeConfig.domain = this.db.setting.domain
+    console.log('domain', this.db.themeConfig.domain)
+    await this.renderAll()
+    console.log('渲染完毕')
+    let result = false
+    const isRepo = await this.git.checkIsRepo()
+    console.log(isRepo)
+    if (isRepo) {
+      result = await this.commonPush()
+    } else {
+      result = await this.firstPush()
+    }
+    return result
+  }
+
+  async firstPush() {
+    const { setting } = this.db
+    console.log('first push')
+
+    try {
+      await this.git.init()
+      await this.git.addConfig('user.name', setting.username)
+      await this.git.addConfig('user.email', setting.email)
+      await this.git.add('./*')
+      await this.git.commit('first commit')
+      await this.git.addRemote('origin', `https://${setting.username}:${setting.token}@github.com/${setting.username}/${setting.repository}.git`)
+      await this.git.push('origin', setting.branch, {'--force': true})
+      return true
+    } catch (e) {
+      console.error(e)
+      return false
+    }
+  }
+
+  async commonPush() {
+    console.log('common push')
+    const statusSummary = await this.git.status()
+    console.log(statusSummary)
+    if (statusSummary.modified.length > 0 || statusSummary.not_added.length > 0) {
+      try {
+        await this.git.add('./*')
+        await this.git.commit(`update from hve: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`)
+        await this.git.push('origin', this.db.setting.branch, {'--force': true})
+        return true
+      } catch(e) {
+        console.error(e)
+        return false
+      }
+    } else {
+      await this.git.push('origin', this.db.setting.branch, {'--force': true})
+      console.log('没有更新')
+      return false
+    }
+  }
+
+
+  async renderAll() {
+    await this.formatPostsForRender()
+    await this.buildCss()
+    await this.renderPostList()
+    await this.renderPostDetail()
+    await this.renderTagDetail()
   }
 
   /**
@@ -115,6 +190,7 @@ export default class Renderer extends Model {
       if (i < this.postsData.length - 1) {
         post.nextPost = this.postsData[i + 1]
       }
+      console.log('渲染文章详情页', this.db.themeConfig)
 
       const html = template({
         menus: this.db.menus,

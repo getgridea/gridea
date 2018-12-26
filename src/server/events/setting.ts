@@ -1,23 +1,17 @@
-import { ipcMain } from 'electron'
+import { ipcMain, Event } from 'electron'
 import Setting from '../setting'
-// import { ITag } from '../interfaces/tag'
+import { ISetting } from '../interfaces/setting'
 
-export default class TagEvents {
+export default class SettingEvents {
   constructor(appInstance: any) {
-    const setting = new Setting(appInstance)
-    console.log(setting)
-    ipcMain.removeAllListeners('setting-delete')
+    const settingInstance = new Setting(appInstance)
+
     ipcMain.removeAllListeners('setting-save')
 
-    // ipcMain.on('tag-delete', async (event: Event, tagName: string) => {
-    //   const data = await tags.deleteTag(tagName)
-    //   event.sender.send('tag-deleted', data)
-    // })
-
-    // ipcMain.on('tag-save', async (event: Event, tag: ITag) => {
-    //   const data = await tags.saveTag(tag)
-    //   event.sender.send('tag-saved', data)
-    // })
+    ipcMain.on('setting-save', async (event: Event, setting: ISetting) => {
+      const data = await settingInstance.saveSetting(setting)
+      event.sender.send('setting-saved', data)
+    })
 
   }
 

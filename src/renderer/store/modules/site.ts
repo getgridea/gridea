@@ -3,14 +3,16 @@ import { IPost } from '../../interfaces/post'
 import { ITag } from '../../interfaces/tag'
 import { ITheme } from '../../interfaces/theme'
 import { IMenu } from '../../interfaces/menu'
+import { ISetting } from '../../interfaces/setting'
 
 export interface Site {
   config: any
   posts: IPost[]
   tags: ITag[]
-  menus: IMenu[],
+  menus: IMenu[]
   themeConfig: ITheme
-  themes: string[],
+  themes: string[]
+  setting: ISetting
 }
 const postState: Site = {
   config: {},
@@ -26,6 +28,14 @@ const postState: Site = {
     showFeatureImage: true,
   },
   themes: [],
+  setting: {
+    domain: '',
+    repository: '',
+    branch: '',
+    username: '',
+    email: '',
+    token: '',
+  },
 }
 
 const mutations: MutationTree<Site> = {
@@ -36,6 +46,7 @@ const mutations: MutationTree<Site> = {
     state.config = siteData.config
     state.themeConfig = siteData.themeConfig
     state.themes = siteData.themes
+    state.setting = siteData.setting
   },
   updatePosts(state, posts: IPost[]) {
     state.posts = posts
@@ -47,6 +58,7 @@ const actions: ActionTree<Site, any> = {
     commit('updatePosts', posts)
   },
   updateSite({ commit }, siteData: Site) {
+    console.log('siteData:', siteData)
     commit('updateSite', siteData)
   }
 }

@@ -17,18 +17,22 @@
           :type="showToken ? 'text' : 'password'"
           @click:append="showToken = !showToken"
         ></v-text-field>
-        <v-btn block color="primary" depressed>保 存</v-btn>
+        <v-btn color="primary" depressed @click="submit">保 存</v-btn>
       </v-card-text>
     </v-card>
   </div>
 </template>
 
 <script lang="ts">
+import { ipcRenderer, Event } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import { State } from 'vuex-class'
 
 @Component
 export default class Setting extends Vue {
+  @State('site') site!: any
+
   showToken = false
 
   form = {
@@ -38,6 +42,24 @@ export default class Setting extends Vue {
     username: '',
     email: '',
     token: '',
+  }
+
+  mounted() {
+    this.form.domain = this.site.setting.domain
+    this.form.repository = this.site.setting.repository
+    this.form.branch = this.site.setting.branch
+    this.form.username = this.site.setting.username
+    this.form.email = this.site.setting.email
+    this.form.token = this.site.setting.token
+  }
+
+  submit() {
+    console.log('click setting save', this.form)
+    ipcRenderer.send('setting-save', this.form)
+    ipcRenderer.once('setting-saved', (event: Event, result: any) => {
+      this.$bus.$emit('site-reload')
+      this.$bus.$emit('snackbar-display', '配置已保存')
+    })
   }
 }
 </script>

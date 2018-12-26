@@ -1,8 +1,10 @@
 {
-  "domain": "",
-  "repository": "",
-  "branch": "",
-  "username": "",
-  "email": "",
-  "token": ""
+  "config": {
+    "domain": "",
+    "repository": "",
+    "branch": "",
+    "username": "",
+    "email": "",
+    "token": ""
+  }
 }

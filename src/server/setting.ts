@@ -1,5 +1,5 @@
 import Model from './model'
-// import { ISetting } from './interfaces/setting'
+import { ISetting } from './interfaces/setting'
 
 export default class Setting extends Model {
   
@@ -8,20 +8,13 @@ export default class Setting extends Model {
   }
 
   getSetting() {
-    const setting = this.$setting.get().value()
-    console.log('settting: ', setting)
+    const setting = this.$setting.get('config').value()
     return setting
   }
 
-  // public async saveTag(tag: ITag) {
-  //   const tags = await this.$posts.get('tags').value()
-  //   if (tag.index >= 0) {
-  //     tags[tag.index] = tag
-  //   } else {
-  //     tags.push(tag)
-  //   }
-  //   await this.$posts.set('tags', tags).write()
-  //   return tags
-  // }
+  public async saveSetting(setting: ISetting) {
+    await this.$setting.set('config', setting).write()
+    return true
+  }
 
 }

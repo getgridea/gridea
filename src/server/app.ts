@@ -93,7 +93,7 @@ export default class App {
     const themes = await themeInstance.getThemeList()
 
     const settingInstance = new Setting(this)
-    const setting = await settingInstance.getSetting() 
+    const setting = await settingInstance.getSetting()
     
     this.db = {
       posts,

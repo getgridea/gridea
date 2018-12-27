@@ -9,6 +9,8 @@ import { SimpleGit } from 'simple-git/promise'
 import * as dayjs from 'dayjs'
 import * as stylus from 'stylus'
 import Model from './model'
+import ContentHelper from '../helpers/content-helper'
+const helper = new ContentHelper()
 import { IPostDb, IPostRenderData, ITagRenderData } from './interfaces/post'
 import { ITag } from './interfaces/tag'
 
@@ -95,6 +97,7 @@ export default class Renderer extends Model {
     await this.renderPostList()
     await this.renderPostDetail()
     await this.renderTagDetail()
+    await this.copyFiles()
   }
 
   /**
@@ -115,7 +118,7 @@ export default class Renderer extends Model {
       .map((item: IPostDb) => {
         const currentTags = item.data.tags.split(' ')
         const result: IPostRenderData = {
-          content: marked(item.content, { breaks: true }),
+          content: marked(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain), { breaks: true }),
           fileName: item.fileName,
           abstract: item.abstract,
           title: item.data.title,
@@ -123,7 +126,7 @@ export default class Renderer extends Model {
             .filter((tag: ITag) => currentTags.find(item => item === tag.name))
             .map((tag: ITag) => ({ ...tag, link: `${this.db.themeConfig.domain}/tag/${tag.slug}` })),
           date: dayjs(item.data.date).format('MMMM Do YYYY, a'),
-          feature: item.data.feature || '',
+          feature: item.data.feature && `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain)}` || '',
           link: `${this.db.themeConfig.domain}/post/${item.fileName}`,
         }
         return result
@@ -197,7 +200,7 @@ export default class Renderer extends Model {
         post,
         themeConfig: this.db.themeConfig,
       })
-      const renderFolerPath = `${this.db.themeConfig.domain}/post/${post.fileName}`
+      const renderFolerPath = `${this.outputDir}/post/${post.fileName}`
       await fse.ensureDir(renderFolerPath)
       await fs.writeFileSync(`${renderFolerPath}/index.html`, html)
     }
@@ -284,5 +287,17 @@ export default class Renderer extends Model {
       }
       await fs.writeFileSync(`${cssFolderPath}/main.css`, cssString)
     })
+  }
+
+  /**
+   * 复制文件到输出文件夹
+   */
+  async copyFiles() {
+    const imageInputPath = `${this.appDir}/post-images`
+    const imageOutputPath = `${this.outputDir}/post-images`
+    
+    await fse.ensureDir(imageOutputPath)
+    await fse.copySync(imageInputPath, imageOutputPath)
+
   }
 }

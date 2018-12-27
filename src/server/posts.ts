@@ -4,7 +4,7 @@ import * as fse from 'fs-extra'
 import * as path from 'path'
 const junk = require('junk')
 import { IPost, IPostDb } from './interfaces/post'
-import ContentHelper from './helpers/content-helper'
+import ContentHelper from '../helpers/content-helper'
 import * as matter from 'gray-matter'
 import * as Bluebird from 'bluebird'
 Bluebird.promisifyAll(fs)
@@ -79,7 +79,7 @@ export default class Posts extends Model {
    */
   async savePostToFile(post: IPost): Promise<IPost | null> {
     const helper = new ContentHelper()
-    const content = helper.changeImageUrlLocalToDomain(post.content, this.db.themeConfig.domain)
+    const content = helper.changeImageUrlLocalToDomain(post.content, this.db.setting.domain)
     const extendName = (post.featureImage.name || 'jpg').split('.').pop()
 
     const mdStr = `---
@@ -98,7 +98,9 @@ ${content}
         
         const filePath = `${this.postImageDir}/${post.fileName}.${extendName}`
 
-        await fse.copySync(post.featureImage.path, filePath)
+        if (post.featureImage.path !== filePath) {
+          await fse.copySync(post.featureImage.path, filePath)
+        }
       }
 
       // write file must use fse, beause fs.writeFile need callback

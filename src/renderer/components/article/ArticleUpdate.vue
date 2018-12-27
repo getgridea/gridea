@@ -114,7 +114,7 @@ export default class ArticleUpdate extends Vue {
       this.form.date = this.$dayjs(currentPost.data.date).format('YYYY-MM-DD')
       this.form.content = currentPost.content
       this.form.published = currentPost.data.published
-      this.form.featureImage.path = currentPost.data.feature.substring(7)
+      this.form.featureImage.path = currentPost.data.feature && currentPost.data.feature.substring(7) || ''
       this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
     }
     
@@ -164,6 +164,8 @@ export default class ArticleUpdate extends Vue {
     }
     form.fileName = form.fileName === '' ? slug(form.title) : form.fileName
     form.published = true
+
+    console.log(form)
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
       this.$bus.$emit('snackbar-display', '🎉  文章发布成功')

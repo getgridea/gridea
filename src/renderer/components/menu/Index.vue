@@ -10,7 +10,6 @@
         <template slot="items" slot-scope="props">
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.openType }}</td>
-          <td>{{ props.item.slug }}</td>
           <td>{{ props.item.link }}</td>
           <td>
             <v-icon @click="editMenu(props.item, props.index)" small>
@@ -32,8 +31,10 @@
           <v-radio-group v-model="form.openType" row>
             <v-radio v-for="item in menuTypes" :key="item" :label="item" :value="item"></v-radio>
           </v-radio-group>
-          <v-text-field label="Slug" v-model="form.slug"></v-text-field>
           <v-text-field label="Link" v-model="form.link"></v-text-field>
+          <v-select v-model="form.link" :items="menuLinks">
+
+          </v-select>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -52,12 +53,12 @@ import Component from 'vue-class-component'
 import { State } from 'vuex-class'
 import { MenuTypes } from '../../../helpers/enums'
 import { IMenu } from '../../interfaces/menu'
+import { IPost } from '../../interfaces/post'
 
 interface IForm {
   name: any
   index: any
   openType: string
-  slug: string
   link: string
 }
 
@@ -69,18 +70,17 @@ export default class Tags extends Vue {
     {
       text: '名称',
       value: 'title',
+      sortable: false,
     },
     {
       text: '打开方式',
       value: 'openType',
-    },
-    {
-      text: 'Slug',
-      value: 'slug',
+      sortable: false,
     },
     {
       text: 'Link',
       value: 'link',
+      sortable: false,
     },
     {
       text: '操作',
@@ -97,8 +97,23 @@ export default class Tags extends Vue {
     name: null,
     index: null,
     openType: MenuTypes.Internal,
-    slug: '/',
     link: '',
+  }
+
+  get menuLinks() {
+    const posts = this.site.posts.map((item: IPost) => {
+      return {
+        text: `📄 ${item.data.title}`,
+        value: `${this.site.setting.domain}/post/${item.fileName}/`,
+      }
+    })
+    return [
+      {
+        text: '🏠 Homepage',
+        value: this.site.setting.domain,
+      },
+      ...posts,
+    ]
   }
   
   newMenu() {
@@ -111,7 +126,6 @@ export default class Tags extends Vue {
     this.form.index = index
     this.form.name = menu.name
     this.form.openType = menu.openType
-    this.form.slug = menu.slug
     this.form.link = menu.link
   }
 

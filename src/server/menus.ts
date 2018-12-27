@@ -14,7 +14,7 @@ export default class Menus extends Model {
 
   public async saveMenu(menu: IMenu) {
     const menus = await this.$posts.get('menus').value()
-    if (menu.index) {
+    if (typeof menu.index === 'number') {
       const index = menu.index
       delete menu.index
       menus[index] = menu

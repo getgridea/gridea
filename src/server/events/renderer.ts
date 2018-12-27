@@ -6,10 +6,9 @@ export default class RendererEvents {
     const renderer = new Renderer(appInstance)
 
     ipcMain.removeAllListeners('html-render')
+    ipcMain.removeAllListeners('site-publish')
 
     ipcMain.on('html-render', async (event: Event, params: any) => {
-      
-      
       if (renderer.db.themeConfig.themeName) {
         await renderer.preview()
       }

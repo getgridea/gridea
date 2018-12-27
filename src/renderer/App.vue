@@ -115,7 +115,9 @@ export default class App extends Vue {
   public publish() {
     ipcRenderer.send('site-publish')
     ipcRenderer.once('site-published', (event: Event, result: any) => {
-      console.log(result)
+      if (result) {
+        this.$bus.$emit('snackbar-display', '🎉  发布成功啦')
+      }
     })
   }
 }

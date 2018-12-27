@@ -3,15 +3,11 @@ import { IPost } from '../interfaces/post'
 import Posts from '../posts'
 export default class PostEvents {
   constructor(appInstance: any) {
-    
-    ipcMain.removeAllListeners('app-post-list')
+
     ipcMain.removeAllListeners('app-post-create')
     ipcMain.removeAllListeners('image-upload')
 
     const posts = new Posts(appInstance)
-    ipcMain.on('app-post-list', (event: Event) => {
-      // const post = new Post()
-    })
 
     ipcMain.on('app-post-create', async (event: Event, post: IPost) => {
       const data = await posts.savePostToFile(post)

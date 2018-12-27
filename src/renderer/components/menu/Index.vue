@@ -2,7 +2,7 @@
   <div class="">
     <v-card flat>
       <v-card-title>
-        <span class="headline">📋 菜单</span>
+        <span class="headline">📋 菜 单</span>
         <v-spacer></v-spacer>
         <v-btn depressed color="primary" @click="newMenu">新菜单</v-btn>
       </v-card-title>

@@ -19,8 +19,8 @@
           </v-list-tile>
         </v-list>
         <div class="btn-container">
-          <v-btn depressed style="width: 90%;" color="info" @click="preview">预 览</v-btn>
-          <v-btn depressed style="width: 90%;" color="success" @click="publish">发 布</v-btn>
+          <v-btn depressed style="width: 90%;" @click="preview">💫 预 览</v-btn>
+          <v-btn depressed style="width: 90%;" color="success" @click="publish">🚀 发 布</v-btn>
         </div>
       </v-navigation-drawer>
       <v-toolbar fixed app flat dense clipped-left class="header-bar">
@@ -32,15 +32,15 @@
         <v-btn class="btn" icon small @click="$electron.ipcRenderer.send('close-window')"><v-icon>close</v-icon></v-btn>
       </v-toolbar>
       <v-content>
-        <v-container fluid>
+        <v-container class="content-container" fluid>
           <v-slide-y-transition mode="out-in">
             <router-view></router-view>
           </v-slide-y-transition>
         </v-container>
       </v-content>
-      <v-footer fixed app>
+      <v-footer class="footer" fixed app>
         <v-spacer></v-spacer>
-        <span>&copy; 2018 EryouHao</span>
+        <span class="copyright">👣 - 0.6.0</span>
         <v-spacer></v-spacer>
       </v-footer>
     </v-app>
@@ -69,11 +69,11 @@ export default class App extends Vue {
 
   drawer = true
   items = [
-    { icon: 'notes', title: '文章', to: '/articles' },
-    { icon: 'view_list', title: '菜单', to: '/menu' },
-    { icon: 'style', title: '标签', to: '/tags' },
-    { icon: 'color_lens', title: '主题', to: '/theme' },
-    { icon: 'settings', title: '配置', to: '/setting' },
+    { icon: '📄', title: '文 章', to: '/articles' },
+    { icon: '📋', title: '菜 单', to: '/menu' },
+    { icon: '🏷️', title: '标 签', to: '/tags' },
+    { icon: '🌁', title: '主 题', to: '/theme' },
+    { icon: '⚙️', title: '配 置', to: '/setting' },
   ]
   title = 'HVE'
 
@@ -169,8 +169,41 @@ export default class App extends Vue {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background: #fff;
   }
   .btn-container {
     padding-bottom: 8px;
+  }
+  .content-container {
+    background: #fff;
+    min-height: 100%;
+  }
+  .v-card {
+    box-shadow: 0 1px 8px 0 rgba(42,51,83,.16);
+    overflow: hidden;
+    position: relative;
+  }
+  .v-card:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgb(0,108,255);
+    background: linear-gradient(108deg, rgba(0,108,255,1) 0%, rgba(211,61,194,1) 100%);
+    border-radius: 2px 2px 0 0px;
+  }
+
+  .v-toolbar__content {
+    background: #fff;
+    box-shadow: 0 2px 3px rgba(21, 39, 57, 0.12);
+  }
+  .theme--light.v-footer {
+    background: #fff;
+    box-shadow: 0 -2px 3px rgba(21, 39, 57, 0.12);
+    color: #545454;
+    font-size: 12px;
   }
 </style>

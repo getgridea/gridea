@@ -18,7 +18,7 @@
           <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
             <img :src="`file://${form.featureImage.path}`" height="150" v-if="form.featureImage.path"/>
             <div>
-              <v-btn outline :block="!form.featureImage.path" @click="pickFile">{{ form.featureImage.name || '文章大图' }}</v-btn>
+              <v-btn outline :block="!form.featureImage.path" @click="pickFile">{{ form.featureImage.name || '🏞 文章大图' }}</v-btn>
               <v-btn flat outline v-if="form.featureImage.path" @click="form.featureImage = {}"><v-icon>clear</v-icon></v-btn>
             </div>
             <input
@@ -29,7 +29,6 @@
               @change="onFilePicked"
             >
           </v-flex>
-          <div class="title">📝 正 文</div>
           <markdown-editor
             id="markdown-editor"
             ref="editor"
@@ -38,9 +37,9 @@
             preview-class="markdown-body"
             v-model="form.content"
           ></markdown-editor>
-          <v-btn depressed @click="$router.push('/articles')">取消</v-btn>
+          <v-btn depressed @click="$router.push('/articles')">取 消</v-btn>
           <v-btn depressed @click="saveDraft">存草稿</v-btn>
-          <v-btn depressed color="primary" @click="publish">发布</v-btn>
+          <v-btn depressed color="primary" @click="publish">发 布</v-btn>
         </v-form>
       </v-container>
     </v-card>
@@ -95,7 +94,7 @@ export default class ArticleUpdate extends Vue {
       },
       className: 'fa fa-picture-o',
       title: '图片',
-    }, 'link', 'preview', 'fullscreen', 'guide'],
+    }, 'link', 'preview', 'fullscreen'],
     promptURLs: true,
     spellChecker: false,
   }

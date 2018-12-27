@@ -6,16 +6,18 @@
         <v-spacer></v-spacer>
         <v-btn depressed color="primary" @click="newTag">新标签</v-btn>
       </v-card-title>
-      <v-chip
-        small
-        @click.stop="tag.used ? null : updateTag(tag, index)"
-        v-for="(tag, index) in site.tags"
-        :key="tag.name"
-        :close="!tag.used"
-        @input="handleDelete(tag.name)"
-      >
-        {{ tag.name }}
-      </v-chip>
+      <v-card-text>
+        <v-chip
+          small
+          @click.stop="tag.used ? null : updateTag(tag, index)"
+          v-for="(tag, index) in site.tags"
+          :key="tag.name"
+          :close="!tag.used"
+          @input="handleDelete(tag.name)"
+        >
+          {{ tag.name }}
+        </v-chip>
+      </v-card-text>
     </v-card>
 
     <v-dialog v-model="visible" :width="320">

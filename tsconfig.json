@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es2015",
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
-    "sourceMap": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "experimentalDecorators": true,

@@ -15,7 +15,7 @@ Vue.use(Vuetify, {
     current: 'zhHans',
   },
   theme: {
-    primary: '#006cff',
+    primary: '#1067de',
   },
 })
 Vue.use(VueBus)

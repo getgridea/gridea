@@ -193,8 +193,8 @@ export default class App extends Vue {
     left: 0;
     right: 0;
     height: 2px;
-    background: rgb(0,108,255);
-    background: linear-gradient(108deg, rgba(0,108,255,1) 0%, rgba(211,61,194,1) 100%);
+    background: #1067de;
+    background: linear-gradient(108deg, #1067de 0%, #2f5d9e 100%);
     border-radius: 2px 2px 0 0px;
   }
 

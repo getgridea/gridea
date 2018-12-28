@@ -1,6 +1,6 @@
 {
   "name": "hve-next",
-  "version": "0.0.0",
+  "version": "0.6.0",
   "author": "EryouHao <haoeryou@qq.com>",
   "description": "An electron-vue project",
   "license": null,
@@ -44,10 +44,10 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns"
+      "icon": "build/icons/logo-256x256.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/logo-256x256.ico"
     },
     "linux": {
       "icon": "build/icons"

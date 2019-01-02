@@ -23,7 +23,8 @@ function createWindow() {
     webPreferences: {
       webSecurity: false, // FIXED: Not allowed to load local resource
     },
-    frame: false, // 去除默认窗口栏
+    // frame: false, // 去除默认窗口栏
+    titleBarStyle: 'hidden',
   })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -116,27 +117,27 @@ if (isDevelopment) {
   }
 }
 
-ipcMain.on('min-window', () => {
-  if (win) {
-    win.minimize()
-  }
-})
+// ipcMain.on('min-window', () => {
+//   if (win) {
+//     win.minimize()
+//   }
+// })
 
-ipcMain.on('max-window', () => {
-  if (win) {
-    if (win.isMaximized()) {
-      win.unmaximize()
-    } else {
-      win.maximize()
-    }
-  }
-})
+// ipcMain.on('max-window', () => {
+//   if (win) {
+//     if (win.isMaximized()) {
+//       win.unmaximize()
+//     } else {
+//       win.maximize()
+//     }
+//   }
+// })
 
-ipcMain.on('close-window', () => {
-  if (win) {
-    win.close()
-  }
-})
+// ipcMain.on('close-window', () => {
+//   if (win) {
+//     win.close()
+//   }
+// })
 
 /**
  * Auto Updater

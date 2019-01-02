@@ -3,7 +3,7 @@
 <div align="center">
   <img src="public/app-icons/logo.png"  width="80px" height="80px">
 
-  [下 载](https://github.com/hellohve/hve-notes/releases) | [文 档](https://github.com/hellohve/hve-notes/wiki)
+  [下 载](https://github.com/hellohve/hve-notes/releases) | [文 档](https://github.com/hellohve/hve-notes/wiki)
 
 </div>
 

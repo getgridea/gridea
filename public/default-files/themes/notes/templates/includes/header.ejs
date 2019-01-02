@@ -8,11 +8,11 @@
   <div class="menu-container">
     <% menus.forEach(function(menu) { %>
       <% if (menu.openType === 'External') { %>
-        <a href="<% menu.link %>" class="menu" target="_blank">
+        <a href="<%= menu.link %>" class="menu" target="_blank">
           <%= menu.name %>
         </a>
       <% } else { %>
-        <a href="<% menu.link %>" class="menu">
+        <a href="<%= menu.link %>" class="menu">
           <%= menu.name %>
         </a>
       <% } %>

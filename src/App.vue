@@ -232,4 +232,8 @@ export default class App extends Vue {
     cursor: pointer;
     user-select: none;
   }
+
+  .application {
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Fira Sans,sans-serif!important;
+  }
 </style>

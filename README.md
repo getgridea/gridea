@@ -1,6 +1,6 @@
 # Hve Notes
 
-<div style="display: flex; justify-content: center; padding: 32px 0;">
+<div align="center">
   <img src="public/app-icons/logo.png"  width="80px" height="80px">
 </div>
 
@@ -10,9 +10,9 @@
 
 #### 在这里👇
 📝  你可以使用最酷的 `Markdown` 语法，进行快速创作  
-🌉  你可以在文章的任意位置插入图片和文章封面图
-🏷️  你可以对文章进行标签分组
-📋 你可以自定义菜单，甚至可以创建外部链接菜单
+🌉  你可以在文章的任意位置插入图片和文章封面图  
+🏷️  你可以对文章进行标签分组  
+📋 你可以自定义菜单，甚至可以创建外部链接菜单  
 
 🌱 当然 **Hve Notes** 还很年轻，有很多不足，但请相信，它会不停向前🏃
 

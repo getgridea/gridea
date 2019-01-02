@@ -2,6 +2,9 @@
 
 <div align="center">
   <img src="public/app-icons/logo.png"  width="80px" height="80px">
+
+  [⏬ Download](https://github.com/hellohve/hve-notes/releases) [🗒 Document](https://github.com/hellohve/hve-notes/wiki)
+
 </div>
 
 👏 欢迎使用 **Hve Notes** ！  

@@ -41,7 +41,7 @@
       <v-footer class="footer" fixed app>
         <span>🎨 + 🔨 by <a @click="openInBrowser('https://github.com/eryouhao')">EryouHao</a></span>
         <v-spacer></v-spacer>
-        <span class="copyright">👣 - 0.6.0</span>
+        <span class="copyright">👣 - {{ version }}</span>
         <i class="fa fa-github-square github" @click="openInBrowser('https://github.com/hve-notes/hve-notes')"></i>
       </v-footer>
     </v-app>
@@ -63,12 +63,15 @@ import Component from 'vue-class-component'
 import ISnackbar from './interfaces/snackbar'
 import { Action } from 'vuex-class'
 import { Site } from './store/modules/site'
+import * as Package from '../package.json'
 
 @Component
 export default class App extends Vue {
   @Action('site/updateSite') updateSite!: (siteData: Site) => void
 
   ipcRenderer = ipcRenderer
+
+  version = (Package as any).version
 
   drawer = true
   items = [

@@ -24,8 +24,7 @@
         </div>
       </v-navigation-drawer>
       <v-toolbar fixed app flat dense clipped-left class="header-bar">
-        <v-toolbar-side-icon class="btn" small @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-toolbar-title v-text="title"></v-toolbar-title>
+        <img class="logo" src="@/assets/logo.png" width="28px" height="28px" @click="drawer = !drawer">
         <v-spacer></v-spacer>
         <v-btn class="btn" icon small @click="ipcRenderer.send('min-window')"><v-icon>remove</v-icon></v-btn>
         <v-btn class="btn" icon small @click="ipcRenderer.send('max-window')"><v-icon>add</v-icon></v-btn>
@@ -77,7 +76,6 @@ export default class App extends Vue {
     { icon: '🌁', title: '主 题', to: '/theme' },
     { icon: '⚙️', title: '配 置', to: '/setting' },
   ]
-  title = 'HVE'
 
   color?: string = 'success'
   snackbar?: boolean = false
@@ -206,11 +204,17 @@ export default class App extends Vue {
   .v-toolbar__content {
     background: #fff;
     box-shadow: 0 2px 3px rgba(21, 39, 57, 0.12);
+    padding: 0 12px;
   }
   .theme--light.v-footer {
     background: #fff;
     box-shadow: 0 -2px 3px rgba(21, 39, 57, 0.12);
     color: #545454;
     font-size: 12px;
+  }
+
+  .logo {
+    cursor: pointer;
+    user-select: none;
   }
 </style>

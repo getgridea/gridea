@@ -3,7 +3,7 @@
 <div align="center">
   <img src="public/app-icons/logo.png"  width="80px" height="80px">
 
-  [⏬ Download](https://github.com/hellohve/hve-notes/releases) [🗒 Document](https://github.com/hellohve/hve-notes/wiki)
+  [⏬ 下载](https://github.com/hellohve/hve-notes/releases) &nbsp;&nbsp;&nbsp;&nbsp; [🗒 文档](https://github.com/hellohve/hve-notes/wiki)
 
 </div>
 

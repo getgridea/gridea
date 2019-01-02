@@ -4,6 +4,7 @@ import 'vuetify/dist/vuetify.css'
 import 'font-awesome/css/font-awesome.css'
 import zhHans from 'vuetify/src/locale/zh-Hans'
 import * as Dayjs from 'dayjs'
+import VuetifyDialog from 'vuetify-dialog'
 import App from './App.vue'
 import router from './router'
 import store from './store/index'
@@ -18,6 +19,8 @@ Vue.use(Vuetify, {
     primary: '#1067de',
   },
 })
+
+Vue.use(VuetifyDialog)
 
 Vue.use(VueBus)
 Vue.prototype.$dayjs = Dayjs

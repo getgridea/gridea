@@ -112,6 +112,11 @@ ${content}
     return post
   }
 
+  async deletePost(post: IPost) {
+    await fse.removeSync(`${this.postDir}/${post.fileName}.md`)
+    return true
+  }
+
   async uploadImages(files: any[]) {
     console.log('传过来的 files', files)
     await fse.ensureDir(this.postImageDir)

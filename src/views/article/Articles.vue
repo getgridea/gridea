@@ -14,6 +14,9 @@
             <v-icon @click="editPost(props.item)" small>
               edit
             </v-icon>
+            <v-icon @click="deletePost(props.item)" small>
+              delete
+            </v-icon>
           </td>
         </template>
       </v-data-table>
@@ -26,6 +29,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { State } from 'vuex-class'
 import { IPost } from '../../interfaces/post'
+import { ipcRenderer } from 'electron';
 
 @Component
 export default class Articles extends Vue {
@@ -58,6 +62,22 @@ export default class Articles extends Vue {
 
   editPost(post: IPost) {
     this.$router.push({ name: 'articles-edit', params: { articleFileName: post.fileName } })
+  }
+  
+  async deletePost(post: IPost) {
+    const confirm = await this.$dialog.confirm({
+      text: '你确定要删除吗?',
+      title: '警告',
+    })
+    if (confirm) {
+      ipcRenderer.send('app-post-delete', post)
+      ipcRenderer.once('app-post-deleted', (event: Event, data: any) => {
+        if (data) {
+          this.$bus.$emit('snackbar-display', '文章已删除')
+          this.$bus.$emit('site-reload')
+        }
+      })
+    }
   }
 }
 </script>

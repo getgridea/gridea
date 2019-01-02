@@ -14,6 +14,11 @@ export default class PostEvents {
       event.sender.send('app-post-created', data)
     })
 
+    ipcMain.on('app-post-delete', async (event: Event, post: IPost) => {
+      const data = await posts.deletePost(post)
+      event.sender.send('app-post-deleted', data)
+    })
+
     ipcMain.on('image-upload', async (event: Event, files: any[]) => {
       console.log('执行了上传图片', files)
       const data = await posts.uploadImages(files)

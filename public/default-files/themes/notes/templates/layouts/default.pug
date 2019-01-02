@@ -1,0 +1,24 @@
+doctype html
+html.no-js(lang='')
+  block vars
+  head
+    meta(charset='utf-8')
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title= themeConfig.siteName
+    link(rel='apple-touch-icon', href='apple-touch-icon.png')
+
+    // build:css styles/main.css
+    link(rel='stylesheet', href='https://cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css')
+    link(rel='stylesheet', href=`${themeConfig.domain}/styles/main.css`)
+    // endbuild
+
+    script(src='https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js')
+  body
+    .main
+      .main-content
+        include ../includes/header
+
+        block content
+
+      include ../includes/footer

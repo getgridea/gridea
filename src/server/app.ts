@@ -11,6 +11,8 @@ import Setting from './setting'
 
 import { IApplicationDb, IApplicationSetting } from './interfaces/application'
 
+declare const __static: string
+
 export default class App {
   mainWindow: BrowserWindow
   app: any
@@ -22,8 +24,8 @@ export default class App {
     this.mainWindow = setting.mainWindow
     this.app = setting.app
     this.baseDir = setting.baseDir
-    this.appDir = path.join(this.app.getPath('documents'), 'hve-next')
-    
+    this.appDir = path.join(this.app.getPath('documents'), 'hve-notes')
+
     this.db = {
       posts: [],
       tags: [],
@@ -47,25 +49,9 @@ export default class App {
         token: '',
       },
     }
-    
+
     this.checkDir()
     this.initEvents()
-  }
-
-  /**
-   * Check if the hve-next folder exists, if it does not exist, it is initialized
-   */
-  private checkDir(): void {
-    if (fse.pathExistsSync(this.appDir)) {
-      return
-    }
-
-    fse.mkdirSync(this.appDir)
-
-    fse.copySync(
-      path.join(__dirname, '..', 'default-files'),
-      path.join(this.appDir)
-    )
   }
 
   /**
@@ -87,7 +73,7 @@ export default class App {
 
     const settingInstance = new Setting(this)
     const setting = await settingInstance.getSetting()
-    
+
     this.db = {
       posts,
       tags,
@@ -101,19 +87,49 @@ export default class App {
     return this.db
   }
 
-  private initEvents(): void {
-    const classNames = Object.keys(EventClasses)
-    for (const className of classNames) {
-
-      // tslint:disable-next-line
-      new EventClasses[className](this)
-    }
-  }
-
   public renderHtml() {
     const renderer = new Renderer(this)
     console.log(renderer)
     // renderer.renderPostList()
+  }
+
+  /**
+   * Check if the hve-next folder exists, if it does not exist, it is initialized
+   */
+  private checkDir(): void {
+    if (fse.pathExistsSync(this.appDir)) {
+      return
+    }
+
+    fse.mkdirSync(this.appDir)
+
+    fse.copySync(
+      path.join(__static, 'default-files'),
+      path.join(this.appDir),
+    )
+  }
+
+  private initEvents(): void {
+    const SiteEvents = EventClasses.SiteEvents
+    const site = new SiteEvents(this)
+
+    const PostEvents = EventClasses.PostEvents
+    const post = new PostEvents(this)
+
+    const TagEvents = EventClasses.TagEvents
+    const tag = new TagEvents(this)
+
+    const MenuEvents = EventClasses.MenuEvents
+    const menu = new MenuEvents(this)
+
+    const ThemeEvents = EventClasses.ThemeEvents
+    const theme = new ThemeEvents(this)
+
+    const RendererEvents = EventClasses.RendererEvents
+    const renderer = new RendererEvents(this)
+
+    const SettingEvents = EventClasses.SettingEvents
+    const setting = new SettingEvents(this)
   }
 
 }

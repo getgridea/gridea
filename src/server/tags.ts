@@ -3,7 +3,7 @@ import { ITag } from './interfaces/tag'
 import slug from '../helpers/slug'
 
 export default class Tags extends Model {
-  
+
   constructor(appInstance: any) {
     super(appInstance)
     this.saveTags()
@@ -25,8 +25,8 @@ export default class Tags extends Model {
       }
     })
     const UnusedTags = this.$posts.get('tags').filter({ used: false }).value()
-    
-    let tags = [...UsedTags, ...UnusedTags]
+
+    const tags = [...UsedTags, ...UnusedTags]
     const result: ITag[] = []
     tags.forEach((item: ITag) => {
       if (!result.find((tag: ITag) => tag.name === item.name)) {
@@ -36,7 +36,7 @@ export default class Tags extends Model {
     })
     this.$posts.set('tags', result).write()
   }
-  
+
   list() {
     const tags = this.$posts.get('tags').value()
     return tags

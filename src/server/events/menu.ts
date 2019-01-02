@@ -5,7 +5,7 @@ import { IMenu } from '../interfaces/menu'
 export default class MenuEvents {
   constructor(appInstance: any) {
     const menus = new Menus(appInstance)
-    
+
     ipcMain.removeAllListeners('menu-delete')
     ipcMain.removeAllListeners('menu-save')
 

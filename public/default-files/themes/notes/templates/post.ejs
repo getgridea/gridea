@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <%- include('./includes/head') %>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <%- include('./includes/header') %>
+      
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              <%= post.title %>
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · <%= post.date %> ·
+              </time>
+              <% post.tags.forEach(function(tag) { %>
+                <a href="<%= tag.link %>" class="post-tags">
+                  # <%= tag.name %>
+                </a>
+              <% }); %>
+            </div>
+            <div class="post-content">
+              <%- post.content %>
+            </div>
+          </article>
+        </div>
+    
+        <% if (post.nextPost) { %>
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="<%= post.nextPost.link %>">
+              <h3 class="post-title">
+                <%= post.nextPost.title %>
+              </h3>
+            </a>
+          </div>  
+        <% } %>
+    
+        <%- include('./includes/footer') %>
+      </div>
+    </div>
+  </body>
+</html>

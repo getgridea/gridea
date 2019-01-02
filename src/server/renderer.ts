@@ -1,19 +1,17 @@
 import * as fs from 'fs'
-import * as Bluebird from 'bluebird'
+import Bluebird from 'bluebird'
 Bluebird.promisifyAll(fs)
 import * as fse from 'fs-extra'
-import * as marked from 'marked'
-import * as pug from 'pug'
-import * as simpleGit from 'simple-git/promise'
-import { SimpleGit } from 'simple-git/promise'
-import * as dayjs from 'dayjs'
-import * as stylus from 'stylus'
+import marked from 'marked'
+import ejs, { render } from 'ejs'
+import simpleGit, { SimpleGit } from 'simple-git/promise'
+import dayjs from 'dayjs'
+import less from 'less'
 import Model from './model'
 import ContentHelper from '../helpers/content-helper'
 const helper = new ContentHelper()
 import { IPostDb, IPostRenderData, ITagRenderData } from './interfaces/post'
 import { ITag } from './interfaces/tag'
-
 
 export default class Renderer extends Model {
   outputDir: string = `${this.appDir}/output`
@@ -79,7 +77,7 @@ export default class Renderer extends Model {
         await this.git.commit(`update from hve: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`)
         await this.git.push('origin', this.db.setting.branch, {'--force': true})
         return true
-      } catch(e) {
+      } catch (e) {
         console.error(e)
         return false
       }
@@ -105,7 +103,7 @@ export default class Renderer extends Model {
    */
   async loadConfig() {
     this.themePath = `${this.appDir}/themes/${this.db.themeConfig.themeName}`
-    
+
     await fse.ensureDir(`${this.appDir}/output`)
     await fse.ensureDir(`${this.appDir}/output/post`)
   }
@@ -123,7 +121,7 @@ export default class Renderer extends Model {
           abstract: item.abstract,
           title: item.data.title,
           tags: this.db.tags
-            .filter((tag: ITag) => currentTags.find(item => item === tag.name))
+            .filter((tag: ITag) => currentTags.find((i) => i === tag.name))
             .map((tag: ITag) => ({ ...tag, link: `${this.db.themeConfig.domain}/tag/${tag.slug}` })),
           date: dayjs(item.data.date).format('MMMM Do YYYY, a'),
           feature: item.data.feature && `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain)}` || '',
@@ -137,9 +135,6 @@ export default class Renderer extends Model {
    * 渲染文章列表
    */
   public async renderPostList() {
-    const template = pug.compileFile(`${this.themePath}/templates/index.pug`, {
-      pretty: true,
-    })
     const { pageSize } = this.db.themeConfig
 
     for (let i = 0; i * pageSize < this.postsData.length; i += 1) {
@@ -154,7 +149,7 @@ export default class Renderer extends Model {
       }
 
       let renderPath = `${this.outputDir}/index.html`
-      
+
       if (i === 0 && this.postsData.length > pageSize) {
         await fse.ensureDir(`${this.outputDir}/page`)
 
@@ -162,9 +157,9 @@ export default class Renderer extends Model {
 
       } else if (i > 0 && this.postsData.length > pageSize) {
         await fse.ensureDir(`${this.outputDir}/page/${i + 1}`)
-        
+
         renderPath = `${this.outputDir}/page/${i + 1}/index.html`
-        
+
         renderData.pagination.prev = i === 1
           ? `${this.db.themeConfig.domain}/`
           : `${this.db.themeConfig.domain}/page/${i}/`
@@ -173,8 +168,13 @@ export default class Renderer extends Model {
           ? `${this.db.themeConfig.domain}/page/${i + 2}/`
           : ''
       }
+      let html = ''
+      await ejs.renderFile(`${this.themePath}/templates/index.ejs`, renderData, {}, async (err: any, str) => {
+        if (str) {
+          html = str
+        }
+      })
 
-      const html = template(renderData)
       console.log('👏  PostList Page:', renderPath)
       await fs.writeFileSync(renderPath, html)
     }
@@ -184,10 +184,6 @@ export default class Renderer extends Model {
    * 渲染文章详情页
    */
   async renderPostDetail() {
-    const template = pug.compileFile(`${this.themePath}/templates/post.pug`, {
-      pretty: true,
-    })
-    
     for (let i = 0; i < this.postsData.length; i += 1) {
       const post: any = { ...this.postsData[i] }
       if (i < this.postsData.length - 1) {
@@ -195,10 +191,16 @@ export default class Renderer extends Model {
       }
       console.log('渲染文章详情页', this.db.themeConfig)
 
-      const html = template({
+      const renderData = {
         menus: this.db.menus,
         post,
         themeConfig: this.db.themeConfig,
+      }
+      let html = ''
+      await ejs.renderFile(`${this.themePath}/templates/post.ejs`, renderData, {}, async (err: any, str) => {
+        if (str) {
+          html = str
+        }
       })
       const renderFolerPath = `${this.outputDir}/post/${post.fileName}`
       await fse.ensureDir(renderFolerPath)
@@ -210,10 +212,6 @@ export default class Renderer extends Model {
    * 渲染标签详情页
    */
   async renderTagDetail() {
-    const template = pug.compileFile(`${this.themePath}/templates/tag.pug`, {
-      pretty: true,
-    })
-
     const usedTags = this.db.tags.filter((tag: ITag) => tag.used)
     const { pageSize } = this.db.themeConfig
 
@@ -240,30 +238,35 @@ export default class Renderer extends Model {
           },
           themeConfig: this.db.themeConfig,
         }
-  
+
         // 分页
         let renderPath = `${tagFolderPath}/index.html`
-  
+
         if (i === 0 && posts.length > pageSize) {
           await fse.ensureDir(`${tagFolderPath}/page`)
-          
+
           renderData.pagination.next = `${tagDomainPath}/page/2/`
-  
+
         } else if (i > 0 && posts.length > pageSize) {
           await fse.ensureDir(`${tagFolderPath}/page/${i + 1}`)
-          
+
           renderPath = `${tagFolderPath}/page/${i + 1}/index.html`
-          
+
           renderData.pagination.prev = i === 1
             ? `${tagDomainPath}`
             : `${tagDomainPath}/page/${i}/`
-  
+
           renderData.pagination.next = (i + 1) * pageSize < posts.length
             ? `${tagDomainPath}/page/${i + 2}/`
             : ''
         }
-  
-        const html = template(renderData)
+
+        let html = ''
+        await ejs.renderFile(`${this.themePath}/templates/tag.ejs`, renderData, {}, async (err: any, str) => {
+          if (str) {
+            html = str
+          }
+        })
         console.log('👏  Tag Page:', renderPath)
         await fs.writeFileSync(renderPath, html)
       }
@@ -274,18 +277,17 @@ export default class Renderer extends Model {
    * 生成 CSS
    */
   async buildCss() {
-    const stylusFilePath = `${this.themePath}/assets/styles/main.styl`
+    const lessFilePath = `${this.themePath}/assets/styles/main.less`
     const cssFolderPath = `${this.outputDir}/styles`
-    
-    await fse.ensureDir(cssFolderPath)
-    
-    const stylusString = await fs.readFileSync(stylusFilePath, 'utf8')
 
-    await stylus.render(stylusString, { filename: `${this.themePath}/assets/styles/main.styl` }, async (err: any, cssString: string) => {
+    await fse.ensureDir(cssFolderPath)
+
+    const lessString = await fs.readFileSync(lessFilePath, 'utf8')
+    await less.render(lessString, { filename: lessFilePath }, async (err: any, cssString: Less.RenderOutput) => {
       if (err) {
         console.log(err)
       }
-      await fs.writeFileSync(`${cssFolderPath}/main.css`, cssString)
+      await fs.writeFileSync(`${cssFolderPath}/main.css`, cssString.css)
     })
   }
 
@@ -295,7 +297,7 @@ export default class Renderer extends Model {
   async copyFiles() {
     const imageInputPath = `${this.appDir}/post-images`
     const imageOutputPath = `${this.outputDir}/post-images`
-    
+
     await fse.ensureDir(imageOutputPath)
     await fse.copySync(imageInputPath, imageOutputPath)
 

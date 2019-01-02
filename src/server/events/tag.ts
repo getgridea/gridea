@@ -5,7 +5,7 @@ import { ITag } from '../interfaces/tag'
 export default class TagEvents {
   constructor(appInstance: any) {
     const tags = new Tags(appInstance)
-    
+
     ipcMain.removeAllListeners('tag-delete')
     ipcMain.removeAllListeners('tag-save')
 

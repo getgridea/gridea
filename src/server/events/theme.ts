@@ -5,7 +5,7 @@ import Theme from '../theme'
 export default class ThemeEvents {
   constructor(appInstance: any) {
     const theme = new Theme(appInstance)
-    
+
     ipcMain.removeAllListeners('theme-save')
 
     ipcMain.on('theme-save', async (event: Event, themeConfig: ITheme) => {

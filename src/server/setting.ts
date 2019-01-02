@@ -2,7 +2,7 @@ import Model from './model'
 import { ISetting } from './interfaces/setting'
 
 export default class Setting extends Model {
-  
+
   constructor(appInstance: any) {
     super(appInstance)
   }

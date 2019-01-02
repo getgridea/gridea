@@ -1,4 +1,5 @@
-import { ITag }  from './tag'
+import { ITag } from './tag'
+
 export interface IPost {
   title: string
   fileName: string

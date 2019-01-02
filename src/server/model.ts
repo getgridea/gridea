@@ -1,8 +1,7 @@
-import * as path from 'path'
-import * as low from 'lowdb'
-import * as FileSync from 'lowdb/adapters/FileSync'
+import path from 'path'
+import low from 'lowdb'
+import FileSync from 'lowdb/adapters/FileSync'
 import { IApplicationDb, IApplication } from './interfaces/application'
-
 
 export default class Model {
   appDir: string
@@ -14,7 +13,7 @@ export default class Model {
   constructor(appInstance: IApplication) {
     this.appDir = appInstance.appDir
     this.db = appInstance.db
-    
+
     this.initDataStore()
   }
 

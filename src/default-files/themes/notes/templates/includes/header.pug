@@ -1,9 +1,0 @@
-.site-header
-  h1.site-title= themeConfig.siteName 
-  p.site-description= themeConfig.siteDescription
-  .menu-container
-    each menu in menus
-      if menu.openType === 'External'
-        a.menu(href=menu.link target='_blank')= menu.name
-      else
-        a.menu(href=menu.link)= menu.name

@@ -1,0 +1,21 @@
+<div class="site-header">
+  <h1 class="site-title">
+    <%= themeConfig.siteName %>
+  </h1>
+  <p class="site-description">
+    <%= themeConfig.siteDescription %>
+  </p>
+  <div class="menu-container">
+    <% menus.forEach(function(menu) { %>
+      <% if (menu.openType === 'External') { %>
+        <a href="<% menu.link %>" class="menu" target="_blank">
+          <%= menu.name %>
+        </a>
+      <% } else { %>
+        <a href="<% menu.link %>" class="menu">
+          <%= menu.name %>
+        </a>
+      <% } %>
+    <% }); %>
+  </div>
+</div>

@@ -2,11 +2,11 @@ import Model from './model'
 import { IMenu } from './interfaces/menu'
 
 export default class Menus extends Model {
-  
+
   constructor(appInstance: any) {
     super(appInstance)
   }
-  
+
   list() {
     const menus = this.$posts.get('menus').value()
     return menus

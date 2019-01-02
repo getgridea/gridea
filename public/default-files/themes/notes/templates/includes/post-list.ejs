@@ -1,0 +1,25 @@
+<div class="post-container">
+  <% posts.forEach(function(post) { %>
+    <article class="post">
+      <a href="<%= post.link %>">
+        <h2 class="post-title"><%= post.title %></h2>
+      </a>
+      <div class="post-info">
+        <time class="post-time">
+          · <%= post.date %> ·
+        </time>
+        <% post.tags.forEach(function(tag) { %>
+          <a href="<%= tag.link %>" class="post-tag">
+            # <%= tag.name %>
+          </a>
+        <% }); %>
+      </div>
+      <% if (themeConfig.showFeatureImage && post.feature) { %>
+        <a href="<%= post.link %>" class="post-feature-image">
+          <img src="<%= post.feature %>" alt="">
+        </a>
+      <% } %>
+      <p class="post-abstract"><%= post.abstract %></p>
+    </article>
+  <% }); %>
+</div>

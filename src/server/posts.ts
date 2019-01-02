@@ -2,11 +2,12 @@ import * as fs from 'fs'
 import Model from './model'
 import * as fse from 'fs-extra'
 import * as path from 'path'
+// tslint:disable-next-line
 const junk = require('junk')
 import { IPost, IPostDb } from './interfaces/post'
 import ContentHelper from '../helpers/content-helper'
-import * as matter from 'gray-matter'
-import * as Bluebird from 'bluebird'
+import matter from 'gray-matter'
+import Bluebird from 'bluebird'
 Bluebird.promisifyAll(fs)
 
 export default class Posts extends Model {
@@ -38,13 +39,13 @@ export default class Posts extends Model {
         abstract: '',
         fileName: '',
       }
-      
+
       post.abstract = (post.content).substring(0, post.content.indexOf('<!-- more -->')) // 摘要
       post.fileName = files[index].substring(0, files[index].length - 3) // 有待优化!
       resultList.push(post)
     })
-    
-    const list : any = []
+
+    const list: any = []
     resultList.forEach((item: any) => {
       // 从 hexo 或其他平台迁移过来的文章不带有 published 字段
       if (item.data.published === undefined) {
@@ -95,7 +96,7 @@ ${content}
 
       // 存在文章大图
       if (post.featureImage.path) {
-        
+
         const filePath = `${this.postImageDir}/${post.fileName}.${extendName}`
 
         if (post.featureImage.path !== filePath) {

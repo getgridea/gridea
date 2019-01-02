@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <%- include('./includes/head') %>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <%- include('./includes/header') %>
+        <div class="current-tag-container">
+            <h2 class="title">
+                标签：#<%= tag.name %>
+            </h2> 
+        </div>
+        <%- include('./includes/post-list') %>
+        <%- include('./includes/pagination') %>
+        <%- include('./includes/footer') %>
+      </div>
+    </div>
+  </body>
+</html>

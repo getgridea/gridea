@@ -19,7 +19,7 @@ function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
     width: 1000,
-    height: 563,
+    height: 618,
     webPreferences: {
       webSecurity: false, // FIXED: Not allowed to load local resource
     },

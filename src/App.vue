@@ -39,9 +39,10 @@
         </v-container>
       </v-content>
       <v-footer class="footer" fixed app>
+        <span>🎨 + 🔨 by <a @click="openInBrowser('https://github.com/eryouhao')">EryouHao</a></span>
         <v-spacer></v-spacer>
         <span class="copyright">👣 - 0.6.0</span>
-        <v-spacer></v-spacer>
+        <i class="fa fa-github-square github" @click="openInBrowser('https://github.com/hve-notes/hve-notes')"></i>
       </v-footer>
     </v-app>
 
@@ -56,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, Event, shell } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import ISnackbar from './interfaces/snackbar'
@@ -123,6 +124,10 @@ export default class App extends Vue {
       }
       this.publishLoading = false
     })
+  }
+
+  openInBrowser(url: string) {
+    shell.openExternal(url)
   }
 }
 </script>
@@ -212,6 +217,12 @@ export default class App extends Vue {
     box-shadow: 0 -2px 3px rgba(21, 39, 57, 0.12);
     color: #545454;
     font-size: 12px;
+    padding: 0 16px;
+  }
+  .github {
+    font-size: 16px;
+    margin-left: 16px;
+    cursor: pointer;
   }
 
   .logo {

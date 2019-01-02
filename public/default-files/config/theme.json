@@ -1,10 +1,10 @@
 {
   "config": {
-    "footerInfo": "Powered by Hve",
+    "footerInfo": "Powered by Hve Notes",
     "pageSize": 10,
     "showFeatureImage": true,
     "siteDescription": "温故而知新",
-    "siteName": "Hve",
+    "siteName": "Hve Notes",
     "themeName": "notes"
   }
 }

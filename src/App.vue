@@ -20,7 +20,7 @@
         </v-list>
         <div class="btn-container">
           <v-btn depressed style="width: 90%;" @click="preview">💫 预 览</v-btn>
-          <v-btn depressed style="width: 90%;" color="success" @click="publish">🚀 发 布</v-btn>
+          <v-btn depressed style="width: 90%;" color="success" :loading="publishLoading" @click="publish">🚀 发 布</v-btn>
         </div>
       </v-navigation-drawer>
       <v-toolbar fixed app flat dense clipped-left class="header-bar">
@@ -82,6 +82,7 @@ export default class App extends Vue {
   color?: string = 'success'
   snackbar?: boolean = false
   message?: string = ''
+  publishLoading = false
 
   created() {
     this.$bus.$on('snackbar-display', (params: ISnackbar | string) => {
@@ -116,10 +117,12 @@ export default class App extends Vue {
 
   public publish() {
     ipcRenderer.send('site-publish')
+    this.publishLoading = true
     ipcRenderer.once('site-published', (event: Event, result: any) => {
       if (result) {
         this.$bus.$emit('snackbar-display', '🎉  发布成功啦')
       }
+      this.publishLoading = false
     })
   }
 }

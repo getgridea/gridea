@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, Menu } from 'electron'
 import App from './server/app'
 
 import {
@@ -23,6 +23,7 @@ function createWindow() {
     webPreferences: {
       webSecurity: false, // FIXED: Not allowed to load local resource
     },
+    frame: false, // 去除默认窗口栏
   })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -38,6 +39,28 @@ function createWindow() {
   win.on('closed', () => {
     win = null
   })
+
+  // menu
+  const template: any = [
+    {
+      label: 'Edit',
+      submenu: [
+        {role: 'undo'},
+        {role: 'redo'},
+        {type: 'separator'},
+        {role: 'cut'},
+        {role: 'copy'},
+        {role: 'paste'},
+        {role: 'pasteandmatchstyle'},
+        {role: 'delete'},
+        {role: 'selectall'},
+        {role: 'toggledevtools'},
+      ],
+    },
+  ]
+
+  const menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
 
   const setting = {
     mainWindow: win,
@@ -92,3 +115,45 @@ if (isDevelopment) {
     })
   }
 }
+
+ipcMain.on('min-window', () => {
+  if (win) {
+    win.minimize()
+  }
+})
+
+ipcMain.on('max-window', () => {
+  if (win) {
+    if (win.isMaximized()) {
+      win.unmaximize()
+    } else {
+      win.maximize()
+    }
+  }
+})
+
+ipcMain.on('close-window', () => {
+  if (win) {
+    win.close()
+  }
+})
+
+/**
+ * Auto Updater
+ *
+ * Uncomment the following code below and install `electron-updater` to
+ * support auto updating. Code Signing with a valid certificate is required.
+ * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
+ */
+
+/*
+import { autoUpdater } from 'electron-updater'
+
+autoUpdater.on('update-downloaded', () => {
+  autoUpdater.quitAndInstall()
+})
+
+app.on('ready', () => {
+  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+})
+ */

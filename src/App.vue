@@ -61,12 +61,13 @@ import { ipcRenderer, Event, shell } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import ISnackbar from './interfaces/snackbar'
-import { Action } from 'vuex-class'
+import { State, Action } from 'vuex-class'
 import { Site } from './store/modules/site'
 import * as Package from '../package.json'
 
 @Component
 export default class App extends Vue {
+  @State('site') site!: any
   @Action('site/updateSite') updateSite!: (siteData: Site) => void
 
   ipcRenderer = ipcRenderer
@@ -115,6 +116,7 @@ export default class App extends Vue {
     ipcRenderer.send('html-render')
     ipcRenderer.once('html-rendered', (event: Event, result: any) => {
       this.$bus.$emit('snackbar-display', '🎉  渲染完毕，快去预览吧！')
+      this.openInBrowser(`file://${this.site.appDir}/output/index.html`)
     })
   }
 

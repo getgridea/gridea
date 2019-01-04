@@ -84,7 +84,10 @@ export default class App {
     }
 
     this.initEvents()
-    return this.db
+    return {
+      ...this.db,
+      appDir: this.appDir,
+    }
   }
 
   public renderHtml() {

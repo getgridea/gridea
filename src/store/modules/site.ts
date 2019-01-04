@@ -6,6 +6,7 @@ import { IMenu } from '../../interfaces/menu'
 import { ISetting } from '../../interfaces/setting'
 
 export interface Site {
+  appDir: string,
   config: any
   posts: IPost[]
   tags: ITag[]
@@ -14,7 +15,8 @@ export interface Site {
   themes: string[]
   setting: ISetting
 }
-const postState: Site = {
+const siteState: Site = {
+  appDir: '',
   config: {},
   posts: [],
   tags: [],
@@ -40,6 +42,7 @@ const postState: Site = {
 
 const mutations: MutationTree<Site> = {
   updateSite(state, siteData: Site) {
+    state.appDir = siteData.appDir
     state.posts = siteData.posts
     state.tags = siteData.tags
     state.menus = siteData.menus
@@ -65,7 +68,7 @@ const actions: ActionTree<Site, any> = {
 
 const module: Module<Site, any> = {
   namespaced: true,
-  state: postState,
+  state: siteState,
   mutations,
   actions,
 }

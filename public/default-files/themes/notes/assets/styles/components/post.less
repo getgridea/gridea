@@ -23,6 +23,14 @@
     }
   
     .post-content {
+      a {
+        color: @main-color;
+        transition: all 0.3s;
+        &:hover {
+          color: @dark-main-color;
+          border-bottom: 1px dotted @dark-main-color;
+        }
+      }
       img {
         display: block;
         box-shadow: 0 0 30px #eee;

@@ -6,4 +6,5 @@ export default interface ISnackbar {
   color?: string
   snackbar?: boolean
   message?: string
+  bottom?: boolean
 }

@@ -41,12 +41,15 @@
       <v-footer class="footer" fixed app>
         <span>🎨 + 🔨 by <a @click="openInBrowser('https://github.com/eryouhao')">EryouHao</a></span>
         <v-spacer></v-spacer>
+        <v-chip class="new-version-chip" label color="pink" text-color="white" v-if="hasUpdate" @click="openInBrowser('https://github.com/hve-notes/hve-notes/releases')">
+          <v-icon left>notifications_active</v-icon>有新版本 {{ newVersion }}
+        </v-chip>
         <span class="copyright">👣 - {{ version }}</span>
         <i class="fa fa-github-square github" @click="openInBrowser('https://github.com/hve-notes/hve-notes')"></i>
       </v-footer>
     </v-app>
 
-    <v-snackbar v-model="snackbar" :color="color" top>
+    <v-snackbar v-model="snackbar" :color="color" top :bottom="bottom">
       {{ message }}
       <v-icon dark @click="snackbar = false">
         close
@@ -60,10 +63,11 @@
 import { ipcRenderer, Event, shell } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import axios from 'axios'
 import ISnackbar from './interfaces/snackbar'
 import { State, Action } from 'vuex-class'
 import { Site } from './store/modules/site'
-import * as Package from '../package.json'
+import * as pkg from '../package.json'
 
 @Component
 export default class App extends Vue {
@@ -72,7 +76,7 @@ export default class App extends Vue {
 
   ipcRenderer = ipcRenderer
 
-  version = (Package as any).version
+  version = (pkg as any).version
 
   drawer = true
   items = [
@@ -86,7 +90,10 @@ export default class App extends Vue {
   color?: string = 'success'
   snackbar?: boolean = false
   message?: string = ''
+  bottom?: boolean = false
   publishLoading = false
+  hasUpdate = false
+  newVersion = ''
 
   created() {
     this.$bus.$on('snackbar-display', (params: ISnackbar | string) => {
@@ -97,11 +104,13 @@ export default class App extends Vue {
         this.color = params.color
         this.snackbar = params.snackbar || true
         this.message = params.message
+        this.bottom = params.bottom
       }
     })
     this.$bus.$on('site-reload', () => {
       this.reloadSite()
     })
+    this.checkUpdate()
   }
 
   public reloadSite() {
@@ -124,9 +133,7 @@ export default class App extends Vue {
     ipcRenderer.send('site-publish')
     this.publishLoading = true
     ipcRenderer.once('site-published', (event: Event, result: any) => {
-      if (result) {
-        this.$bus.$emit('snackbar-display', '🎉  发布成功啦')
-      }
+      this.$bus.$emit('snackbar-display', `${result ? '🎉  发布成功啦!' : '站点暂无更新!'}`)
       this.publishLoading = false
     })
   }
@@ -134,8 +141,37 @@ export default class App extends Vue {
   openInBrowser(url: string) {
     shell.openExternal(url)
   }
+
+  public async checkUpdate() {
+    const res = await axios.get('https://api.github.com/repos/hve-notes/hve-notes/releases/latest')
+    if (res.status === 200) {
+      this.newVersion = res.data.name
+      const latestVersion = res.data.name.substring(1).split('.').map((item: string) => parseInt(item))
+      const currentVersion = this.version.split('.').map((item: string) => parseInt(item))
+      console.log(latestVersion, currentVersion)
+      this.hasUpdate = currentVersion.reduce((hasUpdate: boolean, item: number, index: number) => {
+        if (item < latestVersion[index]) {
+          return true
+        }
+      }, false)
+      
+      if (this.hasUpdate) {
+        this.$bus.$emit('snackbar-display', { message: '🔥  有新版本发布，快去下载新版本吧！', bottom: true })
+      }
+    }
+  }
 }
 </script>
+
+<style lang="stylus" scoped>
+.new-version-chip
+  font-size 12px
+  >>> .v-chip__content
+    height 24px
+  >>> .material-icons
+    font-size 16px
+</style>
+
 
 <style>
   @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');

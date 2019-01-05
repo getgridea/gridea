@@ -17,6 +17,7 @@
           :type="showToken ? 'text' : 'password'"
           @click:append="showToken = !showToken"
         ></v-text-field>
+        <v-text-field label="CNAME" v-model="form.cname"></v-text-field>
         <v-btn color="primary" depressed @click="submit">保 存</v-btn>
       </v-card-text>
     </v-card>
@@ -42,6 +43,7 @@ export default class Setting extends Vue {
     username: '',
     email: '',
     token: '',
+    cname: '',
   }
 
   mounted() {
@@ -51,6 +53,7 @@ export default class Setting extends Vue {
     this.form.username = this.site.setting.username
     this.form.email = this.site.setting.email
     this.form.token = this.site.setting.token
+    this.form.cname = this.site.setting.cname
   }
 
   submit() {

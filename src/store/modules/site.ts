@@ -37,6 +37,7 @@ const siteState: Site = {
     username: '',
     email: '',
     token: '',
+    cname: '',
   },
 }
 

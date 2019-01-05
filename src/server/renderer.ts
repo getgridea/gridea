@@ -69,8 +69,11 @@ export default class Renderer extends Model {
 
   async commonPush() {
     console.log('common push')
+    const { setting } = this.db
     const statusSummary = await this.git.status()
     console.log(statusSummary)
+    await this.git.raw(['remote', 'set-url', 'origin', `https://${setting.username}:${setting.token}@github.com/${setting.username}/${setting.repository}.git`])
+
     if (statusSummary.modified.length > 0 || statusSummary.not_added.length > 0) {
       try {
         await this.git.add('./*')
@@ -96,6 +99,7 @@ export default class Renderer extends Model {
     await this.renderPostDetail()
     await this.renderTagDetail()
     await this.copyFiles()
+    await this.buildCname()
   }
 
   /**
@@ -289,6 +293,19 @@ export default class Renderer extends Model {
       }
       await fs.writeFileSync(`${cssFolderPath}/main.css`, cssString.css)
     })
+  }
+
+  /**
+   * 生成 CNAME 文件
+   */
+  async buildCname() {
+    const cnamePath = `${this.outputDir}/CNAME`
+
+    if (this.db.setting.cname) {
+      await fs.writeFileSync(cnamePath, this.db.setting.cname)
+    } else {
+      await fse.removeSync(cnamePath)
+    }
   }
 
   /**

@@ -26,6 +26,7 @@
       <v-toolbar fixed app flat dense clipped-left class="header-bar">
         <v-spacer></v-spacer>
         <img class="logo" src="@/assets/logo.png" width="28px" height="28px" @click="drawer = !drawer">
+        <h3>𝗛𝘃𝗲 𝗡𝗼𝘁𝗲𝘀</h3>
         <v-spacer></v-spacer>
         <!-- <v-btn class="btn" icon small @click="ipcRenderer.send('min-window')"><v-icon>remove</v-icon></v-btn>
         <v-btn class="btn" icon small @click="ipcRenderer.send('max-window')"><v-icon>add</v-icon></v-btn>
@@ -269,6 +270,7 @@ export default class App extends Vue {
   .logo {
     cursor: pointer;
     user-select: none;
+    margin-right: 8px;
   }
 
   .application {

@@ -6,5 +6,12 @@
     "username": "",
     "email": "",
     "token": ""
+  },
+  "gitalk": {
+    "clientId": "",
+    "clientSecret": "",
+    "owner": "",
+    "repository": "",
+    "showComment": false
   }
 }

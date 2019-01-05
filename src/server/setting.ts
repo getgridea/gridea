@@ -1,5 +1,5 @@
 import Model from './model'
-import { ISetting } from './interfaces/setting'
+import { ISetting, IGitalkSetting } from './interfaces/setting'
 
 export default class Setting extends Model {
 
@@ -12,9 +12,20 @@ export default class Setting extends Model {
     return setting
   }
 
+  getGitalkSetting() {
+    const setting = this.$setting.get('gitalk').value()
+    return setting
+  }
+
   public async saveSetting(setting: ISetting) {
     await this.$setting.set('config', setting).write()
     return true
   }
+
+  public async saveGitalkSetting(setting: IGitalkSetting) {
+    await this.$setting.set('gitalk', setting).write()
+    return true
+  }
+
 
 }

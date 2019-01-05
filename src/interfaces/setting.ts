@@ -7,3 +7,11 @@ export interface ISetting {
   token: string
   cname: string
 }
+
+export interface IGitalkSetting {
+  showComment: boolean
+  clientId: string
+  clientSecret: string
+  repository: string
+  owner: string
+}

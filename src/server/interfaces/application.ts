@@ -3,7 +3,7 @@ import { IPostDb } from './post'
 import { ITag } from './tag'
 import { ITheme } from './theme'
 import { IMenu } from './menu'
-import { ISetting } from './setting'
+import { ISetting, IGitalkSetting } from './setting'
 
 export interface IApplicationSetting {
   mainWindow: BrowserWindow
@@ -12,12 +12,13 @@ export interface IApplicationSetting {
 }
 
 export interface IApplicationDb {
-  posts: IPostDb[],
-  tags: ITag[],
-  menus: IMenu[],
-  themeConfig: ITheme,
-  themes: string[],
-  setting: ISetting,
+  posts: IPostDb[]
+  tags: ITag[]
+  menus: IMenu[]
+  themeConfig: ITheme
+  themes: string[]
+  setting: ISetting
+  gitalkSetting: IGitalkSetting
 }
 
 export interface IApplication {

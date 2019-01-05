@@ -1,6 +1,6 @@
 <html>
   <head>
-    <%- include('./includes/head') %>
+    <%- include('./includes/head', { siteTitle: `${post.title} | ${themeConfig.siteName}` }) %>
   </head>
   <body>
     <div class="main">
@@ -37,6 +37,10 @@
               </h3>
             </a>
           </div>  
+        <% } %>
+
+        <% if (gitalkSetting && gitalkSetting.showComment) { %>
+          <%- include('./includes/comment') %>
         <% } %>
     
         <%- include('./includes/footer') %>

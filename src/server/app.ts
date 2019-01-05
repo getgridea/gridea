@@ -47,6 +47,14 @@ export default class App {
         username: '',
         email: '',
         token: '',
+        cname: '',
+      },
+      gitalkSetting: {
+        showComment: false,
+        clientId: '',
+        clientSecret: '',
+        repository: '',
+        owner: '',
       },
     }
 
@@ -73,6 +81,7 @@ export default class App {
 
     const settingInstance = new Setting(this)
     const setting = await settingInstance.getSetting()
+    const gitalkSetting = await settingInstance.getGitalkSetting()
 
     this.db = {
       posts,
@@ -81,6 +90,7 @@ export default class App {
       themeConfig,
       themes,
       setting,
+      gitalkSetting: gitalkSetting || this.db.gitalkSetting,
     }
 
     this.initEvents()

@@ -17,7 +17,7 @@ export default class Posts extends Model {
   constructor(appInstance: any) {
     super(appInstance)
     this.postDir = path.join(this.appDir, 'posts')
-    this.postImageDir = path.join(this.appDir, 'post-images')
+    this.postImageDir = `${this.appDir}/post-images`
     this.savePosts()
   }
 
@@ -100,6 +100,7 @@ ${content}
         const filePath = `${this.postImageDir}/${post.fileName}.${extendName}`
 
         if (post.featureImage.path !== filePath) {
+          console.log('不一样', post.featureImage.path, filePath)
           await fse.copySync(post.featureImage.path, filePath)
         }
       }

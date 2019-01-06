@@ -1,3 +1,5 @@
+import * as fse from 'fs-extra'
+import * as path from 'path'
 import Model from './model'
 import { ISetting, IGitalkSetting } from './interfaces/setting'
 
@@ -27,5 +29,9 @@ export default class Setting extends Model {
     return true
   }
 
+  async uploadFavicon(filePath: string) {
+    const faviconPath = path.join(this.appDir, 'output/favicon.ico')
+    await fse.copySync(filePath, faviconPath)
+  }
 
 }

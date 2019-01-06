@@ -7,6 +7,11 @@
 
 </div>
 
+<div align="center">
+  <img src="hve-notes-app.png">
+
+</div>
+
 👏 欢迎使用 **Hve Notes** ！  
 
 🌈 **Hve Notes** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ... 

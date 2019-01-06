@@ -30,8 +30,10 @@ export default class Setting extends Vue {
 
   file: any = null
 
-  get faviconPath() {
-    return path.join(this.site.appDir, 'output', `favicon.ico?a=${Math.random()}`)
+  faviconPath = ''
+
+  mounted() {
+    this.faviconPath = path.join('file://', this.site.appDir, 'output', `favicon.ico?a=${Math.random()}`)
   }
 
   submit() {
@@ -43,6 +45,7 @@ export default class Setting extends Vue {
     ipcRenderer.once('favicon-uploaded', (event: Event, result: any) => {
       this.file = null
       this.$bus.$emit('site-reload')
+      this.faviconPath = path.join('file://', this.site.appDir, 'output', `favicon.ico?a=${Math.random()}`)
       this.$bus.$emit('snackbar-display', 'Favicon 配置已保存')
     })
   }

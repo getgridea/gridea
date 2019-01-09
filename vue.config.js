@@ -17,6 +17,7 @@ module.exports = {
         mac: {
           icon: './public/app-icons/logo-fang2.icns',
         },
+        asar: false,
       },
     },
   },

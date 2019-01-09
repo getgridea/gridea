@@ -120,6 +120,7 @@ export default class App {
       path.join(__static, 'default-files'),
       path.join(this.appDir),
     )
+    fse.mkdirSync(path.join(this.appDir, 'post-images'))
   }
 
   private initEvents(): void {

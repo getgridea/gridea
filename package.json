@@ -22,6 +22,7 @@
     "less": "^3.9.0",
     "lowdb": "^1.0.0",
     "marked": "^0.5.2",
+    "material-design-icons-iconfont": "^4.0.3",
     "simple-git": "^1.107.0",
     "slug": "^0.9.3",
     "transliteration": "^1.6.6",

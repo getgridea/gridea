@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'vuetify/dist/vuetify.css'
 import 'font-awesome/css/font-awesome.css'
 import zhHans from 'vuetify/src/locale/zh-Hans'

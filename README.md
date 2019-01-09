@@ -3,7 +3,7 @@
 <div align="center">
   <img src="public/app-icons/logo.png"  width="80px" height="80px">
 
-  [下 载](https://github.com/hellohve/hve-notes/releases) | [文 档](http://hvenotes.fehey.com/)
+  [Download](https://github.com/hellohve/hve-notes/releases) | [Homepage](http://hvenotes.fehey.com/)
 
 </div>
 
@@ -12,20 +12,24 @@
 
 </div>
 
-👏 欢迎使用 **Hve Notes** ！  
+English | [简体中文](https://github.com/hve-notes/hve-notes/blob/master/README-zh_CN.md)  
 
-🌈 **Hve Notes** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ... 
+👏  Welcome to use **Hve Notes** ！  
 
-#### 在这里👇
-📝  你可以使用最酷的 `Markdown` 语法，进行快速创作  
-🌉  你可以在文章的任意位置插入图片和文章封面图  
-🏷️  你可以对文章进行标签分组  
-📋 你可以自定义菜单，甚至可以创建外部链接菜单  
+🌈  **Hve Notes** A static blog writing client. You can use it to record your life, mood, knowledge, notes and ideas...
 
-🌱 当然 **Hve Notes** 还很年轻，有很多不足，但请相信，它会不停向前🏃
+#### Here👇
+📝  You can use the coolest  `Markdown` grammar to create quickly  
+🌉  You can insert pictures and article cover charts anywhere in the article  
+🏷️  You can label and group articles  
+📋  You can customize menus and even create external link menus  
+🌎  You can use `Github Pages` to show the world that more platforms will be supported in the future  
+💬  You can simply configure and access the [Gitalk](https://github.com/gitalk/gitalk) comment system  
 
-未来，它一定会成为你离不开的伙伴
+🌱  Of course **Hve Notes** is still very young and has many shortcomings, but please believe it will keep moving forward 🏃
 
-尽情发挥你的才华吧！
+In the future, it will surely become your inseparable partner
 
-😘 Enjoy~
+Give full play to your talents！
+
+😘  Enjoy~

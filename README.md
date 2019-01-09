@@ -22,9 +22,9 @@ English | [简体中文](https://github.com/hve-notes/hve-notes/blob/master/READ
 📝  You can use the coolest  `Markdown` grammar to create quickly  
 🌉  You can insert pictures and article cover charts anywhere in the article  
 🏷️  You can label and group articles  
-📋  You can customize menus and even create external link menus
-🌎  You can use `Github Pages` to show the world that more platforms will be supported in the future
-💬  You can simply configure and access the [Gitalk](https://github.com/gitalk/gitalk) comment system
+📋  You can customize menus and even create external link menus  
+🌎  You can use `Github Pages` to show the world that more platforms will be supported in the future  
+💬  You can simply configure and access the [Gitalk](https://github.com/gitalk/gitalk) comment system  
 
 🌱  Of course **Hve Notes** is still very young and has many shortcomings, but please believe it will keep moving forward 🏃
 

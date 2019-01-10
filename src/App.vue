@@ -100,6 +100,8 @@ export default class App extends Vue {
     this.$bus.$on('snackbar-display', (params: ISnackbar | string) => {
       if (typeof params === 'string') {
         this.snackbar = true
+        this.color = 'success'
+        this.bottom = false
         this.message = params
       } else {
         this.color = params.color

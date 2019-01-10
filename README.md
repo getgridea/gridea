@@ -5,6 +5,14 @@
 
   [Download](https://github.com/hellohve/hve-notes/releases) | [Homepage](http://hvenotes.fehey.com/)
 
+  <a href="https://github.com/hve-notes/hve-notes/releases/latest">
+    <img src="https://img.shields.io/github/release/hve-notes/hve-notes.svg?style=flat-square" alt="">
+  </a>
+
+  <a href="https://github.com/hve-notes/hve-notes/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/hve-notes/hve-notes.svg?style=flat-square" alt="">
+  </a>
+
 </div>
 
 <div align="center">
@@ -24,7 +32,7 @@ English | [简体中文](https://github.com/hve-notes/hve-notes/blob/master/READ
 🏷️  You can label and group articles  
 📋  You can customize menus and even create external link menus  
 🌎  You can use `Github Pages` to show the world that more platforms will be supported in the future  
-💬  You can simply configure and access the [Gitalk](https://github.com/gitalk/gitalk) comment system  
+💬  You can simply configure and access the [Gitalk](https://github.com/gitalk/gitalk) comment system  
 
 🌱  Of course **Hve Notes** is still very young and has many shortcomings, but please believe it will keep moving forward 🏃
 

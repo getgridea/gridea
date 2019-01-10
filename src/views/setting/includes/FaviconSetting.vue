@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-card-text>
-      <img v-if="faviconPath" :src="faviconPath" alt="" width="80px">
+      <img class="favicon-img" v-if="faviconPath" :src="faviconPath" alt="" width="80px">
       <upload-button
         :fileChangedCallback="handleFileChange"
       >
@@ -61,4 +61,7 @@ export default class Setting extends Vue {
 <style lang="stylus" scoped>
 >>> .upload-btn
   padding: 0;
+
+.favicon-img
+  margin 6px 8px
 </style>

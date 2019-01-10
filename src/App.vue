@@ -131,6 +131,12 @@ export default class App extends Vue {
   }
 
   public publish() {
+    const { setting } = this.site
+    if (!setting.branch && !setting.domain && !setting.token && !setting.repository) {
+      this.$bus.$emit('snackbar-display', { color: 'pink', message: '🙁  必须完成配置才能发布哦！' })
+      return false
+    }
+
     ipcRenderer.send('site-publish')
     this.publishLoading = true
     ipcRenderer.once('site-published', (event: Event, result: any) => {

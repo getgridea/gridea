@@ -121,6 +121,15 @@ export default class App {
         )
       }
 
+      // 检查 默认 theme 是不是包含 fly 主题
+      const themePath = path.join(this.appDir, 'themes', 'fly')
+      if (!fse.pathExistsSync(themePath)) {
+        fse.copySync(
+          path.join(__static, 'default-files', 'themes', 'fly'),
+          themePath,
+        )
+      }
+
       return
     }
 

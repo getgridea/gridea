@@ -50,7 +50,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { State } from 'vuex-class'
 import { IPost } from '../../interfaces/post'
-import { ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron'
 
 @Component
 export default class Articles extends Vue {
@@ -88,7 +88,7 @@ export default class Articles extends Vue {
   editPost(post: IPost) {
     this.$router.push({ name: 'articles-edit', params: { articleFileName: post.fileName } })
   }
-  
+
   async deletePost(post: IPost) {
     const confirm = await this.$dialog.confirm({
       text: '你确定要删除吗?',

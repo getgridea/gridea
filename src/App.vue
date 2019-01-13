@@ -155,15 +155,15 @@ export default class App extends Vue {
     const res = await axios.get('https://api.github.com/repos/hve-notes/hve-notes/releases/latest')
     if (res.status === 200) {
       this.newVersion = res.data.name
-      const latestVersion = res.data.name.substring(1).split('.').map((item: string) => parseInt(item))
-      const currentVersion = this.version.split('.').map((item: string) => parseInt(item))
+      const latestVersion = res.data.name.substring(1).split('.').map((item: string) => parseInt(item, 10))
+      const currentVersion = this.version.split('.').map((item: string) => parseInt(item, 10))
       console.log(latestVersion, currentVersion)
       this.hasUpdate = currentVersion.reduce((hasUpdate: boolean, item: number, index: number) => {
         if (item < latestVersion[index]) {
           return true
         }
       }, false)
-      
+
       if (this.hasUpdate) {
         this.$bus.$emit('snackbar-display', { message: '🔥  有新版本发布，快去下载新版本吧！', bottom: true })
       }

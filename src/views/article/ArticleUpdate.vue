@@ -226,8 +226,8 @@ export default class ArticleUpdate extends Vue {
   uploadImageFiles(files: any[]) {
     ipcRenderer.send('image-upload', files)
     ipcRenderer.once('image-uploaded', (event: Event, data: any) => {
-      for (let i = 0; i < data.length; i += 1) {
-        const url = `![](file://${data[i]})`
+      for (const path of data) {
+        const url = `![](file://${path})`
         const editor = this.$refs.editor.simplemde.codemirror
 
         // 在光标处插入 https://codemirror.net/doc/manual.html#replaceSelection

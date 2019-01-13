@@ -220,12 +220,12 @@ export default class Renderer extends Model {
     const usedTags = this.db.tags.filter((tag: ITag) => tag.used)
     const { pageSize } = this.db.themeConfig
 
-    for (let i = 0; i < usedTags.length; i += 1) {
+    for (const usedTag of usedTags) {
       const posts = this.postsData.filter((post: IPostRenderData) => {
-        return post.tags.find((tag: ITagRenderData) => tag.slug === usedTags[i].slug)
+        return post.tags.find((tag: ITagRenderData) => tag.slug === usedTag.slug)
       })
 
-      const currentTag = usedTags[i]
+      const currentTag = usedTag
 
       const tagFolderPath = `${this.outputDir}/tag/${currentTag.slug}`
       const tagDomainPath = `${this.db.themeConfig.domain}/tag/${currentTag.slug}/`

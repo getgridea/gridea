@@ -122,11 +122,11 @@ ${content}
     console.log('传过来的 files', files)
     await fse.ensureDir(this.postImageDir)
     const results = []
-    for (let i = 0; i < files.length; i += 1) {
-      const extendName = files[i].name.split('.').pop()
+    for (const file of files) {
+      const extendName = file.name.split('.').pop()
       const newFileName = new Date().getTime()
       const filePath = `${this.postImageDir}/${newFileName}.${extendName}`
-      await fse.copySync(files[i].path, filePath)
+      await fse.copySync(file.path, filePath)
       results.push(filePath)
       console.log('复制成功')
     }

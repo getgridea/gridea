@@ -1,0 +1,72 @@
+.site-header-container {
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 1024;
+  background: #fff;
+  height: 48px;
+}
+.site-header {
+  height: 48px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 768px;
+  margin: 0 auto;
+  box-shadow: inset 0px -1px 0px #fafafa;
+
+  .left {
+    display: flex;
+    .avatar {
+      border-radius: 50%;
+    }
+    .site-title {
+      margin: 0 16px;
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: normal;
+    }
+  }
+  .right {
+    .icon {
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+}
+
+.menu-container {
+  display: none;
+  position: fixed;
+  top: 40px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1024;
+  .menu-list {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -40px;
+  }
+  .menu {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 22px;
+    margin: 16px 0;
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}

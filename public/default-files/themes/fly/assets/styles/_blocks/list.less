@@ -1,0 +1,121 @@
+.main {
+  max-width: 768px;
+  margin: 0 auto;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.content-container {
+  flex: 1;
+  padding: 48px 16px 32px;
+}
+
+.post-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 32px 0;
+  max-height: 200px;
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    .post-title {
+      font-size: 20px;
+      color: #0C1E29;
+      display: inline-block;
+    }
+    .post-abstract {
+      font-size: 14px;
+      margin: 16px 0 8px;
+      flex: 1;
+      color: #4E616C;
+      overflow:hidden;
+      line-height: 24px;
+      position: relative;
+
+      &:after {
+        content: '';
+        position: absolute; 
+        bottom: 0; 
+        right: 0;
+        width: 120px; 
+        height: 32px;
+        
+        /* "transparent" only works here because == rgba(0,0,0,0) */
+        background-image: linear-gradient(to right, transparent, white);
+      }
+
+    }
+  }
+
+  .feature-container {
+    margin-left: 16px;
+    flex-shrink: 0;
+    width: 240px;
+    height: 135px;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    // .feature {
+    //   border-radius: 2px;
+    //   height: 100%;
+    //   position: absolute;
+    //   top: 50%;
+    //   left: 50%;
+    //   transform: translate(-50%, -50%);
+    // }
+  }
+}
+
+.post-info {
+  color: var(--c-base-purple);
+  font-size: 12px;
+  span {
+    margin-right: 16px;
+  }
+  .icon {
+    font-size: 12px;
+    margin-right: 4px;
+  }
+  a {
+    color: var(--c-base-purple);
+  }
+}
+
+@media (max-width: 600px) {
+  .post-item {
+    flex-direction: column;
+    height: auto;
+    padding: 24px 0;
+    height: 200px;
+    .content {
+      order: 2;
+      display: block;
+      .post-title {
+        margin-top: 16px;
+        font-size: 18px;
+      }
+    }
+    .feature-container {
+      margin-left: 0;
+      order: 1;
+      height: 0;
+      width: 100%;
+      padding-top: 56%;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      // .feature {
+      //   width: 100%;
+      //   height: 100%;
+      //   position: absolute;
+      //   top: 0;
+      //   left: 0;
+      //   right: 0;
+      //   bottom: 0;
+      // }
+    }
+  }
+}

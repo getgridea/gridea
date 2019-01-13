@@ -9,14 +9,35 @@
       <v-data-table :headers="headers" :items="site.posts" :pagination.sync="pagination">
         <template slot="items" slot-scope="props">
           <td>{{ props.item.data.title }}</td>
+          <td>
+            <v-chip v-if="props.item.data.published" color="green" text-color="white" small>
+              发布
+            </v-chip>
+            <v-chip v-else color="grey  lighten-3" text-color="black" small>
+              草稿
+            </v-chip>
+            
+          </td>
           <td>{{ $dayjs(props.item.data.date).format('YYYY-MM-DD') || '-' }}</td>
           <td>
-            <v-icon @click="editPost(props.item)" small>
-              edit
-            </v-icon>
-            <v-icon @click="deletePost(props.item)" small>
-              delete
-            </v-icon>
+            <v-btn
+              flat
+              icon
+              color="blue lighten-2"
+              @click="editPost(props.item)"
+              small
+            >
+              <v-icon small>edit</v-icon>
+            </v-btn>
+            <v-btn
+              flat
+              icon
+              color="red lighten-2"
+              @click="deletePost(props.item)"
+              small
+            >
+              <v-icon small>delete</v-icon>
+            </v-btn>
           </td>
         </template>
       </v-data-table>
@@ -39,6 +60,10 @@ export default class Articles extends Vue {
     {
       text: '标题',
       value: 'title',
+    },
+    {
+      text: '状态',
+      value: 'data.published',
     },
     {
       text: '创建时间',

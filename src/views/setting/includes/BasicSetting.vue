@@ -1,11 +1,11 @@
 <template>
   <v-card flat>
     <v-card-text>
-      <v-text-field label="域名" v-model="form.domain"></v-text-field>
-      <v-text-field label="仓库" v-model="form.repository"></v-text-field>
-      <v-text-field label="分支" v-model="form.branch"></v-text-field>
+      <v-text-field label="域 名" v-model="form.domain"></v-text-field>
+      <v-text-field label="仓 库" v-model="form.repository"></v-text-field>
+      <v-text-field label="分 支" v-model="form.branch"></v-text-field>
       <v-text-field label="用户名" v-model="form.username"></v-text-field>
-      <v-text-field label="邮箱" v-model="form.email"></v-text-field>
+      <v-text-field label="邮 箱" v-model="form.email"></v-text-field>
       <v-text-field
         label="Token"
         v-model="form.token"
@@ -26,7 +26,7 @@ import Component from 'vue-class-component'
 import { State } from 'vuex-class'
 
 @Component
-export default class Setting extends Vue {
+export default class BasicSetting extends Vue {
   @State('site') site!: any
 
   showToken = false

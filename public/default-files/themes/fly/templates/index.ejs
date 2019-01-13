@@ -1,0 +1,21 @@
+
+<html>
+  <head>
+    <%- include('./_blocks/head', { siteTitle: themeConfig.siteName }) %>
+  </head>
+  <body>
+    <div id="app" class="main">
+      <%- include('./_blocks/header') %>
+
+      <div class="content-container">
+        
+        <%- include('./_blocks/post-list') %>
+
+      </div>
+
+      <%- include('./_blocks/footer') %>
+
+    </div>
+    <%- include('./_blocks/scripts') %>
+  </body>
+</html>

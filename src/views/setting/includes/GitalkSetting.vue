@@ -18,7 +18,7 @@ import Component from 'vue-class-component'
 import { State } from 'vuex-class'
 
 @Component
-export default class Setting extends Vue {
+export default class GitalkSetting extends Vue {
   @State('site') site!: any
 
   form = {

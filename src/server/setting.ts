@@ -34,4 +34,9 @@ export default class Setting extends Model {
     await fse.copySync(filePath, faviconPath)
   }
 
+  async uploadAvatar(filePath: string) {
+    const avatarPath = path.join(this.appDir, 'images/avatar.png')
+    await fse.copySync(filePath, avatarPath)
+  }
+
 }

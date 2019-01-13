@@ -122,7 +122,7 @@ export default class Renderer extends Model {
         const result: IPostRenderData = {
           content: marked(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain), { breaks: true }),
           fileName: item.fileName,
-          abstract: item.abstract,
+          abstract: marked(helper.changeImageUrlLocalToDomain(item.abstract, this.db.themeConfig.domain), { breaks: true }),
           title: item.data.title,
           tags: this.db.tags
             .filter((tag: ITag) => currentTags.find((i) => i === tag.name))
@@ -313,11 +313,23 @@ export default class Renderer extends Model {
    * 复制文件到输出文件夹
    */
   async copyFiles() {
-    const imageInputPath = `${this.appDir}/post-images`
-    const imageOutputPath = `${this.outputDir}/post-images`
+    const postImageInputPath = `${this.appDir}/post-images`
+    const postImageOutputPath = `${this.outputDir}/post-images`
 
-    await fse.ensureDir(imageOutputPath)
-    await fse.copySync(imageInputPath, imageOutputPath)
+    await fse.ensureDir(postImageOutputPath)
+    await fse.copySync(postImageInputPath, postImageOutputPath)
+
+    const imagesInputPath = `${this.appDir}/images`
+    const imagesOutputPath = `${this.outputDir}/images`
+
+    await fse.ensureDir(imagesOutputPath)
+    await fse.copySync(imagesInputPath, imagesOutputPath)
+
+    const mediaInputPath = `${this.themePath}/assets/media`
+    const mediaOutputPath = `${this.outputDir}/media`
+
+    await fse.ensureDir(mediaInputPath)
+    await fse.copySync(mediaInputPath, mediaOutputPath)
 
   }
 }

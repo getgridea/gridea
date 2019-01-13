@@ -20,7 +20,7 @@
         </v-list>
         <div class="btn-container">
           <v-btn depressed style="width: 90%;" @click="preview">💫 预 览</v-btn>
-          <v-btn depressed style="width: 90%;" color="success" :loading="publishLoading" @click="publish">🚀 发 布</v-btn>
+          <v-btn depressed style="width: 90%;" color="success" :loading="publishLoading" @click="publish">🚀 同 步</v-btn>
         </div>
       </v-navigation-drawer>
       <v-toolbar fixed app flat dense clipped-left class="header-bar">
@@ -268,6 +268,12 @@ export default class App extends Vue {
     color: #545454;
     font-size: 12px;
     padding: 0 16px;
+  }
+  .theme--light.v-table tbody tr:hover:not(.v-datatable__expand-row) {
+    background: #f7f7f7;
+  }
+  .theme--light.v-table tbody tr:not(:last-child) {
+    border-bottom: 1px solid rgba(0,0,0,.06)!important;
   }
   .github {
     font-size: 16px;

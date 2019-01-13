@@ -1,0 +1,38 @@
+<% posts.forEach(function(post) { %>
+<section class="post-item">
+    <div class="content">
+      <a href="<%= post.link %>">
+        <h2 class="post-title"><%= post.title %></h2>
+      </a>
+      <div class="post-abstract">
+        <%- post.abstract %>
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> <%= post.date %></span>
+        <span>
+          <i class="icon icon-pricetags-outline"></i>
+          <% post.tags.forEach(function(tag) { %>
+            <a href="<%= tag.link %>">
+              # <%= tag.name %>
+            </a>
+          <% }); %>
+        </span>
+      </div>
+    </div>
+    <% if (themeConfig.showFeatureImage && post.feature) { %>
+      <a href="<%= post.link %>">
+        <div class="feature-container" style="background-image: url('<%= post.feature %>')">
+        </div>
+      </a>
+    <% } %>
+  </section>
+<% }); %>
+
+<div class="pagination-container">
+  <% if (pagination.prev) { %>
+    <a href="<%= pagination.prev %>" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
+  <% } %>
+  <% if (pagination.next) { %>
+    <a href="<%= pagination.next %>" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
+  <% } %>
+</div>

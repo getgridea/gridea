@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./_blocks/head', { siteTitle: `${post.title} | ${themeConfig.siteName}` }) %>
+  </head>
+  <body>
+    <div id="app" class="main">
+      <%- include('./_blocks/header') %>
+
+      <div class="content-container">
+        <div class="post-detail">
+          <h2 class="post-title"><%= post.title %></h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> <%= post.date %></span>
+            <span>
+              <i class="icon-pricetags-outline"></i>
+              <% post.tags.forEach(function(tag) { %>
+                <a href="<%= tag.link %>">
+                  # <%= tag.name %>
+                </a>
+              <% }); %>
+            </span>
+          </div>
+          <div class="post-content">
+            <%- post.content %>
+          </div>
+        </div>
+
+        <% if (post.nextPost) { %>
+          <div class="next-post">
+            <a class="purple-link" href="<%= post.nextPost.link %>">
+              <h3 class="post-title">
+                下一篇：<%= post.nextPost.title %>
+              </h3>
+            </a>
+          </div>
+          <% } %>
+      </div>
+      
+      <% if (gitalkSetting && gitalkSetting.showComment) { %>
+        <%- include('./includes/comment') %>
+      <% } %>
+
+      <%- include('./_blocks/footer') %>
+
+    </div>
+    <%- include('./_blocks/scripts') %>
+  </body>
+</html>

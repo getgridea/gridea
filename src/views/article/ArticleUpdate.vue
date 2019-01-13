@@ -282,6 +282,7 @@ export default class ArticleUpdate extends Vue {
   border-color: #fff;
   box-shadow: none;
   border-radius: 2px;
+  padding: 0;
 }
 .editor-toolbar a.active, .editor-toolbar a:hover {
   border-color: #95a5a6;
@@ -290,6 +291,7 @@ export default class ArticleUpdate extends Vue {
 }
 .editor-toolbar a {
   color: #000 !important;
+  background: #fafafa;
 }
 .CodeMirror .editor-preview .markdown-body .editor-preview-active img {
   max-width: 100%;

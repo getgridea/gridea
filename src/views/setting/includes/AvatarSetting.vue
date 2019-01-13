@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-card-text>
-      <img class="favicon-img" v-if="faviconPath" :src="faviconPath" alt="" width="88px">
+      <img class="img" v-if="avatarPath" :src="avatarPath" alt="" width="88px">
       <upload-button
         uniqueId
         :fileChangedCallback="handleFileChange"
@@ -26,34 +26,34 @@ import * as path from 'path'
     UploadButton,
   },
 })
-export default class FaviconSetting extends Vue {
+export default class AvatarSetting extends Vue {
   @State('site') site!: any
 
   file: any = null
 
-  faviconPath = ''
+  avatarPath = ''
 
   mounted() {
-    this.faviconPath = path.join('file://', this.site.appDir, 'output', `favicon.ico?a=${Math.random()}`)
+    this.avatarPath = path.join('file://', this.site.appDir, 'images', `avatar.png?a=${Math.random()}`)
   }
 
   submit() {
     if (!this.file) {
       return
     }
-    console.log('click favicon upload', this.file)
-    ipcRenderer.send('favicon-upload', this.file.path)
-    ipcRenderer.once('favicon-uploaded', (event: Event, result: any) => {
+    console.log('click avatar upload', this.file)
+    ipcRenderer.send('avatar-upload', this.file.path)
+    ipcRenderer.once('avatar-uploaded', (event: Event, result: any) => {
       this.file = null
       this.$bus.$emit('site-reload')
-      this.faviconPath = path.join('file://', this.site.appDir, 'output', `favicon.ico?a=${Math.random()}`)
-      this.$bus.$emit('snackbar-display', 'Favicon 配置已保存')
+      this.avatarPath = path.join('file://', this.site.appDir, 'images', `avatar.png?a=${Math.random()}`)
+      this.$bus.$emit('snackbar-display', '头像配置已保存')
     })
   }
 
   handleFileChange(file: any) {
     this.file = file
-    console.log(file)
+    console.log('头像文件', file)
   }
 }
 </script>
@@ -61,8 +61,9 @@ export default class FaviconSetting extends Vue {
 
 <style lang="stylus" scoped>
 >>> .upload-btn
-  padding: 0;
+  padding: 0 !important;
 
-.favicon-img
+.img
   margin 6px 8px
 </style>
+

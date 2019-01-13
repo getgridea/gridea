@@ -9,15 +9,29 @@
       <v-data-table :headers="headers" :items="site.menus">
         <template slot="items" slot-scope="props">
           <td>{{ props.item.name }}</td>
-          <td>{{ props.item.openType }}</td>
+          <td>
+            {{ props.item.openType }}
+          </td>
           <td>{{ props.item.link }}</td>
           <td>
-            <v-icon @click="editMenu(props.item, props.index)" small>
-              edit
-            </v-icon>
-            <v-icon @click="deleteMenu(props.item.name)" small>
-              delete
-            </v-icon>
+            <v-btn
+              flat
+              icon
+              color="blue lighten-2"
+              @click="editMenu(props.item, props.index)"
+              small
+            >
+              <v-icon small>edit</v-icon>
+            </v-btn>
+            <v-btn
+              flat
+              icon
+              color="red lighten-2"
+              @click="deleteMenu(props.item.name)"
+              small
+            >
+              <v-icon small>delete</v-icon>
+            </v-btn>
           </td>
         </template>
       </v-data-table>

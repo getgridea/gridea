@@ -9,6 +9,7 @@ export default class SettingEvents {
     ipcMain.removeAllListeners('setting-save')
     ipcMain.removeAllListeners('gitalk-setting-save')
     ipcMain.removeAllListeners('favicon-upload')
+    ipcMain.removeAllListeners('avatar-upload')
 
     ipcMain.on('setting-save', async (event: Event, setting: ISetting) => {
       const data = await settingInstance.saveSetting(setting)
@@ -24,6 +25,12 @@ export default class SettingEvents {
       console.log('执行了上传图片', filePath)
       const data = await settingInstance.uploadFavicon(filePath)
       event.sender.send('favicon-uploaded', data)
+    })
+
+    ipcMain.on('avatar-upload', async (event: Event, filePath: string) => {
+      console.log('执行了上传头像', filePath)
+      const data = await settingInstance.uploadAvatar(filePath)
+      event.sender.send('avatar-uploaded', data)
     })
 
   }

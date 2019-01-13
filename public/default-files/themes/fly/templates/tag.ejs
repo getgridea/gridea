@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./_blocks/head', { siteTitle: `${tag.name} | ${themeConfig.siteName}` }) %>
+  </head>
+  <body>
+    <div id="app" class="main">
+      <%- include('./_blocks/header') %>
+
+      <div class="content-container">
+
+        <div class="current-tag-container">
+          <h2 class="title">
+            <i class="icon icon-pricetags-outline"></i> <%= tag.name %>
+          </h2> 
+        </div>
+
+        <%- include('./_blocks/post-list') %>
+
+      </div>
+
+      <%- include('./_blocks/footer') %>
+
+    </div>
+    <%- include('./_blocks/scripts') %>
+  </body>
+</html>

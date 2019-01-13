@@ -1,0 +1,35 @@
+<div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="<%= themeConfig.domain %>">
+        <img class="avatar" src="<%= themeConfig.domain %>/images/avatar.png" alt="" width="32px" height="32px">
+      </a>
+      <a href="<%= themeConfig.domain %>">
+        <h1 class="site-title"><%= themeConfig.siteName %></h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <% menus.forEach(function(menu) { %>
+        <% if (menu.openType === 'External') { %>
+          <a class="menu purple-link" href="<%= menu.link %>" class="menu" target="_blank">
+            <%= menu.name %>
+          </a>
+        <% } else { %>
+          <a href="<%= menu.link %>" class="menu purple-link">
+            <%= menu.name %>
+          </a>
+        <% } %>
+      <% }); %>
+    </div>
+  </div>
+</transition>

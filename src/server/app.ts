@@ -111,6 +111,16 @@ export default class App {
    */
   private checkDir(): void {
     if (fse.pathExistsSync(this.appDir)) {
+
+      // check if the images folder exists, if it does not exist, copy it from default-files
+      const imagesPath = path.join(this.appDir, 'images')
+      if (!fse.pathExistsSync(imagesPath)) {
+        fse.copySync(
+          path.join(__static, 'default-files', 'images'),
+          imagesPath,
+        )
+      }
+
       return
     }
 

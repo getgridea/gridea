@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <%- include('./_blocks/head', { siteTitle: `${post.title} | ${themeConfig.siteName}` }) %>
+    <%- include('./includes/head', { siteTitle: `${post.title} | ${themeConfig.siteName}` }) %>
   </head>
   <body>
     <div id="app" class="main">
-      <%- include('./_blocks/header') %>
+      <%- include('./includes/header') %>
 
       <div class="content-container">
         <div class="post-detail">
@@ -42,9 +42,9 @@
         <%- include('./includes/comment') %>
       <% } %>
 
-      <%- include('./_blocks/footer') %>
+      <%- include('./includes/footer') %>
 
     </div>
-    <%- include('./_blocks/scripts') %>
+    <%- include('./includes/scripts') %>
   </body>
 </html>

@@ -193,7 +193,6 @@ export default class Renderer extends Model {
       if (i < this.postsData.length - 1) {
         post.nextPost = this.postsData[i + 1]
       }
-      console.log('渲染文章详情页', this.db.themeConfig)
 
       const renderData = {
         menus: this.db.menus,
@@ -207,6 +206,7 @@ export default class Renderer extends Model {
           html = str
         }
       })
+
       const renderFolerPath = `${this.outputDir}/post/${post.fileName}`
       await fse.ensureDir(renderFolerPath)
       await fs.writeFileSync(`${renderFolerPath}/index.html`, html)

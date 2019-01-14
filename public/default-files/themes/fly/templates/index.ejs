@@ -1,21 +1,21 @@
 
 <html>
   <head>
-    <%- include('./_blocks/head', { siteTitle: themeConfig.siteName }) %>
+    <%- include('./includes/head', { siteTitle: themeConfig.siteName }) %>
   </head>
   <body>
     <div id="app" class="main">
-      <%- include('./_blocks/header') %>
+      <%- include('./includes/header') %>
 
       <div class="content-container">
         
-        <%- include('./_blocks/post-list') %>
+        <%- include('./includes/post-list') %>
 
       </div>
 
-      <%- include('./_blocks/footer') %>
+      <%- include('./includes/footer') %>
 
     </div>
-    <%- include('./_blocks/scripts') %>
+    <%- include('./includes/scripts') %>
   </body>
 </html>

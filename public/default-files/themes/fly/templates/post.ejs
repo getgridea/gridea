@@ -38,8 +38,8 @@
           <% } %>
       </div>
       
-      <% if (gitalkSetting && gitalkSetting.showComment) { %>
-        <%- include('./includes/comment') %>
+      <% if (typeof gitalkSetting !== 'undefined' && gitalkSetting.showComment) { %>
+        <div id="gitalk-container"></div>
       <% } %>
 
       <%- include('./includes/footer') %>

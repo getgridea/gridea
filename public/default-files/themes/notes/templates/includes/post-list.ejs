@@ -15,8 +15,7 @@
         <% }); %>
       </div>
       <% if (themeConfig.showFeatureImage && post.feature) { %>
-        <a href="<%= post.link %>" class="post-feature-image">
-          <img src="<%= post.feature %>" alt="">
+        <a href="<%= post.link %>" class="post-feature-image" style="background-image: url('<%= post.feature %>')">
         </a>
       <% } %>
       <p class="post-abstract"><%- post.abstract %></p>

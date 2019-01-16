@@ -5,10 +5,10 @@
       dark
       slider-color="white"
     >
-      <v-tab ripple>️️️⚙️ 基础配置</v-tab>
-      <v-tab ripple>💬 GITALK 配置</v-tab>
-      <v-tab ripple>🌅 FAVICON 配置</v-tab>
-      <v-tab ripple>🤠 头像配置</v-tab>
+      <v-tab ripple>️️️⚙️ {{ $t('basicSetting') }}</v-tab>
+      <v-tab ripple>💬 {{ $t('gitalkSetting') }}</v-tab>
+      <v-tab ripple>🌅 {{ $t('faviconSetting') }}</v-tab>
+      <v-tab ripple>🤠 {{ $t('avatarSetting') }}</v-tab>
       <v-tab-item>
         <basic-setting></basic-setting>
       </v-tab-item>

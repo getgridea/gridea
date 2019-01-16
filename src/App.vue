@@ -19,8 +19,8 @@
           </v-list-tile>
         </v-list>
         <div class="btn-container">
-          <v-btn depressed style="width: 90%;" @click="preview">💫 预 览</v-btn>
-          <v-btn depressed style="width: 90%;" color="success" :loading="publishLoading" @click="publish">🚀 同 步</v-btn>
+          <v-btn depressed style="width: 90%;" @click="preview">💫 {{ $t('preview') }}</v-btn>
+          <v-btn depressed style="width: 90%;" color="success" :loading="publishLoading" @click="publish">🚀 {{ $t('syncSite') }}</v-btn>
         </div>
       </v-navigation-drawer>
       <v-toolbar fixed app flat dense clipped-left class="header-bar">
@@ -31,6 +31,7 @@
         <!-- <v-btn class="btn" icon small @click="ipcRenderer.send('min-window')"><v-icon>remove</v-icon></v-btn>
         <v-btn class="btn" icon small @click="ipcRenderer.send('max-window')"><v-icon>add</v-icon></v-btn>
         <v-btn class="btn" icon small @click="ipcRenderer.send('close-window')"><v-icon>close</v-icon></v-btn> -->
+        <app-setting></app-setting>
       </v-toolbar>
       <v-content>
         <v-container class="content-container" fluid>
@@ -43,7 +44,7 @@
         <span>🎨 + 🔨 by <a @click="openInBrowser('https://github.com/eryouhao')">EryouHao</a></span>
         <v-spacer></v-spacer>
         <v-chip class="new-version-chip" label color="pink" text-color="white" v-if="hasUpdate" @click="openInBrowser('https://github.com/hve-notes/hve-notes/releases')">
-          <v-icon left>notifications_active</v-icon>有新版本 {{ newVersion }}
+          <v-icon left>notifications_active</v-icon>{{ $t('newVersion') }} {{ newVersion }}
         </v-chip>
         <span class="copyright">👣 - {{ version }}</span>
         <i class="fa fa-github-square github" @click="openInBrowser('https://github.com/hve-notes/hve-notes')"></i>
@@ -64,13 +65,18 @@
 import { ipcRenderer, Event, shell } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import AppSetting from './components/AppSetting.vue'
 import axios from 'axios'
 import ISnackbar from './interfaces/snackbar'
 import { State, Action } from 'vuex-class'
 import { Site } from './store/modules/site'
 import * as pkg from '../package.json'
 
-@Component
+@Component({
+  components: {
+    AppSetting,
+  },
+})
 export default class App extends Vue {
   @State('site') site!: any
   @Action('site/updateSite') updateSite!: (siteData: Site) => void
@@ -80,13 +86,15 @@ export default class App extends Vue {
   version = (pkg as any).version
 
   drawer = true
-  items = [
-    { icon: '📄', title: '文 章', to: '/articles' },
-    { icon: '📋', title: '菜 单', to: '/menu' },
-    { icon: '🏷️', title: '标 签', to: '/tags' },
-    { icon: '🌁', title: '主 题', to: '/theme' },
-    { icon: '⚙️', title: '配 置', to: '/setting' },
-  ]
+  get items() {
+    return [
+      { icon: '📄', title: this.$t('article'), to: '/articles' },
+      { icon: '📋', title: this.$t('menu'), to: '/menu' },
+      { icon: '🏷️', title: this.$t('tag'), to: '/tags' },
+      { icon: '🌁', title: this.$t('theme'), to: '/theme' },
+      { icon: '⚙️', title: this.$t('setting'), to: '/setting' },
+    ]
+  }
 
   color?: string = 'success'
   snackbar?: boolean = false
@@ -97,6 +105,7 @@ export default class App extends Vue {
   newVersion = ''
 
   created() {
+    console.log('文章文案', this.$t('article'))
     this.$bus.$on('snackbar-display', (params: ISnackbar | string) => {
       if (typeof params === 'string') {
         this.snackbar = true
@@ -127,7 +136,7 @@ export default class App extends Vue {
   public preview() {
     ipcRenderer.send('html-render')
     ipcRenderer.once('html-rendered', (event: Event, result: any) => {
-      this.$bus.$emit('snackbar-display', '🎉  渲染完毕，快去预览吧！')
+      this.$bus.$emit('snackbar-display', `🎉  ${this.$t('renderSuccess')}`)
       this.openInBrowser(`file://${this.site.appDir}/output/index.html`)
     })
   }
@@ -135,14 +144,14 @@ export default class App extends Vue {
   public publish() {
     const { setting } = this.site
     if (!setting.branch && !setting.domain && !setting.token && !setting.repository) {
-      this.$bus.$emit('snackbar-display', { color: 'pink', message: '🙁  必须完成配置才能发布哦！' })
+      this.$bus.$emit('snackbar-display', { color: 'pink', message: `🙁  ${this.$t('syncWarning')}` })
       return false
     }
 
     ipcRenderer.send('site-publish')
     this.publishLoading = true
     ipcRenderer.once('site-published', (event: Event, result: any) => {
-      this.$bus.$emit('snackbar-display', `${result ? '🎉  发布成功啦!' : '站点暂无更新!'}`)
+      this.$bus.$emit('snackbar-display', `${result ? `🎉  ${this.$t('syncSuccess')}` : `${this.$t('syncNoUpdate')}`}`)
       this.publishLoading = false
     })
   }
@@ -165,7 +174,7 @@ export default class App extends Vue {
       }, false)
 
       if (this.hasUpdate) {
-        this.$bus.$emit('snackbar-display', { message: '🔥  有新版本发布，快去下载新版本吧！', bottom: true })
+        this.$bus.$emit('snackbar-display', { message: `🔥  ${this.$t('newVersionTips')}`, bottom: true })
       }
     }
   }

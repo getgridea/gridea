@@ -3,22 +3,22 @@
     <v-card flat>
       <v-container fluid>
         <v-form>
-          <v-text-field v-model="form.title" :counter="24" label="标题"></v-text-field>
-          <v-text-field v-show="false" v-model="form.fileName" label="文件名（文章链接地址）"></v-text-field>
-          <v-select v-model="form.tags" :items="tags" label="标签" multiple small-chips deletable-chips></v-select>
+          <v-text-field v-model="form.title" :counter="24" :label="$t('title')"></v-text-field>
+          <!-- <v-text-field v-show="false" v-model="form.fileName" label="文件名（文章链接地址）"></v-text-field> -->
+          <v-select v-model="form.tags" :items="tags" :label="$t('tag')" multiple small-chips deletable-chips></v-select>
           <v-dialog ref="dialog" v-model="modal" :return-value.sync="form.date" persistent lazy full-width width="290px">
-            <v-text-field slot="activator" v-model="form.date" label="写作日期" prepend-icon="event" readonly></v-text-field>
+            <v-text-field slot="activator" v-model="form.date" :label="$t('createAt')" prepend-icon="event" readonly></v-text-field>
             <v-date-picker locale="zh-cn" :first-day-of-week="0" v-model="form.date" scrollable>
               <v-spacer></v-spacer>
-              <v-btn flat @click="modal = false">取消</v-btn>
-              <v-btn flat color="primary" @click="$refs.dialog.save(form.date)">选择</v-btn>
+              <v-btn flat @click="modal = false">{{ $t('cancel') }}</v-btn>
+              <v-btn flat color="primary" @click="$refs.dialog.save(form.date)">{{ $t('select') }}</v-btn>
             </v-date-picker>
           </v-dialog>
           <!-- 文章大图 -->
           <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
             <img :src="`file://${form.featureImage.path}`" height="150" v-if="form.featureImage.path"/>
             <div>
-              <v-btn outline :block="!form.featureImage.path" @click="pickFile">{{ form.featureImage.name || '🏞 文章大图' }}</v-btn>
+              <v-btn outline :block="!form.featureImage.path" @click="pickFile">{{ form.featureImage.name || `🏞 ${$t('featureImage')}` }}</v-btn>
               <v-btn flat outline v-if="form.featureImage.path" @click="form.featureImage = {}"><v-icon>clear</v-icon></v-btn>
             </div>
             <input
@@ -37,9 +37,9 @@
             preview-class="markdown-body"
             v-model="form.content"
           ></markdown-editor>
-          <v-btn depressed @click="$router.push('/articles')">取 消</v-btn>
-          <v-btn depressed @click="saveDraft">存草稿</v-btn>
-          <v-btn depressed color="primary" @click="publish">发 布</v-btn>
+          <v-btn depressed @click="$router.push('/articles')">{{ $t('cancel') }}</v-btn>
+          <v-btn depressed @click="saveDraft">{{ $t('saveDraft') }}</v-btn>
+          <v-btn depressed color="primary" @click="publish">{{ $t('save') }}</v-btn>
         </v-form>
       </v-container>
     </v-card>
@@ -152,7 +152,7 @@ export default class ArticleUpdate extends Vue {
 
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-      this.$bus.$emit('snackbar-display', '🎉  草稿保存成功')
+      this.$bus.$emit('snackbar-display', `🎉  ${this.$t('draftSuccess')}`)
       this.$router.push({ name: 'articles' })
     })
   }
@@ -167,7 +167,7 @@ export default class ArticleUpdate extends Vue {
     console.log(form)
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-      this.$bus.$emit('snackbar-display', '🎉  文章发布成功')
+      this.$bus.$emit('snackbar-display', `🎉  ${this.$t('saveSuccess')}`)
       this.$router.push({ name: 'articles' })
     })
   }

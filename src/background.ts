@@ -17,8 +17,8 @@ protocol.registerStandardSchemes(['app'], { secure: true })
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1000,
-    height: 618,
+    width: 1200,
+    height: 800,
     webPreferences: {
       webSecurity: false, // FIXED: Not allowed to load local resource
     },

@@ -2,19 +2,19 @@
   <div class="">
     <v-card flat>
       <v-card-title>
-        <span class="headline">📄 文 章</span>
+        <span class="headline">📄 {{ $t('article') }}</span>
         <v-spacer></v-spacer>
-        <v-btn depressed color="primary" @click="$router.push('/articles/create')">新文章</v-btn>
+        <v-btn depressed color="primary" @click="$router.push('/articles/create')">{{ $t('newArticle') }}</v-btn>
       </v-card-title>
       <v-data-table :headers="headers" :items="site.posts" :pagination.sync="pagination">
         <template slot="items" slot-scope="props">
           <td>{{ props.item.data.title }}</td>
           <td>
             <v-chip v-if="props.item.data.published" color="green" text-color="white" small>
-              发布
+              {{ $t('publish') }}
             </v-chip>
             <v-chip v-else color="grey  lighten-3" text-color="black" small>
-              草稿
+              {{ $t('draft') }}
             </v-chip>
             
           </td>
@@ -56,25 +56,27 @@ import { ipcRenderer } from 'electron'
 export default class Articles extends Vue {
   @State('site') site!: any
 
-  headers = [
-    {
-      text: '标题',
-      value: 'title',
-    },
-    {
-      text: '状态',
-      value: 'data.published',
-    },
-    {
-      text: '创建时间',
-      value: 'data.date',
-    },
-    {
-      text: '操作',
-      value: 'id',
-      sortable: false,
-    },
-  ]
+  get headers() {
+    return [
+      {
+        text: this.$t('title'),
+        value: 'title',
+      },
+      {
+        text: this.$t('status'),
+        value: 'data.published',
+      },
+      {
+        text: this.$t('createAt'),
+        value: 'data.date',
+      },
+      {
+        text: this.$t('Actions'),
+        value: 'id',
+        sortable: false,
+      },
+    ]
+  }
 
   pagination = {
     sortBy: 'data.date',
@@ -91,14 +93,14 @@ export default class Articles extends Vue {
 
   async deletePost(post: IPost) {
     const confirm = await this.$dialog.confirm({
-      text: '你确定要删除吗?',
-      title: '警告',
+      text: `${this.$t('deleteWarning')}`,
+      title: `${this.$t('warning')}`,
     })
     if (confirm) {
       ipcRenderer.send('app-post-delete', post)
       ipcRenderer.once('app-post-deleted', (event: Event, data: any) => {
         if (data) {
-          this.$bus.$emit('snackbar-display', '文章已删除')
+          this.$bus.$emit('snackbar-display', this.$t('articleDelete'))
           this.$bus.$emit('site-reload')
         }
       })

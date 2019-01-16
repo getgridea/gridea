@@ -2,18 +2,18 @@
   <div class="">
     <v-card flat>
       <v-card-title>
-        <span class="headline">🌁 主 题</span>
+        <span class="headline">🌁 {{ $t('theme') }}</span>
       </v-card-title>
       <v-container fluid>
         <v-form>
-          <v-select v-model="form.themeName" :items="site.themes" label="选择主题" outline />
-          <v-text-field label="网站名称" v-model="form.siteName" />
-          <v-text-field label="网站描述" v-model="form.siteDescription" />
-          <v-text-field label="底部信息" v-model="form.footerInfo" />
-          <v-switch label="是否显示文章大图" v-model="form.showFeatureImage" />
-          <v-slider label="每页文章数" v-model="form.pageSize" thumb-label="always" :min="1" :max="20" always-dirty />
+          <v-select v-model="form.themeName" :items="site.themes" :label="$t('selectTheme')" outline />
+          <v-text-field :label="$t('siteName')" v-model="form.siteName" />
+          <v-text-field :label="$t('siteDescription')" v-model="form.siteDescription" />
+          <v-text-field :label="$t('footerInfo')" v-model="form.footerInfo" />
+          <v-switch :label="$t('isShowFeatureImage')" v-model="form.showFeatureImage" />
+          <v-slider :label="$t('articlesPerPage')" v-model="form.pageSize" thumb-label="always" :min="1" :max="20" always-dirty />
           <div>
-            <v-btn depressed color="primary" @click="saveTheme">保 存</v-btn>
+            <v-btn depressed color="primary" @click="saveTheme">{{ $t('save') }}</v-btn>
           </div>
         </v-form>
       </v-container>

@@ -1,11 +1,11 @@
 <template>
   <v-card flat>
     <v-card-text>
-      <v-text-field label="域 名" v-model="form.domain"></v-text-field>
-      <v-text-field label="仓 库" v-model="form.repository"></v-text-field>
-      <v-text-field label="分 支" v-model="form.branch"></v-text-field>
-      <v-text-field label="用户名" v-model="form.username"></v-text-field>
-      <v-text-field label="邮 箱" v-model="form.email"></v-text-field>
+      <v-text-field :label="$t('domain')" v-model="form.domain"></v-text-field>
+      <v-text-field :label="$t('repository')" v-model="form.repository"></v-text-field>
+      <v-text-field :label="$t('branch')" v-model="form.branch"></v-text-field>
+      <v-text-field :label="$t('username')" v-model="form.username"></v-text-field>
+      <v-text-field :label="$t('email')" v-model="form.email"></v-text-field>
       <v-text-field
         label="Token"
         v-model="form.token"
@@ -14,7 +14,7 @@
         @click:append="showToken = !showToken"
       ></v-text-field>
       <v-text-field label="CNAME" v-model="form.cname"></v-text-field>
-      <v-btn color="primary" depressed @click="submit">保 存</v-btn>
+      <v-btn color="primary" depressed @click="submit">{{ $t('save') }}</v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -56,7 +56,7 @@ export default class BasicSetting extends Vue {
     ipcRenderer.send('setting-save', this.form)
     ipcRenderer.once('setting-saved', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
-      this.$bus.$emit('snackbar-display', '配置已保存')
+      this.$bus.$emit('snackbar-display', this.$t('basicSettingSuccess'))
     })
   }
 }

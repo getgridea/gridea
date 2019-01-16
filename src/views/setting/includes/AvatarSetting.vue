@@ -8,7 +8,7 @@
       >
       </upload-button>
       {{ file && file.path }}
-      <v-btn color="primary" depressed @click="submit">保 存</v-btn>
+      <v-btn color="primary" depressed @click="submit">{{ $t('save') }}</v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -47,7 +47,7 @@ export default class AvatarSetting extends Vue {
       this.file = null
       this.$bus.$emit('site-reload')
       this.avatarPath = path.join('file://', this.site.appDir, 'images', `avatar.png?a=${Math.random()}`)
-      this.$bus.$emit('snackbar-display', '头像配置已保存')
+      this.$bus.$emit('snackbar-display', this.$t('avatarSettingSuccess'))
     })
   }
 

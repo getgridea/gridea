@@ -2,9 +2,9 @@
   <div class="">
     <v-card flat>
       <v-card-title>
-        <span class="headline">🏷️ 标 签</span>
+        <span class="headline">🏷️ {{ $t('tag') }}</span>
         <v-spacer></v-spacer>
-        <v-btn depressed color="primary" @click="newTag">新标签</v-btn>
+        <v-btn depressed color="primary" @click="newTag">{{ $t('newTag') }}</v-btn>
       </v-card-title>
       <v-card-text>
         <v-chip
@@ -26,12 +26,12 @@
           🏷️
         </v-card-title>
         <v-card-text>
-          <v-text-field label="标签名" v-model="form.name"></v-text-field>
+          <v-text-field :label="$t('tagName')" v-model="form.name"></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click="visible = false">取消</v-btn>
-          <v-btn flat color="primary" @click="saveTag">保存</v-btn>
+          <v-btn flat @click="visible = false">{{ $t('cancel') }}</v-btn>
+          <v-btn flat color="primary" @click="saveTag">{{ $t('save') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

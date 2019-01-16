@@ -8,7 +8,7 @@
       >
       </upload-button>
       {{ file && file.path }}
-      <v-btn color="primary" depressed @click="submit">保 存</v-btn>
+      <v-btn color="primary" depressed @click="submit">{{ $t('save') }}</v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -47,7 +47,7 @@ export default class FaviconSetting extends Vue {
       this.file = null
       this.$bus.$emit('site-reload')
       this.faviconPath = path.join('file://', this.site.appDir, 'output', `favicon.ico?a=${Math.random()}`)
-      this.$bus.$emit('snackbar-display', 'Favicon 配置已保存')
+      this.$bus.$emit('snackbar-display', this.$t('faviconSettingSuccess'))
     })
   }
 

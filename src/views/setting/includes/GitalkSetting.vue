@@ -1,12 +1,12 @@
 <template>
   <v-card flat>
     <v-card-text>
-      <v-switch label="是否显示评论" v-model="form.showComment" />
+      <v-switch :label="$t('isShowComment')" v-model="form.showComment" />
       <v-text-field label="Client ID" v-model="form.clientId"></v-text-field>
       <v-text-field label="Client Secret" v-model="form.clientSecret"></v-text-field>
-      <v-text-field label="仓库" v-model="form.repository"></v-text-field>
+      <v-text-field :label="$t('branch')" v-model="form.repository"></v-text-field>
       <v-text-field label="Owner" v-model="form.owner"></v-text-field>
-      <v-btn color="primary" depressed @click="submit">保 存</v-btn>
+      <v-btn color="primary" depressed @click="submit">{{ $t('save') }}</v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -43,7 +43,7 @@ export default class GitalkSetting extends Vue {
     ipcRenderer.send('gitalk-setting-save', this.form)
     ipcRenderer.once('gitalk-setting-saved', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
-      this.$bus.$emit('snackbar-display', 'Gitalk 配置已保存')
+      this.$bus.$emit('snackbar-display', this.$t('gitalkSettingSuccess'))
     })
   }
 }

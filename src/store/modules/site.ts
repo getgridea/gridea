@@ -32,6 +32,7 @@ const siteState: Site = {
   },
   themes: [],
   setting: {
+    platform: '',
     domain: '',
     repository: '',
     branch: '',

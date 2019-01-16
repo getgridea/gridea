@@ -1,5 +1,6 @@
 {
   "config": {
+    "platform": "github",
     "domain": "",
     "repository": "",
     "branch": "",

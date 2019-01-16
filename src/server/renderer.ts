@@ -18,11 +18,21 @@ export default class Renderer extends Model {
   themePath: string = ''
   postsData: IPostRenderData[] = []
   git: SimpleGit
+  platformAddress = ''
+  remoteUrl = ''
 
   constructor(appInstance: any)  {
     super(appInstance)
 
     this.loadConfig()
+
+    const { setting } = this.db
+    this.platformAddress = ({
+      github: 'github.com',
+      coding: 'git.coding.net',
+    } as any)[setting.platform || 'github']
+
+    this.remoteUrl = `https://${setting.username}:${setting.token}@${this.platformAddress}/${setting.username}/${setting.repository}.git`
 
     this.git = simpleGit(this.outputDir)
   }
@@ -58,7 +68,7 @@ export default class Renderer extends Model {
       await this.git.addConfig('user.email', setting.email)
       await this.git.add('./*')
       await this.git.commit('first commit')
-      await this.git.addRemote('origin', `https://${setting.username}:${setting.token}@github.com/${setting.username}/${setting.repository}.git`)
+      await this.git.addRemote('origin', this.remoteUrl)
       await this.git.push('origin', setting.branch, {'--force': true})
       return true
     } catch (e) {
@@ -72,7 +82,7 @@ export default class Renderer extends Model {
     const { setting } = this.db
     const statusSummary = await this.git.status()
     console.log(statusSummary)
-    await this.git.raw(['remote', 'set-url', 'origin', `https://${setting.username}:${setting.token}@github.com/${setting.username}/${setting.repository}.git`])
+    await this.git.raw(['remote', 'set-url', 'origin', this.remoteUrl])
 
     if (statusSummary.modified.length > 0 || statusSummary.not_added.length > 0) {
       try {
@@ -93,6 +103,7 @@ export default class Renderer extends Model {
 
 
   async renderAll() {
+    await this.clearOutputFolder()
     await this.formatPostsForRender()
     await this.buildCss()
     await this.renderPostList()
@@ -331,5 +342,15 @@ export default class Renderer extends Model {
     await fse.ensureDir(mediaInputPath)
     await fse.copySync(mediaInputPath, mediaOutputPath)
 
+  }
+
+  async clearOutputFolder() {
+    await fse.removeSync(`${this.outputDir}/images`)
+    await fse.removeSync(`${this.outputDir}/media`)
+    await fse.removeSync(`${this.outputDir}/page`)
+    await fse.removeSync(`${this.outputDir}/post`)
+    await fse.removeSync(`${this.outputDir}/post-images`)
+    await fse.removeSync(`${this.outputDir}/styles`)
+    await fse.removeSync(`${this.outputDir}/tag`)
   }
 }

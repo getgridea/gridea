@@ -1,6 +1,10 @@
 <template>
   <v-card flat>
     <v-card-text>
+      <v-radio-group v-model="form.platform" row>
+        <v-radio label="Github Pages" value="github"></v-radio>
+        <v-radio label="Coding Pages" value="coding"></v-radio>
+      </v-radio-group>
       <v-text-field :label="$t('domain')" v-model="form.domain"></v-text-field>
       <v-text-field :label="$t('repository')" v-model="form.repository"></v-text-field>
       <v-text-field :label="$t('branch')" v-model="form.branch"></v-text-field>
@@ -32,6 +36,7 @@ export default class BasicSetting extends Vue {
   showToken = false
 
   form = {
+    platform: 'github',
     domain: '',
     repository: '',
     branch: '',
@@ -42,6 +47,7 @@ export default class BasicSetting extends Vue {
   }
 
   mounted() {
+    this.form.platform = this.site.setting.platform || 'github'
     this.form.domain = this.site.setting.domain
     this.form.repository = this.site.setting.repository
     this.form.branch = this.site.setting.branch

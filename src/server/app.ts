@@ -41,6 +41,7 @@ export default class App {
       },
       themes: [],
       setting: {
+        platform: '',
         domain: '',
         repository: '',
         branch: '',
@@ -122,11 +123,11 @@ export default class App {
       }
 
       // 检查 默认 theme 是不是包含 fly 主题
-      const themePath = path.join(this.appDir, 'themes', 'fly')
-      if (!fse.pathExistsSync(themePath)) {
+      const flyThemePath = path.join(this.appDir, 'themes', 'fly')
+      if (!fse.pathExistsSync(flyThemePath)) {
         fse.copySync(
           path.join(__static, 'default-files', 'themes', 'fly'),
-          themePath,
+          flyThemePath,
         )
       }
 

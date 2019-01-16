@@ -1,4 +1,5 @@
 export interface ISetting {
+  platform?: string,
   domain: string
   repository: string
   branch: string

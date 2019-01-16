@@ -1,10 +1,12 @@
 <template>
   <v-card flat>
-    <v-card-text>
+    <v-card-title>
       <v-radio-group v-model="form.platform" row>
         <v-radio label="Github Pages" value="github"></v-radio>
         <v-radio label="Coding Pages" value="coding"></v-radio>
       </v-radio-group>
+    </v-card-title>
+    <v-card-text>
       <v-text-field :label="$t('domain')" v-model="form.domain"></v-text-field>
       <v-text-field :label="$t('repository')" v-model="form.repository"></v-text-field>
       <v-text-field :label="$t('branch')" v-model="form.branch"></v-text-field>

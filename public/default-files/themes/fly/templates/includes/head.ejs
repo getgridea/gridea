@@ -9,7 +9,16 @@
 
 <link rel="shortcut icon" href="<%= themeConfig.domain %>/favicon.ico">
 <link rel="stylesheet" href="<%= themeConfig.domain %>/styles/main.css">
-<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+<% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
+  <% if (commentSetting.commentPlatform === 'gitalk') { %>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  <% } %>
+
+  <% if (commentSetting.commentPlatform === 'disqus') { %>
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  <% } %>
+<% } %>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>

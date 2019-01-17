@@ -37,9 +37,15 @@
           </div>
           <% } %>
       </div>
-      
-      <% if (typeof gitalkSetting !== 'undefined' && gitalkSetting.showComment) { %>
-        <div id="gitalk-container"></div>
+
+      <% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
+        <% if (commentSetting.commentPlatform === 'gitalk') { %>
+          <div id="gitalk-container"></div>
+        <% } %>
+
+        <% if (commentSetting.commentPlatform === 'disqus') { %>
+          <div id="disqus_thread"></div>
+        <% } %>
       <% } %>
 
       <%- include('./includes/footer') %>

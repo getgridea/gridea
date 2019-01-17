@@ -5,13 +5,13 @@
 
 <script>
 
-const options = {
+var options = {
   shortname: '<%= commentSetting.disqusSetting.shortname %>',
   apikey: '<%= commentSetting.disqusSetting.apikey %>',
 }
-if (commentSetting.disqusSetting.api) {
+if ('<%= commentSetting.disqusSetting.api %>') {
   options.api = '<%= commentSetting.disqusSetting.api %>'
 }
-var dsqjs = new DisqusJS(options);
+var dsqjs = new DisqusJS(options)
 
 </script>

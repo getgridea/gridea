@@ -1,5 +1,6 @@
 <template>
   <div>
+    <a href="#" @click="openPage('https://github.com/gitalk/gitalk')">Gitalk Document</a>
     <v-text-field label="Client ID" v-model="form.clientId"></v-text-field>
     <v-text-field label="Client Secret" v-model="form.clientSecret"></v-text-field>
     <v-text-field :label="$t('branch')" v-model="form.repository"></v-text-field>
@@ -8,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, Event, shell } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { State } from 'vuex-class'
@@ -31,6 +32,9 @@ export default class GitalkSetting extends Vue {
     this.form.clientSecret = gitalkSetting.clientSecret
     this.form.repository = gitalkSetting.repository
     this.form.owner = gitalkSetting.owner
+  }
+  openPage(url: string) {
+    shell.openExternal(url)
   }
 }
 </script>

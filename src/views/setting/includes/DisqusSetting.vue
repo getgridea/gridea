@@ -1,5 +1,6 @@
 <template>
   <div>
+    <a href="#" @click="openPage('https://github.com/SukkaW/DisqusJS')">DisqusJS Document</a>
     <v-text-field label="shortname" v-model="form.shortname"></v-text-field>
     <v-text-field label="apikey" v-model="form.apikey"></v-text-field>
     <v-text-field label="api" v-model="form.api" placeholder="default: https://disqus.skk.moe/disqus/"></v-text-field>
@@ -7,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, Event, shell } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { State } from 'vuex-class'
@@ -28,6 +29,10 @@ export default class DisqusSetting extends Vue {
     this.form.shortname = disqusSetting.shortname
     this.form.api = disqusSetting.api
     this.form.apikey = disqusSetting.apikey
+  }
+  
+  openPage(url: string) {
+    shell.openExternal(url)
   }
 }
 </script>

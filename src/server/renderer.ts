@@ -96,8 +96,7 @@ export default class Renderer extends Model {
       }
     } else {
       await this.git.push('origin', this.db.setting.branch, {'--force': true})
-      console.log('没有更新')
-      return false
+      return true
     }
   }
 

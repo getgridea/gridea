@@ -20,7 +20,7 @@
         </v-list>
         <div class="btn-container">
           <v-btn depressed style="width: 90%;" @click="preview">💫 {{ $t('preview') }}</v-btn>
-          <v-btn depressed style="width: 90%;" color="success" :loading="publishLoading" @click="publish">🚀 {{ $t('syncSite') }}</v-btn>
+          <v-btn depressed style="width: 90%;" color="success" @click="publish">🚀 {{ $t('syncSite') }}</v-btn>
         </div>
       </v-navigation-drawer>
       <v-toolbar fixed app flat dense clipped-left class="header-bar">
@@ -57,6 +57,15 @@
         close
       </v-icon>
     </v-snackbar>
+
+    <v-dialog v-model="publishLoading" persistent width="300">
+      <v-card color="primary" dark>
+        <v-card-text>
+          {{ $t('syncing') }}
+          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
 
   </div>
 </template>
@@ -151,7 +160,7 @@ export default class App extends Vue {
     ipcRenderer.send('site-publish')
     this.publishLoading = true
     ipcRenderer.once('site-published', (event: Event, result: any) => {
-      this.$bus.$emit('snackbar-display', `${result ? `🎉  ${this.$t('syncSuccess')}` : `${this.$t('syncNoUpdate')}`}`)
+      this.$bus.$emit('snackbar-display', { color: result ? 'success' : 'pink', message: result ? `🎉  ${this.$t('syncSuccess')}` : `${this.$t('syncError')}` })
       this.publishLoading = false
     })
   }

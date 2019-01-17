@@ -25,7 +25,7 @@ const message = {
     renderSuccess: '渲染完毕，快去预览吧！',
     syncWarning: '必须完成配置才能同步哦！',
     syncSuccess: '同步成功啦！',
-    syncNoUpdate: '站点暂无更新！',
+    syncError: '抱歉，同步遇到了错误，请联系作者',
     newVersionTips: '有新版本发布，快去下载新版本吧！',
     newArticle: '新文章',
     publish: '发布',
@@ -72,6 +72,7 @@ const message = {
     commentSettingSuccess: '评论配置已保存',
     faviconSettingSuccess: 'Favicon 配置已保存',
     avatarSettingSuccess: 'Avatar 配置已保存',
+    syncing: '同步中，请耐心等待...',
   },
   en: {
     $vuetify: {
@@ -99,7 +100,7 @@ const message = {
     renderSuccess: 'Congratulations, the rendering is complete, go ahead and preview.',
     syncWarning: 'You must complete the configuration to synchronize!',
     syncSuccess: 'Synchronization succeeded!',
-    syncNoUpdate: 'The site has not been updated yet!',
+    syncError: 'Sorry, synchronization encountered an error, please contact the author.',
     newVersionTips: 'There is a new version released, go and download the new version!',
     newArticle: 'New',
     publish: 'Publish',
@@ -146,6 +147,7 @@ const message = {
     commentSettingSuccess: 'The comment setting saved',
     faviconSettingSuccess: 'The favicon setting saved',
     avatarSettingSuccess: 'The avatar setting saved',
+    syncing: 'Synchronizing, please wait...',
   },
 }
 

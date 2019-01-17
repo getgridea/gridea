@@ -7,6 +7,7 @@ export default class ThemeEvents {
     const theme = new Theme(appInstance)
 
     ipcMain.removeAllListeners('theme-save')
+    ipcMain.removeAllListeners('theme-saved')
 
     ipcMain.on('theme-save', async (event: Event, themeConfig: ITheme) => {
       const config = await theme.saveThemeConfig(themeConfig)

@@ -6,6 +6,7 @@ export default class SiteEvents {
      * load site config and data
      */
     ipcMain.removeAllListeners('app-site-reload')
+    ipcMain.removeAllListeners('app-site-loaded')
 
     ipcMain.on('app-site-reload', async (event: Event) => {
       const result = await appInstance.loadSite()

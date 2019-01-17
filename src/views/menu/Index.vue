@@ -53,7 +53,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn flat @click="visible = false">{{ $t('cancel') }}</v-btn>
-          <v-btn flat color="primary" @click="saveMenu">{{ $t('save') }}</v-btn>
+          <v-btn flat color="primary" :disabled="!canSubmit" @click="saveMenu">{{ $t('save') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -116,6 +116,10 @@ export default class Tags extends Vue {
     link: '',
   }
 
+  get canSubmit() {
+    return this.form.name && this.form.link
+  }
+
   get menuLinks() {
     const posts = this.site.posts.map((item: IPost) => {
       return {
@@ -135,6 +139,8 @@ export default class Tags extends Vue {
   newMenu() {
     this.form.name = null
     this.form.index = null
+    this.form.openType = MenuTypes.Internal
+    this.form.link = ''
     this.visible = true
   }
   editMenu(menu: IMenu, index: number) {
@@ -155,13 +161,19 @@ export default class Tags extends Vue {
     })
   }
 
-  deleteMenu(menuValue: string) {
-    ipcRenderer.send('menu-delete', menuValue)
-    ipcRenderer.once('menu-deleted', (event: Event, result: any) => {
-      this.$bus.$emit('site-reload')
-      this.$bus.$emit('snackbar-display', this.$t('menuDelete'))
-      this.visible = false
+  async deleteMenu(menuValue: string) {
+    const confirm = await this.$dialog.confirm({
+      text: `${this.$t('deleteWarning')}`,
+      title: `${this.$t('warning')}`,
     })
+    if (confirm) {
+      ipcRenderer.send('menu-delete', menuValue)
+      ipcRenderer.once('menu-deleted', (event: Event, result: any) => {
+        this.$bus.$emit('site-reload')
+        this.$bus.$emit('snackbar-display', this.$t('menuDelete'))
+        this.visible = false
+      })
+    }
   }
 }
 </script>

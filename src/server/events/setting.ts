@@ -7,9 +7,13 @@ export default class SettingEvents {
     const settingInstance = new Setting(appInstance)
 
     ipcMain.removeAllListeners('setting-save')
+    ipcMain.removeAllListeners('setting-saved')
     ipcMain.removeAllListeners('comment-setting-save')
+    ipcMain.removeAllListeners('comment-setting-saved')
     ipcMain.removeAllListeners('favicon-upload')
+    ipcMain.removeAllListeners('favicon-uploaded')
     ipcMain.removeAllListeners('avatar-upload')
+    ipcMain.removeAllListeners('avatar-uploaded')
 
     ipcMain.on('setting-save', async (event: Event, setting: ISetting) => {
       const data = await settingInstance.saveSetting(setting)

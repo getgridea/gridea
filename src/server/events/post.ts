@@ -5,8 +5,11 @@ export default class PostEvents {
   constructor(appInstance: any) {
 
     ipcMain.removeAllListeners('app-post-create')
+    ipcMain.removeAllListeners('app-post-created')
     ipcMain.removeAllListeners('app-post-delete')
+    ipcMain.removeAllListeners('app-post-deleted')
     ipcMain.removeAllListeners('image-upload')
+    ipcMain.removeAllListeners('image-uploaded')
 
     const posts = new Posts(appInstance)
 

@@ -4,7 +4,7 @@
       <v-card-title>
         <span class="headline">📄 {{ $t('article') }}</span>
         <v-spacer></v-spacer>
-        <v-btn depressed color="primary" @click="$router.push('/articles/create')">{{ $t('newArticle') }}</v-btn>
+        <v-btn depressed color="primary" @click="newPost">{{ $t('newArticle') }}</v-btn>
       </v-card-title>
       <v-data-table :headers="headers" :items="site.posts" :pagination.sync="pagination">
         <template slot="items" slot-scope="props">
@@ -42,17 +42,29 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-dialog v-model="articleUpdateVisible" fullscreen hide-overlay transition="fade-transition">
+      <article-update
+        :articleFileName="currentArticleFileName"
+        @close="close"
+        @fetchData="$bus.$emit('site-reload')"
+      ></article-update>
+    </v-dialog>
   </div>
 </template>
 
 <script lang="ts">
+import { ipcRenderer } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { State } from 'vuex-class'
 import { IPost } from '../../interfaces/post'
-import { ipcRenderer } from 'electron'
+import ArticleUpdate from './ArticleUpdate.vue'
 
-@Component
+@Component({
+  components: {
+    ArticleUpdate,
+  },
+})
 export default class Articles extends Vue {
   @State('site') site!: any
 
@@ -78,6 +90,9 @@ export default class Articles extends Vue {
     ]
   }
 
+  articleUpdateVisible = false
+  currentArticleFileName = ''
+
   pagination = {
     sortBy: 'data.date',
     descending: true,
@@ -87,8 +102,18 @@ export default class Articles extends Vue {
     this.$bus.$emit('site-reload')
   }
 
+  close() {
+    this.articleUpdateVisible = false
+    this.currentArticleFileName = ''
+  }
+
+  newPost() {
+    this.articleUpdateVisible = true
+  }
+
   editPost(post: IPost) {
-    this.$router.push({ name: 'articles-edit', params: { articleFileName: post.fileName } })
+    this.articleUpdateVisible = true
+    this.currentArticleFileName = post.fileName
   }
 
   async deletePost(post: IPost) {
@@ -109,5 +134,5 @@ export default class Articles extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="stylus" scoped>
 </style>

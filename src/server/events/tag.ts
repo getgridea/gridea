@@ -7,7 +7,9 @@ export default class TagEvents {
     const tags = new Tags(appInstance)
 
     ipcMain.removeAllListeners('tag-delete')
+    ipcMain.removeAllListeners('tag-deleted')
     ipcMain.removeAllListeners('tag-save')
+    ipcMain.removeAllListeners('tag-saved')
 
     ipcMain.on('tag-delete', async (event: Event, tagName: string) => {
       const data = await tags.deleteTag(tagName)

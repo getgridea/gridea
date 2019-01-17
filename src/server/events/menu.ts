@@ -7,7 +7,9 @@ export default class MenuEvents {
     const menus = new Menus(appInstance)
 
     ipcMain.removeAllListeners('menu-delete')
+    ipcMain.removeAllListeners('menu-deleted')
     ipcMain.removeAllListeners('menu-save')
+    ipcMain.removeAllListeners('menu-saved')
 
     ipcMain.on('menu-delete', async (event: Event, menuName: string) => {
       const data = await menus.deleteMenu(menuName)

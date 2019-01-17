@@ -1,59 +1,70 @@
 <template>
-  <div class="">
-    <v-card flat>
-      <v-container fluid>
+  <div class="article-update-page">
+    <div class="page-header">
+      <h3>𝗛𝘃𝗲 𝗡𝗼𝘁𝗲𝘀</h3>
+    </div>
+    <div class="page-content">
+      <v-slide-y-transition mode="out-in">
         <v-form>
-          <v-text-field v-model="form.title" :counter="24" :label="$t('title')"></v-text-field>
-          <!-- <v-text-field v-show="false" v-model="form.fileName" label="文件名（文章链接地址）"></v-text-field> -->
-          <v-select v-model="form.tags" :items="tags" :label="$t('tag')" multiple small-chips deletable-chips></v-select>
-          <v-dialog ref="dialog" v-model="modal" :return-value.sync="form.date" persistent lazy full-width width="290px">
-            <v-text-field slot="activator" v-model="form.date" :label="$t('createAt')" prepend-icon="event" readonly></v-text-field>
-            <v-date-picker locale="zh-cn" :first-day-of-week="0" v-model="form.date" scrollable>
-              <v-spacer></v-spacer>
-              <v-btn flat @click="modal = false">{{ $t('cancel') }}</v-btn>
-              <v-btn flat color="primary" @click="$refs.dialog.save(form.date)">{{ $t('select') }}</v-btn>
-            </v-date-picker>
-          </v-dialog>
-          <!-- 文章大图 -->
-          <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-            <img :src="`file://${form.featureImage.path}`" height="150" v-if="form.featureImage.path"/>
-            <div>
-              <v-btn outline :block="!form.featureImage.path" @click="pickFile">{{ form.featureImage.name || `🏞 ${$t('featureImage')}` }}</v-btn>
-              <v-btn flat outline v-if="form.featureImage.path" @click="form.featureImage = {}"><v-icon>clear</v-icon></v-btn>
-            </div>
-            <input
-              type="file"
-              style="display: none"
-              ref="image"
-              accept="image/*"
-              @change="onFilePicked"
-            >
-          </v-flex>
-          <markdown-editor
-            id="markdown-editor"
-            ref="editor"
-            class="md-editor"
-            :configs="configs"
-            preview-class="markdown-body"
-            v-model="form.content"
-          ></markdown-editor>
-          <v-btn depressed @click="$router.push('/articles')">{{ $t('cancel') }}</v-btn>
-          <v-btn depressed @click="saveDraft">{{ $t('saveDraft') }}</v-btn>
-          <v-btn depressed color="primary" @click="publish">{{ $t('save') }}</v-btn>
+          <v-layout fill-height row wrap>
+            <v-flex xs8>
+              <v-text-field v-model="form.title" :counter="50" :label="$t('title')"></v-text-field>
+              <!-- <v-text-field v-show="false" v-model="form.fileName" label="文件名（文章链接地址）"></v-text-field> -->
+              <markdown-editor
+                id="markdown-editor"
+                ref="editor"
+                class="md-editor"
+                :configs="configs"
+                preview-class="markdown-body"
+                v-model="form.content"
+              ></markdown-editor>
+              <v-btn depressed @click="cancel">{{ $t('cancel') }}</v-btn>
+              <v-btn :disabled="!canSubmit" depressed @click="saveDraft">{{ $t('saveDraft') }}</v-btn>
+              <v-btn :disabled="!canSubmit" depressed color="primary" @click="savePost">{{ $t('save') }}</v-btn>
+            </v-flex>
+            <v-flex xs4>
+              <div class="right-container">
+                <v-select v-model="form.tags" :items="tags" :label="$t('tag')" multiple small-chips deletable-chips></v-select>
+                <v-dialog ref="dialog" v-model="modal" :return-value.sync="form.date" persistent lazy full-width width="290px">
+                  <v-text-field slot="activator" v-model="form.date" :label="$t('createAt')" prepend-icon="event" readonly></v-text-field>
+                  <v-date-picker locale="zh-cn" :first-day-of-week="0" v-model="form.date" scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn flat @click="modal = false">{{ $t('cancel') }}</v-btn>
+                    <v-btn flat color="primary" @click="$refs.dialog.save(form.date)">{{ $t('select') }}</v-btn>
+                  </v-date-picker>
+                </v-dialog>
+                <!-- 文章大图 -->
+                <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
+                  <img class="feature-image" :src="`file://${form.featureImage.path}`" height="150" v-if="form.featureImage.path"/>
+                  <div>
+                    <v-btn v-if="!form.featureImage.name" outline :block="!form.featureImage.path" @click="pickFile">{{ `🏞 ${$t('featureImage')}` }}</v-btn>
+                    <p class="feature-name" v-else>{{ form.featureImage.name }}</p>
+                    <v-btn flat outline v-if="form.featureImage.path" @click="form.featureImage = {}"><v-icon>clear</v-icon></v-btn>
+                  </div>
+                  <input
+                    type="file"
+                    style="display: none"
+                    ref="image"
+                    accept="image/*"
+                    @change="onFilePicked"
+                  >
+                </v-flex>
+              </div>
+            </v-flex>
+          </v-layout>
         </v-form>
-      </v-container>
-    </v-card>
-    <!-- 编辑器点击图片上传用 -->
-    <input ref="uploadInput" class="upload-input" type="file" @change="fileChangeHandler">
+      </v-slide-y-transition>
+      <!-- 编辑器点击图片上传用 -->
+      <input ref="uploadInput" class="upload-input" type="file" @change="fileChangeHandler">
+    </div>
     
   </div>
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, Event, shell } from 'electron'
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
@@ -63,10 +74,12 @@ import { Site } from '../../store/modules/site'
   components: { MarkdownEditor },
 })
 export default class ArticleUpdate extends Vue {
+  @Prop(String) articleFileName!: string
   $refs!: {
     editor: any,
     uploadInput: any,
     image: any,
+    articlePage: HTMLElement,
   }
 
   @State('site') site!: Site
@@ -84,6 +97,10 @@ export default class ArticleUpdate extends Vue {
       name: '',
       type: '',
     },
+  }
+
+  get canSubmit() {
+    return this.form.title && this.form.content
   }
 
   configs = {
@@ -104,19 +121,6 @@ export default class ArticleUpdate extends Vue {
   }
 
   mounted() {
-    const { articleFileName } = this.$route.params
-    const currentPost: IPost | undefined = this.site.posts.find((item: IPost) => item.fileName === articleFileName)
-    if (currentPost) {
-      this.form.title = currentPost.data.title
-      this.form.fileName = currentPost.fileName
-      this.form.tags = currentPost.data.tags && currentPost.data.tags.split(' ') || []
-      this.form.date = this.$dayjs(currentPost.data.date).format('YYYY-MM-DD')
-      this.form.content = currentPost.content
-      this.form.published = currentPost.data.published
-      this.form.featureImage.path = currentPost.data.feature && currentPost.data.feature.substring(7) || ''
-      this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
-    }
-
     this.initEditor()
   }
 
@@ -143,6 +147,23 @@ export default class ArticleUpdate extends Vue {
     }
   }
 
+  cancel() {
+    this.close()
+  }
+  close() {
+    this.form.title = ''
+    this.form.fileName = ''
+    this.form.tags = [] as string[]
+    this.form.date = this.$dayjs(new Date()).format('YYYY-MM-DD')
+    this.form.content = ''
+    this.form.published = false
+    this.form.featureImage.path = ''
+    this.form.featureImage.name = ''
+    this.form.featureImage.type = ''
+
+    this.$emit('close')
+  }
+
   saveDraft() {
     const form = {
       ...this.form,
@@ -153,22 +174,23 @@ export default class ArticleUpdate extends Vue {
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
       this.$bus.$emit('snackbar-display', `🎉  ${this.$t('draftSuccess')}`)
-      this.$router.push({ name: 'articles' })
+      this.close()
+      this.$emit('fetchData')
     })
   }
 
-  publish() {
+  savePost() {
     const form = {
       ...this.form,
     }
     form.fileName = form.fileName === '' ? slug(form.title) : form.fileName
     form.published = true
 
-    console.log(form)
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
       this.$bus.$emit('snackbar-display', `🎉  ${this.$t('saveSuccess')}`)
-      this.$router.push({ name: 'articles' })
+      this.close()
+      this.$emit('fetchData')
     })
   }
 
@@ -259,6 +281,25 @@ export default class ArticleUpdate extends Vue {
     }
   }
 
+  @Watch('articleFileName')
+  updateForm(val: string, oldVal: string) {
+    const { articleFileName } = this
+    console.log('articleFileName: ', articleFileName)
+    if (articleFileName) {
+      const currentPost: IPost | undefined = this.site.posts.find((item: IPost) => item.fileName === articleFileName)
+      if (currentPost) {
+        this.form.title = currentPost.data.title
+        this.form.fileName = currentPost.fileName
+        this.form.tags = currentPost.data.tags && currentPost.data.tags.split(' ') || []
+        this.form.date = this.$dayjs(currentPost.data.date).format('YYYY-MM-DD')
+        this.form.content = currentPost.content
+        this.form.published = currentPost.data.published
+        this.form.featureImage.path = currentPost.data.feature && currentPost.data.feature.substring(7) || ''
+        this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
+      }
+    }
+  }
+
 }
 </script>
 
@@ -267,6 +308,36 @@ export default class ArticleUpdate extends Vue {
   display none
 .title
   padding: 16px 0 0
+.right-container
+  background: #f3f7f9;
+  padding: 32px 16px 32px;
+  margin-left: 16px;
+.feature-name
+  width: 100%
+  text-overflow ellipsis
+  white-space nowrap
+  overflow hidden
+.feature-image
+  max-width: 100%
+.article-update-page
+  background #ffffff
+  display flex
+  flex-direction column
+  min-height: 100vh
+  .page-header
+    height 48px
+    line-height 48px
+    text-align center
+    position fixed
+    top 0
+    left 0
+    right 0
+    background: #fff
+    border-bottom 1px solid #fafafa
+    z-index 1024
+  .page-content
+    padding 80px 32px 32px
+    flex 1
 </style>
 
 

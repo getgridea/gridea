@@ -90,8 +90,7 @@ tags: ${post.tags.join(' ')}
 published: ${post.published}
 feature: ${post.featureImage.name ? `/post-images/${post.fileName}.${extendName}` : ''}
 ---
-${content}
-`
+${content}`
     try {
 
       // 存在文章大图

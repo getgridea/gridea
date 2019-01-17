@@ -18,12 +18,16 @@ export default class DisqusSetting extends Vue {
 
   form = {
     shortname: '',
-    apikey: '',
     api: '',
+    apikey: '',
   }
 
   mounted() {
-    console.log(this.site)
+    const { disqusSetting } = this.site.commentSetting
+
+    this.form.shortname = disqusSetting.shortname
+    this.form.api = disqusSetting.api
+    this.form.apikey = disqusSetting.apikey
   }
 }
 </script>

@@ -1,7 +1,7 @@
 import * as fse from 'fs-extra'
 import * as path from 'path'
 import Model from './model'
-import { ISetting, IGitalkSetting } from './interfaces/setting'
+import { ISetting, ICommentSetting } from './interfaces/setting'
 
 export default class Setting extends Model {
 
@@ -19,13 +19,18 @@ export default class Setting extends Model {
     return setting
   }
 
+  getCommentSetting() {
+    const setting = this.$setting.get('comment').value()
+    return setting
+  }
+
   public async saveSetting(setting: ISetting) {
     await this.$setting.set('config', setting).write()
     return true
   }
 
-  public async saveGitalkSetting(setting: IGitalkSetting) {
-    await this.$setting.set('gitalk', setting).write()
+  public async saveCommentSetting(setting: ICommentSetting) {
+    await this.$setting.set('comment', setting).write()
     return true
   }
 

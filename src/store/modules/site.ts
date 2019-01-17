@@ -3,7 +3,7 @@ import { IPost } from '../../interfaces/post'
 import { ITag } from '../../interfaces/tag'
 import { ITheme } from '../../interfaces/theme'
 import { IMenu } from '../../interfaces/menu'
-import { ISetting, IGitalkSetting } from '../../interfaces/setting'
+import { ISetting, ICommentSetting } from '../../interfaces/setting'
 
 export interface Site {
   appDir: string,
@@ -14,7 +14,7 @@ export interface Site {
   themeConfig: ITheme
   themes: string[]
   setting: ISetting
-  gitalkSetting: IGitalkSetting
+  commentSetting: ICommentSetting
 }
 const siteState: Site = {
   appDir: '',
@@ -41,12 +41,20 @@ const siteState: Site = {
     token: '',
     cname: '',
   },
-  gitalkSetting: {
+  commentSetting: {
     showComment: false,
-    clientId: '',
-    clientSecret: '',
-    repository: '',
-    owner: '',
+    commentPlatform: 'gitalk',
+    gitalkSetting: {
+      clientId: '',
+      clientSecret: '',
+      repository: '',
+      owner: '',
+    },
+    disqusSetting: {
+      api: '',
+      apikey: '',
+      shortname: '',
+    },
   },
 }
 
@@ -61,7 +69,7 @@ const mutations: MutationTree<Site> = {
     state.themeConfig = siteData.themeConfig
     state.themes = siteData.themes
     state.setting = siteData.setting
-    state.gitalkSetting = siteData.gitalkSetting
+    state.commentSetting = siteData.commentSetting
   },
   updatePosts(state, posts: IPost[]) {
     state.posts = posts

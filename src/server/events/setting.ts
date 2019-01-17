@@ -1,13 +1,13 @@
 import { ipcMain, Event } from 'electron'
 import Setting from '../setting'
-import { ISetting, IGitalkSetting } from '../interfaces/setting'
+import { ISetting, ICommentSetting } from '../interfaces/setting'
 
 export default class SettingEvents {
   constructor(appInstance: any) {
     const settingInstance = new Setting(appInstance)
 
     ipcMain.removeAllListeners('setting-save')
-    ipcMain.removeAllListeners('gitalk-setting-save')
+    ipcMain.removeAllListeners('comment-setting-save')
     ipcMain.removeAllListeners('favicon-upload')
     ipcMain.removeAllListeners('avatar-upload')
 
@@ -16,9 +16,9 @@ export default class SettingEvents {
       event.sender.send('setting-saved', data)
     })
 
-    ipcMain.on('gitalk-setting-save', async (event: Event, setting: IGitalkSetting) => {
-      const data = await settingInstance.saveGitalkSetting(setting)
-      event.sender.send('gitalk-setting-saved', data)
+    ipcMain.on('comment-setting-save', async (event: Event, setting: ICommentSetting) => {
+      const data = await settingInstance.saveCommentSetting(setting)
+      event.sender.send('comment-setting-saved', data)
     })
 
     ipcMain.on('favicon-upload', async (event: Event, filePath: string) => {

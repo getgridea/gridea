@@ -209,10 +209,13 @@ export default class Renderer extends Model {
         menus: this.db.menus,
         post,
         themeConfig: this.db.themeConfig,
-        gitalkSetting: this.db.gitalkSetting,
+        commentSetting: this.db.commentSetting,
       }
       let html = ''
       await ejs.renderFile(`${this.themePath}/templates/post.ejs`, renderData, {}, async (err: any, str) => {
+        if (err) {
+          console.error('EJS Render Error', err)
+        }
         if (str) {
           html = str
         }

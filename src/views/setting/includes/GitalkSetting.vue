@@ -25,11 +25,12 @@ export default class GitalkSetting extends Vue {
   }
 
   mounted() {
-    console.log(this.site)
-    this.form.clientId = this.site.gitalkSetting.clientId
-    this.form.clientSecret = this.site.gitalkSetting.clientSecret
-    this.form.repository = this.site.gitalkSetting.repository
-    this.form.owner = this.site.gitalkSetting.owner
+    const { gitalkSetting } = this.site.commentSetting
+
+    this.form.clientId = gitalkSetting.clientId
+    this.form.clientSecret = gitalkSetting.clientSecret
+    this.form.repository = gitalkSetting.repository
+    this.form.owner = gitalkSetting.owner
   }
 }
 </script>

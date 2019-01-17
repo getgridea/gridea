@@ -8,8 +8,8 @@
       <v-switch :label="$t('isShowComment')" v-model="form.showComment" />
     </v-card-title>
     <v-card-text>
-      <gitalk-setting ref="gitalkSetting" v-if="form.commentPlatform === 'gitalk'"></gitalk-setting>
-      <disqus-setting ref="disqusSetting" v-if="form.commentPlatform === 'disqus'"></disqus-setting>
+      <gitalk-setting ref="gitalkSetting" v-show="form.commentPlatform === 'gitalk'"></gitalk-setting>
+      <disqus-setting ref="disqusSetting" v-show="form.commentPlatform === 'disqus'"></disqus-setting>
       <v-btn color="primary" depressed @click="submit">{{ $t('save') }}</v-btn>
     </v-card-text>
   </v-card>
@@ -33,8 +33,8 @@ export default class CommentSetting extends Vue {
   @State('site') site!: any
   
   $refs!: {
-    gitalkSetting: HTMLFormElement
-    disqusSetting: HTMLFormElement
+    gitalkSetting: HTMLFormElement,
+    disqusSetting: HTMLFormElement,
   }
 
   form = {
@@ -43,23 +43,23 @@ export default class CommentSetting extends Vue {
   }
 
   mounted() {
-    this.form.showComment = this.site.gitalkSetting.showComment
+    const { commentSetting } = this.site
+    this.form.commentPlatform = commentSetting.commentPlatform
+    this.form.showComment = commentSetting.showComment
   }
 
   submit() {
-    console.log('llll', this.$refs.gitalkSetting.form)
-    console.log('llll', this.$refs.disqusSetting)
-    // const form = {
-    //   ...this.form,
-    //   gitalkSetting: this.$refs.gitalkSetting.form,
-    //   disqusSetting: this.$refs.disqusSetting.form,
-    // }
-    // console.log('click comment setting save', form)
-    // ipcRenderer.send('comment-setting-save', form)
-    // ipcRenderer.once('comment-setting-saved', (event: Event, result: any) => {
-    //   this.$bus.$emit('site-reload')
-    //   this.$bus.$emit('snackbar-display', this.$t('commentSettingSuccess'))
-    // })
+    const form = {
+      ...this.form,
+      gitalkSetting: this.$refs.gitalkSetting.form,
+      disqusSetting: this.$refs.disqusSetting.form,
+    }
+    console.log('click comment setting save', form)
+    ipcRenderer.send('comment-setting-save', form)
+    ipcRenderer.once('comment-setting-saved', (event: Event, result: any) => {
+      this.$bus.$emit('site-reload')
+      this.$bus.$emit('snackbar-display', this.$t('commentSettingSuccess'))
+    })
   }
 }
 </script>

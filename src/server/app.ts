@@ -50,12 +50,20 @@ export default class App {
         token: '',
         cname: '',
       },
-      gitalkSetting: {
+      commentSetting: {
         showComment: false,
-        clientId: '',
-        clientSecret: '',
-        repository: '',
-        owner: '',
+        commentPlatform: 'gitalk',
+        gitalkSetting: {
+          clientId: '',
+          clientSecret: '',
+          repository: '',
+          owner: '',
+        },
+        disqusSetting: {
+          api: '',
+          apikey: '',
+          shortname: '',
+        },
       },
     }
 
@@ -82,7 +90,7 @@ export default class App {
 
     const settingInstance = new Setting(this)
     const setting = await settingInstance.getSetting()
-    const gitalkSetting = await settingInstance.getGitalkSetting()
+    const commentSetting = await settingInstance.getCommentSetting()
 
     this.db = {
       posts,
@@ -91,7 +99,7 @@ export default class App {
       themeConfig,
       themes,
       setting,
-      gitalkSetting: gitalkSetting || this.db.gitalkSetting,
+      commentSetting: commentSetting || this.db.commentSetting,
     }
 
     this.initEvents()

@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css">
+<script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+
+<div id="disqus_thread"></div>
+
+<script>
+
+const options = {
+  shortname: '<%= commentSetting.disqusSetting.shortname %>',
+  apikey: '<%= commentSetting.disqusSetting.apikey %>',
+}
+if (commentSetting.disqusSetting.api) {
+  options.api = '<%= commentSetting.disqusSetting.api %>'
+}
+var dsqjs = new DisqusJS(options);
+
+</script>

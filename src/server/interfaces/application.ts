@@ -3,7 +3,7 @@ import { IPostDb } from './post'
 import { ITag } from './tag'
 import { ITheme } from './theme'
 import { IMenu } from './menu'
-import { ISetting, IGitalkSetting } from './setting'
+import { ISetting, IGitalkSetting, ICommentSetting } from './setting'
 
 export interface IApplicationSetting {
   mainWindow: BrowserWindow
@@ -18,7 +18,7 @@ export interface IApplicationDb {
   themeConfig: ITheme
   themes: string[]
   setting: ISetting
-  gitalkSetting: IGitalkSetting
+  commentSetting: ICommentSetting
 }
 
 export interface IApplication {

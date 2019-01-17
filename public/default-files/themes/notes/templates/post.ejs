@@ -39,8 +39,14 @@
           </div>  
         <% } %>
 
-        <% if (gitalkSetting && gitalkSetting.showComment) { %>
-          <%- include('./includes/comment') %>
+        <% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
+          <% if (commentSetting.commentPlatform === 'gitalk') %>
+            <%- include('./includes/gitalk') %>
+          <% } %>
+
+          <% if (commentSetting.commentPlatform === 'disqus') %>
+            <%- include('./includes/disqus') %>
+          <% } %>
         <% } %>
     
         <%- include('./includes/footer') %>

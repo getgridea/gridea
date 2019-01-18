@@ -61,7 +61,7 @@ export default class FaviconSetting extends Vue {
 
 <style lang="stylus" scoped>
 >>> .upload-btn
-  padding: 0;
+  padding: 0 !important;
 
 .favicon-img
   margin 6px 8px

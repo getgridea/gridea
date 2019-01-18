@@ -17,6 +17,7 @@ export default class Renderer extends Model {
   outputDir: string = `${this.appDir}/output`
   themePath: string = ''
   postsData: IPostRenderData[] = []
+  tagsData: ITagRenderData[] = []
   git: SimpleGit
   platformAddress = ''
   remoteUrl = ''
@@ -103,7 +104,7 @@ export default class Renderer extends Model {
 
   async renderAll() {
     await this.clearOutputFolder()
-    await this.formatPostsForRender()
+    await this.formatDataForRender()
     await this.buildCss()
     await this.renderPostList()
     await this.renderPostDetail()
@@ -123,9 +124,10 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 格式化文章数据，为渲染页面准备
+   * 格式化数据，为渲染页面准备
    */
-  public formatPostsForRender(): any {
+  public formatDataForRender(): any {
+    /** 文章数据 */
     this.postsData = this.db.posts.filter((item: IPostDb) => item.data.published)
       .map((item: IPostDb) => {
         const currentTags = item.data.tags.split(' ')
@@ -143,6 +145,15 @@ export default class Renderer extends Model {
         }
         return result
       })
+
+    /** 标签数据 */
+    this.postsData.forEach((item: IPostRenderData) => {
+      item.tags.forEach((tag: ITagRenderData) => {
+        if (!this.tagsData.find((t: ITagRenderData) => t.link === tag.link)) {
+          this.tagsData.push(tag)
+        }
+      })
+    })
   }
 
   /**
@@ -160,6 +171,10 @@ export default class Renderer extends Model {
           next: '',
         },
         themeConfig: this.db.themeConfig,
+        site: {
+          posts: this.postsData,
+          tags: this.tagsData,
+        },
       }
 
       let renderPath = `${this.outputDir}/index.html`
@@ -209,6 +224,10 @@ export default class Renderer extends Model {
         post,
         themeConfig: this.db.themeConfig,
         commentSetting: this.db.commentSetting,
+        site: {
+          posts: this.postsData,
+          tags: this.tagsData,
+        },
       }
       let html = ''
       await ejs.renderFile(`${this.themePath}/templates/post.ejs`, renderData, {}, async (err: any, str) => {
@@ -255,6 +274,10 @@ export default class Renderer extends Model {
             next: '',
           },
           themeConfig: this.db.themeConfig,
+          site: {
+            posts: this.postsData,
+            tags: this.tagsData,
+          },
         }
 
         // 分页

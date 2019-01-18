@@ -186,7 +186,7 @@ export default class App extends Vue {
       currentVersion.forEach((item: number, index: number) => {
         if (item > latestVersion[index]) {
           this.hasUpdate = false
-        } 
+        }
       })
 
       if (this.hasUpdate) {

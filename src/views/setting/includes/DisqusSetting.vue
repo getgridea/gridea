@@ -30,7 +30,7 @@ export default class DisqusSetting extends Vue {
     this.form.api = disqusSetting.api
     this.form.apikey = disqusSetting.apikey
   }
-  
+
   openPage(url: string) {
     shell.openExternal(url)
   }

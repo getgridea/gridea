@@ -31,7 +31,7 @@ import DisqusSetting from './DisqusSetting.vue'
 })
 export default class CommentSetting extends Vue {
   @State('site') site!: any
-  
+
   $refs!: {
     gitalkSetting: HTMLFormElement,
     disqusSetting: HTMLFormElement,

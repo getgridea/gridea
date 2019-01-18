@@ -182,6 +182,13 @@ export default class App extends Vue {
         }
       }, false)
 
+      // For dev mode check
+      currentVersion.forEach((item: number, index: number) => {
+        if (item > latestVersion[index]) {
+          this.hasUpdate = false
+        } 
+      })
+
       if (this.hasUpdate) {
         this.$bus.$emit('snackbar-display', { message: `🔥  ${this.$t('newVersionTips')}`, bottom: true })
       }

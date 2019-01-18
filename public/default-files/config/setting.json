@@ -8,11 +8,19 @@
     "email": "",
     "token": ""
   },
-  "gitalk": {
-    "clientId": "",
-    "clientSecret": "",
-    "owner": "",
-    "repository": "",
+  "comment": {
+    "commentPlatform": "gitalk",
+    "disqusSetting": {
+      "api": "",
+      "apikey": "",
+      "shortname": ""
+    },
+    "gitalkSetting": {
+      "clientId": "",
+      "clientSecret": "",
+      "owner": "",
+      "repository": ""
+    },
     "showComment": false
   }
 }

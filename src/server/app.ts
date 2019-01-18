@@ -130,14 +130,9 @@ export default class App {
         )
       }
 
-      // 检查 默认 theme 是不是包含 fly 主题
-      const flyThemePath = path.join(this.appDir, 'themes', 'fly')
-      if (!fse.pathExistsSync(flyThemePath)) {
-        fse.copySync(
-          path.join(__static, 'default-files', 'themes', 'fly'),
-          flyThemePath,
-        )
-      }
+      // 检查 默认 theme 是不是包含 notes、fly 主题
+      this.checkTheme('notes')
+      this.checkTheme('fly')
 
       return
     }
@@ -149,6 +144,19 @@ export default class App {
       path.join(this.appDir),
     )
     fse.mkdirSync(path.join(this.appDir, 'post-images'))
+  }
+
+  /**
+   * 检查是否包含主题，若不包含，则将应用内主题初始化一份
+   */
+  private checkTheme(themeName: string): void {
+    const themePath = path.join(this.appDir, 'themes', themeName)
+    if (!fse.pathExistsSync(themePath)) {
+      fse.copySync(
+        path.join(__static, 'default-files', 'themes', themeName),
+        themePath,
+      )
+    }
   }
 
   private initEvents(): void {

@@ -57,6 +57,18 @@ function createWindow() {
         {role: 'toggledevtools'},
       ],
     },
+    {
+      role: 'windowMenu',
+    },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Learn More',
+          click() { require('electron').shell.openExternal('https://github.com/hve-notes/hve-notes') },
+        },
+      ],
+    },
   ]
 
   const menu = Menu.buildFromTemplate(template)

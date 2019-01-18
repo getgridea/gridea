@@ -25,14 +25,25 @@
             <v-flex xs4>
               <div class="right-container">
                 <v-select v-model="form.tags" :items="tags" :label="$t('tag')" multiple small-chips deletable-chips></v-select>
-                <v-dialog ref="dialog" v-model="modal" :return-value.sync="form.date" persistent lazy full-width width="290px">
-                  <v-text-field slot="activator" v-model="form.date" :label="$t('createAt')" prepend-icon="event" readonly></v-text-field>
-                  <v-date-picker locale="zh-cn" :first-day-of-week="0" v-model="form.date" scrollable>
-                    <v-spacer></v-spacer>
-                    <v-btn flat @click="modal = false">{{ $t('cancel') }}</v-btn>
-                    <v-btn flat color="primary" @click="$refs.dialog.save(form.date)">{{ $t('select') }}</v-btn>
-                  </v-date-picker>
-                </v-dialog>
+                <v-menu
+                  :close-on-content-click="false"
+                  v-model="dateMenu"
+                  :nudge-right="40"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  min-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    v-model="form.date"
+                    :label="$t('createAt')"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker v-model="form.date" @input="dateMenu = false" :locale="dateLocale"></v-date-picker>
+                </v-menu>
                 <!-- 文章大图 -->
                 <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
                   <img class="feature-image" :src="`file://${form.featureImage.path}`" height="150" v-if="form.featureImage.path"/>
@@ -85,6 +96,12 @@ export default class ArticleUpdate extends Vue {
   @State('site') site!: Site
 
   modal = false
+  dateMenu = false
+
+  get dateLocale() {
+    return this.$root.$i18n.locale === 'zhHans' ? 'zh-cn' : 'en-us'
+  }
+
   form = {
     title: '',
     fileName: '',
@@ -164,6 +181,10 @@ export default class ArticleUpdate extends Vue {
     this.$emit('close')
   }
 
+  saveDraftKeyAction() {
+    console.log('hello')
+  }
+
   saveDraft() {
     const form = {
       ...this.form,
@@ -205,14 +226,15 @@ export default class ArticleUpdate extends Vue {
           const dataList = e.dataTransfer.files
           const imageFiles = []
 
-          for (let i = 0; i < dataList.length; i += 1) {
-            if (dataList[i].type.indexOf('image') === -1) {
-              console.log('仅支持图片拖拽')
+          for (const data of dataList as any) {
+            if (data.type.indexOf('image') === -1) {
+              this.$bus.$emit('snackbar-display', { color: 'error', message: '仅支持图片拖拽' })
+              return
             }
             imageFiles.push({
-              name: dataList[i].name,
-              path: dataList[i].path,
-              type: dataList[i].type,
+              name: data.name,
+              path: data.path,
+              type: data.type,
             })
           }
           console.log(imageFiles)
@@ -345,8 +367,8 @@ export default class ArticleUpdate extends Vue {
 @import '~simplemde/dist/simplemde.min.css';
 /* @import '~github-markdown-css'; */
 .CodeMirror {
-  border-radius: 0;
-  border-color: #101010;
+  border-radius: 2px;
+  border-color: #b3b3b3;
   box-shadow: 0 0 5px #eee;
 }
 .editor-toolbar {
@@ -363,6 +385,11 @@ export default class ArticleUpdate extends Vue {
 .editor-toolbar a {
   color: #000 !important;
   background: #fafafa;
+  width: 32px;
+  height: 32px;
+}
+.editor-toolbar.fullscreen {
+  z-index: 1025;
 }
 .CodeMirror .editor-preview .markdown-body .editor-preview-active img {
   max-width: 100%;

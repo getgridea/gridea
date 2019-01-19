@@ -40,13 +40,13 @@ export default class Renderer extends Model {
 
   async preview() {
     this.db.themeConfig.domain = this.outputDir
-    await this.renderAll()
+    await this.renderAll('preview')
   }
 
   async publish() {
     this.db.themeConfig.domain = this.db.setting.domain
     console.log('domain', this.db.themeConfig.domain)
-    await this.renderAll()
+    await this.renderAll('publish')
     console.log('渲染完毕')
     let result = false
     const isRepo = await this.git.checkIsRepo()
@@ -102,9 +102,9 @@ export default class Renderer extends Model {
   }
 
 
-  async renderAll() {
+  async renderAll(mode: string) {
     await this.clearOutputFolder()
-    await this.formatDataForRender()
+    await this.formatDataForRender(mode)
     await this.buildCss()
     await this.renderPostList()
     await this.renderPostDetail()
@@ -126,7 +126,7 @@ export default class Renderer extends Model {
   /**
    * 格式化数据，为渲染页面准备
    */
-  public formatDataForRender(): any {
+  public formatDataForRender(mode: string): any {
     /** 文章数据 */
     this.postsData = this.db.posts.filter((item: IPostDb) => item.data.published)
       .map((item: IPostDb) => {
@@ -140,7 +140,7 @@ export default class Renderer extends Model {
             .filter((tag: ITag) => currentTags.find((i) => i === tag.name))
             .map((tag: ITag) => ({ ...tag, link: `${this.db.themeConfig.domain}/tag/${tag.slug}` })),
           date: dayjs(item.data.date).format('MMMM Do YYYY, a'),
-          feature: item.data.feature && `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain)}` || '',
+          feature: item.data.feature && `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain, mode)}` || '',
           link: `${this.db.themeConfig.domain}/post/${item.fileName}`,
         }
         return result

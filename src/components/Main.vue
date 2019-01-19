@@ -175,19 +175,17 @@ export default class App extends Vue {
       this.newVersion = res.data.name
       const latestVersion = res.data.name.substring(1).split('.').map((item: string) => parseInt(item, 10))
       const currentVersion = this.version.split('.').map((item: string) => parseInt(item, 10))
-      console.log(latestVersion, currentVersion)
-      this.hasUpdate = currentVersion.reduce((hasUpdate: boolean, item: number, index: number) => {
-        if (item < latestVersion[index]) {
-          return true
-        }
-      }, false)
 
-      // For dev mode check
-      currentVersion.forEach((item: number, index: number) => {
-        if (item > latestVersion[index]) {
+      for (let i = 0; i < currentVersion.length; i += 1) {
+        if (currentVersion[i] > latestVersion[i]) {
           this.hasUpdate = false
+          break
         }
-      })
+        if (currentVersion[i] < latestVersion[i]) {
+          this.hasUpdate = true
+          break
+        }
+      }
 
       if (this.hasUpdate) {
         this.$bus.$emit('snackbar-display', { message: `🔥  ${this.$t('newVersionTips')}`, bottom: true })

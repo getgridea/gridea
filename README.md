@@ -24,9 +24,9 @@ English | [简体中文](https://github.com/hve-notes/hve-notes/blob/master/READ
 
 👏  Welcome to use **Hve Notes** ！  
 
-🌈  **Hve Notes** A static blog writing client. You can use it to record your life, mood, knowledge, notes and ideas...
+✍️  **Hve Notes** A static blog writing client. You can use it to record your life, mood, knowledge, notes and ideas...
 
-#### Features👇
+## Features👇
 📝  You can use the coolest  **Markdown** grammar to create quickly  
 
 🌉  You can insert pictures and article cover charts anywhere in the article  

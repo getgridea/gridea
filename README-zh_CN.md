@@ -22,9 +22,9 @@
 
 [English](https://github.com/hve-notes/hve-notes/blob/master/README.md) | 简体中文  
 
-👏 欢迎使用 **Hve Notes** ！  
+👏  欢迎使用 **Hve Notes** ！  
 
-✍️ **Hve Notes** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ... 
+✍️  **Hve Notes** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ... 
 
 ## 特性👇
 📝  你可以使用最酷的 **Markdown** 语法，进行快速创作  

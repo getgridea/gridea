@@ -40,7 +40,9 @@ export default class ContentHelper {
    * 将 feature 本地图片路径，变更为线上路径
    */
   changeFeatureImageUrlLocalToDomain(content: string, domainPath: string, mode: string) {
-    return content.replace(this.featureLocalReg, `${mode === 'preview' ? 'file:///' : ''}${domainPath}/post-images/`)
+    let url = content.replace(this.featureLocalReg, `${mode === 'preview' ? 'file:///' : ''}${domainPath}/post-images/`)
+    url = url.replace(/\\/g, '/')
+    return url
   }
 
 }

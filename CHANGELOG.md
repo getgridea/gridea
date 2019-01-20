@@ -1,3 +1,15 @@
+## v0.7.0
+- 🔥增加多语言支持：English、简体中文（默认）
+- 🔥增加多平台部署支持：Github Pages、Coding Pages
+- 🔥增加多评论系统支持：Gitalk、DisqusJS（不兼容更新⚡️）
+- 🌟全新的文章编辑页，专注写作
+- 🌟优化多处交互体验
+- 🌟完善文档，更强大的主题开发能力
+- 🌟优化默认主题「notes、fly」：多评论支持及 UI 优化
+> 注：
+> - 更新主题，需将 `~/Documents/hve-notes/themes` 文件夹中对应主题删除，重新启动应用即可
+> - ⚡️若之前有设置过 Gitalk 配置，此版本更新后需重新设置一下（原 Gitalk 配置信息可见`~/Documents/hve-notes/config/setting.json`）
+
 ## v0.6.4
 - 新增一款主题：「fly」，优化默认主题UI：「notes」 (若想更新 notes 主题，已安装旧版本用户需将旧版本应用文件夹 `~/Documents/hve-notes` 删除，安装新版应用即可（记得备份文件哦！）)
 - 新增头像设置功能

@@ -1,6 +1,8 @@
 import Model from './model'
 import { ITag } from './interfaces/tag'
 import slug from '../helpers/slug'
+import shortid from 'shortid'
+import { UrlFormats } from '../helpers/enums'
 
 export default class Tags extends Model {
 
@@ -18,23 +20,28 @@ export default class Tags extends Model {
       }
     })
     list = Array.from(new Set([...list]))
-    const UsedTags = list.map((item: any) => {
-      return {
-        name: item,
-        used: true,
-      }
-    })
+
+    const themeConfig = this.$theme.get('config')
+    const tagUrlFormat = themeConfig.tagUrlFormat || UrlFormats.Slug
+
+    const existUsedTags = this.$posts.get('tags').filter({ used: true }).value()
+
+    // 导入文章的 tag 则为新使用过的
+    const newUsedTags = list
+      .filter((item: any) => !existUsedTags.find((tag: ITag) => tag.name === item))
+      .map((item: any) => {
+        return {
+          name: item,
+          slug: tagUrlFormat === UrlFormats.Slug ? slug(item) : shortid.generate(),
+          used: true,
+        }
+      })
+
     const UnusedTags = this.$posts.get('tags').filter({ used: false }).value()
 
-    const tags = [...UsedTags, ...UnusedTags]
-    const result: ITag[] = []
-    tags.forEach((item: ITag) => {
-      if (!result.find((tag: ITag) => tag.name === item.name)) {
-        item.slug = slug(item.name)
-        result.push(item)
-      }
-    })
-    this.$posts.set('tags', result).write()
+    const tags = [...newUsedTags, ...existUsedTags, ...UnusedTags]
+
+    this.$posts.set('tags', tags).write()
   }
 
   list() {
@@ -44,7 +51,7 @@ export default class Tags extends Model {
 
   public async saveTag(tag: ITag) {
     const tags = await this.$posts.get('tags').value()
-    if (tag.index >= 0) {
+    if (tag.index && tag.index >= 0) {
       tags[tag.index] = tag
     } else {
       tags.push(tag)

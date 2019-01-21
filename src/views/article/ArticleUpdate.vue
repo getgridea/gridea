@@ -8,8 +8,7 @@
         <v-form>
           <v-layout fill-height row wrap>
             <v-flex xs8>
-              <v-text-field v-model="form.title" :counter="50" :label="$t('title')"></v-text-field>
-              <!-- <v-text-field v-show="false" v-model="form.fileName" label="文件名（文章链接地址）"></v-text-field> -->
+              <v-text-field v-model="form.title" :counter="50" :label="$t('title')" @input="handleTitleChange"></v-text-field>
               <markdown-editor
                 id="markdown-editor"
                 ref="editor"
@@ -25,6 +24,7 @@
             <v-flex xs4>
               <div class="right-container">
                 <v-select v-model="form.tags" :items="tags" :label="$t('tag')" multiple small-chips deletable-chips></v-select>
+                <v-text-field v-model="form.fileName" label="URL" @input="handleFileNameChange"></v-text-field>
                 <v-menu
                   :close-on-content-click="false"
                   v-model="dateMenu"
@@ -77,9 +77,11 @@ import { ipcRenderer, Event, shell } from 'electron'
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
+import shortid from 'shortid'
 import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
+import { UrlFormats } from '../../helpers/enums'
 
 @Component({
   components: { MarkdownEditor },
@@ -115,6 +117,8 @@ export default class ArticleUpdate extends Vue {
       type: '',
     },
   }
+
+  fileNameChanged = false
 
   get canSubmit() {
     return this.form.title && this.form.content
@@ -181,15 +185,33 @@ export default class ArticleUpdate extends Vue {
     this.$emit('close')
   }
 
-  saveDraftKeyAction() {
-    console.log('hello')
+  handleTitleChange(val: string) {
+    if (!this.fileNameChanged && this.site.themeConfig.postUrlFormat === UrlFormats.Slug) {
+        this.form.fileName = slug(this.form.title)
+    }
+  }
+
+  handleFileNameChange(val: string) {
+    this.fileNameChanged = !!val
+  }
+
+  buildFileName() {
+    if (this.form.fileName === '') {
+      if (this.site.themeConfig.postUrlFormat === UrlFormats.Slug) {
+        this.form.fileName = slug(this.form.title)
+      }
+      if (this.site.themeConfig.postUrlFormat === UrlFormats.ShortId) {
+        this.form.fileName = shortid.generate()
+      }
+    }
   }
 
   saveDraft() {
+    this.buildFileName()
+
     const form = {
       ...this.form,
     }
-    form.fileName = form.fileName === '' ? slug(form.title) : form.fileName
     form.published = false
 
     ipcRenderer.send('app-post-create', form)
@@ -201,10 +223,11 @@ export default class ArticleUpdate extends Vue {
   }
 
   savePost() {
+    this.buildFileName()
+
     const form = {
       ...this.form,
     }
-    form.fileName = form.fileName === '' ? slug(form.title) : form.fileName
     form.published = true
 
     ipcRenderer.send('app-post-create', form)
@@ -242,28 +265,6 @@ export default class ArticleUpdate extends Vue {
           e.preventDefault()
         }
       })
-
-      // 复制、截图上传
-      // codemirror.on('paste', (editor: any, e: any) => {
-      //   if (!(e.clipboardData && e.clipboardData.items)) {
-      //     return
-      //   }
-      //   try {
-      //     const dataList = e.clipboardData.items
-      //     const image = dataList[0].getAsFile()
-
-      //     if (dataList[0].kind === 'file' && image.type.indexOf('image') !== -1) {
-      //       console.log(image)
-      //       this.uploadImageFiles([{
-      //         name: image.name,
-      //         path: image.path,
-      //         type: image.type,
-      //       }])
-      //     }
-      //   } catch (e) {
-      //     this.$bus.$emit('snackbar-display', { color: 'error', message: '粘贴的不是图片' })
-      //   }
-      // })
     }
   }
 
@@ -318,6 +319,10 @@ export default class ArticleUpdate extends Vue {
         this.form.published = currentPost.data.published
         this.form.featureImage.path = currentPost.data.feature && currentPost.data.feature.substring(7) || ''
         this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
+      }
+    } else {
+      if (this.site.themeConfig.postUrlFormat === UrlFormats.ShortId) {
+        this.form.fileName = shortid.generate()
       }
     }
   }

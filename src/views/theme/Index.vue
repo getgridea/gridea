@@ -12,6 +12,8 @@
           <v-text-field :label="$t('footerInfo')" v-model="form.footerInfo" />
           <v-switch :label="$t('isShowFeatureImage')" v-model="form.showFeatureImage" />
           <v-slider :label="$t('articlesPerPage')" v-model="form.pageSize" thumb-label="always" :min="1" :max="20" always-dirty />
+          <v-select v-model="form.postUrlFormat" :items="urlFormats" label="文章 URL 默认格式" />
+          <v-select v-model="form.tagUrlFormat" :items="urlFormats" label="标签 URL 默认格式" />
           <div>
             <v-btn depressed color="primary" @click="saveTheme">{{ $t('save') }}</v-btn>
           </div>
@@ -27,6 +29,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { State } from 'vuex-class'
 import { Site } from '../../store/modules/site'
+import { UrlFormats } from '../../helpers/constants'
 
 @Component
 export default class Theme extends Vue {
@@ -39,7 +42,11 @@ export default class Theme extends Vue {
     siteDescription: '',
     footerInfo: '',
     showFeatureImage: true,
+    postUrlFormat: 'SLUG',
+    tagUrlFormat: 'SLUG',
   }
+
+  urlFormats = UrlFormats
 
   saveTheme() {
     ipcRenderer.send('theme-save', this.form)
@@ -51,12 +58,15 @@ export default class Theme extends Vue {
 
   mounted() {
     const config = this.site.themeConfig
+
     this.form.themeName = config.themeName
     this.form.pageSize = config.pageSize
     this.form.siteName = config.siteName
     this.form.siteDescription = config.siteDescription
     this.form.footerInfo = config.footerInfo
     this.form.showFeatureImage = config.showFeatureImage
+    this.form.postUrlFormat = config.postUrlFormat || 'SLUG'
+    this.form.tagUrlFormat = config.tagUrlFormat || 'SLUG'
   }
 
 }

@@ -38,6 +38,8 @@ export default class App {
         footerInfo: 'Powered by Hve',
         showFeatureImage: true,
         domain: '',
+        postUrlFormat: 'SLUG',
+        tagUrlFormat: 'SLUG',
       },
       themes: [],
       setting: {

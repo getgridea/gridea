@@ -29,6 +29,8 @@ const siteState: Site = {
     siteDescription: '',
     footerInfo: 'Powered by Hve',
     showFeatureImage: true,
+    postUrlFormat: 'SLUG',
+    tagUrlFormat: 'SLUG',
   },
   themes: [],
   setting: {
@@ -67,6 +69,8 @@ const mutations: MutationTree<Site> = {
     state.menus = siteData.menus
     state.config = siteData.config
     state.themeConfig = siteData.themeConfig
+    state.themeConfig.postUrlFormat = siteData.themeConfig.postUrlFormat || 'SLUG'
+    state.themeConfig.tagUrlFormat = siteData.themeConfig.tagUrlFormat || 'SLUG'
     state.themes = siteData.themes
     state.setting = siteData.setting
     state.commentSetting = siteData.commentSetting

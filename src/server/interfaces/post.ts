@@ -12,6 +12,7 @@ export interface IPost {
     path?: string,
     type?: string,
   }
+  deleteFileName?: string
 }
 
 export interface IPostData {

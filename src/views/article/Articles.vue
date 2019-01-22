@@ -104,6 +104,7 @@ export default class Articles extends Vue {
 
   close() {
     this.articleUpdateVisible = false
+    this.currentArticleFileName = ''
   }
 
   newPost() {

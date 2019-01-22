@@ -116,8 +116,12 @@ export default class ArticleUpdate extends Vue {
       name: '',
       type: '',
     },
+    deleteFileName: '',
   }
 
+  // 编辑文章时，当前文章的索引
+  currentPostIndex = -1
+  originalFileName = ''
   fileNameChanged = false
 
   get canSubmit() {
@@ -181,6 +185,11 @@ export default class ArticleUpdate extends Vue {
     this.form.featureImage.path = ''
     this.form.featureImage.name = ''
     this.form.featureImage.type = ''
+    this.form.deleteFileName = ''
+
+    this.currentPostIndex = -1
+    this.originalFileName = ''
+    this.fileNameChanged = false
 
     this.$emit('close')
   }
@@ -206,8 +215,37 @@ export default class ArticleUpdate extends Vue {
     }
   }
 
+  checkArticleValid() {
+    const restPosts = JSON.parse(JSON.stringify(this.site.posts))
+    const foundPostIndex = restPosts.findIndex((post: IPost) => post.fileName === this.form.fileName)
+    if (foundPostIndex !== -1) {
+      // 新增
+      if (this.currentPostIndex === -1) {
+        return false
+      } else {
+        restPosts.splice(this.currentPostIndex, 1)
+        const index = restPosts.findIndex((post: IPost) => post.fileName === this.form.fileName)
+        if (index !== -1) {
+          return false
+        }
+      }
+    }
+
+    return true
+  }
+
   saveDraft() {
     this.buildFileName()
+    const valid = this.checkArticleValid()
+    if (!valid) {
+      this.$bus.$emit('snackbar-display', { color: 'pink', message: '文章的 URL 与其他文章重复' })
+      return
+    }
+
+    // 文件名改变之后，删除原来文件
+    if (this.form.fileName !== this.originalFileName) {
+      this.form.deleteFileName = this.originalFileName
+    }
 
     const form = {
       ...this.form,
@@ -224,6 +262,16 @@ export default class ArticleUpdate extends Vue {
 
   savePost() {
     this.buildFileName()
+    const valid = this.checkArticleValid()
+    if (!valid) {
+      this.$bus.$emit('snackbar-display', { color: 'pink', message: '文章的 URL 与其他文章重复' })
+      return
+    }
+
+    // 文件名改变之后，删除原来文件
+    if (this.form.fileName !== this.originalFileName) {
+      this.form.deleteFileName = this.originalFileName
+    }
 
     const form = {
       ...this.form,
@@ -309,7 +357,10 @@ export default class ArticleUpdate extends Vue {
     const { articleFileName } = this
     console.log('articleFileName: ', articleFileName)
     if (articleFileName) {
-      const currentPost: IPost | undefined = this.site.posts.find((item: IPost) => item.fileName === articleFileName)
+      this.currentPostIndex = this.site.posts.findIndex((item: IPost) => item.fileName === articleFileName)
+      const currentPost = this.site.posts[this.currentPostIndex]
+      this.originalFileName = currentPost.fileName
+
       if (currentPost) {
         this.form.title = currentPost.data.title
         this.form.fileName = currentPost.fileName

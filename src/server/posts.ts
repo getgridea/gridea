@@ -106,6 +106,11 @@ ${content}`
 
       // write file must use fse, beause fs.writeFile need callback
       await fse.writeFile(`${this.postDir}/${post.fileName}.md`, mdStr)
+
+      // 清除旧文件
+      if (post.deleteFileName) {
+        await fse.removeSync(`${this.postDir}/${post.deleteFileName}.md`)
+      }
     } catch (e) {
       console.error('ERROR: ', e)
     }

@@ -128,7 +128,9 @@ ${content}`
       await fse.removeSync(postUrl)
 
       // clean feature image
-      await fse.removeSync(post.data.feature.replace('file://', ''))
+      if (post.data.feature) {
+        await fse.removeSync(post.data.feature.replace('file://', ''))
+      }
 
       // clean post content image
       const imageReg = /(!\[.*?\]\()(.+?)(\))/g

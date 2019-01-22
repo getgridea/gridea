@@ -8,6 +8,8 @@ export default class PostEvents {
     ipcMain.removeAllListeners('app-post-created')
     ipcMain.removeAllListeners('app-post-delete')
     ipcMain.removeAllListeners('app-post-deleted')
+    ipcMain.removeAllListeners('app-post-list-delete')
+    ipcMain.removeAllListeners('app-post-list-deleted')
     ipcMain.removeAllListeners('image-upload')
     ipcMain.removeAllListeners('image-uploaded')
 
@@ -21,6 +23,15 @@ export default class PostEvents {
     ipcMain.on('app-post-delete', async (event: Event, post: IPostDb) => {
       const data = await posts.deletePost(post)
       event.sender.send('app-post-deleted', data)
+    })
+
+    ipcMain.on('app-post-list-delete', async (event: Event, postList: IPostDb[]) => {
+      let data = false
+      for (const post of postList) {
+        data = await posts.deletePost(post)
+      }
+
+      event.sender.send('app-post-list-deleted', data)
     })
 
     ipcMain.on('image-upload', async (event: Event, files: any[]) => {

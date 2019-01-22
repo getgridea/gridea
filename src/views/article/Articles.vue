@@ -4,10 +4,25 @@
       <v-card-title>
         <span class="headline">📄 {{ $t('article') }}</span>
         <v-spacer></v-spacer>
+        <v-btn v-if="selected.length > 0" depressed color="red lighten-2" @click="deleteAllPosts">删除选中</v-btn>
         <v-btn depressed color="primary" @click="newPost">{{ $t('newArticle') }}</v-btn>
       </v-card-title>
-      <v-data-table :headers="headers" :items="site.posts" :pagination.sync="pagination">
+      <v-data-table
+        v-model="selected"
+        select-all
+        :headers="headers"
+        :items="site.posts"
+        :pagination.sync="pagination"
+        item-key="fileName"
+      >
         <template slot="items" slot-scope="props">
+          <td style="width: 80px">
+            <v-checkbox
+              v-model="props.selected"
+              primary
+              hide-details
+            ></v-checkbox>
+          </td>
           <td>{{ props.item.data.title }}</td>
           <td>
             <v-chip v-if="props.item.data.published" color="green" text-color="white" small>
@@ -84,7 +99,7 @@ export default class Articles extends Vue {
       },
       {
         text: this.$t('Actions'),
-        value: 'id',
+        value: 'title',
         sortable: false,
       },
     ]
@@ -97,6 +112,7 @@ export default class Articles extends Vue {
     sortBy: 'data.date',
     descending: true,
   }
+  selected = []
 
   mounted() {
     this.$bus.$emit('site-reload')
@@ -128,6 +144,24 @@ export default class Articles extends Vue {
         if (data) {
           this.$bus.$emit('snackbar-display', this.$t('articleDelete'))
           this.$bus.$emit('site-reload')
+        }
+      })
+    }
+  }
+
+  async deleteAllPosts() {
+    const confirm = await this.$dialog.confirm({
+      text: `${this.$t('deleteWarning')}`,
+      title: `${this.$t('warning')}`,
+    })
+    if (confirm) {
+      ipcRenderer.send('app-post-list-delete', this.selected)
+      ipcRenderer.once('app-post-list-deleted', (event: Event, data: any) => {
+        console.log(data)
+        if (data) {
+          this.$bus.$emit('snackbar-display', this.$t('articleDelete'))
+          this.$bus.$emit('site-reload')
+          this.selected = []
         }
       })
     }

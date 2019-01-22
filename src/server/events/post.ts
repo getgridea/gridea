@@ -1,5 +1,5 @@
 import { ipcMain, Event } from 'electron'
-import { IPost } from '../interfaces/post'
+import { IPost, IPostDb } from '../interfaces/post'
 import Posts from '../posts'
 export default class PostEvents {
   constructor(appInstance: any) {
@@ -18,7 +18,7 @@ export default class PostEvents {
       event.sender.send('app-post-created', data)
     })
 
-    ipcMain.on('app-post-delete', async (event: Event, post: IPost) => {
+    ipcMain.on('app-post-delete', async (event: Event, post: IPostDb) => {
       const data = await posts.deletePost(post)
       event.sender.send('app-post-deleted', data)
     })

@@ -91,6 +91,7 @@ published: ${post.published}
 feature: ${post.featureImage.name ? `/post-images/${post.fileName}.${extendName}` : ''}
 ---
 ${content}`
+
     try {
 
       // 存在文章大图
@@ -99,8 +100,12 @@ ${content}`
         const filePath = `${this.postImageDir}/${post.fileName}.${extendName}`
 
         if (post.featureImage.path !== filePath) {
-          console.log('不一样', post.featureImage.path, filePath)
           await fse.copySync(post.featureImage.path, filePath)
+
+          // 清除旧文件
+          if (post.featureImage.path.includes(this.postImageDir)) {
+            await fse.removeSync(post.featureImage.path)
+          }
         }
       }
 
@@ -117,9 +122,31 @@ ${content}`
     return post
   }
 
-  async deletePost(post: IPost) {
-    await fse.removeSync(`${this.postDir}/${post.fileName}.md`)
-    return true
+  async deletePost(post: IPostDb) {
+    try {
+      const postUrl = `${this.postDir}/${post.fileName}.md`
+      await fse.removeSync(postUrl)
+
+      // clean feature image
+      await fse.removeSync(post.data.feature.replace('file://', ''))
+
+      // clean post content image
+      const imageReg = /(!\[.*?\]\()(.+?)(\))/g
+      const imageList = post.content.match(imageReg)
+      if (imageList) {
+        const postImagePaths = imageList.map((item: string) => {
+          const index = item.indexOf('(')
+          return item.substring(index + 1, item.length - 1)
+        })
+        postImagePaths.forEach(async (filePath: string) => {
+          await fse.removeSync(filePath.replace('file://', ''))
+        })
+      }
+      return true
+    } catch (e) {
+      console.error('Delete Error', e)
+      return false
+    }
   }
 
   async uploadImages(files: any[]) {

@@ -9,7 +9,7 @@
         :columns="columns"
         :dataSource="site.posts"
       >
-        <a href="javascript:;" slot="name" slot-scope="text">{{ text }}</a>
+        <a class="article-title" href="javascript:;" slot="name" slot-scope="text">{{ text }}</a>
         <a-tag slot="status" :color="text ? '#2bb15a': '#8a8a8a'" slot-scope="text">{{ text ? $t('publish') : $t('draft') }}</a-tag>
       </a-table>
     </div>
@@ -66,18 +66,8 @@ export default class Articles extends Vue {
 .articles-page {
   position: relative;
 }
-.tool-container {
-  padding: 8px 0 16px;
-  margin-bottom: 16px;
-  position: fixed;
-  top: 8px;
-  left: 216px;
-  right: 16px;
-  z-index: 1;
-  background: #F7F6F3;
-  border-bottom: 1px solid #e2e2e2;
-}
-.content-container {
-  margin-top: 64px;
+
+.article-title {
+  font-weight: bold;
 }
 </style>

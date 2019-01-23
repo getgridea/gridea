@@ -11,6 +11,7 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "ant-design-vue": "^1.3.2",
     "axios": "^0.18.0",
     "bluebird": "^3.5.3",
     "dayjs": "^1.7.8",
@@ -52,6 +53,7 @@
     "@vue/cli-plugin-typescript": "^3.2.0",
     "@vue/cli-service": "^3.2.0",
     "electron": "^4.0.0",
+    "less-loader": "^4.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "typescript": "^3.0.0",

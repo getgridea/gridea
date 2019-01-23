@@ -1,0 +1,30 @@
+@primary-color : #434343;
+
+@border-radius-base : 2px;
+@link-color: #255aa2;
+
+.ant-table-wrapper {
+  background: #F7F6F3;
+}
+.ant-table {
+  background: #fff;
+  color: #434343;
+  box-shadow: inset 0px -1px 1px #ada89c82;
+}
+.ant-table-tbody {
+  .ant-table-row:nth-of-type(2n) {
+    background: #f7f6f39e;
+  }
+}
+.ant-table-tbody > tr > td {
+  border-bottom: 0;
+}
+
+.ant-table-thead > tr > th {
+  background: #eae8e1;
+  color: #6b6961;
+}
+
+.ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-thead > tr:hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td {
+  background: transparent;
+}

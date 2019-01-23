@@ -5,11 +5,15 @@ function resolve(dir) {
 }
 
 module.exports = {
+  css: {
+    loaderOptions: {
+      less: {
+        javascriptEnabled: true,
+      },
+    },
+  },
   pluginOptions: {
     electronBuilder: {
-      chainWebpackMainProcess: config => {
-        config.module.rule('stylus').test(/\.styl$/).use('babel').loader('css-loader!stylus-loader?paths=node_modules/bootstrap-stylus/stylus/')
-      },
       builderOptions: {
         win: {
           icon: './public/app-icons/logo.ico',

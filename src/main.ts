@@ -5,6 +5,8 @@ import 'vuetify/dist/vuetify.css'
 import 'font-awesome/css/font-awesome.css'
 import * as Dayjs from 'dayjs'
 import VuetifyDialog from 'vuetify-dialog'
+import Antd from 'ant-design-vue'
+import '@/assets/styles/main.less'
 import VueI18n from 'vue-i18n'
 import locale from './assets/locales'
 import App from './App.vue'
@@ -29,6 +31,8 @@ Vue.use(Vuetify, {
     accent: '#1067de',
   },
 })
+
+Vue.use(Antd)
 
 Vue.use(VuetifyDialog)
 

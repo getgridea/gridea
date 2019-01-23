@@ -22,6 +22,10 @@ export default class App extends Vue {
 <style>
 
   /* Global CSS */
+  body {
+    background: #F7F6F3;
+    color: #434343;
+  }
   
   .header-bar {
     -webkit-app-region: drag;
@@ -30,7 +34,7 @@ export default class App extends Vue {
     -webkit-app-region: no-drag;
   }
   ::-webkit-scrollbar{
-    width: 1px;
+    width: 0px;
     height: 6px;
     border-radius: 4px;
     background-color: #fff;

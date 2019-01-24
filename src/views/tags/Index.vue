@@ -1,49 +1,60 @@
 <template>
   <div class="">
-    <v-card flat>
-      <v-card-title>
-        <span class="headline">🏷️ {{ $t('tag') }}</span>
-        <v-spacer></v-spacer>
-        <v-btn depressed color="primary" @click="newTag">{{ $t('newTag') }}</v-btn>
-      </v-card-title>
-      <v-card-text>
-        <v-chip
-          small
-          @click.stop="tag.used ? null : updateTag(tag, index)"
-          v-for="(tag, index) in site.tags"
-          :key="tag.name"
-          :close="!tag.used"
-          @input="handleDelete(tag.name)"
+    <a-row type="flex" justify="end" class="tool-container">
+      <a-button class="btn" type="primary" @click="newTag">{{ $t('newTag') }}</a-button>
+    </a-row>
+    <div class="content-container">
+      <div v-for="(tag, index) in site.tags" :key="tag.name" class="tag-wrapper">
+        <a-tag
+          class="tag"
+          color="#434343"
+          @click="tag.used ? null : updateTag(tag, index)"
+        >{{ tag.name }}</a-tag>
+        <a-button type="danger" v-if="!tag.used" icon="delete" @click="handleDelete(tag.name)"></a-button>
+      </div>
+    </div>
+    <a-drawer
+      :title="$t('tag')"
+      width="400"
+      :visible="visible"
+      @close="close"
+      :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px'}"
+    >
+      <a-form :form="form" layout="vertical">
+        <a-form-item :label="$t('tagName')">
+          <a-input v-model="form.name" @input="handleNameChange" />
+        </a-form-item>
+        <a-form-item label="标签 URL">
+          <a-input v-model="form.slug" @input="handleSlugChange" />
+        </a-form-item>
+      </a-form>
+      <div
+        :style="{
+          position: 'absolute',
+          left: 0,
+          bottom: 0,
+          width: '100%',
+          borderTop: '1px solid #e9e9e9',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right',
+        }"
+      >
+        <a-button
+          :style="{marginRight: '8px'}"
+          @click="close"
         >
-          {{ tag.name }}
-        </v-chip>
-      </v-card-text>
-    </v-card>
-
-    <v-dialog v-model="visible" :width="320">
-      <v-card>
-        <v-card-title>
-          🏷️ {{ $t('tag') }}
-        </v-card-title>
-        <v-card-text>
-          <v-text-field :label="$t('tagName')" v-model="form.name" @input="handleNameChange"></v-text-field>
-          <v-text-field label="标签 URL" v-model="form.slug" @input="handleSlugChange"></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn flat @click="visible = false">{{ $t('cancel') }}</v-btn>
-          <v-btn flat color="primary" :disabled="!canSubmit" @click="saveTag">{{ $t('save') }}</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
+          {{ $t('cancel') }}
+        </a-button>
+        <a-button type="primary" :disabled="!canSubmit" @click="saveTag">{{ $t('save') }}</a-button>
+      </div>
+    </a-drawer>
   </div>
 </template>
 
 <script lang="ts">
 import { ipcRenderer, Event } from 'electron'
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import shortid from 'shortid'
 import slug from '../../helpers/slug'
@@ -77,6 +88,10 @@ export default class Tags extends Vue {
 
   handleSlugChange(val: string) {
     this.slugChanged = !!val
+  }
+
+  close() {
+    this.visible = false
   }
 
   newTag() {
@@ -136,34 +151,57 @@ export default class Tags extends Vue {
 
     const valid = this.checkTagValid()
     if (!valid) {
-      this.$bus.$emit('snackbar-display', { color: 'pink', message: '标签的名称或 URL 与其他标签重复' })
+      this.$message.error('标签的名称或 URL 与其他标签重复')
       return
     }
 
     ipcRenderer.send('tag-save', { ...this.form, used: false })
     ipcRenderer.once('tag-saved', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
-      this.$bus.$emit('snackbar-display', '标签已保存')
+      this.$message.success('标签已保存')
       this.visible = false
     })
   }
   async handleDelete(tagValue: string) {
-    const confirm = await this.$dialog.confirm({
-      text: `${this.$t('deleteWarning')}`,
+    this.$confirm({
       title: `${this.$t('warning')}`,
+      content: `${this.$t('deleteWarning')}`,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk: () => {
+        ipcRenderer.send('tag-delete', tagValue)
+        ipcRenderer.once('tag-deleted', (event: Event, result: any) => {
+          this.$bus.$emit('site-reload')
+          this.$message.success('标签已删除')
+          this.visible = false
+        })
+      },
     })
-    if (confirm) {
-      console.log('clicked', tagValue)
-      ipcRenderer.send('tag-delete', tagValue)
-      ipcRenderer.once('tag-deleted', (event: Event, result: any) => {
-        this.$bus.$emit('site-reload')
-        this.$bus.$emit('snackbar-display', '标签已删除')
-        this.visible = false
-      })
-    }
   }
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+.content-container {
+  background: transparent;
+}
+
+.tag-wrapper {
+  display: inline-flex;
+  margin-right: 16px;
+  align-items: center;
+  .tag {
+    font-size: 14px;
+    height: 32px;
+    line-height: 32px;
+    margin-right: 0px;
+    border-radius: 0;
+  }
+  /deep/ .ant-btn {
+    border-left: 0;
+    padding: 0 4px;
+    border-radius: 0px;
+  }
+}
 </style>

@@ -58,7 +58,7 @@
       >
         <a-button
           :style="{marginRight: '8px'}"
-          @close="close"
+          @click="close"
         >
           {{ $t('cancel') }}
         </a-button>

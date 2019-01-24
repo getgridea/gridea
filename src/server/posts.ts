@@ -7,6 +7,7 @@ const junk = require('junk')
 import { IPost, IPostDb } from './interfaces/post'
 import ContentHelper from '../helpers/content-helper'
 import matter from 'gray-matter'
+import moment from 'moment'
 import Bluebird from 'bluebird'
 Bluebird.promisifyAll(fs)
 
@@ -18,7 +19,6 @@ export default class Posts extends Model {
     super(appInstance)
     this.postDir = path.join(this.appDir, 'posts')
     this.postImageDir = `${this.appDir}/post-images`
-    this.savePosts()
   }
 
   public async savePosts() {
@@ -33,6 +33,13 @@ export default class Posts extends Model {
     const results = await Bluebird.all(requestList)
     results.forEach((result: any, index: any) => {
       const postMatter = matter(result)
+
+      // 修正 matter 格式化掉 日期问题
+      const data = (postMatter.data as any)
+      if (data && data.date) {
+        data.date = moment(data.date).subtract(8, 'hours').format('YYYY-MM-DD HH:mm:ss')
+        console.log('时间', data.date)
+      }
       delete postMatter.orig // Remove orig <Buffer>
       const post = {
         ...postMatter,

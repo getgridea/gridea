@@ -1,69 +1,76 @@
 <template>
   <div class="">
-    <v-card flat>
-      <v-card-title>
-        <span class="headline">📋 {{ $t('menu') }}</span>
-        <v-spacer></v-spacer>
-        <v-btn depressed color="primary" @click="newMenu">{{ $t('newMenu') }}</v-btn>
-      </v-card-title>
-      <v-data-table :headers="headers" :items="site.menus">
-        <template slot="items" slot-scope="props">
-          <td>{{ props.item.name }}</td>
-          <td>
-            {{ props.item.openType }}
-          </td>
-          <td>{{ props.item.link }}</td>
-          <td>
-            <v-btn
-              flat
-              icon
-              color="blue lighten-2"
-              @click="editMenu(props.item, props.index)"
-              small
-            >
-              <v-icon small>edit</v-icon>
-            </v-btn>
-            <v-btn
-              flat
-              icon
-              color="red lighten-2"
-              @click="deleteMenu(props.item.name)"
-              small
-            >
-              <v-icon small>delete</v-icon>
-            </v-btn>
-          </td>
-        </template>
-      </v-data-table>
-
-    </v-card>
-
-    <v-dialog v-model="visible" :width="480">
-      <v-card>
-        <v-card-text>
-          <v-text-field :label="`📋  ${$t('name')}`" v-model="form.name"></v-text-field>
-          <v-radio-group v-model="form.openType" row>
-            <v-radio v-for="item in menuTypes" :key="item" :label="item" :value="item"></v-radio>
-          </v-radio-group>
-          <v-text-field label="Link" v-model="form.link"></v-text-field>
-          <v-select v-model="form.link" :items="menuLinks">
-
-          </v-select>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn flat @click="visible = false">{{ $t('cancel') }}</v-btn>
-          <v-btn flat color="primary" :disabled="!canSubmit" @click="saveMenu">{{ $t('save') }}</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <a-row type="flex" justify="end" class="tool-container">
+      <a-button class="btn" type="primary" @click="newMenu">{{ $t('newMenu') }}</a-button>
+    </a-row>
+    <div class="content-container">
+      <a-table
+        :columns="columns"
+        :dataSource="site.menus"
+      >
+        <a
+          class="table-cell-link"
+          href="javascript:;"
+          slot="name"
+          slot-scope="text, record, index"
+          @click="editMenu(record, index)"
+        >{{ text }}</a>
+        <a-tag slot="openType" slot-scope="text" :color="text === 'Internal' ? 'purple' : 'blue' ">{{ text }}</a-tag>
+        <span slot="action" slot-scope="record">
+          <a-button size="small" shape="circle" type="danger" icon="delete" @click="deleteMenu(record.name)"></a-button>
+        </span>
+      </a-table>
+    </div>
+    <a-drawer
+      title="Menu"
+      width="400"
+      :visible="visible"
+      @close="close"
+      :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px'}"
+    >
+      <a-form :form="form" layout="vertical">
+        <a-form-item :label="$t('name')">
+          <a-input v-model="form.name" />
+        </a-form-item>
+        <a-form-item label=" ">
+          <a-radio-group defaultValue="a" buttonStyle="solid" v-model="form.openType">
+            <a-radio-button v-for="item in menuTypes" :key="item" :value="item">{{ item }}</a-radio-button>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item label="Link">
+          <a-input v-model="form.link" class="link-input"></a-input>
+          <a-select v-model="form.link">
+            <a-select-option v-for="item in menuLinks" :key="item.value" :value="item.value">{{ item.text }}</a-select-option>
+          </a-select>
+        </a-form-item>
+      </a-form>
+      <div
+        :style="{
+          position: 'absolute',
+          left: 0,
+          bottom: 0,
+          width: '100%',
+          borderTop: '1px solid #e9e9e9',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right',
+        }"
+      >
+        <a-button
+          :style="{marginRight: '8px'}"
+          @close="close"
+        >
+          {{ $t('cancel') }}
+        </a-button>
+        <a-button type="primary" :disabled="!canSubmit" @click="saveMenu">{{ $t('save') }}</a-button>
+      </div>
+    </a-drawer>
   </div>
 </template>
 
 <script lang="ts">
 import { ipcRenderer, Event } from 'electron'
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { MenuTypes } from '../../helpers/enums'
 import { IMenu } from '../../interfaces/menu'
@@ -77,47 +84,41 @@ interface IForm {
 }
 
 @Component
-export default class Tags extends Vue {
+export default class Menu extends Vue {
   @State('site') site!: any
 
-  get headers() {
-    return [
-      {
-        text: this.$t('name'),
-        value: 'title',
-        sortable: false,
-      },
-      {
-        text: this.$t('openType'),
-        value: 'openType',
-        sortable: false,
-      },
-      {
-        text: this.$t('link'),
-        value: 'link',
-        sortable: false,
-      },
-      {
-        text: this.$t('actions'),
-        value: 'id',
-        sortable: false,
-      },
-    ]
-  }
-
-  visible = false
-
-  menuTypes = MenuTypes
-
   form: IForm = {
-    name: null,
-    index: null,
+    name: '',
+    index: '',
     openType: MenuTypes.Internal,
     link: '',
   }
 
-  get canSubmit() {
-    return this.form.name && this.form.link
+  visible = false
+  menuTypes = MenuTypes
+
+  get columns() {
+    return [
+      {
+        title: this.$t('name'),
+        dataIndex: 'name',
+        scopedSlots: { customRender: 'name' },
+      },
+      {
+        title: this.$t('openType'),
+        dataIndex: 'openType',
+        scopedSlots: { customRender: 'openType' },
+      },
+      {
+        title: this.$t('link'),
+        dataIndex: 'link',
+      },
+      {
+        title: this.$t('actions'),
+        key: 'action',
+        scopedSlots: { customRender: 'action' },
+      },
+    ]
   }
 
   get menuLinks() {
@@ -135,6 +136,10 @@ export default class Tags extends Vue {
       ...posts,
     ]
   }
+  
+  get canSubmit() {
+    return this.form.name && this.form.link
+  }
 
   newMenu() {
     this.form.name = null
@@ -143,6 +148,11 @@ export default class Tags extends Vue {
     this.form.link = ''
     this.visible = true
   }
+
+  close() {
+    this.visible = false
+  }
+
   editMenu(menu: IMenu, index: number) {
     this.visible = true
     this.form.index = index
@@ -156,27 +166,33 @@ export default class Tags extends Vue {
     ipcRenderer.send('menu-save', { ...this.form })
     ipcRenderer.once('menu-saved', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
-      this.$bus.$emit('snackbar-display', this.$t('menuSuccess'))
+      this.$message.success(this.$t('menuSuccess'))
       this.visible = false
     })
   }
 
   async deleteMenu(menuValue: string) {
-    const confirm = await this.$dialog.confirm({
-      text: `${this.$t('deleteWarning')}`,
+    this.$confirm({
       title: `${this.$t('warning')}`,
+      content: `${this.$t('deleteWarning')}`,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk: () => {
+        ipcRenderer.send('menu-delete', menuValue)
+        ipcRenderer.once('menu-deleted', (event: Event, result: any) => {
+          this.$bus.$emit('site-reload')
+          this.$message.success(this.$t('menuDelete'))
+          this.visible = false
+        })
+      },
     })
-    if (confirm) {
-      ipcRenderer.send('menu-delete', menuValue)
-      ipcRenderer.once('menu-deleted', (event: Event, result: any) => {
-        this.$bus.$emit('site-reload')
-        this.$bus.$emit('snackbar-display', this.$t('menuDelete'))
-        this.visible = false
-      })
-    }
   }
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="less" scoped>
+.link-input {
+  margin-bottom: 8px;
+}
 </style>

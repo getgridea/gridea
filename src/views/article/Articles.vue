@@ -1,76 +1,40 @@
 <template>
-  <div class="">
-    <v-card flat>
-      <v-card-title>
-        <span class="headline">📄 {{ $t('article') }}</span>
-        <v-spacer></v-spacer>
-        <v-btn v-if="selected.length > 0" depressed color="red lighten-2" @click="deleteAllPosts">删除选中</v-btn>
-        <v-btn depressed color="primary" @click="newPost">{{ $t('newArticle') }}</v-btn>
-      </v-card-title>
-      <v-data-table
-        v-model="selected"
-        select-all
-        :headers="headers"
-        :items="site.posts"
-        :pagination.sync="pagination"
-        item-key="fileName"
+  <div class="articles-page">
+    <a-row type="flex" justify="end" class="tool-container">
+      <a-button class="btn" type="danger" v-if="selectedRowKeys.length > 0" @click="deleteSelectedPosts">删除选中</a-button>
+      <a-button class="btn" type="primary" @click="newArticle">{{ $t('newArticle') }}</a-button>
+    </a-row>
+    <div class="content-container">
+      <a-table
+        :rowSelection="rowSelection"
+        :columns="columns"
+        :dataSource="site.posts"
       >
-        <template slot="items" slot-scope="props">
-          <td style="width: 80px">
-            <v-checkbox
-              v-model="props.selected"
-              primary
-              hide-details
-            ></v-checkbox>
-          </td>
-          <td>{{ props.item.data.title }}</td>
-          <td>
-            <v-chip v-if="props.item.data.published" color="green" text-color="white" small>
-              {{ $t('publish') }}
-            </v-chip>
-            <v-chip v-else color="grey  lighten-3" text-color="black" small>
-              {{ $t('draft') }}
-            </v-chip>
-            
-          </td>
-          <td>{{ $dayjs(props.item.data.date).format('YYYY-MM-DD') || '-' }}</td>
-          <td>
-            <v-btn
-              flat
-              icon
-              color="blue lighten-2"
-              @click="editPost(props.item)"
-              small
-            >
-              <v-icon small>edit</v-icon>
-            </v-btn>
-            <v-btn
-              flat
-              icon
-              color="red lighten-2"
-              @click="deletePost(props.item)"
-              small
-            >
-              <v-icon small>delete</v-icon>
-            </v-btn>
-          </td>
-        </template>
-      </v-data-table>
-    </v-card>
-    <v-dialog v-model="articleUpdateVisible" fullscreen hide-overlay transition="fade-transition">
-      <article-update
-        :articleFileName="currentArticleFileName"
-        @close="close"
-        @fetchData="$bus.$emit('site-reload')"
-      ></article-update>
-    </v-dialog>
+        <a
+          class="table-cell-link"
+          href="javascript:;"
+          slot="name"
+          slot-scope="text, record, index"
+          @click="editPost(record)"
+        >{{ text }}</a>
+        <a-tag slot="status" :color="text ? '#2bb15a': '#8a8a8a'" slot-scope="text">{{ text ? $t('publish') : $t('draft') }}</a-tag>
+        <span slot="date" slot-scope="text">{{ text }}</span>
+      </a-table>
+    </div>
+
+    <article-update
+      v-if="articleUpdateVisible"
+      :visible="articleUpdateVisible"
+      :articleFileName="currentArticleFileName"
+      @close="close"
+      @fetchData="$bus.$emit('site-reload')"
+    ></article-update>
   </div>
 </template>
 
 <script lang="ts">
 import { ipcRenderer } from 'electron'
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { IPost } from '../../interfaces/post'
 import ArticleUpdate from './ArticleUpdate.vue'
@@ -83,36 +47,43 @@ import ArticleUpdate from './ArticleUpdate.vue'
 export default class Articles extends Vue {
   @State('site') site!: any
 
-  get headers() {
+  articleUpdateVisible = false
+  currentArticleFileName = ''
+  selectedRowKeys = []
+  selectedPost = []
+
+  get columns() {
     return [
       {
-        text: this.$t('title'),
-        value: 'title',
+        title: this.$t('title'),
+        key: 'data.title',
+        dataIndex: 'data.title',
+        scopedSlots: { customRender: 'name' },
       },
       {
-        text: this.$t('status'),
-        value: 'data.published',
+        title: this.$t('status'),
+        dataIndex: 'data.published',
+        scopedSlots: { customRender: 'status' },
+        width: 100,
       },
       {
-        text: this.$t('createAt'),
-        value: 'data.date',
-      },
-      {
-        text: this.$t('Actions'),
-        value: 'title',
-        sortable: false,
+        title: this.$t('createAt'),
+        dataIndex: 'data.date',
+        scopedSlots: { customRender: 'date' },
+        width: 185,
       },
     ]
   }
 
-  articleUpdateVisible = false
-  currentArticleFileName = ''
-
-  pagination = {
-    sortBy: 'data.date',
-    descending: true,
+  get rowSelection() {
+    return {
+      selectedRowKeys: this.selectedRowKeys,
+      onChange: (selectedRowKeys: any, selectedRows: any) => {
+        this.selectedRowKeys = selectedRowKeys
+        this.selectedPost = selectedRows
+      },
+    }
   }
-  selected = []
 
   mounted() {
     this.$bus.$emit('site-reload')
@@ -123,7 +94,7 @@ export default class Articles extends Vue {
     this.currentArticleFileName = ''
   }
 
-  newPost() {
+  newArticle() {
     this.articleUpdateVisible = true
     this.currentArticleFileName = ''
   }
@@ -134,40 +105,51 @@ export default class Articles extends Vue {
   }
 
   async deletePost(post: IPost) {
-    const confirm = await this.$dialog.confirm({
-      text: `${this.$t('deleteWarning')}`,
+    this.$confirm({
       title: `${this.$t('warning')}`,
+      content: `${this.$t('deleteWarning')}`,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk: () => {
+        ipcRenderer.send('app-post-delete', post)
+        ipcRenderer.once('app-post-deleted', (event: Event, data: any) => {
+          if (data) {
+            this.$message.success(this.$t('articleDelete'))
+            this.$bus.$emit('site-reload')
+          }
+        })
+      },
     })
-    if (confirm) {
-      ipcRenderer.send('app-post-delete', post)
-      ipcRenderer.once('app-post-deleted', (event: Event, data: any) => {
-        if (data) {
-          this.$bus.$emit('snackbar-display', this.$t('articleDelete'))
-          this.$bus.$emit('site-reload')
-        }
-      })
-    }
   }
 
-  async deleteAllPosts() {
-    const confirm = await this.$dialog.confirm({
-      text: `${this.$t('deleteWarning')}`,
+  async deleteSelectedPosts() {
+    this.$confirm({
       title: `${this.$t('warning')}`,
+      content: `${this.$t('deleteWarning')}`,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk: () => {
+        ipcRenderer.send('app-post-list-delete', this.selectedPost)
+        ipcRenderer.once('app-post-list-deleted', (event: Event, data: any) => {
+          console.log(data)
+          if (data) {
+            this.$bus.$emit('snackbar-display', this.$t('articleDelete'))
+            this.$bus.$emit('site-reload')
+            this.selectedPost = []
+            this.selectedRowKeys = []
+          }
+        })
+      },
     })
-    if (confirm) {
-      ipcRenderer.send('app-post-list-delete', this.selected)
-      ipcRenderer.once('app-post-list-deleted', (event: Event, data: any) => {
-        console.log(data)
-        if (data) {
-          this.$bus.$emit('snackbar-display', this.$t('articleDelete'))
-          this.$bus.$emit('site-reload')
-          this.selected = []
-        }
-      })
-    }
   }
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="less" scoped>
+.articles-page {
+  position: relative;
+}
+
 </style>

@@ -4,6 +4,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'vuetify/dist/vuetify.css'
 import 'font-awesome/css/font-awesome.css'
 import * as Dayjs from 'dayjs'
+import moment from 'moment'
 import VuetifyDialog from 'vuetify-dialog'
 import Antd from 'ant-design-vue'
 import '@/assets/styles/main.less'
@@ -38,6 +39,7 @@ Vue.use(VuetifyDialog)
 
 Vue.use(VueBus)
 Vue.prototype.$dayjs = Dayjs
+Vue.prototype.$moment = moment
 
 Vue.config.productionTip = false
 

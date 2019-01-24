@@ -1,83 +1,81 @@
 <template>
-  <div class="article-update-page">
-    <div class="page-header">
-      <h3>𝗛𝘃𝗲 𝗡𝗼𝘁𝗲𝘀</h3>
+  <a-modal :visible="visible" :footer="null" :closable="false" width="100%" style="top: 0px; padding-bottom: 0px; height: 100%;">
+    <div slot="title">
+      <a-row type="flex" justify="end">
+        <a-button class="btn" @click="close">取消</a-button>
+        <a-button class="btn" :disabled="!canSubmit" @click="saveDraft">存草稿</a-button>
+        <a-button class="btn" type="primary" :disabled="!canSubmit" @click="savePost">保存</a-button>
+      </a-row>
     </div>
-    <div class="page-content">
-      <v-slide-y-transition mode="out-in">
-        <v-form>
-          <v-layout fill-height row wrap>
-            <v-flex xs8>
-              <v-text-field v-model="form.title" :counter="50" :label="$t('title')" @input="handleTitleChange"></v-text-field>
-              <markdown-editor
-                id="markdown-editor"
-                ref="editor"
-                class="md-editor"
-                :configs="configs"
-                preview-class="markdown-body"
-                v-model="form.content"
-              ></markdown-editor>
-              <v-btn depressed @click="cancel">{{ $t('cancel') }}</v-btn>
-              <v-btn :disabled="!canSubmit" depressed @click="saveDraft">{{ $t('saveDraft') }}</v-btn>
-              <v-btn :disabled="!canSubmit" depressed color="primary" @click="savePost">{{ $t('save') }}</v-btn>
-            </v-flex>
-            <v-flex xs4>
-              <div class="right-container">
-                <v-select v-model="form.tags" :items="tags" :label="$t('tag')" multiple small-chips deletable-chips></v-select>
-                <v-text-field v-model="form.fileName" label="URL" @input="handleFileNameChange"></v-text-field>
-                <v-menu
-                  :close-on-content-click="false"
-                  v-model="dateMenu"
-                  :nudge-right="40"
-                  lazy
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  min-width="290px"
-                >
-                  <v-text-field
-                    slot="activator"
-                    v-model="form.date"
-                    :label="$t('createAt')"
-                    prepend-icon="event"
-                    readonly
-                  ></v-text-field>
-                  <v-date-picker v-model="form.date" @input="dateMenu = false" :locale="dateLocale"></v-date-picker>
-                </v-menu>
-                <!-- 文章大图 -->
-                <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-                  <img class="feature-image" :src="`file://${form.featureImage.path}`" height="150" v-if="form.featureImage.path"/>
-                  <div>
-                    <v-btn v-if="!form.featureImage.name" outline :block="!form.featureImage.path" @click="pickFile">{{ `🏞 ${$t('featureImage')}` }}</v-btn>
-                    <p class="feature-name" v-else>{{ form.featureImage.name }}</p>
-                    <v-btn flat outline v-if="form.featureImage.path" @click="form.featureImage = {}"><v-icon>clear</v-icon></v-btn>
-                  </div>
-                  <input
-                    type="file"
-                    style="display: none"
-                    ref="image"
-                    accept="image/*"
-                    @change="onFilePicked"
-                  >
-                </v-flex>
+    <div>
+      <a-row :gutter="8">
+        <a-col :span="16">
+          <a-input size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
+          <markdown-editor
+            id="markdown-editor"
+            ref="editor"
+            class="md-editor"
+            :configs="configs"
+            preview-class="markdown-body"
+            v-model="form.content"
+          ></markdown-editor>
+        </a-col>
+        <a-col :span="8">
+          <a-collapse v-model="activeKey">
+            <a-collapse-panel header="URL" key="1">
+              <a-input v-model="form.fileName" @change="handleFileNameChange"></a-input>
+            </a-collapse-panel>
+            <a-collapse-panel :header="$t('tag')" key="2">
+              <div>
+                <a-select mode="multiple" style="width: 100%" v-model="form.tags">
+                  <a-select-option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</a-select-option>
+                </a-select>
               </div>
-            </v-flex>
-          </v-layout>
-        </v-form>
-      </v-slide-y-transition>
+            </a-collapse-panel>
+            <a-collapse-panel :header="$t('createAt')" key="3">
+              <a-date-picker
+                showTime
+                format="YYYY-MM-DD HH:mm:ss"
+                v-model="form.date"
+                style="width: 100%"
+              />
+            </a-collapse-panel>
+
+            <a-collapse-panel :header="$t('featureImage')" key="4">
+              <a-upload
+                action=""
+                listType="picture-card"
+                class="feature-uploader"
+                :showUploadList="false"
+                :beforeUpload="beforeFeatureUpload"
+              >
+                <div v-if="form.featureImage.path">
+                  <img class="feature-image" :src="`file://${form.featureImage.path}`" height="150" />
+                </div>
+                <div v-else>
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">Upload</div>
+                </div>
+              </a-upload>
+              <a-button v-if="form.featureImage.path" type="danger" block icon="delete" @click="form.featureImage = {}" />
+            </a-collapse-panel>
+          </a-collapse>
+        </a-col>
+      </a-row>
+
       <!-- 编辑器点击图片上传用 -->
       <input ref="uploadInput" class="upload-input" type="file" @change="fileChangeHandler">
     </div>
-    
-  </div>
+  </a-modal>
 </template>
 
 <script lang="ts">
 import { ipcRenderer, Event, shell } from 'electron'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import shortid from 'shortid'
+import moment from 'moment'
 import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
@@ -87,7 +85,9 @@ import { UrlFormats } from '../../helpers/enums'
   components: { MarkdownEditor },
 })
 export default class ArticleUpdate extends Vue {
+  @Prop(Boolean) visible!: boolean
   @Prop(String) articleFileName!: string
+
   $refs!: {
     editor: any,
     uploadInput: any,
@@ -96,37 +96,6 @@ export default class ArticleUpdate extends Vue {
   }
 
   @State('site') site!: Site
-
-  modal = false
-  dateMenu = false
-
-  get dateLocale() {
-    return this.$root.$i18n.locale === 'zhHans' ? 'zh-cn' : 'en-us'
-  }
-
-  form = {
-    title: '',
-    fileName: '',
-    tags: [] as string[],
-    date: this.$dayjs(new Date()).format('YYYY-MM-DD'),
-    content: '',
-    published: false,
-    featureImage: {
-      path: '',
-      name: '',
-      type: '',
-    },
-    deleteFileName: '',
-  }
-
-  // 编辑文章时，当前文章的索引
-  currentPostIndex = -1
-  originalFileName = ''
-  fileNameChanged = false
-
-  get canSubmit() {
-    return this.form.title && this.form.content
-  }
 
   configs = {
     toolbar: ['bold', 'italic', 'heading', 'code', 'quote', 'unordered-list', 'ordered-list', {
@@ -141,21 +110,71 @@ export default class ArticleUpdate extends Vue {
     spellChecker: false,
   }
 
+  form = {
+    title: '',
+    fileName: '',
+    tags: [] as string[],
+    date: moment(new Date()),
+    content: '',
+    published: false,
+    featureImage: {
+      path: '',
+      name: '',
+      type: '',
+    },
+    deleteFileName: '',
+  }
+
+  activeKey = ['1']
+
+  get dateLocale() {
+    return this.$root.$i18n.locale === 'zhHans' ? 'zh-cn' : 'en-us'
+  }
+
+  // 编辑文章时，当前文章的索引
+  currentPostIndex = -1
+  originalFileName = ''
+  fileNameChanged = false
+
+  get canSubmit() {
+    return this.form.title && this.form.content
+  }
+
   get tags() {
     return this.site.tags.map((tag: any) => tag.name)
   }
 
   mounted() {
+    this.buildCurrentForm()
     this.initEditor()
   }
 
-  pickFile() {
-    this.$refs.image.click()
+  buildCurrentForm() {
+    const { articleFileName } = this
+    console.log('articleFileName: ', articleFileName)
+    if (articleFileName) {
+      this.currentPostIndex = this.site.posts.findIndex((item: IPost) => item.fileName === articleFileName)
+      const currentPost = this.site.posts[this.currentPostIndex]
+      this.originalFileName = currentPost.fileName
+
+      if (currentPost) {
+        this.form.title = currentPost.data.title
+        this.form.fileName = currentPost.fileName
+        this.form.tags = currentPost.data.tags && currentPost.data.tags.split(' ') || []
+        this.form.date = moment(currentPost.data.date)
+        this.form.content = currentPost.content
+        this.form.published = currentPost.data.published
+        this.form.featureImage.path = currentPost.data.feature && currentPost.data.feature.substring(7) || ''
+        this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
+      }
+    } else {
+      if (this.site.themeConfig.postUrlFormat === UrlFormats.ShortId) {
+        this.form.fileName = shortid.generate()
+      }
+    }
   }
 
-  onFilePicked(e: any) {
-    console.log(e)
-    const file = (e.target.files || e.dataTransfer)[0]
+  beforeFeatureUpload(file: any) {
     if (!file) {
       return
     }
@@ -170,27 +189,13 @@ export default class ArticleUpdate extends Vue {
         type: file.type,
       }
     }
+    return false
   }
 
   cancel() {
     this.close()
   }
   close() {
-    this.form.title = ''
-    this.form.fileName = ''
-    this.form.tags = [] as string[]
-    this.form.date = this.$dayjs(new Date()).format('YYYY-MM-DD')
-    this.form.content = ''
-    this.form.published = false
-    this.form.featureImage.path = ''
-    this.form.featureImage.name = ''
-    this.form.featureImage.type = ''
-    this.form.deleteFileName = ''
-
-    this.currentPostIndex = -1
-    this.originalFileName = ''
-    this.fileNameChanged = false
-
     this.$emit('close')
   }
 
@@ -238,7 +243,7 @@ export default class ArticleUpdate extends Vue {
     this.buildFileName()
     const valid = this.checkArticleValid()
     if (!valid) {
-      this.$bus.$emit('snackbar-display', { color: 'pink', message: '文章的 URL 与其他文章重复' })
+      this.$message.error('文章的 URL 与其他文章重复')
       return
     }
 
@@ -249,12 +254,13 @@ export default class ArticleUpdate extends Vue {
 
     const form = {
       ...this.form,
+      date: this.form.date.format('YYYY-MM-DD HH:mm:ss'),
     }
     form.published = false
 
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-      this.$bus.$emit('snackbar-display', `🎉  ${this.$t('draftSuccess')}`)
+      this.$message.success(`🎉  ${this.$t('draftSuccess')}`)
       this.close()
       this.$emit('fetchData')
     })
@@ -264,7 +270,7 @@ export default class ArticleUpdate extends Vue {
     this.buildFileName()
     const valid = this.checkArticleValid()
     if (!valid) {
-      this.$bus.$emit('snackbar-display', { color: 'pink', message: '文章的 URL 与其他文章重复' })
+      this.$message.error('文章的 URL 与其他文章重复')
       return
     }
 
@@ -275,12 +281,13 @@ export default class ArticleUpdate extends Vue {
 
     const form = {
       ...this.form,
+      date: this.form.date.format('YYYY-MM-DD HH:mm:ss'),
     }
     form.published = true
 
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-      this.$bus.$emit('snackbar-display', `🎉  ${this.$t('saveSuccess')}`)
+      this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
       this.close()
       this.$emit('fetchData')
     })
@@ -299,7 +306,7 @@ export default class ArticleUpdate extends Vue {
 
           for (const data of dataList as any) {
             if (data.type.indexOf('image') === -1) {
-              this.$bus.$emit('snackbar-display', { color: 'error', message: '仅支持图片拖拽' })
+              this.$message.error('仅支持图片拖拽')
               return
             }
             imageFiles.push({
@@ -352,72 +359,29 @@ export default class ArticleUpdate extends Vue {
     }
   }
 
-  @Watch('articleFileName')
-  updateForm(val: string, oldVal: string) {
-    const { articleFileName } = this
-    console.log('articleFileName: ', articleFileName)
-    if (articleFileName) {
-      this.currentPostIndex = this.site.posts.findIndex((item: IPost) => item.fileName === articleFileName)
-      const currentPost = this.site.posts[this.currentPostIndex]
-      this.originalFileName = currentPost.fileName
-
-      if (currentPost) {
-        this.form.title = currentPost.data.title
-        this.form.fileName = currentPost.fileName
-        this.form.tags = currentPost.data.tags && currentPost.data.tags.split(' ') || []
-        this.form.date = this.$dayjs(currentPost.data.date).format('YYYY-MM-DD')
-        this.form.content = currentPost.content
-        this.form.published = currentPost.data.published
-        this.form.featureImage.path = currentPost.data.feature && currentPost.data.feature.substring(7) || ''
-        this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
-      }
-    } else {
-      if (this.site.themeConfig.postUrlFormat === UrlFormats.ShortId) {
-        this.form.fileName = shortid.generate()
-      }
-    }
-  }
-
 }
 </script>
 
-<style lang="stylus" scoped>
-.upload-input
-  display none
-.title
-  padding: 16px 0 0
-.right-container
-  background: #f3f7f9;
-  padding: 32px 16px 32px;
-  margin-left: 16px;
-.feature-name
-  width: 100%
-  text-overflow ellipsis
-  white-space nowrap
-  overflow hidden
-.feature-image
-  max-width: 100%
-.article-update-page
-  background #ffffff
-  display flex
-  flex-direction column
-  min-height: 100vh
-  .page-header
-    height 48px
-    line-height 48px
-    text-align center
-    position fixed
-    top 0
-    left 0
-    right 0
-    background: #fff
-    border-bottom 1px solid #fafafa
-    z-index 1024
-  .page-content
-    padding 80px 32px 32px
-    flex 1
-</style>
+<style lang="less" scoped>
+.upload-input {
+  display: none;
+}
 
+.btn {
+  margin-left: 16px;
+}
+
+.feature-image {
+  max-width: 100%
+}
+/deep/ .ant-upload.ant-upload-select-picture-card {
+  width: 100%
+}
+
+/deep/ .ant-modal-content {
+  height: 100%;
+}
+</style>
 
 <style>
 @import '~simplemde/dist/simplemde.min.css';
@@ -450,5 +414,15 @@ export default class ArticleUpdate extends Vue {
 .CodeMirror .editor-preview .markdown-body .editor-preview-active img {
   max-width: 100%;
   display: block;
+}
+
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
 }
 </style>

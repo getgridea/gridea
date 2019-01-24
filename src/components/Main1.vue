@@ -6,18 +6,26 @@
     >
       <div class="top-container">
         <div class="logo"></div>
-        <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['4']">
-          <a-menu-item key="1">
+        <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['articles']" @click="clickMenu">
+          <a-menu-item key="articles">
             <a-icon type="user" />
             <span class="nav-text">文 章</span>
           </a-menu-item>
-          <a-menu-item key="2">
+          <a-menu-item key="menu">
             <a-icon type="video-camera" />
             <span class="nav-text">菜 单</span>
           </a-menu-item>
-          <a-menu-item key="3">
+          <a-menu-item key="tags">
             <a-icon type="upload" />
             <span class="nav-text">标 签</span>
+          </a-menu-item>
+          <a-menu-item key="theme">
+            <a-icon type="upload" />
+            <span class="nav-text">主 题</span>
+          </a-menu-item>
+          <a-menu-item key="setting">
+            <a-icon type="upload" />
+            <span class="nav-text">设 置</span>
           </a-menu-item>
         </a-menu>
       </div>
@@ -69,6 +77,10 @@ export default class App extends Vue {
       this.reloadSite()
     })
     this.checkUpdate()
+  }
+
+  clickMenu(e: any) {
+    this.$router.push(e.key)
   }
 
   public reloadSite() {

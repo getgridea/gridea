@@ -1,32 +1,48 @@
 <template>
   <div class="">
-    <v-card flat>
-      <v-card-title>
-        <span class="headline">🌁 {{ $t('theme') }}</span>
-      </v-card-title>
-      <v-container fluid>
-        <v-form>
-          <v-select v-model="form.themeName" :items="site.themes" :label="$t('selectTheme')" outline />
-          <v-text-field :label="$t('siteName')" v-model="form.siteName" />
-          <v-text-field :label="$t('siteDescription')" v-model="form.siteDescription" />
-          <v-text-field :label="$t('footerInfo')" v-model="form.footerInfo" />
-          <v-switch :label="$t('isShowFeatureImage')" v-model="form.showFeatureImage" />
-          <v-slider :label="$t('articlesPerPage')" v-model="form.pageSize" thumb-label="always" :min="1" :max="20" always-dirty />
-          <v-select v-model="form.postUrlFormat" :items="urlFormats" label="文章 URL 默认格式" />
-          <v-select v-model="form.tagUrlFormat" :items="urlFormats" label="标签 URL 默认格式" />
-          <div>
-            <v-btn depressed color="primary" @click="saveTheme">{{ $t('save') }}</v-btn>
-          </div>
-        </v-form>
-      </v-container>
-    </v-card>
+    <a-row type="flex" justify="end" class="tool-container">
+      <a-button class="btn" type="primary" @click="saveTheme">{{ $t('save') }}</a-button>
+    </a-row>
+    <div class="content-container">
+      <a-form :form="form">
+        <a-form-item :label="$t('selectTheme')">
+          <a-select v-model="form.themeName">
+            <a-select-option value="jack">Jack</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item :label="$t('siteName')">
+          <a-input v-model="form.siteName" />
+        </a-form-item>
+        <a-form-item :label="$t('siteDescription')">
+          <a-input v-model="form.siteDescription" />
+        </a-form-item>
+        <a-form-item :label="$t('footerInfo')">
+          <a-input v-model="form.footerInfo" />
+        </a-form-item>
+        <a-form-item :label="$t('isShowFeatureImage')">
+          <a-switch v-model="form.showFeatureImage" />
+        </a-form-item>
+        <a-form-item :label="$t('articlesPerPage')">
+          <a-slider v-model="form.pageSize" :min="1" :max="50" />
+        </a-form-item>
+        <a-form-item label="文章 URL 默认格式">
+          <a-radio-group name="postUrlFormat" v-model="form.postUrlFormat">
+            <a-radio v-for="item in urlFormats" :key="item.value" :value="item.value">{{ item.text }}</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item label="标签 URL 默认格式">
+          <a-radio-group name="tagUrlFormat" v-model="form.tagUrlFormat">
+            <a-radio v-for="item in urlFormats" :key="item.value" :value="item.value">{{ item.text }}</a-radio>
+          </a-radio-group>
+        </a-form-item>
+      </a-form>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { ipcRenderer, Event } from 'electron'
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { Site } from '../../store/modules/site'
 import { UrlFormats } from '../../helpers/constants'
@@ -45,6 +61,8 @@ export default class Theme extends Vue {
     postUrlFormat: 'SLUG',
     tagUrlFormat: 'SLUG',
   }
+  lCol = { span: 5 }
+  wCol = { span: 12 }
 
   urlFormats = UrlFormats
 
@@ -52,7 +70,7 @@ export default class Theme extends Vue {
     ipcRenderer.send('theme-save', this.form)
     ipcRenderer.once('theme-saved', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
-      this.$bus.$emit('snackbar-display', '主题已保存')
+      this.$message.success('主题配置已保存')
     })
   }
 
@@ -68,9 +86,11 @@ export default class Theme extends Vue {
     this.form.postUrlFormat = config.postUrlFormat || 'SLUG'
     this.form.tagUrlFormat = config.tagUrlFormat || 'SLUG'
   }
-
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+.content-container {
+  padding: 32px 20%;
+}
 </style>

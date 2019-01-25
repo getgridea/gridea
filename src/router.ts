@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Main from './components/Main1.vue'
+import Main from './components/Main.vue'
 // import ArticleUpdate from './views/article/ArticleUpdate.vue'
 import Articles from './views/article/Articles.vue'
 import Menu from './views/menu/Index.vue'
 import Tags from './views/tags/Index.vue'
 import Theme from './views/theme/Index.vue'
 import Setting from './views/setting/Index.vue'
+import System from './views/system/Index.vue'
 
 Vue.use(Router)
 
@@ -43,6 +44,11 @@ export default new Router({
           path: '/setting',
           name: 'setting',
           component: Setting,
+        },
+        {
+          path: '/system',
+          name: 'system',
+          component: System,
         },
         {
           path: '*',

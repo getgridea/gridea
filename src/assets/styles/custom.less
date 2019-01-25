@@ -1,4 +1,5 @@
 @primary-color : #434343;
+@primary-bg: #F7F6F3;
 
 @border-radius-base : 2px;
 @link-color: #1067de;
@@ -53,4 +54,63 @@
 
 .table-cell-link {
   font-weight: bold;
+}
+
+.ant-input {
+  border-width: 1px;
+}
+
+.ant-select-dropdown-menu-item-active, .ant-select-dropdown-menu-item:hover {
+  background: #f7f7f7;
+}
+
+.ant-btn-primary {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+.ant-pagination-item-active {
+  background: #f9f7f3;
+}
+.ant-pagination-item {
+  background: #f9f7f3;
+  border-radius: 50%;
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+  position: relative;
+  &:after {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    background: #fcc514;
+    border-radius: 2px;
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+  }
+}
+
+.ant-checkbox-inner:after {
+  left: 3.571429px;
+}
+.ant-tabs-nav .ant-tabs-tab-active {
+  position: relative;
+  &:after {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    background: #fcc514;
+    border-radius: 2px;
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    transform: translateY(-50%);
+  }
+}
+
+.ant-modal-confirm .ant-modal-body {
+  padding: 32px 24px 24px;
 }

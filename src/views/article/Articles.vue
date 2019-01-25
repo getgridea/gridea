@@ -9,6 +9,7 @@
         :rowSelection="rowSelection"
         :columns="columns"
         :dataSource="site.posts"
+        :pagination="{ size: 'small' }"
       >
         <a
           class="table-cell-link"

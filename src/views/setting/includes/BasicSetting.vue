@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-form :form="form">
-      <a-form-item label="Platform" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper">
+      <a-form-item label="Platform" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-radio-group name="platform" v-model="form.platform">
           <a-radio value="github">Github Pages</a-radio>
           <a-radio value="coding">Coding Pages</a-radio>
@@ -50,7 +50,7 @@ export default class BasicSetting extends Vue {
   showToken = false
 
   formLayout = {
-    label: { span: 5 },
+    label: { span: 6 },
     wrapper: { span: 12 },
   }
 

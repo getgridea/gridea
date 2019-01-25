@@ -7,6 +7,7 @@
       <a-table
         :columns="columns"
         :dataSource="site.menus"
+        :pagination="{ size: 'small' }"
       >
         <a
           class="table-cell-link"

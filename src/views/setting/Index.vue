@@ -1,16 +1,16 @@
 <template>
   <div class="">
     <a-tabs defaultActiveKey="1">
-      <a-tab-pane tab="基础配置" key="1">
+      <a-tab-pane :tab="$t('basicSetting')" key="1">
         <basic-setting></basic-setting>
       </a-tab-pane>
-      <a-tab-pane tab="评论配置" key="2">
+      <a-tab-pane :tab="$t('commentSetting')" key="2">
         <comment-setting></comment-setting>
       </a-tab-pane>
-      <a-tab-pane tab="Favicon 配置" key="3">
+      <a-tab-pane :tab="$t('faviconSetting')" key="3">
         <favicon-setting></favicon-setting>
       </a-tab-pane>
-      <a-tab-pane tab="头像配置" key="4">
+      <a-tab-pane :tab="$t('avatarSetting')" key="4">
         <avatar-setting></avatar-setting>
       </a-tab-pane>
     </a-tabs>

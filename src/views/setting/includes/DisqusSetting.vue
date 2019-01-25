@@ -26,7 +26,7 @@ export default class DisqusSetting extends Vue {
   @State('site') site!: any
 
   formLayout = {
-    label: { span: 5 },
+    label: { span: 6 },
     wrapper: { span: 12 },
   }
 

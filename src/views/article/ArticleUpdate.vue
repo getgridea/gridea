@@ -2,9 +2,9 @@
   <a-modal :visible="visible" :footer="null" :closable="false" width="100%" style="top: 0px; padding-bottom: 0px; height: 100%;">
     <div slot="title">
       <a-row type="flex" justify="end">
-        <a-button class="btn" @click="close">取消</a-button>
-        <a-button class="btn" :disabled="!canSubmit" @click="saveDraft">存草稿</a-button>
-        <a-button class="btn" type="primary" :disabled="!canSubmit" @click="savePost">保存</a-button>
+        <a-button class="btn" @click="close">{{ $t('cancel') }}</a-button>
+        <a-button class="btn" :disabled="!canSubmit" @click="saveDraft">{{ $t('saveDraft') }}</a-button>
+        <a-button class="btn" type="primary" :disabled="!canSubmit" @click="savePost">{{ $t('save') }}</a-button>
       </a-row>
     </div>
     <div>
@@ -380,6 +380,10 @@ export default class ArticleUpdate extends Vue {
 
 /deep/ .ant-modal-content {
   height: 100%;
+}
+
+/deep/ .ant-collapse {
+  background: #F7F6F3;
 }
 </style>
 

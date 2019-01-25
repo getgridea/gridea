@@ -33,6 +33,7 @@ const siteState: Site = {
     showFeatureImage: true,
     postUrlFormat: 'SLUG',
     tagUrlFormat: 'SLUG',
+    dateFormat: 'YYYY-MM-DD',
   },
   themes: [],
   setting: {
@@ -73,6 +74,7 @@ const mutations: MutationTree<Site> = {
     state.themeConfig = siteData.themeConfig
     state.themeConfig.postUrlFormat = siteData.themeConfig.postUrlFormat || 'SLUG'
     state.themeConfig.tagUrlFormat = siteData.themeConfig.tagUrlFormat || 'SLUG'
+    state.themeConfig.dateFormat = siteData.themeConfig.dateFormat || 'YYYY-MM-DD'
     state.themeConfig.postPageSize = siteData.themeConfig.postPageSize || DEFAULT_POST_PAGE_SIZE
     state.themeConfig.archivesPageSize = siteData.themeConfig.archivesPageSize || DEFAULT_ARCHIVES_PAGE_SIZE
     state.themes = siteData.themes

@@ -63,6 +63,8 @@ const message = {
     syncing: '同步中，请耐心等待...',
     articleDefault: '文章 URL 默认格式',
     tagDefault: '标签 URL 默认格式',
+    hideInList: '列表中隐藏',
+    dateFormat: '日期格式',
   },
   en: {
     preview: 'Preiview',
@@ -128,6 +130,8 @@ const message = {
     syncing: 'Synchronizing, please wait...',
     articleDefault: 'Article URL Default',
     tagDefault: 'Tag URL Default',
+    hideInList: 'Hide in list',
+    dateFormat: 'Date format',
   },
 }
 

@@ -9,4 +9,5 @@ export interface ITheme {
   domain: string
   postUrlFormat: string
   tagUrlFormat: string
+  dateFormat: string
 }

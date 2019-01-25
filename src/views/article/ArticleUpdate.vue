@@ -59,6 +59,9 @@
               </a-upload>
               <a-button v-if="form.featureImage.path" type="danger" block icon="delete" @click="form.featureImage = {}" />
             </a-collapse-panel>
+            <a-collapse-panel :header="$t('hideInList')" key="5">
+              <a-switch v-model="form.hideInList"></a-switch>
+            </a-collapse-panel>
           </a-collapse>
         </a-col>
       </a-row>
@@ -117,6 +120,7 @@ export default class ArticleUpdate extends Vue {
     date: moment(new Date()),
     content: '',
     published: false,
+    hideInList: false,
     featureImage: {
       path: '',
       name: '',
@@ -164,6 +168,7 @@ export default class ArticleUpdate extends Vue {
         this.form.date = moment(currentPost.data.date)
         this.form.content = currentPost.content
         this.form.published = currentPost.data.published
+        this.form.hideInList = currentPost.data.hideInList
         this.form.featureImage.path = currentPost.data.feature && currentPost.data.feature.substring(7) || ''
         this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
       }

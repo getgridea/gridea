@@ -7,6 +7,7 @@ export interface IPost {
   date: string
   content: string
   published: boolean
+  hideInList: boolean
   featureImage: {
     name?: string,
     path?: string,
@@ -19,6 +20,7 @@ export interface IPostData {
   title: string
   date: string
   published: boolean
+  hideInList: boolean
   tags: string
   feature: string
 }
@@ -44,6 +46,8 @@ export interface IPostRenderData {
   title: string
   tags: ITagRenderData[]
   date: string
+  dateFormat: string
   feature: string
   link: string
+  hideInList: boolean
 }

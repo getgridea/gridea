@@ -135,10 +135,12 @@ export default class Renderer extends Model {
    * 格式化数据，为渲染页面准备
    */
   public formatDataForRender(mode: string): any {
+    const { themeConfig } = this.db
+
     /** 文章数据 */
     this.postsData = this.db.posts.filter((item: IPostDb) => item.data.published)
       .map((item: IPostDb) => {
-        const currentTags = item.data.tags.split(' ')
+        const currentTags = item.data.tags && item.data.tags.split(' ') || []
         const result: IPostRenderData = {
           content: marked(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain), { breaks: true }),
           fileName: item.fileName,
@@ -148,8 +150,10 @@ export default class Renderer extends Model {
             .filter((tag: ITag) => currentTags.find((i) => i === tag.name))
             .map((tag: ITag) => ({ ...tag, link: `${this.db.themeConfig.domain}/tag/${tag.slug}` })),
           date: item.data.date,
+          dateFormat: (themeConfig.dateFormat && moment(item.data.date).format(themeConfig.dateFormat)) || item.data.date,
           feature: item.data.feature && `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain, mode)}` || '',
           link: `${this.db.themeConfig.domain}/post/${item.fileName}`,
+          hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
         }
         return result
       })
@@ -166,7 +170,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 渲染文章列表
+   * 渲染文章列表，不包含隐藏的文章
    */
   public async renderPostList(extraPath?: string) {
     const { postPageSize, archivesPageSize } = this.db.themeConfig
@@ -176,30 +180,31 @@ export default class Renderer extends Model {
       ? archivesPageSize || DEFAULT_ARCHIVES_PAGE_SIZE
       : postPageSize ||  DEFAULT_POST_PAGE_SIZE
 
+    const postsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
 
-    for (let i = 0; i * pageSize < this.postsData.length; i += 1) {
+    for (let i = 0; i * pageSize < postsData.length; i += 1) {
       const renderData = {
         menus: this.db.menus,
-        posts: this.postsData.slice(i * pageSize, (i + 1) * pageSize),
+        posts: postsData.slice(i * pageSize, (i + 1) * pageSize),
         pagination: {
           prev: '',
           next: '',
         },
         themeConfig: this.db.themeConfig,
         site: {
-          posts: this.postsData,
+          posts: postsData,
           tags: this.tagsData,
         },
       }
 
       let renderPath = `${this.outputDir}${extraPath}/index.html`
 
-      if (i === 0 && this.postsData.length > pageSize) {
+      if (i === 0 && postsData.length > pageSize) {
         await fse.ensureDir(`${this.outputDir}${extraPath}/page`)
 
         renderData.pagination.next = `${this.db.themeConfig.domain}${extraPath}/page/2/`
 
-      } else if (i > 0 && this.postsData.length > pageSize) {
+      } else if (i > 0 && postsData.length > pageSize) {
         await fse.ensureDir(`${this.outputDir}${extraPath}/page/${i + 1}`)
 
         renderPath = `${this.outputDir}${extraPath}/page/${i + 1}/index.html`
@@ -208,7 +213,7 @@ export default class Renderer extends Model {
           ? `${this.db.themeConfig.domain}${extraPath}/`
           : `${this.db.themeConfig.domain}${extraPath}/page/${i}/`
 
-        renderData.pagination.next = (i + 1) * pageSize < this.postsData.length
+        renderData.pagination.next = (i + 1) * pageSize < postsData.length
           ? `${this.db.themeConfig.domain}${extraPath}/page/${i + 2}/`
           : ''
       } else {
@@ -235,7 +240,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 渲染文章详情页
+   * 渲染文章详情页，包含隐藏的文章
    */
   async renderPostDetail() {
     for (let i = 0; i < this.postsData.length; i += 1) {
@@ -311,7 +316,7 @@ export default class Renderer extends Model {
 
     for (const usedTag of usedTags) {
       const posts = this.postsData.filter((post: IPostRenderData) => {
-        return post.tags.find((tag: ITagRenderData) => tag.slug === usedTag.slug)
+        return post.tags.find((tag: ITagRenderData) => tag.slug === usedTag.slug) && !post.hideInList
       })
 
       const currentTag = usedTag

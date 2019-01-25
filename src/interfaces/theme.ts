@@ -8,4 +8,5 @@ export interface ITheme {
   showFeatureImage: boolean
   postUrlFormat: string
   tagUrlFormat: string
+  dateFormat: string
 }

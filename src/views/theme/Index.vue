@@ -38,13 +38,17 @@
             <a-radio v-for="item in urlFormats" :key="item.value" :value="item.value">{{ item.text }}</a-radio>
           </a-radio-group>
         </a-form-item>
+        <a-form-item :label="$t('dateFormat')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.dateFormat" />
+          <div><a href="#" @click="openPage('http://momentjs.cn/docs/#/displaying/format/')">Momentjs Format</a></div>
+        </a-form-item>
       </a-form>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, Event, shell } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { Site } from '../../store/modules/site'
@@ -69,6 +73,7 @@ export default class Theme extends Vue {
     showFeatureImage: true,
     postUrlFormat: 'SLUG',
     tagUrlFormat: 'SLUG',
+    dateFormat: 'YYYY-MM-DD',
   }
   lCol = { span: 5 }
   wCol = { span: 12 }
@@ -95,6 +100,11 @@ export default class Theme extends Vue {
     this.form.showFeatureImage = config.showFeatureImage
     this.form.postUrlFormat = config.postUrlFormat || 'SLUG'
     this.form.tagUrlFormat = config.tagUrlFormat || 'SLUG'
+    this.form.dateFormat = config.dateFormat || 'YYYY-MM-DD'
+  }
+
+  openPage(url: string) {
+    shell.openExternal(url)
   }
 }
 </script>

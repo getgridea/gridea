@@ -56,10 +56,14 @@ export default class Posts extends Model {
       // 从 hexo 或其他平台迁移过来的文章不带有 published 字段
       if (item.data.published === undefined) {
         item.data.published = false
-        list.push(item)
-      } else {
-        list.push(item)
       }
+
+      // 从其他平台迁移过来的文章或旧文章不带有 hideInList 字段
+      if (item.data.hideInList === undefined) {
+        item.data.hideInList = false
+      }
+
+      list.push(item)
     })
 
     list.sort((a: any, b: any) => moment(b.data.date).unix() - moment(a.data.date).unix())
@@ -80,6 +84,7 @@ export default class Posts extends Model {
       item.data.feature = item.data.feature ? helper.changeFeatureImageUrlDomainToLocal(item.data.feature, this.appDir) : item.data.feature
       return item
     })
+
     return list
   }
 
@@ -97,6 +102,7 @@ title: ${post.title}
 date: ${post.date}
 tags: ${post.tags.join(' ')}
 published: ${post.published}
+hideInList: ${post.hideInList}
 feature: ${post.featureImage.name ? `/post-images/${post.fileName}.${extendName}` : ''}
 ---
 ${content}`

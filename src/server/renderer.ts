@@ -113,6 +113,8 @@ export default class Renderer extends Model {
 
     // 归档页
     await this.renderPostList('/archives')
+    // 标签列表页
+    await this.renderTags()
     await this.renderPostDetail()
     await this.renderTagDetail()
     await this.copyFiles()
@@ -266,6 +268,35 @@ export default class Renderer extends Model {
       await fse.ensureDir(renderFolerPath)
       await fs.writeFileSync(`${renderFolerPath}/index.html`, html)
     }
+  }
+
+  /**
+   * 渲染标签页
+   */
+  async renderTags() {
+    await fse.ensureDir(`${this.outputDir}/tags`)
+    const renderData = {
+      tags: this.tagsData,
+      menus: this.db.menus,
+      themeConfig: this.db.themeConfig,
+      site: {
+        posts: this.postsData,
+        tags: this.tagsData,
+      },
+    }
+
+    const renderPath = `${this.outputDir}/tags/index.html`
+    let html = ''
+    await ejs.renderFile(`${this.themePath}/templates/tags.ejs`, renderData, {}, async (err: any, str) => {
+      if (err) {
+        console.log('❌', err)
+      }
+      if (str) {
+        html = str
+      }
+    })
+    console.log('👏  Tags Page:', renderPath)
+    await fs.writeFileSync(renderPath, html)
   }
 
   /**

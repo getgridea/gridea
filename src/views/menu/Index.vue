@@ -138,6 +138,10 @@ export default class Menu extends Vue {
         text: '📚 Archives',
         value: `${this.site.setting.domain}/archives`,
       },
+      {
+        text: '🏷️ Tags',
+        value: `${this.site.setting.domain}/tags`,
+      },
       ...posts,
     ]
   }

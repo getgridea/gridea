@@ -38,7 +38,6 @@ export default class Posts extends Model {
       const data = (postMatter.data as any)
       if (data && data.date) {
         data.date = moment(data.date).subtract(8, 'hours').format('YYYY-MM-DD HH:mm:ss')
-        console.log('时间', data.date)
       }
       delete postMatter.orig // Remove orig <Buffer>
       const post = {

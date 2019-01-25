@@ -69,7 +69,7 @@ export default class FaviconSetting extends Vue {
 </script>
 
 
-<style lang="stylus" scoped>
+<style lang="less" scoped>
 .file-name {
   margin-bottom: 8px;
 }

@@ -1,19 +1,5 @@
 const message = {
   zhHans: {
-    $vuetify: {
-      dataIterator: {
-        rowsPerPageText: '每页:',
-        rowsPerPageAll: '全部',
-        pageText: '{0}-{1} of {2}',
-        noResultsText: '没有找到结果',
-        nextPage: '下一页',
-        prevPage: '上一页',
-      },
-      dataTable: {
-        rowsPerPageText: '每页条数:',
-      },
-      noDataText: '暂无数据',
-    },
     preview: '预 览',
     syncSite: '同 步',
     newVersion: '有新版本',
@@ -78,20 +64,6 @@ const message = {
     tagDefault: '标签 URL 默认格式',
   },
   en: {
-    $vuetify: {
-      dataIterator: {
-        rowsPerPageText: 'Items per page:',
-        rowsPerPageAll: 'All',
-        pageText: '{0}-{1} of {2}',
-        noResultsText: 'No matching records found',
-        nextPage: 'Next page',
-        prevPage: 'Previous page',
-      },
-      dataTable: {
-        rowsPerPageText: 'Rows per page:',
-      },
-      noDataText: 'No data available',
-    },
     preview: 'Preiview',
     syncSite: 'Sync Website',
     newVersion: 'New version',

@@ -51,5 +51,5 @@ export default class DisqusSetting extends Vue {
 </script>
 
 
-<style lang="stylus" scoped>
+<style lang="less" scoped>
 </style>

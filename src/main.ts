@@ -1,11 +1,7 @@
 import Vue from 'vue'
-import Vuetify from 'vuetify'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import 'vuetify/dist/vuetify.css'
 import 'font-awesome/css/font-awesome.css'
 import * as Dayjs from 'dayjs'
 import moment from 'moment'
-import VuetifyDialog from 'vuetify-dialog'
 import Antd from 'ant-design-vue'
 import '@/assets/styles/main.less'
 import VueI18n from 'vue-i18n'
@@ -23,20 +19,8 @@ const i18n = new VueI18n({
 })
 
 console.log('messages', locale)
-Vue.use(Vuetify, {
-  lang: {
-    t: (key: string, ...params: any[]) => i18n.t(key, params),
-  },
-  theme: {
-    primary: '#1067de',
-    accent: '#1067de',
-  },
-})
 
 Vue.use(Antd)
-
-Vue.use(VuetifyDialog)
-
 Vue.use(VueBus)
 Vue.prototype.$dayjs = Dayjs
 Vue.prototype.$moment = moment

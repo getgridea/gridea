@@ -15,6 +15,7 @@ module.exports = {
   pluginOptions: {
     electronBuilder: {
       builderOptions: {
+        productName: 'Hve Notes',
         win: {
           icon: './public/app-icons/logo.ico',
         },

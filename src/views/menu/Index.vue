@@ -137,7 +137,7 @@ export default class Menu extends Vue {
       ...posts,
     ]
   }
-  
+
   get canSubmit() {
     return this.form.name && this.form.link
   }

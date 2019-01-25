@@ -31,7 +31,7 @@ import AvatarSetting from './includes/AvatarSetting.vue'
     BasicSetting,
     CommentSetting,
     FaviconSetting,
-    AvatarSetting, 
+    AvatarSetting,
   },
 })
 export default class Setting extends Vue {

@@ -2,6 +2,14 @@
   "name": "hve-notes",
   "version": "0.7.0",
   "private": true,
+  "description": "A static blog writing client. You can use it to record your life, mood, knowledge, notes and ideas...",
+  "homepage": "http://hvenotes.fehey.com",
+  "license": "MIT",
+  "author": {
+    "name": "EryouHao",
+    "email": "eryouhao@gmail.com"
+  },
+  "repository": "https://github.com/hve-notes/hve-notes",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

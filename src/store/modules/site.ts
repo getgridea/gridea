@@ -4,6 +4,7 @@ import { ITag } from '../../interfaces/tag'
 import { ITheme } from '../../interfaces/theme'
 import { IMenu } from '../../interfaces/menu'
 import { ISetting, ICommentSetting } from '../../interfaces/setting'
+import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE } from '../../helpers/constants'
 
 export interface Site {
   appDir: string,
@@ -24,7 +25,8 @@ const siteState: Site = {
   menus: [],
   themeConfig: {
     themeName: '',
-    pageSize: 10,
+    postPageSize: 10,
+    archivesPageSize: 50,
     siteName: '',
     siteDescription: '',
     footerInfo: 'Powered by Hve',
@@ -71,6 +73,8 @@ const mutations: MutationTree<Site> = {
     state.themeConfig = siteData.themeConfig
     state.themeConfig.postUrlFormat = siteData.themeConfig.postUrlFormat || 'SLUG'
     state.themeConfig.tagUrlFormat = siteData.themeConfig.tagUrlFormat || 'SLUG'
+    state.themeConfig.postPageSize = siteData.themeConfig.postPageSize || DEFAULT_POST_PAGE_SIZE
+    state.themeConfig.archivesPageSize = siteData.themeConfig.archivesPageSize || DEFAULT_ARCHIVES_PAGE_SIZE
     state.themes = siteData.themes
     state.setting = siteData.setting
     state.commentSetting = siteData.commentSetting

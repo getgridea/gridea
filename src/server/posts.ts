@@ -61,6 +61,9 @@ export default class Posts extends Model {
         list.push(item)
       }
     })
+
+    list.sort((a: any, b: any) => moment(b.data.date).unix() - moment(a.data.date).unix())
+
     this.$posts.set('posts', list).write()
     return true
   }

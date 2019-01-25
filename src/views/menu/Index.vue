@@ -134,6 +134,10 @@ export default class Menu extends Vue {
         text: '🏠 Homepage',
         value: this.site.setting.domain,
       },
+      {
+        text: '📚 Archives',
+        value: `${this.site.setting.domain}/archives`,
+      },
       ...posts,
     ]
   }

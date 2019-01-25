@@ -1,6 +1,7 @@
 export interface ITheme {
   themeName: string
-  pageSize: number
+  postPageSize: number
+  archivesPageSize: number
   siteName: string
   siteDescription: string
   footerInfo: string

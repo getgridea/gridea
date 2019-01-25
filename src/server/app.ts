@@ -32,7 +32,8 @@ export default class App {
       menus: [],
       themeConfig: {
         themeName: '',
-        pageSize: 10,
+        postPageSize: 10,
+        archivesPageSize: 50,
         siteName: '',
         siteDescription: '',
         footerInfo: 'Powered by Hve',

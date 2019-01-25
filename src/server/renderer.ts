@@ -5,13 +5,14 @@ import * as fse from 'fs-extra'
 import marked from 'marked'
 import ejs, { render } from 'ejs'
 import simpleGit, { SimpleGit } from 'simple-git/promise'
-import dayjs from 'dayjs'
+import moment from 'moment'
 import less from 'less'
 import Model from './model'
 import ContentHelper from '../helpers/content-helper'
 const helper = new ContentHelper()
 import { IPostDb, IPostRenderData, ITagRenderData } from './interfaces/post'
 import { ITag } from './interfaces/tag'
+import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE } from '../helpers/constants'
 
 export default class Renderer extends Model {
   outputDir: string = `${this.appDir}/output`
@@ -88,7 +89,7 @@ export default class Renderer extends Model {
     if (statusSummary.modified.length > 0 || statusSummary.not_added.length > 0) {
       try {
         await this.git.add('./*')
-        await this.git.commit(`update from hve: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`)
+        await this.git.commit(`update from hve: ${moment().format('YYYY-MM-DD HH:mm:ss')}`)
         await this.git.push('origin', this.db.setting.branch, {'--force': true})
         return true
       } catch (e) {
@@ -106,7 +107,12 @@ export default class Renderer extends Model {
     await this.clearOutputFolder()
     await this.formatDataForRender(mode)
     await this.buildCss()
-    await this.renderPostList()
+
+    // 普通文章列表页
+    await this.renderPostList('')
+
+    // 归档页
+    await this.renderPostList('/archives')
     await this.renderPostDetail()
     await this.renderTagDetail()
     await this.copyFiles()
@@ -139,12 +145,13 @@ export default class Renderer extends Model {
           tags: this.db.tags
             .filter((tag: ITag) => currentTags.find((i) => i === tag.name))
             .map((tag: ITag) => ({ ...tag, link: `${this.db.themeConfig.domain}/tag/${tag.slug}` })),
-          date: dayjs(item.data.date).format('MMMM Do YYYY, a'),
+          date: item.data.date,
           feature: item.data.feature && `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain, mode)}` || '',
           link: `${this.db.themeConfig.domain}/post/${item.fileName}`,
         }
         return result
       })
+      .sort((a: IPostRenderData, b: IPostRenderData) => moment(b.date).unix() - moment(a.date).unix())
 
     /** 标签数据 */
     this.postsData.forEach((item: IPostRenderData) => {
@@ -159,8 +166,14 @@ export default class Renderer extends Model {
   /**
    * 渲染文章列表
    */
-  public async renderPostList() {
-    const { pageSize } = this.db.themeConfig
+  public async renderPostList(extraPath?: string) {
+    const { postPageSize, archivesPageSize } = this.db.themeConfig
+
+    // Compatible: < v0.7.0
+    const pageSize = extraPath === '/archives'
+      ? archivesPageSize || DEFAULT_ARCHIVES_PAGE_SIZE
+      : postPageSize ||  DEFAULT_POST_PAGE_SIZE
+
 
     for (let i = 0; i * pageSize < this.postsData.length; i += 1) {
       const renderData = {
@@ -177,28 +190,38 @@ export default class Renderer extends Model {
         },
       }
 
-      let renderPath = `${this.outputDir}/index.html`
+      let renderPath = `${this.outputDir}${extraPath}/index.html`
 
       if (i === 0 && this.postsData.length > pageSize) {
-        await fse.ensureDir(`${this.outputDir}/page`)
+        await fse.ensureDir(`${this.outputDir}${extraPath}/page`)
 
-        renderData.pagination.next = `${this.db.themeConfig.domain}/page/2/`
+        renderData.pagination.next = `${this.db.themeConfig.domain}${extraPath}/page/2/`
 
       } else if (i > 0 && this.postsData.length > pageSize) {
-        await fse.ensureDir(`${this.outputDir}/page/${i + 1}`)
+        await fse.ensureDir(`${this.outputDir}${extraPath}/page/${i + 1}`)
 
-        renderPath = `${this.outputDir}/page/${i + 1}/index.html`
+        renderPath = `${this.outputDir}${extraPath}/page/${i + 1}/index.html`
 
         renderData.pagination.prev = i === 1
-          ? `${this.db.themeConfig.domain}/`
-          : `${this.db.themeConfig.domain}/page/${i}/`
+          ? `${this.db.themeConfig.domain}${extraPath}/`
+          : `${this.db.themeConfig.domain}${extraPath}/page/${i}/`
 
         renderData.pagination.next = (i + 1) * pageSize < this.postsData.length
-          ? `${this.db.themeConfig.domain}/page/${i + 2}/`
+          ? `${this.db.themeConfig.domain}${extraPath}/page/${i + 2}/`
           : ''
+      } else {
+        await fse.ensureDir(`${this.outputDir}${extraPath}`)
       }
+
       let html = ''
-      await ejs.renderFile(`${this.themePath}/templates/index.ejs`, renderData, {}, async (err: any, str) => {
+      const renderTemplatePath  = extraPath === '/archives'
+        ? `${this.themePath}/templates/archives.ejs`
+        : `${this.themePath}/templates/index.ejs`
+
+      await ejs.renderFile(renderTemplatePath, renderData, {}, async (err: any, str) => {
+        if (err) {
+          console.log(err)
+        }
         if (str) {
           html = str
         }
@@ -250,7 +273,10 @@ export default class Renderer extends Model {
    */
   async renderTagDetail() {
     const usedTags = this.db.tags.filter((tag: ITag) => tag.used)
-    const { pageSize } = this.db.themeConfig
+    const { postPageSize } = this.db.themeConfig
+
+    // Compatible: < v0.7.0
+    const pageSize = postPageSize || DEFAULT_POST_PAGE_SIZE
 
     for (const usedTag of usedTags) {
       const posts = this.postsData.filter((post: IPostRenderData) => {

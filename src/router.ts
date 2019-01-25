@@ -6,7 +6,7 @@ import Articles from './views/article/Articles.vue'
 import Menu from './views/menu/Index.vue'
 import Tags from './views/tags/Index.vue'
 import Theme from './views/theme/Index.vue'
-import Setting from './views/setting/Index1.vue'
+import Setting from './views/setting/Index.vue'
 
 Vue.use(Router)
 

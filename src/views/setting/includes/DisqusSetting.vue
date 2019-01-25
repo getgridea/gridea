@@ -1,9 +1,17 @@
 <template>
   <div>
-    <a href="#" @click="openPage('https://github.com/SukkaW/DisqusJS')">DisqusJS Document</a>
-    <v-text-field label="shortname" v-model="form.shortname"></v-text-field>
-    <v-text-field label="apikey" v-model="form.apikey"></v-text-field>
-    <v-text-field label="api" v-model="form.api" placeholder="default: https://disqus.skk.moe/disqus/"></v-text-field>
+    <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a href="#" @click="openPage('https://github.com/SukkaW/DisqusJS')">DisqusJS Document</a>
+    </a-form-item>
+    <a-form-item label="shortname" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-input v-model="form.shortname"></a-input>
+    </a-form-item>
+    <a-form-item label="apikey" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-input v-model="form.apikey"></a-input>
+    </a-form-item>
+    <a-form-item label="api" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-input v-model="form.api" placeholder="default: https://disqus.skk.moe/disqus/"></a-input>
+    </a-form-item>
   </div>
 </template>
 
@@ -16,6 +24,11 @@ import { State } from 'vuex-class'
 @Component
 export default class DisqusSetting extends Vue {
   @State('site') site!: any
+
+  formLayout = {
+    label: { span: 5 },
+    wrapper: { span: 12 },
+  }
 
   form = {
     shortname: '',

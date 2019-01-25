@@ -5,32 +5,32 @@
     </a-row>
     <div class="content-container">
       <a-form :form="form">
-        <a-form-item :label="$t('selectTheme')">
+        <a-form-item :label="$t('selectTheme')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-select v-model="form.themeName">
             <a-select-option value="jack">Jack</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item :label="$t('siteName')">
+        <a-form-item :label="$t('siteName')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input v-model="form.siteName" />
         </a-form-item>
-        <a-form-item :label="$t('siteDescription')">
-          <a-input v-model="form.siteDescription" />
+        <a-form-item :label="$t('siteDescription')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input type="textarea" v-model="form.siteDescription" />
         </a-form-item>
-        <a-form-item :label="$t('footerInfo')">
-          <a-input v-model="form.footerInfo" />
+        <a-form-item :label="$t('footerInfo')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input type="textarea" v-model="form.footerInfo" />
         </a-form-item>
-        <a-form-item :label="$t('isShowFeatureImage')">
+        <a-form-item :label="$t('isShowFeatureImage')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-switch v-model="form.showFeatureImage" />
         </a-form-item>
-        <a-form-item :label="$t('articlesPerPage')">
+        <a-form-item :label="$t('articlesPerPage')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-slider v-model="form.pageSize" :min="1" :max="50" />
         </a-form-item>
-        <a-form-item label="文章 URL 默认格式">
+        <a-form-item label="文章 URL 默认格式" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-radio-group name="postUrlFormat" v-model="form.postUrlFormat">
             <a-radio v-for="item in urlFormats" :key="item.value" :value="item.value">{{ item.text }}</a-radio>
           </a-radio-group>
         </a-form-item>
-        <a-form-item label="标签 URL 默认格式">
+        <a-form-item label="标签 URL 默认格式" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-radio-group name="tagUrlFormat" v-model="form.tagUrlFormat">
             <a-radio v-for="item in urlFormats" :key="item.value" :value="item.value">{{ item.text }}</a-radio>
           </a-radio-group>
@@ -50,6 +50,11 @@ import { UrlFormats } from '../../helpers/constants'
 @Component
 export default class Theme extends Vue {
   @State('site') site!: Site
+
+  formLayout = {
+    label: { span: 5 },
+    wrapper: { span: 12 },
+  }
 
   form = {
     themeName: '',
@@ -91,6 +96,9 @@ export default class Theme extends Vue {
 
 <style lang="less" scoped>
 .content-container {
-  padding: 32px 20%;
+  background: transparent;
+}
+/deep/ .ant-slider-rail {
+  background: #e1e1e1;
 }
 </style>

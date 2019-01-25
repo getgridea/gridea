@@ -1,33 +1,26 @@
 <template>
   <div class="">
-    <v-tabs
-      v-model="active"
-      dark
-      slider-color="white"
-    >
-      <v-tab ripple>️️️⚙️ {{ $t('basicSetting') }}</v-tab>
-      <v-tab ripple>💬 {{ $t('commentSetting') }}</v-tab>
-      <v-tab ripple>🌅 {{ $t('faviconSetting') }}</v-tab>
-      <v-tab ripple>🤠 {{ $t('avatarSetting') }}</v-tab>
-      <v-tab-item>
+    <a-tabs defaultActiveKey="1">
+      <a-tab-pane tab="基础配置" key="1">
         <basic-setting></basic-setting>
-      </v-tab-item>
-      <v-tab-item>
+      </a-tab-pane>
+      <a-tab-pane tab="评论配置" key="2">
         <comment-setting></comment-setting>
-      </v-tab-item>
-      <v-tab-item>
+      </a-tab-pane>
+      <a-tab-pane tab="Favicon 配置" key="3">
         <favicon-setting></favicon-setting>
-      </v-tab-item>
-      <v-tab-item>
+      </a-tab-pane>
+      <a-tab-pane tab="头像配置" key="4">
         <avatar-setting></avatar-setting>
-      </v-tab-item>
-    </v-tabs>
+      </a-tab-pane>
+    </a-tabs>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { ipcRenderer, Event } from 'electron'
+import { Vue, Component } from 'vue-property-decorator'
+import { State } from 'vuex-class'
 import BasicSetting from './includes/BasicSetting.vue'
 import CommentSetting from './includes/CommentSetting.vue'
 import FaviconSetting from './includes/FaviconSetting.vue'
@@ -38,15 +31,13 @@ import AvatarSetting from './includes/AvatarSetting.vue'
     BasicSetting,
     CommentSetting,
     FaviconSetting,
-    AvatarSetting,
+    AvatarSetting, 
   },
 })
 export default class Setting extends Vue {
-  active = null
+
 }
 </script>
 
-<style lang="stylus" scoped>
->>> .v-card:before
-  background: none;
+<style lang="less" scoped>
 </style>

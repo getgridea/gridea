@@ -8,23 +8,23 @@
         <div class="logo"></div>
         <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['articles']" @click="clickMenu">
           <a-menu-item key="articles">
-            <a-icon type="user" />
+            <a-icon type="file-text" />
             <span class="nav-text">文 章</span>
           </a-menu-item>
           <a-menu-item key="menu">
-            <a-icon type="video-camera" />
+            <a-icon type="bars" />
             <span class="nav-text">菜 单</span>
           </a-menu-item>
           <a-menu-item key="tags">
-            <a-icon type="upload" />
+            <a-icon type="tags" />
             <span class="nav-text">标 签</span>
           </a-menu-item>
           <a-menu-item key="theme">
-            <a-icon type="upload" />
+            <a-icon type="picture" />
             <span class="nav-text">主 题</span>
           </a-menu-item>
           <a-menu-item key="setting">
-            <a-icon type="upload" />
+            <a-icon type="setting" />
             <span class="nav-text">设 置</span>
           </a-menu-item>
         </a-menu>

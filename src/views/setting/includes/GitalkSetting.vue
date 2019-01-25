@@ -1,22 +1,36 @@
 <template>
   <div>
-    <a href="#" @click="openPage('https://github.com/gitalk/gitalk')">Gitalk Document</a>
-    <v-text-field label="Client ID" v-model="form.clientId"></v-text-field>
-    <v-text-field label="Client Secret" v-model="form.clientSecret"></v-text-field>
-    <v-text-field :label="$t('branch')" v-model="form.repository"></v-text-field>
-    <v-text-field label="Owner" v-model="form.owner"></v-text-field>
+    <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a href="#" @click="openPage('https://github.com/gitalk/gitalk')">Gitalk Document</a>
+    </a-form-item>
+    <a-form-item label="Client ID" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-input v-model="form.clientId"></a-input>
+    </a-form-item>
+    <a-form-item label="Client Secret" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-input v-model="form.clientSecret"></a-input>
+    </a-form-item>
+    <a-form-item :label="$t('branch')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-input v-model="form.repository"></a-input>
+    </a-form-item>
+    <a-form-item label="Owner" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-input v-model="form.owner"></a-input>
+    </a-form-item>
   </div>
 </template>
 
 <script lang="ts">
 import { ipcRenderer, Event, shell } from 'electron'
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 
 @Component
 export default class GitalkSetting extends Vue {
   @State('site') site!: any
+
+  formLayout = {
+    label: { span: 5 },
+    wrapper: { span: 12 },
+  }
 
   form = {
     clientId: '',

@@ -1,24 +1,27 @@
 <template>
-  <v-card flat>
-    <v-card-title>
-      <v-radio-group v-model="form.commentPlatform" row>
-        <v-radio label="Gitalk" value="gitalk"></v-radio>
-        <v-radio label="Disqus" value="disqus"></v-radio>
-      </v-radio-group>
-      <v-switch :label="$t('isShowComment')" v-model="form.showComment" />
-    </v-card-title>
-    <v-card-text>
+  <div>
+    <a-form :form="form">
+      <a-form-item label="Platform" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper">
+        <a-radio-group name="commentPlatform" v-model="form.commentPlatform">
+          <a-radio value="gitalk">Gitalk</a-radio>
+          <a-radio value="disqus">Disqus</a-radio>
+        </a-radio-group>
+      </a-form-item>
+      <a-form-item :label="$t('isShowComment')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+        <a-switch v-model="form.showFeatureImage" />
+      </a-form-item>
       <gitalk-setting ref="gitalkSetting" v-show="form.commentPlatform === 'gitalk'"></gitalk-setting>
       <disqus-setting ref="disqusSetting" v-show="form.commentPlatform === 'disqus'"></disqus-setting>
-      <v-btn color="primary" depressed @click="submit">{{ $t('save') }}</v-btn>
-    </v-card-text>
-  </v-card>
+      <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+        <a-button @click="submit" type="primary">{{ $t('save') }}</a-button>
+      </a-form-item>
+    </a-form>
+  </div>
 </template>
 
 <script lang="ts">
 import { ipcRenderer, Event } from 'electron'
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import GitalkSetting from './GitalkSetting.vue'
 import DisqusSetting from './DisqusSetting.vue'
@@ -35,6 +38,11 @@ export default class CommentSetting extends Vue {
   $refs!: {
     gitalkSetting: HTMLFormElement,
     disqusSetting: HTMLFormElement,
+  }
+
+  formLayout = {
+    label: { span: 5 },
+    wrapper: { span: 12 },
   }
 
   form = {

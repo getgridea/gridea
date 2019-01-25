@@ -1,31 +1,32 @@
 <template>
-  <v-card flat>
-    <v-card-text>
-      <img class="img" v-if="avatarPath" :src="avatarPath" alt="" width="88px">
-      <upload-button
-        uniqueId
-        :fileChangedCallback="handleFileChange"
-      >
-      </upload-button>
-      {{ file && file.path }}
-      <v-btn color="primary" depressed @click="submit">{{ $t('save') }}</v-btn>
-    </v-card-text>
-  </v-card>
+  <div>
+    <a-upload
+      action=""
+      listType="picture-card"
+      class="feature-uploader"
+      :showUploadList="false"
+      :beforeUpload="beforeUpload"
+    >
+      <div v-if="avatarPath">
+        <img class="favicon-image" :src="avatarPath" width="88px" height="88px" />
+      </div>
+      <div v-else>
+        <a-icon type="plus" />
+        <div class="ant-upload-text">Upload</div>
+      </div>
+    </a-upload>
+    <a-alert class="file-name" v-if="file" :message="file && file.path" type="info" />
+    <a-button type="primary" @click="submit">{{ $t('save') }}</a-button>
+  </div>
 </template>
 
 <script lang="ts">
 import { ipcRenderer, Event } from 'electron'
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
-import UploadButton from 'vuetify-upload-button'
 import * as path from 'path'
 
-@Component({
-  components: {
-    UploadButton,
-  },
-})
+@Component
 export default class AvatarSetting extends Vue {
   @State('site') site!: any
 
@@ -35,6 +36,20 @@ export default class AvatarSetting extends Vue {
 
   mounted() {
     this.avatarPath = path.join('file://', this.site.appDir, 'images', `avatar.png?a=${Math.random()}`)
+  }
+
+  beforeUpload(file: any) {
+    if (!file) {
+      return
+    }
+    const isImage = file.type.indexOf('image') !== -1
+    if (!isImage) {
+      return
+    }
+    if (file && isImage) {
+      this.file = file
+    }
+    return false
   }
 
   submit() {
@@ -47,23 +62,16 @@ export default class AvatarSetting extends Vue {
       this.file = null
       this.$bus.$emit('site-reload')
       this.avatarPath = path.join('file://', this.site.appDir, 'images', `avatar.png?a=${Math.random()}`)
-      this.$bus.$emit('snackbar-display', this.$t('avatarSettingSuccess'))
+      this.$message.success(this.$t('avatarSettingSuccess'))
     })
-  }
-
-  handleFileChange(file: any) {
-    this.file = file
-    console.log('头像文件', file)
   }
 }
 </script>
 
 
 <style lang="stylus" scoped>
->>> .upload-btn
-  padding: 0 !important;
-
-.img
-  margin 6px 8px
+.file-name {
+  margin-bottom: 8px;
+}
 </style>
 

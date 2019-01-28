@@ -189,10 +189,11 @@ export default class Tags extends Vue {
 
 .tag-wrapper {
   display: inline-flex;
-  margin-right: 16px;
+  margin-right: 32px;
   align-items: center;
+  box-shadow: 0 0 17px #d6d3cd;
   .tag {
-    font-size: 14px;
+    font-size: 12px;
     height: 32px;
     line-height: 32px;
     margin-right: 0px;
@@ -200,8 +201,9 @@ export default class Tags extends Vue {
   }
   /deep/ .ant-btn {
     border-left: 0;
-    padding: 0 4px;
+    padding: 0 6px;
     border-radius: 0px;
+    font-size: 12px;
   }
 }
 </style>

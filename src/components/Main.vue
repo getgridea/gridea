@@ -37,7 +37,7 @@
       </div>
       <div class="bottom-container">
         <a-button block @click="preview">{{ $t('preview') }}</a-button>
-        <a-button block type="primary" @click="publish">{{ $t('syncSite') }}</a-button>
+        <a-button block type="primary" :loading="publishLoading" @click="publish">{{ $t('syncSite') }}</a-button>
         <div class="version-container" :class="{ 'version-dot': hasUpdate }"><span>- {{ version }}</span> <i class="fa fa-github-square github" @click="openInBrowser('https://github.com/hve-notes/hve-notes')"></i></div>
       </div>
     </a-layout-sider>

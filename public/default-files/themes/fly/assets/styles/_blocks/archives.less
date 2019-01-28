@@ -1,0 +1,38 @@
+.archives-container {
+  padding: 32px 0;
+  .year {
+    font-size: 24px;
+    margin: 24px 0;
+    color: var(--c-base-purple);
+  }
+  .post {
+    margin-bottom: 32px;
+    .post-title {
+      font-size: 18px;
+      font-weight: normal;
+      position: relative;
+      transition: all 0.382s;
+      &:before {
+        content: '';
+        display: block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--c-base-purple);
+        position: absolute;
+        left: 0px;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: all 0.382s;
+      }
+      &:hover {
+        transform: translateX(8px);
+        &:before {
+          left: -8px;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

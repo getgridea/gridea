@@ -1,11 +1,12 @@
 .post-container {
+  flex: 1;
   .post {
     padding: 24px 32px;
   
     .post-title {
       font-size: 24px;
       text-align: center;
-      padding: 24px;
+      padding: 24px 0;
     }
   
     .post-info {
@@ -33,7 +34,7 @@
       }
     }
     .post-abstract {
-      padding: 24px;
+      padding: 24px 0;
     }
   }
 }
@@ -47,5 +48,19 @@
   }
   .next-page {
     float: right;
+  }
+}
+
+@media (max-width: 600px) {
+  .post-container {
+    .post {
+      padding: 16px 16px;
+      .post-title {
+        padding: 16px 0;
+      }
+      .post-abstract {
+        padding: 16px 0;
+      }
+    }
   }
 }

@@ -1,4 +1,5 @@
 .post-detail {
+  flex: 1;
   .post {
     padding: 24px 32px;
   
@@ -110,4 +111,16 @@
 
 #gitalk-container, #disqus_thread {
   padding: 24px 32px;
+}
+
+@media (max-width: 600px) {
+  .post-detail {
+    .post {
+      padding: 16px;
+      .post-title {
+        font-size: 24px;
+        padding: 16px 0;
+      }
+    }
+  }
 }

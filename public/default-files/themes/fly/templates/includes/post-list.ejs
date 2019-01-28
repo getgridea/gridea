@@ -8,15 +8,20 @@
         <%- post.abstract %>
       </div>
       <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> <%= post.date %></span>
-        <span>
-          <i class="icon icon-pricetags-outline"></i>
-          <% post.tags.forEach(function(tag) { %>
-            <a href="<%= tag.link %>">
-              # <%= tag.name %>
-            </a>
-          <% }); %>
-        </span>
+        <span><i class="icon icon-calendar-outline"></i> <%= post.dateFormat %></span>
+        <% if (post.tags.length > 0) { %>
+          <span>
+            <i class="icon icon-pricetags-outline"></i>
+            <% post.tags.forEach(function(tag, index) { %>
+              <a href="<%= tag.link %>">
+                <%= tag.name %>
+                <% if (index !== post.tags.length - 1) { %>
+                  ，
+                <% } %>
+              </a>
+            <% }); %>
+          </span>
+        <% } %>
       </div>
     </div>
     <% if (themeConfig.showFeatureImage && post.feature) { %>

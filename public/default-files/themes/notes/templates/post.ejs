@@ -14,7 +14,7 @@
             </h2>
             <div class="post-info">
               <time class="post-time">
-                · <%= post.date %> ·
+                · <%= post.dateFormat %> ·
               </time>
               <% post.tags.forEach(function(tag) { %>
                 <a href="<%= tag.link %>" class="post-tags">
@@ -28,7 +28,7 @@
           </article>
         </div>
     
-        <% if (post.nextPost) { %>
+        <% if (post.nextPost && !post.hideInList) { %>
           <div class="next-post">
             <div class="next">下一篇</div>
             <a href="<%= post.nextPost.link %>">

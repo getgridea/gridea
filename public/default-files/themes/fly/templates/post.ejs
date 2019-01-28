@@ -12,22 +12,27 @@
         <div class="post-detail">
           <h2 class="post-title"><%= post.title %></h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> <%= post.date %></span>
-            <span>
-              <i class="icon-pricetags-outline"></i>
-              <% post.tags.forEach(function(tag) { %>
-                <a href="<%= tag.link %>">
-                  # <%= tag.name %>
-                </a>
-              <% }); %>
-            </span>
+            <span><i class="icon-calendar-outline"></i> <%= post.dateFormat %></span>
+            <% if (post.tags.length > 0) { %>
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                <% post.tags.forEach(function(tag, index) { %>
+                  <a href="<%= tag.link %>">
+                    <%= tag.name %>
+                    <% if (index !== post.tags.length - 1) { %>
+                      ，
+                    <% } %>
+                  </a>
+                <% }); %>
+              </span>
+            <% } %>
           </div>
           <div class="post-content">
             <%- post.content %>
           </div>
         </div>
 
-        <% if (post.nextPost) { %>
+        <% if (post.nextPost && !post.hideInList) { %>
           <div class="next-post">
             <a class="purple-link" href="<%= post.nextPost.link %>">
               <h3 class="post-title">

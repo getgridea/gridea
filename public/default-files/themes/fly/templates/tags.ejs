@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <%- include('./includes/head', { siteTitle: themeConfig.siteName }) %>
+  </head>
+  <body>
+    <div id="app" class="main">
+      <%- include('./includes/header') %>
+
+        <div class="content-container">
+          
+          <div class="tags-container">
+            <% tags.forEach((tag) => { %>
+              <a class="tag" href="<%= tag.link %>"><%= tag.name %></a>
+            <% }); %>
+          </div>
+
+        </div>
+
+        <%- include('./includes/footer') %>
+
+      </div>
+      <%- include('./includes/scripts') %>
+    </div>
+  </body>
+</html>

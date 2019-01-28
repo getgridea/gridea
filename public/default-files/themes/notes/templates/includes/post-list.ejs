@@ -6,7 +6,7 @@
       </a>
       <div class="post-info">
         <time class="post-time">
-          · <%= post.date %> ·
+          · <%= post.dateFormat %> ·
         </time>
         <% post.tags.forEach(function(tag) { %>
           <a href="<%= tag.link %>" class="post-tag">
@@ -18,7 +18,9 @@
         <a href="<%= post.link %>" class="post-feature-image" style="background-image: url('<%= post.feature %>')">
         </a>
       <% } %>
-      <p class="post-abstract"><%- post.abstract %></p>
+      <div class="post-abstract">
+        <%- post.abstract %>
+      </di>
     </article>
   <% }); %>
 </div>

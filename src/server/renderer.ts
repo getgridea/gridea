@@ -13,12 +13,14 @@ const helper = new ContentHelper()
 import { IPostDb, IPostRenderData, ITagRenderData } from './interfaces/post'
 import { ITag } from './interfaces/tag'
 import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE } from '../helpers/constants'
+import { IMenu } from './interfaces/menu'
 
 export default class Renderer extends Model {
   outputDir: string = `${this.appDir}/output`
   themePath: string = ''
   postsData: IPostRenderData[] = []
   tagsData: ITagRenderData[] = []
+  menuData: IMenu[] = []
   git: SimpleGit
   platformAddress = ''
   remoteUrl = ''
@@ -167,6 +169,14 @@ export default class Renderer extends Model {
         }
       })
     })
+
+    /** 菜单数据 */
+    this.menuData = this.db.menus.map((menu: IMenu) => {
+      return {
+        ...menu,
+        link: menu.link.replace(this.db.setting.domain, this.db.themeConfig.domain),
+      }
+    })
   }
 
   /**
@@ -184,7 +194,7 @@ export default class Renderer extends Model {
 
     for (let i = 0; i * pageSize < postsData.length; i += 1) {
       const renderData = {
-        menus: this.db.menus,
+        menus: this.menuData,
         posts: postsData.slice(i * pageSize, (i + 1) * pageSize),
         pagination: {
           prev: '',
@@ -250,7 +260,7 @@ export default class Renderer extends Model {
       }
 
       const renderData = {
-        menus: this.db.menus,
+        menus: this.menuData,
         post,
         themeConfig: this.db.themeConfig,
         commentSetting: this.db.commentSetting,
@@ -282,7 +292,7 @@ export default class Renderer extends Model {
     await fse.ensureDir(`${this.outputDir}/tags`)
     const renderData = {
       tags: this.tagsData,
-      menus: this.db.menus,
+      menus: this.menuData,
       themeConfig: this.db.themeConfig,
       site: {
         posts: this.postsData,
@@ -329,7 +339,7 @@ export default class Renderer extends Model {
       for (let i = 0; i * pageSize < posts.length; i += 1) {
         const renderData = {
           tag: currentTag,
-          menus: this.db.menus,
+          menus: this.menuData,
           posts: posts.slice(i * pageSize, (i + 1) * pageSize),
           pagination: {
             prev: '',
@@ -440,4 +450,5 @@ export default class Renderer extends Model {
     await fse.removeSync(`${this.outputDir}/styles`)
     await fse.removeSync(`${this.outputDir}/tag`)
   }
+
 }

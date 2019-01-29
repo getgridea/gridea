@@ -8,7 +8,6 @@ export default class Tags extends Model {
 
   constructor(appInstance: any) {
     super(appInstance)
-    this.saveTags()
   }
 
   public async saveTags() {
@@ -24,12 +23,34 @@ export default class Tags extends Model {
     const themeConfig = this.$theme.get('config')
     const tagUrlFormat = themeConfig.tagUrlFormat || UrlFormats.Slug
 
-    const existUsedTags = this.$posts.get('tags').filter({ used: true }).value()
+    let existUsedTags = this.$posts.get('tags').filter({ used: true }).value()
+
+    // 使用标签后删除文章，则有可能存在标签未使用状态
+    existUsedTags = existUsedTags.map((tag: ITag) => {
+      return {
+        ...tag,
+        used: list.includes(tag.name),
+      }
+    })
+
+    const unusedTags = this.$posts.get('tags').filter({ used: false }).value()
 
     // 导入文章的 tag 则为新使用过的
     const newUsedTags = list
       .filter((item: any) => !existUsedTags.find((tag: ITag) => tag.name === item))
       .map((item: any) => {
+        const foundItem = unusedTags.find((tag: ITag) => tag.name === item)
+        if (foundItem) {
+          // remove from unusedTags
+          const foundItemIndex = unusedTags.indexOf(foundItem)
+          unusedTags.splice(foundItemIndex, 1)
+
+          return {
+            ...foundItem,
+            used: true,
+          }
+        }
+
         return {
           name: item,
           slug: tagUrlFormat === UrlFormats.Slug ? slug(item) : shortid.generate(),
@@ -37,15 +58,14 @@ export default class Tags extends Model {
         }
       })
 
-    const UnusedTags = this.$posts.get('tags').filter({ used: false }).value()
-
-    const tags = [...newUsedTags, ...existUsedTags, ...UnusedTags]
+    const tags = [...newUsedTags, ...existUsedTags, ...unusedTags]
 
     this.$posts.set('tags', tags).write()
   }
 
-  list() {
-    const tags = this.$posts.get('tags').value()
+  async list() {
+    await this.saveTags()
+    const tags = await this.$posts.get('tags').value()
     return tags
   }
 

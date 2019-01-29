@@ -64,7 +64,7 @@ $ npm run electron:build
 ```
 
 ## Contract
-[Telegram group](https://t.me/joinchat/IDY0ahRqb8NPodv95BNpBg)  | Author Twitter: @EryouHao
+[Telegram Group](https://t.me/joinchat/IDY0ahRqb8NPodv95BNpBg)  | QQ Group: 970332209 | Author Twitter: @EryouHao
 
 ## License
 [MIT](https://github.com/hve-notes/hve-notes/blob/master/LICENSE). Copyright (c) 2019 EryouHao

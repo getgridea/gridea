@@ -6,6 +6,9 @@
     "showFeatureImage": true,
     "siteDescription": "温故而知新",
     "siteName": "Hve Notes",
-    "themeName": "notes"
+    "themeName": "notes",
+    "dateFormat": "YYYY-MM-DD",
+    "postUrlFormat": "SLUG",
+    "tagUrlFormat": "SHORT_ID"
   }
 }

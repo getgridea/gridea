@@ -41,6 +41,7 @@ export default class App {
         domain: '',
         postUrlFormat: 'SLUG',
         tagUrlFormat: 'SLUG',
+        dateFormat: 'YYYY-MM-DD',
       },
       themes: [],
       setting: {
@@ -146,7 +147,6 @@ export default class App {
       path.join(__static, 'default-files'),
       path.join(this.appDir),
     )
-    fse.mkdirSync(path.join(this.appDir, 'post-images'))
   }
 
   /**

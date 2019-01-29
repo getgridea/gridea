@@ -3,16 +3,36 @@ title: Hello Hve Notes
 date: 2018-12-12
 tags: HveNotes
 published: true
+hideInList: false
+feature: /post-images/hello-hve-notes.png
 ---
-👏 欢迎使用 **Hve Notes** ！  
+👏  欢迎使用 **Hve Notes** ！  
 
-🌈 **Hve Notes** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ... 
+Github: [Hve Notes](https://github.com/hve-notes/hve-notes)  
+项目主页: [Hve Notes](http://hvenotes.fehey.com/)  
+示例网站: [示例网站一](http://fehey.com/) [示例网站二](http://hve-notes.github.io)  
 
-#### 在这里👇
-📝  你可以使用最酷的 `Markdown` 语法，进行快速创作  
-🌉  你可以在文章的任意位置插入图片和文章封面图
-🏷️  你可以对文章进行标签分组
-📋 你可以自定义菜单，甚至可以创建外部链接菜单
+✍️  **Hve Notes** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ... 
+
+## 特性👇
+📝  你可以使用最酷的 **Markdown** 语法，进行快速创作  
+
+🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片  
+
+🏷️  你可以对文章进行标签分组  
+
+📋  你可以自定义菜单，甚至可以创建外部链接菜单  
+
+💻  你可以在 **𝖶𝗂𝗇𝖽𝗈𝗐𝗌** 或 **𝖬𝖺𝖼𝖮𝖲** 设备上使用此客户端  
+
+🌎  你可以使用 **𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌** 或 **Coding Pages** 向世界展示，未来将支持更多平台  
+
+💬  你可以进行简单的配置，接入 [Gitalk](https://github.com/gitalk/gitalk) 或 [DisqusJS](https://github.com/SukkaW/DisqusJS) 评论系统  
+
+🇬🇧  你可以使用**中文简体**或**英语**  
+
+🌁  你可以任意使用应用内默认主题或任意第三方主题  
+
 
 🌱 当然 **Hve Notes** 还很年轻，有很多不足，但请相信，它会不停向前🏃
 

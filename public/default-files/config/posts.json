@@ -5,8 +5,22 @@
     {
       "link": "/",
       "name": "首页",
-      "openType": "Internal",
-      "slug": "/"
+      "openType": "Internal"
+    },
+    {
+      "link": "/archives",
+      "name": "归档",
+      "openType": "Internal"
+    },
+    {
+      "link": "/tags",
+      "name": "标签",
+      "openType": "Internal"
+    },
+    {
+      "link": "/post/about",
+      "name": "关于",
+      "openType": "Internal"
     }
   ]
 }

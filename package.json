@@ -1,6 +1,6 @@
 {
   "name": "hve-notes",
-  "version": "0.7.0",
+  "version": "0.7.5",
   "private": true,
   "description": "A static blog writing client. You can use it to record your life, mood, knowledge, notes and ideas...",
   "homepage": "http://hvenotes.fehey.com",

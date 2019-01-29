@@ -263,7 +263,10 @@ export default class Renderer extends Model {
     for (let i = 0; i < this.postsData.length; i += 1) {
       const post: any = { ...this.postsData[i] }
       if (i < this.postsData.length - 1) {
-        post.nextPost = this.postsData[i + 1]
+        const nexPost = this.postsData.slice(i + 1, this.postsData.length).find((item: IPostRenderData) => !item.hideInList)
+        if (nexPost) {
+          post.nextPost = nexPost
+        }
       }
 
       const renderData = {

@@ -68,5 +68,19 @@ $ npm run electron:build
 ## Contract
 [Telegram Group](https://t.me/joinchat/IDY0ahRqb8NPodv95BNpBg)  | QQ Group: 970332209 | Author Twitter: @EryouHao
 
+## Example Screenshots
+<div align="center">
+  <img src="./files/fehey.png" width="80%">
+  <img src="./files/fehey2.png" style="max-width: 50%">
+</div>
+
+## Contributions
+We welcome all contributions.You can submit any ideas as [pull requests](https://github.com/hve-notes/hve-notes/pulls) or as GitHub [issues](https://github.com/hve-notes/hve-notes/issues).   
+
+## Donation
+<div>
+  <img src="./files/wechat.jpeg" width="240px">
+</div>
+
 ## License
 [MIT](https://github.com/hve-notes/hve-notes/blob/master/LICENSE). Copyright (c) 2019 EryouHao

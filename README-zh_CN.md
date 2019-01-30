@@ -68,5 +68,19 @@ $ npm run electron:build
 ## 联系
 [Telegram 群组](https://t.me/joinchat/IDY0ahRqb8NPodv95BNpBg)  | QQ 群: 970332209 | 作者推特: @EryouHao
 
+## 示例截图
+<div align="center">
+  <img src="./files/fehey.png" width="80%">
+  <img src="./files/fehey2.png" style="max-width: 50%">
+</div>
+
+## 贡献
+我们欢迎任何形式的贡献.你可以用 [pull requests](https://github.com/hve-notes/hve-notes/pulls) 或 [issues](https://github.com/hve-notes/hve-notes/issues) 的方式提交任何想法.  
+
+## 赞助
+<div>
+  <img src="./files/wechat.jpeg" width="240px">
+</div>
+
 ## License
 [MIT](https://github.com/hve-notes/hve-notes/blob/master/LICENSE). Copyright (c) 2019 EryouHao

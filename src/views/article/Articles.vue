@@ -23,13 +23,15 @@
       </a-table>
     </div>
 
-    <article-update
-      v-if="articleUpdateVisible"
-      :visible="articleUpdateVisible"
-      :articleFileName="currentArticleFileName"
-      @close="close"
-      @fetchData="$bus.$emit('site-reload')"
-    ></article-update>
+    <fade-transition :duration="100">
+      <article-update
+        v-if="articleUpdateVisible"
+        :visible="articleUpdateVisible"
+        :articleFileName="currentArticleFileName"
+        @close="close"
+        @fetchData="$bus.$emit('site-reload')"
+      ></article-update>
+    </fade-transition>
   </div>
 </template>
 
@@ -37,12 +39,14 @@
 import { ipcRenderer } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
+import { FadeTransition } from 'vue2-transitions'
 import { IPost } from '../../interfaces/post'
 import ArticleUpdate from './ArticleUpdate.vue'
 
 @Component({
   components: {
     ArticleUpdate,
+    FadeTransition,
   },
 })
 export default class Articles extends Vue {

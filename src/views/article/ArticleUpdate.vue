@@ -1,13 +1,13 @@
 <template>
-  <a-modal :visible="visible" :footer="null" :closable="false" width="100%" style="top: 0px; padding-bottom: 0px; height: 100%;">
-    <div slot="title">
+  <div class="article-update-page" v-if="visible">
+    <div class="page-title">
       <a-row type="flex" justify="end">
         <a-button class="btn" @click="close">{{ $t('cancel') }}</a-button>
         <a-button class="btn" :disabled="!canSubmit" @click="saveDraft">{{ $t('saveDraft') }}</a-button>
         <a-button class="btn" type="primary" :disabled="!canSubmit" @click="savePost">{{ $t('save') }}</a-button>
       </a-row>
     </div>
-    <div>
+    <div class="page-content">
       <a-row :gutter="8">
         <a-col :span="16">
           <a-input size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
@@ -69,7 +69,7 @@
       <!-- 编辑器点击图片上传用 -->
       <input ref="uploadInput" class="upload-input" type="file" @change="fileChangeHandler">
     </div>
-  </a-modal>
+  </div>
 </template>
 
 <script lang="ts">
@@ -391,6 +391,28 @@ export default class ArticleUpdate extends Vue {
 /deep/ .ant-collapse {
   background: #F7F6F3;
 }
+.article-update-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1025;
+  background: #f9f7f3;
+  display: flex;
+  flex-direction: column;
+  .page-title {
+    padding: 16px 32px;
+    z-index: 1030;
+    border-bottom: 1px solid #e4e2dd;
+    box-shadow: 0 3px 20px #4343430d;
+  }
+  .page-content {
+    flex: 1;
+    padding: 32px;
+    overflow: scroll;
+  }
+}
 </style>
 
 <style>
@@ -400,6 +422,15 @@ export default class ArticleUpdate extends Vue {
   border-radius: 2px;
   border-color: #b3b3b3;
   box-shadow: 0 0 5px #eee;
+  transition: all 0.3s;
+  color: #434343;
+}
+.CodeMirror.CodeMirror-focused {
+  border-color: #4f4a4a;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgba(67, 67, 67, 0.2);
+  box-shadow: 0 0 0 2px rgba(67, 67, 67, 0.2);
+  border-right-width: 1px !important;
 }
 .editor-toolbar {
   border-color: #fff;

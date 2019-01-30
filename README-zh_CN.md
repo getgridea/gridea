@@ -71,13 +71,13 @@ $ npm run electron:build
 ## 示例截图
 <div align="center">
   <img src="./files/fehey.png" width="80%">
-  <img src="./files/fehey2.png" style="max-width: 50%">
+  <img src="./files/fehey2.png" width="320px">
 </div>
 
 ## 贡献
-我们欢迎任何形式的贡献.你可以用 [pull requests](https://github.com/hve-notes/hve-notes/pulls) 或 [issues](https://github.com/hve-notes/hve-notes/issues) 的方式提交任何想法.  
+我们欢迎任何形式的贡献。你可以用 [pull requests](https://github.com/hve-notes/hve-notes/pulls) 或 [issues](https://github.com/hve-notes/hve-notes/issues) 的方式提交任何想法。  
 
-## 赞助
+## 支持
 <div>
   <img src="./files/wechat.jpeg" width="240px">
 </div>

@@ -51,14 +51,14 @@ export default class Renderer extends Model {
     console.log('domain', this.db.themeConfig.domain)
     await this.renderAll('publish')
     console.log('渲染完毕')
-    let result = false
-    const isRepo = await this.git.checkIsRepo()
-    console.log(isRepo)
-    if (isRepo) {
-      result = await this.commonPush()
-    } else {
-      result = await this.firstPush()
-    }
+    const result = false
+    // const isRepo = await this.git.checkIsRepo()
+    // console.log(isRepo)
+    // if (isRepo) {
+    //   result = await this.commonPush()
+    // } else {
+    //   result = await this.firstPush()
+    // }
     return result
   }
 
@@ -162,6 +162,7 @@ export default class Renderer extends Model {
       .sort((a: IPostRenderData, b: IPostRenderData) => moment(b.date).unix() - moment(a.date).unix())
 
     /** 标签数据 */
+    this.tagsData = []
     this.postsData.forEach((item: IPostRenderData) => {
       item.tags.forEach((tag: ITagRenderData) => {
         if (!this.tagsData.find((t: ITagRenderData) => t.link === tag.link)) {

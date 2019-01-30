@@ -22,6 +22,8 @@
 
 English | [简体中文](https://github.com/hve-notes/hve-notes/blob/master/README-zh_CN.md)  
 
+**[CHANGELOG](https://github.com/hve-notes/hve-notes/blob/master/CHANGELOG.md)**  
+
 👏  Welcome to use **Hve Notes** ！  
 
 ✍️  **Hve Notes** A static blog writing client. You can use it to record your life, mood, knowledge, notes and ideas...

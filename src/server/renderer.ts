@@ -51,14 +51,14 @@ export default class Renderer extends Model {
     console.log('domain', this.db.themeConfig.domain)
     await this.renderAll('publish')
     console.log('渲染完毕')
-    const result = false
-    // const isRepo = await this.git.checkIsRepo()
-    // console.log(isRepo)
-    // if (isRepo) {
-    //   result = await this.commonPush()
-    // } else {
-    //   result = await this.firstPush()
-    // }
+    let result = false
+    const isRepo = await this.git.checkIsRepo()
+    console.log(isRepo)
+    if (isRepo) {
+      result = await this.commonPush()
+    } else {
+      result = await this.firstPush()
+    }
     return result
   }
 

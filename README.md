@@ -71,7 +71,7 @@ $ npm run electron:build
 ## Example Screenshots
 <div align="center">
   <img src="./files/fehey.png" width="80%">
-  <img src="./files/fehey2.png" style="max-width: 50%">
+  <img src="./files/fehey2.png" width="320px">
 </div>
 
 ## Contributions

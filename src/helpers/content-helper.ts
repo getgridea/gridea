@@ -17,6 +17,7 @@ export default class ContentHelper {
    * @param domainPath 线上路径
    */
   changeImageUrlLocalToDomain(content: string, domainPath: string) {
+    domainPath = domainPath.replace(/\\/g, '/')
     return content.replace(this.localReg, `(${domainPath}/post-images/`)
   }
 
@@ -26,6 +27,7 @@ export default class ContentHelper {
    * @param localPath 本地路径
    */
   changeImageUrlDomainToLocal(content: string, localPath: string) {
+    localPath = localPath.replace(/\\/g, '/')
     return content.replace(this.domainReg, `(file://${localPath}/post-images/`)
   }
 

@@ -332,7 +332,8 @@ export default class ArticleUpdate extends Vue {
     ipcRenderer.send('image-upload', files)
     ipcRenderer.once('image-uploaded', (event: Event, data: any) => {
       for (const path of data) {
-        const url = `![](file://${path})`
+        let url = `![](file://${path})`
+        url = url.replace(/\\/g, '/')
         const editor = this.$refs.editor.simplemde.codemirror
 
         // 在光标处插入 https://codemirror.net/doc/manual.html#replaceSelection
@@ -420,9 +421,14 @@ export default class ArticleUpdate extends Vue {
 .editor-toolbar.fullscreen {
   z-index: 1025;
 }
-.CodeMirror .editor-preview .markdown-body .editor-preview-active img {
+.CodeMirror .editor-preview.markdown-body.editor-preview-active {
+  line-height: 1.618;
+  background: #f9f7f3;
+}
+.CodeMirror .editor-preview.markdown-body.editor-preview-active img {
   max-width: 100%;
   display: block;
+  margin: 8px 0;
 }
 
 .ant-upload-select-picture-card i {

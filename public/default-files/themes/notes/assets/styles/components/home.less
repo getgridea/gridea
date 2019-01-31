@@ -39,6 +39,24 @@
     }
     .post-abstract {
       padding: 24px 0;
+      strong {
+        font-weight: bolder;
+      }
+      a {
+        color: @main-color;
+        transition: all 0.3s;
+        &:hover {
+          color: @dark-main-color;
+          border-bottom: 1px dotted @dark-main-color;
+        }
+      }
+      code {
+        padding: 0 3px;
+        margin: 0 2px;
+        background: rgba(195,195,195,0.41);
+        font-size: 0.9em;
+        border-radius: 2px;
+      }
     }
   }
 }

@@ -20,6 +20,9 @@
 
 </div>
 
+## 依赖
+**需要安装 [git](https://git-scm.com/downloads) 并且可以使用命令 `git` 调用它。**
+
 [English](https://github.com/hve-notes/hve-notes/blob/master/README.md) | 简体中文  
 
 **[更新日志](https://github.com/hve-notes/hve-notes/blob/master/CHANGELOG.md)**  

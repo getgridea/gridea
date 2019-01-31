@@ -20,6 +20,9 @@
 
 </div>
 
+## Dependencies
+Requires [git](https://git-scm.com/downloads) to be installed and that it can be called using the command git.
+
 English | [简体中文](https://github.com/hve-notes/hve-notes/blob/master/README-zh_CN.md)  
 
 **[CHANGELOG](https://github.com/hve-notes/hve-notes/blob/master/CHANGELOG.md)**  

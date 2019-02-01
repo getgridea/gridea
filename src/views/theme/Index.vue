@@ -15,9 +15,11 @@
         </a-form-item>
         <a-form-item :label="$t('siteDescription')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input type="textarea" v-model="form.siteDescription" />
+          <div class="tip-text">{{ $t('htmlSupport') }}</div>
         </a-form-item>
         <a-form-item :label="$t('footerInfo')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input type="textarea" v-model="form.footerInfo" />
+          <div class="tip-text">{{ $t('htmlSupport') }}</div>
         </a-form-item>
         <a-form-item :label="$t('isShowFeatureImage')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-switch v-model="form.showFeatureImage" />

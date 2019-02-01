@@ -65,6 +65,7 @@ const message = {
     tagDefault: '标签 URL 默认格式',
     hideInList: '列表中隐藏',
     dateFormat: '日期格式',
+    htmlSupport: '支持 Html',
   },
   en: {
     preview: 'Preiview',
@@ -132,6 +133,7 @@ const message = {
     tagDefault: 'Tag URL Default',
     hideInList: 'Hide in list',
     dateFormat: 'Date format',
+    htmlSupport: 'Html support',
   },
 }
 

@@ -9,7 +9,7 @@
     <a-form-item label="Client Secret" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
       <a-input v-model="form.clientSecret"></a-input>
     </a-form-item>
-    <a-form-item :label="$t('branch')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+    <a-form-item :label="$t('repository')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
       <a-input v-model="form.repository"></a-input>
     </a-form-item>
     <a-form-item label="Owner" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">

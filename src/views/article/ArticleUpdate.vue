@@ -403,7 +403,6 @@ export default class ArticleUpdate extends Vue {
   flex-direction: column;
   .page-title {
     padding: 16px 32px;
-    z-index: 1030;
     border-bottom: 1px solid #e4e2dd;
     box-shadow: 0 3px 20px #4343430d;
   }

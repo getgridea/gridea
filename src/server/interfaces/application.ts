@@ -16,6 +16,7 @@ export interface IApplicationDb {
   tags: ITag[]
   menus: IMenu[]
   themeConfig: ITheme
+  themeCustomConfig: any
   themes: string[]
   setting: ISetting
   commentSetting: ICommentSetting

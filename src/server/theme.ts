@@ -25,7 +25,7 @@ export default class Theme extends Model {
   }
 
   /**
-   * 选择主题
+   * 获取主题配置
    */
   async getThemeConfig() {
     const themeConfig = await this.$theme.get('config').value()
@@ -38,6 +38,16 @@ export default class Theme extends Model {
   public async saveThemeConfig(themeConfig: ITheme) {
     await this.$theme.set('config', themeConfig).write()
     return themeConfig
+  }
+
+  /**
+   * 获取主题自定义配置
+   */
+
+  public async getThemeCustomConfig() {
+    const config = await this.$theme.get('customConfig').value()
+    console.log('主题配置', config)
+    return config
   }
 
 }

@@ -43,6 +43,7 @@ export default class App {
         tagUrlFormat: 'SLUG',
         dateFormat: 'YYYY-MM-DD',
       },
+      themeCustomConfig: {},
       themes: [],
       setting: {
         platform: '',
@@ -91,6 +92,7 @@ export default class App {
     const themeInstance = new Theme(this)
     const themeConfig = await themeInstance.getThemeConfig()
     const themes = await themeInstance.getThemeList()
+    const themeCustomConfig = await themeInstance.getThemeCustomConfig()
 
     const settingInstance = new Setting(this)
     const setting = await settingInstance.getSetting()
@@ -101,6 +103,7 @@ export default class App {
       tags,
       menus,
       themeConfig,
+      themeCustomConfig,
       themes,
       setting,
       commentSetting: commentSetting || this.db.commentSetting,

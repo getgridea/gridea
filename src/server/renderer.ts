@@ -1,4 +1,5 @@
 import * as fs from 'fs'
+import path from 'path'
 import Bluebird from 'bluebird'
 Bluebird.promisifyAll(fs)
 import * as fse from 'fs-extra'
@@ -14,6 +15,8 @@ import { IPostDb, IPostRenderData, ITagRenderData } from './interfaces/post'
 import { ITag } from './interfaces/tag'
 import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE } from '../helpers/constants'
 import { IMenu } from './interfaces/menu'
+
+declare function require(path: string): any
 
 export default class Renderer extends Model {
   outputDir: string = `${this.appDir}/output`
@@ -411,7 +414,24 @@ export default class Renderer extends Model {
       if (err) {
         console.log(err)
       }
-      await fs.writeFileSync(`${cssFolderPath}/main.css`, cssString.css)
+      const { css } = cssString
+      // if have override
+      // const customConfig = this.db.themeCustomConfig
+      // const currentThemePath = path.join(this.appDir, 'themes', this.db.themeConfig.themeName)
+
+      // const visiualOverridePath = path.join(currentThemePath, 'style-override.js')
+      // const existOverrideFile = await fse.pathExists(visiualOverridePath)
+
+      // console.log('渲染 css 时', customConfig, currentThemePath, visiualOverridePath, existOverrideFile)
+      // if (existOverrideFile) {
+      //   const generateOverride = require(visiualOverridePath)
+      //   console.log('generateOverride:::', generateOverride)
+      //   const customCss = generateOverride(customConfig)
+      //   console.log('customCss', customCss)
+      //   css += customCss
+      // }
+
+      await fs.writeFileSync(`${cssFolderPath}/main.css`, css)
     })
   }
 

@@ -11,6 +11,7 @@
       <a-row :gutter="8">
         <a-col :span="16">
           <a-input size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
+          <div class="tip-text">文章内容插入单独行的 &lt!--more--> 为摘要分隔标识（此行之前内容为摘要）</div>
           <markdown-editor
             id="markdown-editor"
             ref="editor"
@@ -108,7 +109,21 @@ export default class ArticleUpdate extends Vue {
       },
       className: 'fa fa-picture-o',
       title: '图片',
-    }, 'link', 'preview', 'fullscreen'],
+    }, {
+      name: 'more',
+      action: (editor: any) => {
+        this.insertMore()
+      },
+      className: 'fa fa-ellipsis-h',
+      title: '摘要',
+    }, {
+      name: 'link',
+      action: (editor: any) => {
+        this.insertLink()
+      },
+      className: 'fa fa-link',
+      title: '链接',
+    }, 'preview', 'fullscreen'],
     promptURLs: true,
     spellChecker: false,
   }
@@ -331,15 +346,29 @@ export default class ArticleUpdate extends Vue {
   uploadImageFiles(files: any[]) {
     ipcRenderer.send('image-upload', files)
     ipcRenderer.once('image-uploaded', (event: Event, data: any) => {
+      const editor = this.$refs.editor.simplemde.codemirror
       for (const path of data) {
         let url = `![](file://${path})`
         url = url.replace(/\\/g, '/')
-        const editor = this.$refs.editor.simplemde.codemirror
 
         // 在光标处插入 https://codemirror.net/doc/manual.html#replaceSelection
         editor.replaceSelection(url)
       }
+      editor.focus()
     })
+  }
+
+  insertMore() {
+    const editor = this.$refs.editor.simplemde.codemirror
+
+    editor.replaceSelection('\n<!-- more -->\n')
+    editor.focus()
+  }
+  insertLink() {
+    const editor = this.$refs.editor.simplemde.codemirror
+
+    editor.replaceSelection('[]()')
+    editor.focus()
   }
 
   /**
@@ -411,6 +440,10 @@ export default class ArticleUpdate extends Vue {
     padding: 32px;
     overflow: scroll;
   }
+}
+
+.tip-text {
+  margin-top: 8px;
 }
 </style>
 

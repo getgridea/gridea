@@ -46,7 +46,12 @@ export default class Posts extends Model {
         fileName: '',
       }
 
-      post.abstract = (post.content).substring(0, post.content.indexOf('<!-- more -->')) // 摘要
+      const moreReg = /\n\s*<!--\s*more\s*-->\s*\n/i
+      const matchMore = moreReg.exec(post.content)
+      if (matchMore) {
+        post.abstract = (post.content).substring(0, matchMore.index) // 摘要
+      }
+
       post.fileName = files[index].substring(0, files[index].length - 3) // 有待优化!
       resultList.push(post)
     })

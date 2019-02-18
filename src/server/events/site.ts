@@ -8,8 +8,8 @@ export default class SiteEvents {
     ipcMain.removeAllListeners('app-site-reload')
     ipcMain.removeAllListeners('app-site-loaded')
 
-    ipcMain.on('app-site-reload', async (event: Event) => {
-      const result = await appInstance.loadSite()
+    ipcMain.on('app-site-reload', async (event: Event, params: any) => {
+      const result = await appInstance.loadSite({ siteFolder: params && params.siteFolder || '' })
       event.sender.send('app-site-loaded', result)
     })
   }

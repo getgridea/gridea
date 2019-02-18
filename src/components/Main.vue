@@ -85,7 +85,9 @@ export default class App extends Vue {
   }
 
   public reloadSite() {
-    ipcRenderer.send('app-site-reload', {})
+    const siteFolder = localStorage.getItem('sourceFolder') || ''
+
+    ipcRenderer.send('app-site-reload', { siteFolder })
     ipcRenderer.once('app-site-loaded', (event: Event, result: Site) => {
       console.log(result)
       this.updateSite(result)

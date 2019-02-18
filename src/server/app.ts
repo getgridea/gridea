@@ -79,7 +79,10 @@ export default class App {
   /**
    *  Load site config and data
    */
-  public async loadSite() {
+  public async loadSite({ siteFolder = '' }) {
+    // load site folder
+    this.appDir = siteFolder || path.join(this.app.getPath('documents'), 'hve-notes')
+
     const postsInstance = new Posts(this)
     const posts = await postsInstance.list()
 

@@ -11,7 +11,7 @@
       <a-row :gutter="8">
         <a-col :span="16">
           <a-input size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
-          <div class="tip-text">文章内容插入单独行的 &lt!--more--> 为摘要分隔标识（此行之前内容为摘要）</div>
+          <div class="tip-text">{{ $t('editorTip') }}</div>
           <markdown-editor
             id="markdown-editor"
             ref="editor"

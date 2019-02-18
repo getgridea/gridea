@@ -5,7 +5,7 @@
         <a-alert :message="currentFolderPath" type="warning" />
         <a-upload action="" directory :beforeUpload="handleFolderChange" :showUploadList="false">
           <a-button style="margin-top: 8px;" type="primary" block>
-            <a-icon type="folder-open" /> Change
+            <a-icon type="folder-open" /> {{ $t('change') }}
           </a-button>
         </a-upload>
       </a-form-item>
@@ -35,6 +35,7 @@ export default class System extends Vue {
 
   saveLanguage() {
     localStorage.setItem('sourceFolder', this.currentFolderPath)
+    this.$message.success(this.$t('saved'))
   }
 
   handleFolderChange(data: any) {

@@ -76,11 +76,40 @@ export default class Renderer extends Model {
       await this.git.add('./*')
       await this.git.commit('first commit')
       await this.git.addRemote('origin', this.remoteUrl)
+      await this.checkCurrentBranch()
       await this.git.push('origin', setting.branch, {'--force': true})
       return true
     } catch (e) {
       console.error(e)
       return false
+    }
+  }
+
+  /**
+   * 检查分支是否需要切换
+   */
+  async checkCurrentBranch() {
+    const { setting } = this.db
+    const localBranchs = (await this.git.branchLocal()).branches
+    let currentBranch = 'master'
+    let hasNewBranch = true
+
+    Object.keys(localBranchs).forEach((key: string) => {
+      if (localBranchs[key].current) {
+        currentBranch = key
+      }
+      if (setting.branch === key) {
+        hasNewBranch = false
+      }
+    })
+
+    if (currentBranch !== setting.branch) {
+      if (hasNewBranch) {
+        await this.git.checkout(['-b', setting.branch])
+      } else {
+        await this.git.deleteLocalBranch(setting.branch)
+        await this.git.checkout(['-b', setting.branch])
+      }
     }
   }
 
@@ -95,6 +124,7 @@ export default class Renderer extends Model {
       try {
         await this.git.add('./*')
         await this.git.commit(`update from hve: ${moment().format('YYYY-MM-DD HH:mm:ss')}`)
+        await this.checkCurrentBranch()
         await this.git.push('origin', this.db.setting.branch, {'--force': true})
         return true
       } catch (e) {
@@ -102,6 +132,7 @@ export default class Renderer extends Model {
         return false
       }
     } else {
+      await this.checkCurrentBranch()
       await this.git.push('origin', this.db.setting.branch, {'--force': true})
       return true
     }

@@ -83,7 +83,7 @@ function createWindow() {
 
   // Init app
   const appInstance = new App(setting)
-  console.log(appInstance) // DELETE ME
+  console.log('Main process runing...', appInstance.appDir) // DELETE ME
 }
 
 // Quit when all windows are closed.

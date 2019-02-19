@@ -1,4 +1,4 @@
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, app } from 'electron'
 import * as fse from 'fs-extra'
 import * as path from 'path'
 import EventClasses from './events/index'
@@ -73,15 +73,12 @@ export default class App {
     }
 
     this.checkDir()
-    this.initEvents()
   }
 
   /**
    *  Load site config and data
    */
-  public async loadSite({ siteFolder = '' }) {
-    // load site folder
-    this.appDir = siteFolder || path.join(this.app.getPath('documents'), 'hve-notes')
+  public async loadSite() {
 
     const postsInstance = new Posts(this)
     const posts = await postsInstance.list()
@@ -125,34 +122,77 @@ export default class App {
     // renderer.renderPostList()
   }
 
+  public async saveSourceFolderSetting(sourceFolderPath: string = '') {
+    try {
+      const appConfigFolder = path.join(this.app.getPath('home'), '.hve-notes')
+      const appConfigPath = path.join(appConfigFolder, 'config.json')
+      const jsonString = `{"sourceFolder": "${sourceFolderPath || this.appDir}"}`
+
+      await fse.writeFileSync(appConfigPath, jsonString)
+      const appConfig = await fse.readJsonSync(appConfigPath)
+      this.appDir = appConfig.sourceFolder
+
+      return true
+    } catch (e) {
+      console.log(e)
+      return false
+    }
+  }
+
   /**
    * Check if the hve-next folder exists, if it does not exist, it is initialized
    */
-  private checkDir(): void {
-    if (fse.pathExistsSync(this.appDir)) {
+  private async checkDir() {
+    // 检查是否有自定义文件夹配置，若有则加载对应的文件夹，若无则加载默认文件夹
+    const appConfigFolder = path.join(this.app.getPath('home'), '.hve-notes')
+    const appConfigPath = path.join(appConfigFolder, 'config.json')
+    const defaultAppDir = path.join(this.app.getPath('documents'), 'hve-notes')
 
-      // check if the images folder exists, if it does not exist, copy it from default-files
-      const imagesPath = path.join(this.appDir, 'images')
-      if (!fse.pathExistsSync(imagesPath)) {
-        fse.copySync(
-          path.join(__static, 'default-files', 'images'),
-          imagesPath,
-        )
+    try {
+      if (!fse.pathExistsSync(appConfigFolder)) {
+        await fse.mkdirSync(appConfigFolder)
+        const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
+        await fse.writeFileSync(appConfigPath, jsonString)
       }
 
-      // 检查 默认 theme 是不是包含 notes、fly 主题
-      this.checkTheme('notes')
-      this.checkTheme('fly')
+      const appConfig = await fse.readJsonSync(appConfigPath)
+      this.appDir = appConfig.sourceFolder
 
-      return
+      // 存在站点文件夹
+      if (fse.pathExistsSync(this.appDir)) {
+
+        // check if the images folder exists, if it does not exist, copy it from default-files
+        const imagesPath = path.join(this.appDir, 'images')
+        if (!fse.pathExistsSync(imagesPath)) {
+          fse.copySync(
+            path.join(__static, 'default-files', 'images'),
+            imagesPath,
+          )
+        }
+
+        // 检查 默认 theme 是不是包含 notes、fly 主题
+        this.checkTheme('notes')
+        this.checkTheme('fly')
+
+        return
+      } else {
+        // 不存在站点文件夹
+        this.appDir = defaultAppDir
+        const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
+        await fse.writeFileSync(appConfigPath, jsonString)
+        fse.mkdirSync(this.appDir)
+
+        fse.copySync(
+          path.join(__static, 'default-files'),
+          path.join(this.appDir),
+        )
+      }
+    } catch (e) {
+      console.log('Error', e)
+    } finally {
+      this.initEvents()
     }
 
-    fse.mkdirSync(this.appDir)
-
-    fse.copySync(
-      path.join(__static, 'default-files'),
-      path.join(this.appDir),
-    )
   }
 
   /**
@@ -169,6 +209,7 @@ export default class App {
   }
 
   private initEvents(): void {
+    console.log('执行了初始化', EventClasses)
     const SiteEvents = EventClasses.SiteEvents
     const site = new SiteEvents(this)
 

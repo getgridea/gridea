@@ -17,10 +17,13 @@
 </template>
 
 <script lang="ts">
+import { ipcRenderer, Event } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
+import { State } from 'vuex-class'
 
 @Component
 export default class System extends Vue {
+  @State('site') site!: any
 
   formLayout = {
     label: { span: 5 },
@@ -30,12 +33,19 @@ export default class System extends Vue {
   currentFolderPath = '-'
 
   mounted() {
-    this.currentFolderPath = localStorage.getItem('sourceFolder') || '-'
+    this.currentFolderPath = this.site.appDir
   }
 
   saveLanguage() {
-    localStorage.setItem('sourceFolder', this.currentFolderPath)
-    this.$message.success(this.$t('saved'))
+    ipcRenderer.send('app-source-folder-setting', this.currentFolderPath)
+    ipcRenderer.once('app-source-folder-set', (event: Event, data: any) => {
+      if (data) {
+        this.$message.success(this.$t('saved'))
+        this.$bus.$emit('site-reload')
+      } else {
+        this.$message.error(this.$t('saveError'))
+      }
+    })
   }
 
   handleFolderChange(data: any) {

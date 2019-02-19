@@ -46,7 +46,6 @@ export default class Theme extends Model {
 
   public async getThemeCustomConfig() {
     const config = await this.$theme.get('customConfig').value()
-    console.log('主题配置', config)
     return config
   }
 

@@ -70,6 +70,7 @@ const message = {
     htmlSupport: '支持 Html',
     change: '更 换',
     editorTip: '你可以插入单独行的 &lt!--more--> 为摘要分隔标识（此行之前内容为摘要）',
+    saveError: '保存失败',
   },
   en: {
     preview: 'Preiview',
@@ -142,6 +143,7 @@ const message = {
     htmlSupport: 'Html support',
     change: 'Change',
     editorTip: 'You can insert a separate line &lt! --more-- > is the abstract separator identifier ( the content before this line is the abstract)',
+    saveError: 'Save failed',
   },
 }
 

@@ -49,7 +49,7 @@ export default class System extends Vue {
   }
 
   handleFolderChange(data: any) {
-    this.currentFolderPath = data.path
+    this.currentFolderPath = data.path.replace(/\\/g, '/')
     return false
   }
 }

@@ -146,7 +146,8 @@ export default class App {
     // 检查是否有自定义文件夹配置，若有则加载对应的文件夹，若无则加载默认文件夹
     const appConfigFolder = path.join(this.app.getPath('home'), '.hve-notes')
     const appConfigPath = path.join(appConfigFolder, 'config.json')
-    const defaultAppDir = path.join(this.app.getPath('documents'), 'hve-notes')
+    let defaultAppDir = path.join(this.app.getPath('documents'), 'hve-notes')
+    defaultAppDir = defaultAppDir.replace(/\\/g, '/')
 
     try {
       if (!fse.pathExistsSync(appConfigFolder)) {

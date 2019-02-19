@@ -198,11 +198,13 @@ export default class Renderer extends Model {
     /** 标签数据 */
     this.tagsData = []
     this.postsData.forEach((item: IPostRenderData) => {
-      item.tags.forEach((tag: ITagRenderData) => {
-        if (!this.tagsData.find((t: ITagRenderData) => t.link === tag.link)) {
-          this.tagsData.push(tag)
-        }
-      })
+      if (!item.hideInList) {
+        item.tags.forEach((tag: ITagRenderData) => {
+          if (!this.tagsData.find((t: ITagRenderData) => t.link === tag.link)) {
+            this.tagsData.push(tag)
+          }
+        })
+      }
     })
 
     /** 菜单数据 */
@@ -233,6 +235,38 @@ export default class Renderer extends Model {
       : postPageSize ||  DEFAULT_POST_PAGE_SIZE
 
     const postsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
+
+    // 若暂无文章
+    if (!postsData.length) {
+      const renderData = {
+        menus: this.menuData,
+        posts: [],
+        pagination: {
+          prev: '',
+          next: '',
+        },
+        themeConfig: this.db.themeConfig,
+        site: {
+          posts: postsData,
+          tags: this.tagsData,
+        },
+      }
+      let html = ''
+      const renderTemplatePath  = extraPath === '/archives'
+        ? `${this.themePath}/templates/archives.ejs`
+        : `${this.themePath}/templates/index.ejs`
+
+      await ejs.renderFile(renderTemplatePath, renderData, {}, async (err: any, str) => {
+        if (err) {
+          console.log(err)
+        }
+        if (str) {
+          html = str
+        }
+      })
+      const renderPath = `${this.outputDir}${extraPath}/index.html`
+      await fs.writeFileSync(renderPath, html)
+    }
 
     for (let i = 0; i * pageSize < postsData.length; i += 1) {
       const renderData = {

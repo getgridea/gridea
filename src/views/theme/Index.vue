@@ -1,51 +1,53 @@
 <template>
   <div class="">
-    <a-row type="flex" justify="end" class="tool-container">
-      <a-button class="btn" type="primary" @click="saveTheme">{{ $t('save') }}</a-button>
-    </a-row>
-    <div class="content-container">
-      <a-form :form="form">
-        <a-form-item :label="$t('selectTheme')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-select v-model="form.themeName">
-            <a-select-option v-for="item in site.themes" :key="item" :value="item">{{ item }}</a-select-option>
-          </a-select>
-        </a-form-item>
-        <a-form-item :label="$t('siteName')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-input v-model="form.siteName" />
-        </a-form-item>
-        <a-form-item :label="$t('siteDescription')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-input type="textarea" v-model="form.siteDescription" />
-          <div class="tip-text">{{ $t('htmlSupport') }}</div>
-        </a-form-item>
-        <a-form-item :label="$t('footerInfo')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-input type="textarea" v-model="form.footerInfo" />
-          <div class="tip-text">{{ $t('htmlSupport') }}</div>
-        </a-form-item>
-        <a-form-item :label="$t('isShowFeatureImage')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-switch v-model="form.showFeatureImage" />
-        </a-form-item>
-        <a-form-item :label="$t('articlesPerPage')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-slider v-model="form.postPageSize" :min="1" :max="50" />
-        </a-form-item>
-        <a-form-item :label="$t('archivesPerPage')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-slider v-model="form.archivesPageSize" :min="1" :max="100" />
-        </a-form-item>
-        <a-form-item :label="$t('articleDefault')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-radio-group name="postUrlFormat" v-model="form.postUrlFormat">
-            <a-radio v-for="item in urlFormats" :key="item.value" :value="item.value">{{ item.text }}</a-radio>
-          </a-radio-group>
-        </a-form-item>
-        <a-form-item :label="$t('tagDefault')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-radio-group name="tagUrlFormat" v-model="form.tagUrlFormat">
-            <a-radio v-for="item in urlFormats" :key="item.value" :value="item.value">{{ item.text }}</a-radio>
-          </a-radio-group>
-        </a-form-item>
-        <a-form-item :label="$t('dateFormat')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-input v-model="form.dateFormat" />
-          <div><a href="#" @click="openPage('http://momentjs.cn/docs/#/displaying/format/')">Momentjs Format</a></div>
-        </a-form-item>
-      </a-form>
-    </div>
+    <a-tabs defaultActiveKey="1">
+      <a-tab-pane :tab="$t('basicSetting')" key="1">
+        <a-form :form="form">
+          <a-form-item :label="$t('selectTheme')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-select v-model="form.themeName">
+              <a-select-option v-for="item in site.themes" :key="item" :value="item">{{ item }}</a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item :label="$t('siteName')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-input v-model="form.siteName" />
+          </a-form-item>
+          <a-form-item :label="$t('siteDescription')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-input type="textarea" v-model="form.siteDescription" />
+            <div class="tip-text">{{ $t('htmlSupport') }}</div>
+          </a-form-item>
+          <a-form-item :label="$t('footerInfo')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-input type="textarea" v-model="form.footerInfo" />
+            <div class="tip-text">{{ $t('htmlSupport') }}</div>
+          </a-form-item>
+          <a-form-item :label="$t('isShowFeatureImage')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-switch v-model="form.showFeatureImage" />
+          </a-form-item>
+          <a-form-item :label="$t('articlesPerPage')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-slider v-model="form.postPageSize" :min="1" :max="50" />
+          </a-form-item>
+          <a-form-item :label="$t('archivesPerPage')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-slider v-model="form.archivesPageSize" :min="1" :max="100" />
+          </a-form-item>
+          <a-form-item :label="$t('articleDefault')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-radio-group name="postUrlFormat" v-model="form.postUrlFormat">
+              <a-radio v-for="item in urlFormats" :key="item.value" :value="item.value">{{ item.text }}</a-radio>
+            </a-radio-group>
+          </a-form-item>
+          <a-form-item :label="$t('tagDefault')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-radio-group name="tagUrlFormat" v-model="form.tagUrlFormat">
+              <a-radio v-for="item in urlFormats" :key="item.value" :value="item.value">{{ item.text }}</a-radio>
+            </a-radio-group>
+          </a-form-item>
+          <a-form-item :label="$t('dateFormat')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-input v-model="form.dateFormat" />
+            <div><a href="#" @click="openPage('http://momentjs.cn/docs/#/displaying/format/')">Momentjs Format</a></div>
+          </a-form-item>
+          <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-button class="btn" type="primary" @click="saveTheme">{{ $t('save') }}</a-button>
+          </a-form-item>
+        </a-form>
+      </a-tab-pane>
+    </a-tabs>
   </div>
 </template>
 

@@ -36,8 +36,13 @@ export default class Posts extends Model {
 
       // 修正 matter 格式化掉 日期问题
       const data = (postMatter.data as any)
+
       if (data && data.date) {
-        data.date = moment(data.date).subtract(8, 'hours').format('YYYY-MM-DD HH:mm:ss')
+        if (typeof data.date === 'string') {
+          data.date = moment(data.date).format('YYYY-MM-DD HH:mm:ss')
+        } else {
+          data.date = moment(data.date).subtract(8, 'hours').format('YYYY-MM-DD HH:mm:ss')
+        }
       }
       delete postMatter.orig // Remove orig <Buffer>
       const post = {

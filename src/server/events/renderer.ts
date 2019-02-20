@@ -9,6 +9,8 @@ export default class RendererEvents {
     ipcMain.removeAllListeners('html-rendered')
     ipcMain.removeAllListeners('site-publish')
     ipcMain.removeAllListeners('site-published')
+    ipcMain.removeAllListeners('remote-detect')
+    ipcMain.removeAllListeners('remote-detected')
 
     ipcMain.on('html-render', async (event: Event, params: any) => {
       if (renderer.db.themeConfig.themeName) {
@@ -20,6 +22,11 @@ export default class RendererEvents {
     ipcMain.on('site-publish', async (event: Event, params: any) => {
       const result = await renderer.publish()
       event.sender.send('site-published', result)
+    })
+
+    ipcMain.on('remote-detect', async (event: Event, params: any) => {
+      const result = await renderer.remoteDetect()
+      event.sender.send('remote-detected', result)
     })
 
   }

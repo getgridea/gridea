@@ -65,24 +65,34 @@ export default class Renderer extends Model {
     return result
   }
 
-  async firstPush() {
-    const { setting } = this.db
-    console.log('first push')
-
-    try {
-      await this.git.init()
-      await this.git.addConfig('user.name', setting.username)
-      await this.git.addConfig('user.email', setting.email)
-      await this.git.add('./*')
-      await this.git.commit('first commit')
-      await this.git.addRemote('origin', this.remoteUrl)
-      await this.checkCurrentBranch()
-      await this.git.push('origin', setting.branch, {'--force': true})
-      return true
-    } catch (e) {
-      console.error(e)
-      return false
+  /**
+   * 检测远程连接是否正常
+   */
+  async remoteDetect() {
+    const result = {
+      success: true,
+      message: '',
     }
+    try {
+      const { setting } = this.db
+      const isRepo = await this.git.checkIsRepo()
+      if (!isRepo) {
+        await this.git.init()
+        await this.git.addConfig('user.name', setting.username)
+        await this.git.addConfig('user.email', setting.email)
+        await this.git.add('./*')
+        await this.git.commit('first commit')
+        await this.git.addRemote('origin', this.remoteUrl)
+      }
+
+      await this.git.raw(['remote', 'set-url', 'origin', this.remoteUrl])
+      const data = await this.git.listRemote([])
+    } catch (e) {
+      console.log('Test Remote Error: ', e.message)
+      result.success = false
+      result.message = e.message
+    }
+    return result
   }
 
   /**
@@ -110,6 +120,26 @@ export default class Renderer extends Model {
         await this.git.deleteLocalBranch(setting.branch)
         await this.git.checkout(['-b', setting.branch])
       }
+    }
+  }
+
+  async firstPush() {
+    const { setting } = this.db
+    console.log('first push')
+
+    try {
+      await this.git.init()
+      await this.git.addConfig('user.name', setting.username)
+      await this.git.addConfig('user.email', setting.email)
+      await this.git.add('./*')
+      await this.git.commit('first commit')
+      await this.git.addRemote('origin', this.remoteUrl)
+      await this.checkCurrentBranch()
+      await this.git.push('origin', setting.branch, {'--force': true})
+      return true
+    } catch (e) {
+      console.error(e)
+      return false
     }
   }
 

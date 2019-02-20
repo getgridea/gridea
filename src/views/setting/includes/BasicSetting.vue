@@ -31,6 +31,7 @@
         <a-input v-model="form.cname" />
       </a-form-item>
       <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+        <a-button :loading="detectLoading" @click="remoteDetect" style="margin-right: 16px;">{{ $t('testConnection') }}</a-button>
         <a-button @click="submit" type="primary">{{ $t('save') }}</a-button>
       </a-form-item>
       
@@ -48,6 +49,7 @@ export default class BasicSetting extends Vue {
   @State('site') site!: any
 
   showToken = false
+  detectLoading = false
 
   formLayout = {
     label: { span: 6 },
@@ -81,6 +83,32 @@ export default class BasicSetting extends Vue {
     ipcRenderer.once('setting-saved', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('basicSettingSuccess'))
+    })
+  }
+
+  async remoteDetect() {
+    ipcRenderer.send('setting-save', this.form)
+    ipcRenderer.once('setting-saved', (event: Event, result: any) => {
+
+      ipcRenderer.send('app-site-reload')
+      ipcRenderer.once('app-site-loaded', (event: Event, result: any) => {
+
+        this.detectLoading = true
+        ipcRenderer.send('remote-detect')
+        ipcRenderer.once('remote-detected', (event: Event, result: any) => {
+
+          console.log('检测结果', result)
+          this.detectLoading = false
+          if (result.success) {
+            this.$message.success(this.$t('connectSuccess'))
+          } else {
+            this.$message.error(this.$t(`connectFailed`))
+          }
+
+        })
+
+      })
+
     })
   }
 }

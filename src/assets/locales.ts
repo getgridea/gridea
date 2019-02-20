@@ -71,6 +71,9 @@ const message = {
     change: '更 换',
     editorTip: '你可以插入单独行的 &lt!--more--> 为摘要分隔标识（此行之前内容为摘要）',
     saveError: '保存失败',
+    testConnection: '检测远程连接',
+    connectSuccess: '远程连接成功',
+    connectFailed: '远程连接失败，请检查仓库、用户名和 Token 设置',
   },
   en: {
     preview: 'Preiview',
@@ -144,6 +147,9 @@ const message = {
     change: 'Change',
     editorTip: 'You can insert a separate line &lt! --more-- > is the abstract separator identifier ( the content before this line is the abstract)',
     saveError: 'Save failed',
+    testConnection: 'Test Connection',
+    connectSuccess: 'Remote connection succeeded',
+    connectFailed: 'Remote connection failed, please check repository, username and token settings',
   },
 }
 

@@ -16,6 +16,22 @@ import { ITag } from './interfaces/tag'
 import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE } from '../helpers/constants'
 import { IMenu } from './interfaces/menu'
 
+// marked toc support
+const renderer = (new marked.Renderer() as any)
+
+let toc: any = []
+
+renderer.heading = function(text: any, level: any, raw: any) {
+    const anchor = this.options.headerPrefix + raw.toLowerCase().replace(/[^\w\\u4e00-\\u9fa5]]+/g, '-')
+    toc.push({ anchor, level, text })
+    return `<h${level} id="${anchor}">${text}</h${level}>`
+}
+
+marked.setOptions({
+  renderer,
+})
+
+
 declare function require(path: string): any
 
 export default class Renderer extends Model {
@@ -54,7 +70,11 @@ export default class Renderer extends Model {
     console.log('domain', this.db.themeConfig.domain)
     await this.renderAll('publish')
     console.log('渲染完毕')
-    let result = false
+    let result = {
+      success: true,
+      message: '',
+      localBranchs: {},
+    }
     const isRepo = await this.git.checkIsRepo()
     console.log(isRepo)
     if (isRepo) {
@@ -100,7 +120,7 @@ export default class Renderer extends Model {
    */
   async checkCurrentBranch() {
     const { setting } = this.db
-    const localBranchs = (await this.git.branchLocal()).branches
+    const localBranchs = (await this.git.branchLocal()).branches || []
     let currentBranch = 'master'
     let hasNewBranch = true
 
@@ -115,16 +135,24 @@ export default class Renderer extends Model {
 
     if (currentBranch !== setting.branch) {
       if (hasNewBranch) {
+        // FIXME: 本地分支检测方法，打包后不起作用 git.branchLocal()
+        try {
+          await this.git.deleteLocalBranch(setting.branch)
+        } catch (e) {
+          console.log(e)
+        }
         await this.git.checkout(['-b', setting.branch])
       } else {
         await this.git.deleteLocalBranch(setting.branch)
         await this.git.checkout(['-b', setting.branch])
       }
     }
+    return localBranchs
   }
 
   async firstPush() {
     const { setting } = this.db
+    let localBranchs = {}
     console.log('first push')
 
     try {
@@ -134,37 +162,57 @@ export default class Renderer extends Model {
       await this.git.add('./*')
       await this.git.commit('first commit')
       await this.git.addRemote('origin', this.remoteUrl)
-      await this.checkCurrentBranch()
+      localBranchs = await this.checkCurrentBranch()
       await this.git.push('origin', setting.branch, {'--force': true})
-      return true
+      return {
+        success: true,
+        data: localBranchs,
+        message: '',
+        localBranchs,
+      }
     } catch (e) {
       console.error(e)
-      return false
+      return {
+        success: false,
+        data: localBranchs,
+        message: e.message,
+        localBranchs,
+      }
     }
   }
 
   async commonPush() {
     console.log('common push')
     const { setting } = this.db
-    const statusSummary = await this.git.status()
-    console.log(statusSummary)
-    await this.git.raw(['remote', 'set-url', 'origin', this.remoteUrl])
+    let localBranchs = {}
+    try {
+      const statusSummary = await this.git.status()
+      console.log(statusSummary)
+      await this.git.raw(['remote', 'set-url', 'origin', this.remoteUrl])
 
-    if (statusSummary.modified.length > 0 || statusSummary.not_added.length > 0) {
-      try {
+      if (statusSummary.modified.length > 0 || statusSummary.not_added.length > 0) {
         await this.git.add('./*')
         await this.git.commit(`update from hve: ${moment().format('YYYY-MM-DD HH:mm:ss')}`)
+        localBranchs = await this.checkCurrentBranch()
+        await this.git.push('origin', this.db.setting.branch, {'--force': true})
+      } else {
         await this.checkCurrentBranch()
         await this.git.push('origin', this.db.setting.branch, {'--force': true})
-        return true
-      } catch (e) {
-        console.error(e)
-        return false
       }
-    } else {
-      await this.checkCurrentBranch()
-      await this.git.push('origin', this.db.setting.branch, {'--force': true})
-      return true
+      return {
+        success: true,
+        data: localBranchs,
+        message: '',
+        localBranchs,
+      }
+    } catch (e) {
+      console.log(e)
+      return {
+        success: false,
+        message: e.message,
+        data: localBranchs,
+        localBranchs,
+      }
     }
   }
 
@@ -221,6 +269,8 @@ export default class Renderer extends Model {
           link: `${this.db.themeConfig.domain}/post/${item.fileName}${mode === 'preview' ? '/index.html' : ''}`,
           hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
         }
+        console.log('toc:::', toc)
+        toc = []
         return result
       })
       .sort((a: IPostRenderData, b: IPostRenderData) => moment(b.date).unix() - moment(a.date).unix())

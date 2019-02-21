@@ -88,10 +88,10 @@ export default class BasicSetting extends Vue {
 
   async remoteDetect() {
     ipcRenderer.send('setting-save', this.form)
-    ipcRenderer.once('setting-saved', (event: Event, result: any) => {
+    ipcRenderer.once('setting-saved', () => {
 
       ipcRenderer.send('app-site-reload')
-      ipcRenderer.once('app-site-loaded', (event: Event, result: any) => {
+      ipcRenderer.once('app-site-loaded', () => {
 
         this.detectLoading = true
         ipcRenderer.send('remote-detect')

@@ -112,7 +112,8 @@ export default class App extends Vue {
     ipcRenderer.send('site-publish')
     this.publishLoading = true
     ipcRenderer.once('site-published', (event: Event, result: any) => {
-      if (result) {
+      console.log(result)
+      if (result.success) {
         this.$message.success(`🎉  ${this.$t('syncSuccess')}`)
       } else {
         this.$message.error(`${this.$t('syncError')}`)

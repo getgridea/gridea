@@ -121,15 +121,28 @@ export default class Renderer extends Model {
   async checkCurrentBranch() {
     const { setting } = this.db
     const currentBranch = (await this.git.revparse(['--abbrev-ref', 'HEAD']) || 'master').replace(/\n/g, '')
+    let hasNewBranch = true
     console.log(currentBranch)
 
-    if (currentBranch !== setting.branch) {
-      try {
-        await this.git.deleteLocalBranch(setting.branch)
-      } catch (e) {
-        console.log(e)
+    const list = await this.git.branch([])
+    list.all.forEach((item: string) => {
+      if (item === setting.branch) {
+        hasNewBranch = false
       }
-      await this.git.checkout(['-b', setting.branch])
+    })
+
+    if (currentBranch !== setting.branch) {
+      if (hasNewBranch) {
+        await this.git.checkout(['-b', setting.branch])
+      } else {
+        try {
+          await this.git.deleteLocalBranch(setting.branch)
+        } catch (e) {
+          console.log(e)
+        } finally {
+          await this.git.checkout(['-b', setting.branch])
+        }
+      }
     }
     return {}
   }

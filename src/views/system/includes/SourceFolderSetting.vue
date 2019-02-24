@@ -2,12 +2,13 @@
   <div>
     <a-form>
       <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-alert :message="currentFolderPath" type="warning" />
-        <a-upload action="" directory :beforeUpload="handleFolderChange" :showUploadList="false">
-          <a-button style="margin-top: 8px;" type="primary" block>
-            <a-icon type="folder-open" /> {{ $t('change') }}
-          </a-button>
-        </a-upload>
+        <a-input v-model="currentFolderPath" readonly>
+          <a-upload slot="addonAfter" action="" directory :beforeUpload="handleFolderChange" :showUploadList="false">
+            <a-button class="folder-btn">
+              <a-icon type="folder-open" />
+            </a-button>
+          </a-upload>
+        </a-input>
       </a-form-item>
       <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-button type="primary" @click="saveLanguage">{{ $t('save') }}</a-button>
@@ -56,4 +57,11 @@ export default class System extends Vue {
 </script>
 
 <style lang="less" scoped>
+/deep/ .ant-input-group-addon {
+  padding: 0;
+}
+.folder-btn {
+  border: none;
+  height: 28px;
+}
 </style>

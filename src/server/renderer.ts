@@ -254,6 +254,7 @@ export default class Renderer extends Model {
           hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
         }
         console.log('toc:::', toc)
+        result.toc = toc
         toc = []
         return result
       })

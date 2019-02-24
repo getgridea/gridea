@@ -50,4 +50,5 @@ export interface IPostRenderData {
   feature: string
   link: string
   hideInList: boolean
+  toc?: any,
 }

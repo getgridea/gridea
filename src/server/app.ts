@@ -210,7 +210,6 @@ export default class App {
   }
 
   private initEvents(): void {
-    console.log('执行了初始化', EventClasses)
     const SiteEvents = EventClasses.SiteEvents
     const site = new SiteEvents(this)
 

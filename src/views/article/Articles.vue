@@ -19,7 +19,7 @@
           @click="editPost(record)"
         >{{ text }} <a-tag v-if="record.data.hideInList" color="orange">Hide</a-tag> </a>
         <a-tag slot="status" :color="text ? '#2bb15a': '#8a8a8a'" slot-scope="text">{{ text ? $t('published') : $t('draft') }}</a-tag>
-        <span slot="date" slot-scope="text">{{ text }}</span>
+        <span slot="date" slot-scope="text" class="post-date">{{ text }}</span>
       </a-table>
     </div>
 
@@ -156,5 +156,7 @@ export default class Articles extends Vue {
 .articles-page {
   position: relative;
 }
-
+.post-date {
+  color: #989898;
+}
 </style>

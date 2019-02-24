@@ -36,8 +36,8 @@
         </a-menu>
       </div>
       <div class="bottom-container">
-        <a-button block @click="preview">{{ $t('preview') }}</a-button>
-        <a-button block type="primary" :loading="publishLoading" @click="publish">{{ $t('syncSite') }}</a-button>
+        <a-button class="preview-btn" icon="eye" block @click="preview">{{ $t('preview') }}</a-button>
+        <a-button class="publish-btn" icon="sync" block type="primary" :loading="publishLoading" @click="publish">{{ $t('syncSite') }}</a-button>
         <div class="version-container" :class="{ 'version-dot': hasUpdate }"><span>- {{ version }}</span> <i class="fa fa-github-square github" @click="openInBrowser('https://github.com/hve-notes/hve-notes')"></i></div>
       </div>
     </a-layout-sider>
@@ -219,6 +219,26 @@ export default class App extends Vue {
       left: -12px;
       transform: translateY(-50%);
     }
+  }
+}
+
+.preview-btn {
+  border-radius: 16px;
+  background: #e8e8e8;
+  &:hover {
+    border: none;
+    background: #c7c7c7;
+  }
+}
+
+.publish-btn {
+  border-radius: 16px;
+  background: #383838;
+  color: #bababa;
+  border: none;
+  &:hover {
+    background: #252525;
+    border: none;
   }
 }
 </style>

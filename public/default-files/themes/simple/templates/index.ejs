@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./_blocks/head', { siteTitle: themeConfig.siteName }) %>
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <%- include('./_blocks/sidebar') %>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <% posts.forEach(function(post) { %>
+            <article class="post-item">
+              <div class="left">
+                <a href="<%= post.link %>">
+                  <h2 class="post-title"><%= post.title %></h2>
+                </a>
+                <div class="post-date">
+                  <%= post.dateFormat %>
+                </div>
+                <div class="post-abstract">
+                  <%- post.abstract %>
+                </div>
+              </div>
+              <% if (themeConfig.showFeatureImage && post.feature) { %>
+                <a class="right" href="<%= post.link %>">
+                  <div class="feature-container" style="background-image: url('<%= post.feature %>')">
+                  </div>
+                </a>
+              <% } %>
+            </article>
+          <% }); %>
+
+          <%- include('./_blocks/pagination') %>
+        </div>
+      </div>
+    </div>
+
+    <%- include('./_blocks/scripts') %>
+  </body>
+</html>

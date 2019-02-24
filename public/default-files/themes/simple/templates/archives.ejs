@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./_blocks/head', { siteTitle: `文章归档 | ${themeConfig.siteName}` }) %>
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <%- include('./_blocks/sidebar') %>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <% let years = []; posts.forEach((item) => { const year = item.date.substring(0, 4); if (!years.includes(year)) { years.push(year); } }); %>
+
+          <h2 class="archives-title">文章归档</h2>
+          <div class="archives-container">
+            <% years.forEach(function(year) { %>
+              <h2 class="year" data-aos="fade-in" data-aos-delay="500"><%- year %></h2>
+              <% posts.forEach(function(post) { %>
+                <%if (post.date.indexOf(year) !== -1) { %>
+                  <article class="post">
+                    <a href="<%= post.link %>">
+                      <h2 class="post-title">
+                        <%= post.title %>
+                      </h2>
+                    </a>
+                  </article>
+                <% } %>
+              <% }); %>
+            <% }); %>
+          </div>
+
+          <%- include('./_blocks/pagination') %>
+        </div>
+      </div>
+    </div>
+
+    <%- include('./_blocks/scripts') %>
+  </body>
+</html>

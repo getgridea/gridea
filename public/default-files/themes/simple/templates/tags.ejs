@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./_blocks/head', { siteTitle: `标签列表 | ${themeConfig.siteName}` }) %>
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <%- include('./_blocks/sidebar') %>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <h2 class="tag-list-title">标签列表</h2>
+          <div class="tags-container">
+            <% tags.forEach((tag) => { %>
+              <a class="tag" href="<%= tag.link %>"><%= tag.name %></a>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('./_blocks/scripts') %>
+  </body>
+</html>

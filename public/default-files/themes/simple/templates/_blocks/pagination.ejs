@@ -1,0 +1,8 @@
+<div class="pagination-container">
+  <% if (pagination.prev) { %>
+    <a href="<%= pagination.prev %>" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
+  <% } %>
+  <% if (pagination.next) { %>
+    <a href="<%= pagination.next %>" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
+  <% } %>
+</div>

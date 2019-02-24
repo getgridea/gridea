@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./_blocks/head', { siteTitle: `${post.title} | ${themeConfig.siteName}` }) %>
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <%- include('./_blocks/sidebar') %>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"><%= post.title %></h2>
+            <div class="post-date"><%= post.dateFormat %></div>
+            <% if (post.feature) { %>
+              <div class="feature-container" style="background-image: url('<%= post.feature %>')">
+              </div>
+            <% } %>
+            <div class="post-content">
+              <%- post.content %>
+            </div>
+            <% if (post.tags.length > 0) { %>
+              <div class="tag-container">
+                <% post.tags.forEach(function(tag, index) { %>
+                  <a href="<%= tag.link %>" class="tag">
+                    <%= tag.name %>
+                  </a>
+                <% }); %>
+              </div>
+            <% } %>
+            <% if (post.nextPost && !post.hideInList) { %>
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="<%= post.nextPost.link %>">
+                  <h3 class="post-title">
+                    <%= post.nextPost.title %>
+                  </h3>
+                </a>
+              </div>
+            <% } %>
+
+            <% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
+              <% if (commentSetting.commentPlatform === 'gitalk') { %>
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              <% } %>
+
+              <% if (commentSetting.commentPlatform === 'disqus') { %>
+                <div id="disqus_thread" data-aos="fade-in"></div>
+              <% } %>
+            <% } %>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <%- include('./_blocks/scripts') %>
+  </body>
+</html>

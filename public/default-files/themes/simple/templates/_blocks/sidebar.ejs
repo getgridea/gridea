@@ -1,0 +1,34 @@
+<div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="<%= themeConfig.domain %>">
+        <img src="<%= themeConfig.domain %>/images/avatar.png" class="site-logo">
+        <h1 class="site-title"><%= themeConfig.siteName %></h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      <% menus.forEach(function(menu) { %>
+        <% if (menu.openType === 'External') { %>
+          <a href="<%= menu.link %>" class="site-nav" target="_blank">
+            <%= menu.name %>
+          </a>
+        <% } else { %>
+          <a href="<%= menu.link %>" class="site-nav">
+            <%= menu.name %>
+          </a>
+        <% } %>
+      <% }); %>
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      <%- themeConfig.siteDescription %>
+    </div>
+    <div class="site-footer">
+      <%- themeConfig.footerInfo %>
+    </div>
+  </div>
+</div>

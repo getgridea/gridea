@@ -120,34 +120,18 @@ export default class Renderer extends Model {
    */
   async checkCurrentBranch() {
     const { setting } = this.db
-    const localBranchs = (await this.git.branchLocal()).branches || []
-    let currentBranch = 'master'
-    let hasNewBranch = true
-
-    Object.keys(localBranchs).forEach((key: string) => {
-      if (localBranchs[key].current) {
-        currentBranch = key
-      }
-      if (setting.branch === key) {
-        hasNewBranch = false
-      }
-    })
+    const currentBranch = (await this.git.revparse(['--abbrev-ref', 'HEAD']) || 'master').replace(/\n/g, '')
+    console.log(currentBranch)
 
     if (currentBranch !== setting.branch) {
-      if (hasNewBranch) {
-        // FIXME: 本地分支检测方法，打包后不起作用 git.branchLocal()
-        try {
-          await this.git.deleteLocalBranch(setting.branch)
-        } catch (e) {
-          console.log(e)
-        }
-        await this.git.checkout(['-b', setting.branch])
-      } else {
+      try {
         await this.git.deleteLocalBranch(setting.branch)
-        await this.git.checkout(['-b', setting.branch])
+      } catch (e) {
+        console.log(e)
       }
+      await this.git.checkout(['-b', setting.branch])
     }
-    return localBranchs
+    return {}
   }
 
   async firstPush() {

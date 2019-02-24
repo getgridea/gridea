@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { ipcRenderer, Event } from 'electron'
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 
 @Component
@@ -110,6 +110,11 @@ export default class BasicSetting extends Vue {
       })
 
     })
+  }
+
+  @Watch('form.token')
+  onTokenChanged(val: string) {
+    this.form.token = this.form.token.trim()
   }
 }
 </script>

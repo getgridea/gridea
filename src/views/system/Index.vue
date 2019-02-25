@@ -1,10 +1,10 @@
 <template>
   <div>
     <a-tabs defaultActiveKey="1">
-      <a-tab-pane tab="Language" key="1">
+      <a-tab-pane :tab="$t('language')" key="1">
         <language-setting></language-setting>
       </a-tab-pane>
-      <a-tab-pane tab="源文件夹" key="2">
+      <a-tab-pane :tab="$t('sourceFolder')" key="2">
         <source-folder-setting></source-folder-setting>
       </a-tab-pane>
     </a-tabs>

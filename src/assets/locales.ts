@@ -74,6 +74,8 @@ const message = {
     testConnection: '检测远程连接',
     connectSuccess: '远程连接成功',
     connectFailed: '远程连接失败，请检查仓库、用户名和 Token 设置',
+    sourceFolder: '源文件夹',
+    language: '语 言',
   },
   en: {
     preview: 'Preiview',
@@ -150,6 +152,8 @@ const message = {
     testConnection: 'Test Connection',
     connectSuccess: 'Remote connection succeeded',
     connectFailed: 'Remote connection failed, please check repository, username and token settings',
+    sourceFolder: 'Source Folder',
+    language: 'Language',
   },
 }
 

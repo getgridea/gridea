@@ -56,6 +56,8 @@ function createWindow() {
         {role: 'delete'},
         {role: 'selectall'},
         {role: 'toggledevtools'},
+        {type: 'separator'},
+        {role: 'quit'},
       ],
     },
     {

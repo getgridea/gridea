@@ -18,7 +18,7 @@
           slot-scope="text, record, index"
           @click="editPost(record)"
         >{{ text }} <a-tag v-if="record.data.hideInList" color="orange">Hide</a-tag> </a>
-        <a-tag slot="status" :color="text ? '#2bb15a': '#8a8a8a'" slot-scope="text">{{ text ? $t('published') : $t('draft') }}</a-tag>
+        <a-tag :class="{'tag-success': text, 'tag-draft': !text }" slot="status" :color="text ? '#d8f5ea': '#e8e8e8'" slot-scope="text">{{ text ? $t('published') : $t('draft') }}</a-tag>
         <span slot="date" slot-scope="text" class="post-date">{{ text }}</span>
       </a-table>
     </div>
@@ -158,5 +158,12 @@ export default class Articles extends Vue {
 }
 .post-date {
   color: #989898;
+}
+
+.tag-success {
+  color: #0e4933;
+}
+.tag-draft {
+  color: #4c4c4c;
 }
 </style>

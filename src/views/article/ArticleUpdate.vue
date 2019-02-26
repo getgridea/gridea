@@ -179,7 +179,7 @@ export default class ArticleUpdate extends Vue {
       if (currentPost) {
         this.form.title = currentPost.data.title
         this.form.fileName = currentPost.fileName
-        this.form.tags = currentPost.data.tags && currentPost.data.tags.split(' ') || []
+        this.form.tags = currentPost.data.tags || []
         this.form.date = moment(currentPost.data.date)
         this.form.content = currentPost.content
         this.form.published = currentPost.data.published

@@ -3,7 +3,7 @@ export interface IPostData {
   date: string
   published: boolean
   hideInList: boolean
-  tags: string,
+  tags?: [],
   feature: string,
 }
 

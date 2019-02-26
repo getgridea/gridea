@@ -14,8 +14,8 @@ export default class Tags extends Model {
     const posts = this.$posts.get('posts').value()
     let list: any = []
     posts.forEach((post: any) => {
-      if (typeof post.data.tags === 'string') {
-        list = list.concat(post.data.tags.split(' '))
+      if (Array.isArray(post.data.tags)) {
+        list = list.concat(post.data.tags)
       }
     })
     list = Array.from(new Set([...list]))
@@ -71,7 +71,7 @@ export default class Tags extends Model {
 
   public async saveTag(tag: ITag) {
     const tags = await this.$posts.get('tags').value()
-    if (tag.index && tag.index >= 0) {
+    if (typeof tag.index === 'number' && tag.index >= 0) {
       tags[tag.index] = tag
     } else {
       tags.push(tag)

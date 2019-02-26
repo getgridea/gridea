@@ -251,7 +251,7 @@ export default class Renderer extends Model {
     /** 文章数据 */
     this.postsData = this.db.posts.filter((item: IPostDb) => item.data.published)
       .map((item: IPostDb) => {
-        const currentTags = item.data.tags && item.data.tags.split(' ') || []
+        const currentTags = item.data.tags || []
         const result: IPostRenderData = {
           content: marked(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain), { breaks: true }),
           fileName: item.fileName,

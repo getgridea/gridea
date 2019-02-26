@@ -31,6 +31,44 @@ export default class Posts extends Model {
       requestList.push(fs.readFileSync(path.join(this.postDir, item), 'utf8'))
     })
     const results = await Bluebird.all(requestList)
+
+    /**
+     * 修正标签格式由字符串换为数组，并更新文章源文件 from v0.7.6
+     */
+    results.forEach(async (result: any, index: any) => {
+      console.log('替换前 results', result)
+      const postMatter = matter(result)
+      const data = (postMatter.data as any)
+
+      if (data && data.date) {
+        if (typeof data.date === 'string') {
+          data.date = moment(data.date).format('YYYY-MM-DD HH:mm:ss')
+        } else {
+          data.date = moment(data.date).subtract(8, 'hours').format('YYYY-MM-DD HH:mm:ss')
+        }
+      }
+
+      // 如果有标签，并且为字符串类型，则修正为数组类型
+      if (data && typeof data.tags === 'string') {
+        const tagReg = /tags: [^\s\[]/i
+        const newTagString = data.tags.split(' ').toString()
+
+        if (tagReg.test(result)) {
+          const mdStr = `---
+title: ${data.title}
+date: ${data.date}
+tags: [${newTagString}]
+published: ${data.published || false}
+hideInList: ${data.hideInList || false}
+feature: ${data.feature || ''}
+---
+${postMatter.content}`
+          await fse.writeFile(`${this.postDir}/${files[index]}`, mdStr)
+        }
+      }
+
+    })
+
     results.forEach((result: any, index: any) => {
       const postMatter = matter(result)
 
@@ -44,6 +82,7 @@ export default class Posts extends Model {
           data.date = moment(data.date).subtract(8, 'hours').format('YYYY-MM-DD HH:mm:ss')
         }
       }
+
       delete postMatter.orig // Remove orig <Buffer>
       const post = {
         ...postMatter,
@@ -110,7 +149,7 @@ export default class Posts extends Model {
     const mdStr = `---
 title: ${post.title}
 date: ${post.date}
-tags: ${post.tags.join(' ')}
+tags: [${post.tags.join(',')}]
 published: ${post.published}
 hideInList: ${post.hideInList}
 feature: ${post.featureImage.name ? `/post-images/${post.fileName}.${extendName}` : ''}

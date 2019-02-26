@@ -67,6 +67,7 @@ export default class Tags extends Vue {
   @State('site') site!: Site
 
   visible = false
+  isUpdate = false
 
   form = {
     name: null,
@@ -99,6 +100,7 @@ export default class Tags extends Vue {
     this.form.index = -1
     this.form.slug = ''
     this.visible = true
+    this.isUpdate = false
     if (this.site.themeConfig.tagUrlFormat === UrlFormats.ShortId) {
       this.form.slug = shortid.generate()
     }
@@ -118,6 +120,7 @@ export default class Tags extends Vue {
   updateTag(tag: any, index: number) {
     console.log(tag)
     this.visible = true
+    this.isUpdate = true
     this.form.name = tag.name
     this.form.slug = tag.slug
     this.form.index = index
@@ -125,24 +128,23 @@ export default class Tags extends Vue {
 
   /**
    * 检查标签合法性
+   * 若是新增，则 slug 和 name 都不允许和已有的重复
+   * 若是编辑，则 slug 和 name 都不允许和已有的其他标签重复
    */
   checkTagValid() {
     const siteTags = this.site.tags
-    const foundTagIndex = siteTags.findIndex((tag: ITag) => tag.name === this.form.name || tag.slug === this.form.slug)
-    if (foundTagIndex !== -1) {
-      // 若是新增，则 slug 和 name 都不允许和已有的重复
-      if (this.form.index === -1) {
-        return false
-      } else {
-        // 若是编辑，则 slug 和 name 都不允许和已有的其他标签重复
-        const restTags = JSON.parse(JSON.stringify(siteTags))
-        restTags.splice(foundTagIndex, 1)
-        const index = restTags.findIndex((tag: ITag) => tag.name === this.form.name || tag.slug === this.form.slug)
-        if (index !== -1) {
-          return false
-        }
-      }
+
+    const tags = JSON.parse(JSON.stringify(siteTags))
+    if (this.isUpdate) {
+      tags.splice(this.form.index, 1)
     }
+
+
+    const foundTagIndex = tags.findIndex((tag: ITag) => tag.name === this.form.name || tag.slug === this.form.slug)
+    if (foundTagIndex !== -1) {
+      return false
+    }
+
     return true
   }
 

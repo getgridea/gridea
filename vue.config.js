@@ -18,15 +18,15 @@ module.exports = {
         productName: 'Hve Notes',
         win: {
           icon: './public/app-icons/logo.ico',
-          target: [
-            {
-              target: 'nsis',
-              arch: [
-                'ia32',
-                'x64',
-              ],
-            },
-          ],
+          // target: [
+          //   {
+          //     target: 'nsis',
+          //     arch: [
+          //       'ia32',
+          //       'x64',
+          //     ],
+          //   },
+          // ],
         },
         mac: {
           icon: './public/app-icons/logo-fang2.icns',

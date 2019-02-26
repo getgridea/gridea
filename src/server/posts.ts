@@ -31,12 +31,11 @@ export default class Posts extends Model {
       requestList.push(fs.readFileSync(path.join(this.postDir, item), 'utf8'))
     })
     const results = await Bluebird.all(requestList)
-
+    const fixedResults = JSON.parse(JSON.stringify(results))
     /**
      * 修正标签格式由字符串换为数组，并更新文章源文件 from v0.7.6
      */
-    results.forEach(async (result: any, index: any) => {
-      console.log('替换前 results', result)
+    await Promise.all(results.map(async (result: any, index: any) => {
       const postMatter = matter(result)
       const data = (postMatter.data as any)
 
@@ -63,13 +62,14 @@ hideInList: ${data.hideInList || false}
 feature: ${data.feature || ''}
 ---
 ${postMatter.content}`
-          await fse.writeFile(`${this.postDir}/${files[index]}`, mdStr)
+
+          fixedResults[index] = mdStr
+          await fse.writeFileSync(`${this.postDir}/${files[index]}`, mdStr)
         }
       }
+    }))
 
-    })
-
-    results.forEach((result: any, index: any) => {
+    fixedResults.forEach((result: any, index: any) => {
       const postMatter = matter(result)
 
       // 修正 matter 格式化掉 日期问题

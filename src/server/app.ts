@@ -171,9 +171,10 @@ export default class App {
           )
         }
 
-        // 检查 默认 theme 是不是包含 notes、fly 主题
+        // 检查 默认 theme 是不是包含 notes、fly、simple 主题
         this.checkTheme('notes')
         this.checkTheme('fly')
+        this.checkTheme('simple')
 
         return
       } else {

@@ -54,6 +54,7 @@
 
 🌁  你可以任意使用应用内默认主题或任意第三方主题  
 
+🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步  
 
 🌱 当然 **Hve Notes** 还很年轻，有很多不足，但请相信，它会不停向前🏃
 
@@ -73,7 +74,7 @@ $ npm run electron:build
 ```
 
 ## 联系
-[Telegram 群组](https://t.me/joinchat/IDY0ahRqb8NPodv95BNpBg)  | QQ 群: 970332209 | 作者推特: @EryouHao
+[Telegram 频道](https://t.me/joinchat/AAAAAEj82_lma0Y1wmyqUQ) | [Telegram 群组](https://t.me/joinchat/IDY0ahRqb8NPodv95BNpBg)  | QQ 群: 970332209 | 作者推特: @EryouHao
 
 ## 示例截图
 <div align="center">

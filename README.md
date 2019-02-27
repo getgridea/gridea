@@ -52,7 +52,9 @@ English | [简体中文](https://github.com/hve-notes/hve-notes/blob/master/READ
 
 🇬🇧  You can use simplified **Chinese** or **English**  
 
-🌁  You can use any default theme within the application or any third-party theme
+🌁  You can use any default theme within the application or any third-party theme  
+
+🖥  You can customize the source folder and synchronize multiple devices using OneDrive, iCloud, Dropbox, etc.  
 
 
 🌱  Of course **Hve Notes** is still very young and has many shortcomings, but please believe it will keep moving forward 🏃
@@ -73,7 +75,7 @@ $ npm run electron:build
 ```
 
 ## Contract
-[Telegram Group](https://t.me/joinchat/IDY0ahRqb8NPodv95BNpBg)  | QQ Group: 970332209 | Author Twitter: @EryouHao
+[Telegram Channel](https://t.me/joinchat/AAAAAEj82_lma0Y1wmyqUQ) | [Telegram Group](https://t.me/joinchat/IDY0ahRqb8NPodv95BNpBg)  | QQ Group: 970332209 | Author Twitter: @EryouHao
 
 ## Example Screenshots
 <div align="center">

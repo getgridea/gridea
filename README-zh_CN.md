@@ -13,6 +13,10 @@
     <img src="https://img.shields.io/github/license/hve-notes/hve-notes.svg?style=flat-square" alt="">
   </a>
 
+  <a href="https://github.com/hve-notes/hve-notes/releases/latest">
+    <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/hve-notes/hve-notes/total.svg?color=%2312b886&style=flat-square">
+  </a>
+
 </div>
 
 <div align="center">

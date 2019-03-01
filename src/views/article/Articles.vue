@@ -8,6 +8,7 @@
       <a-table
         :rowSelection="rowSelection"
         :columns="columns"
+        :rowKey="record => record.fileName"
         :dataSource="site.posts"
         :pagination="{ size: 'small' }"
       >
@@ -83,11 +84,15 @@ export default class Articles extends Vue {
   get rowSelection() {
     return {
       selectedRowKeys: this.selectedRowKeys,
-      onChange: (selectedRowKeys: any, selectedRows: any) => {
-        this.selectedRowKeys = selectedRowKeys
-        this.selectedPost = selectedRows
-      },
+      onChange: this.onSelectChange,
     }
+  }
+
+  onSelectChange(selectedRowKeys: any, selectedRows: any) {
+    console.log(selectedRowKeys, selectedRows)
+
+    this.selectedRowKeys = selectedRowKeys
+    this.selectedPost = selectedRows
   }
 
   mounted() {

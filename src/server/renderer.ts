@@ -31,9 +31,6 @@ marked.setOptions({
   renderer,
 })
 
-
-declare function require(path: string): any
-
 export default class Renderer extends Model {
   outputDir: string = `${this.appDir}/output`
   themePath: string = ''
@@ -557,22 +554,25 @@ export default class Renderer extends Model {
       if (err) {
         console.log(err)
       }
-      const { css } = cssString
+      let { css } = cssString
+
       // if have override
-      // const customConfig = this.db.themeCustomConfig
-      // const currentThemePath = path.join(this.appDir, 'themes', this.db.themeConfig.themeName)
+      const customConfig = this.db.themeCustomConfig
+      const currentThemePath = path.join(this.appDir, 'themes', this.db.themeConfig.themeName)
 
-      // const visiualOverridePath = path.join(currentThemePath, 'style-override.js')
-      // const existOverrideFile = await fse.pathExists(visiualOverridePath)
+      const styleOverridePath = path.join(currentThemePath, 'style-override.js')
+      const existOverrideFile = await fse.pathExists(styleOverridePath)
 
-      // console.log('渲染 css 时', customConfig, currentThemePath, visiualOverridePath, existOverrideFile)
-      // if (existOverrideFile) {
-      //   const generateOverride = require(visiualOverridePath)
-      //   console.log('generateOverride:::', generateOverride)
-      //   const customCss = generateOverride(customConfig)
-      //   console.log('customCss', customCss)
-      //   css += customCss
-      // }
+      console.log('渲染 css 时', customConfig, currentThemePath, styleOverridePath, existOverrideFile)
+      if (existOverrideFile) {
+        // clean cache
+        delete __non_webpack_require__.cache[__non_webpack_require__.resolve(styleOverridePath)]
+
+        const generateOverride = __non_webpack_require__(styleOverridePath)
+        const customCss = generateOverride(customConfig)
+        console.log('customCss', customCss)
+        css += customCss
+      }
 
       await fs.writeFileSync(`${cssFolderPath}/main.css`, css)
     })

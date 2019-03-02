@@ -324,6 +324,7 @@ export default class Renderer extends Model {
         site: {
           posts: postsData,
           tags: this.tagsData,
+          customConfig: this.db.themeCustomConfig,
         },
       }
       let html = ''
@@ -355,6 +356,7 @@ export default class Renderer extends Model {
         site: {
           posts: postsData,
           tags: this.tagsData,
+          customConfig: this.db.themeCustomConfig,
         },
       }
 
@@ -421,6 +423,7 @@ export default class Renderer extends Model {
         site: {
           posts: this.postsData,
           tags: this.tagsData,
+          customConfig: this.db.themeCustomConfig,
         },
       }
       let html = ''
@@ -451,6 +454,7 @@ export default class Renderer extends Model {
       site: {
         posts: this.postsData,
         tags: this.tagsData,
+        customConfig: this.db.themeCustomConfig,
       },
     }
 
@@ -503,6 +507,7 @@ export default class Renderer extends Model {
           site: {
             posts: this.postsData,
             tags: this.tagsData,
+            customConfig: this.db.themeCustomConfig,
           },
         }
 

@@ -93,6 +93,7 @@ export default class App {
     const themeConfig = await themeInstance.getThemeConfig()
     const themes = await themeInstance.getThemeList()
     const themeCustomConfig = await themeInstance.getThemeCustomConfig()
+    const currentThemeConfig = await themeInstance.getCurrentThemeCustomConfig()
 
     const settingInstance = new Setting(this)
     const setting = await settingInstance.getSetting()
@@ -112,6 +113,7 @@ export default class App {
     this.initEvents()
     return {
       ...this.db,
+      currentThemeConfig,
       appDir: this.appDir,
     }
   }

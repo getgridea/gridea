@@ -13,6 +13,8 @@ export interface Site {
   tags: ITag[]
   menus: IMenu[]
   themeConfig: ITheme
+  themeCustomConfig: any
+  currentThemeConfig: any
   themes: string[]
   setting: ISetting
   commentSetting: ICommentSetting
@@ -35,6 +37,8 @@ const siteState: Site = {
     tagUrlFormat: 'SLUG',
     dateFormat: 'YYYY-MM-DD',
   },
+  themeCustomConfig: {},
+  currentThemeConfig: {},
   themes: [],
   setting: {
     platform: '',
@@ -80,6 +84,8 @@ const mutations: MutationTree<Site> = {
     state.themes = siteData.themes
     state.setting = siteData.setting
     state.commentSetting = siteData.commentSetting
+    state.themeCustomConfig = siteData.themeCustomConfig
+    state.currentThemeConfig = siteData.currentThemeConfig
   },
   updatePosts(state, posts: IPost[]) {
     state.posts = posts

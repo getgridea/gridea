@@ -1,8 +1,9 @@
 <template>
   <div>
-    <a-card>
-      <a-button v-if="currentThemeConfig.length > 0" slot="extra" @click="saveThemeCustomConfig" type="primary">{{ $t('save') }}</a-button>
-      <a-tabs tabPosition="left" v-if="currentThemeConfig.length > 0">
+    <a-card v-if="currentThemeConfig.length > 0" :bordered="false">
+      <a-button style="margin-right: 16px;" slot="extra" @click="resetThemeCustomConfig">重置设置</a-button>
+      <a-button slot="extra" @click="saveThemeCustomConfig" type="primary">{{ $t('save') }}</a-button>
+      <a-tabs tabPosition="left">
         <a-tab-pane :tab="group" v-for="(group, index) in groups" :key="index + 1">
           <div v-for="(item, index) in currentThemeConfig">
             <a-form-item v-if="item.group === group" :label="item.label">
@@ -11,11 +12,11 @@
           </div>
         </a-tab-pane>
       </a-tabs>
-      <div class="empty-container" v-else>
-        <img class="icon" src="@/assets/images/graphic-empty-box.svg" alt="">
-        <div class="description">当前主题暂无自定义配置</div>
-      </div>
     </a-card>
+    <div class="empty-container" v-else>
+      <img class="icon" src="@/assets/images/graphic-empty-box.svg" alt="">
+      <div class="description">当前主题暂无自定义配置</div>
+    </div>
   </div>
 </template>
 
@@ -64,13 +65,18 @@ export default class Theme extends Vue {
       this.$message.success('主题自定义配置已保存')
     })
   }
+
+  resetThemeCustomConfig() {
+    ipcRenderer.send('theme-custom-config-save', {})
+    ipcRenderer.once('theme-custom-config-saved', (event: Event, result: any) => {
+      this.$bus.$emit('site-reload')
+      this.$message.success('主题自定义配置已重置')
+    })
+  }
 }
 </script>
 
 <style lang="less" scoped>
-/deep/ .ant-slider-rail {
-  background: #e1e1e1;
-}
 .empty-container {
   text-align: center;
   padding: 40px 0;
@@ -82,5 +88,29 @@ export default class Theme extends Vue {
     padding: 24px;
     color: #8c8c8c;
   }
+}
+
+/deep/ .ant-slider-rail {
+  background: #e1e1e1;
+}
+
+/deep/ .ant-card {
+  background: transparent;
+}
+/deep/ .ant-card-head {
+  border-bottom: none;
+}
+
+/deep/ .ant-tabs-nav .ant-tabs-tab-active {
+  background: #e8e1d3;
+  color: #6f6248;
+  border-radius: 4px 0 0 4px;
+  &::after {
+    display: none;
+  }
+}
+
+/deep/ .ant-tabs .ant-tabs-left-bar .ant-tabs-ink-bar, .ant-tabs .ant-tabs-right-bar .ant-tabs-ink-bar {
+  width: 1px;
 }
 </style>

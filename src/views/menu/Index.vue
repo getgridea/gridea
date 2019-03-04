@@ -7,6 +7,7 @@
       <a-table
         :columns="columns"
         :dataSource="site.menus"
+        rowKey="name"
         :pagination="{ size: 'small' }"
       >
         <a

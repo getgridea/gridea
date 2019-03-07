@@ -7,7 +7,13 @@
         <a-tab-pane :tab="group" v-for="(group, index) in groups" :key="index + 1">
           <div v-for="(item, index) in currentThemeConfig">
             <a-form-item v-if="item.group === group" :label="item.label">
-              <a-input :placeholder="item.note" v-model="form[item.name]" />
+
+              <a-input v-if="item.type === 'input'" :placeholder="item.note" v-model="form[item.name]" />
+
+              <a-select v-if="item.type === 'select'" v-model="form[item.name]">
+                <a-select-option v-for="(option, index2) in item.options" :value="option.value">{{ option.label }}</a-select-option>
+              </a-select>
+
             </a-form-item>
           </div>
         </a-tab-pane>

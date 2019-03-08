@@ -8,8 +8,20 @@
           <div v-for="(item, index) in currentThemeConfig">
             <a-form-item v-if="item.group === group" :label="item.label">
 
-              <a-input v-if="item.type === 'input'" :placeholder="item.note" v-model="form[item.name]" />
+              <!-- 普通输入 -->
+              <a-input v-if="item.type === 'input' && !item.card" :placeholder="item.note" v-model="form[item.name]" />
 
+              <!-- 带颜色卡片输入 -->
+              <a-popover
+                title="Color"
+                trigger="click"
+                placement="bottomLeft"
+              >
+                <color-card slot="content" @change="handleColorChange($event, index, item.name)"></color-card>
+                <a-input :ref="`color${index}`" v-if="item.type === 'input' && item.card === 'color'" :placeholder="item.note" v-model="form[item.name]" />
+              </a-popover>
+
+              <!-- 下拉选择 -->
               <a-select v-if="item.type === 'select'" v-model="form[item.name]">
                 <a-select-option v-for="(option, index2) in item.options" :value="option.value">{{ option.label }}</a-select-option>
               </a-select>
@@ -33,8 +45,13 @@ import { ipcRenderer, Event, shell } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { Site } from '../../../store/modules/site'
+import ColorCard from '../../../components/ColorCard.vue'
 
-@Component
+@Component({
+  components: {
+    ColorCard,
+  },
+})
 export default class Theme extends Vue {
   @State('site') site!: Site
 
@@ -80,6 +97,11 @@ export default class Theme extends Vue {
       this.$bus.$emit('site-reload')
       this.$message.success('主题自定义配置已重置')
     })
+  }
+
+  handleColorChange(color: string, index: number, name: string) {
+    this.form[name] = color
+    console.log(color)
   }
 }
 </script>

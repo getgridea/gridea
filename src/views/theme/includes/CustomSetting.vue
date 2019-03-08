@@ -14,6 +14,8 @@
                 <a-select-option v-for="(option, index2) in item.options" :value="option.value">{{ option.label }}</a-select-option>
               </a-select>
 
+              <a-textarea v-if="item.type === 'textarea'" v-model="form[item.name]" :placeholder="item.note" :autosize="{ minRows: 2, maxRows: 32 }" />
+
             </a-form-item>
           </div>
         </a-tab-pane>

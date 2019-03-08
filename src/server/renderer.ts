@@ -40,6 +40,7 @@ export default class Renderer extends Model {
   git: SimpleGit
   platformAddress = ''
   remoteUrl = ''
+  utils: any = {}
 
   constructor(appInstance: any)  {
     super(appInstance)
@@ -55,6 +56,8 @@ export default class Renderer extends Model {
     this.remoteUrl = `https://${setting.username}:${setting.token}@${this.platformAddress}/${setting.username}/${setting.repository}.git`
 
     this.git = simpleGit(this.outputDir)
+
+    this.utils.now = Date.now()
   }
 
   async preview() {
@@ -325,6 +328,7 @@ export default class Renderer extends Model {
           posts: postsData,
           tags: this.tagsData,
           customConfig: this.db.themeCustomConfig,
+          utils: this.utils,
         },
       }
       let html = ''
@@ -357,6 +361,7 @@ export default class Renderer extends Model {
           posts: postsData,
           tags: this.tagsData,
           customConfig: this.db.themeCustomConfig,
+          utils: this.utils,
         },
       }
 
@@ -424,6 +429,7 @@ export default class Renderer extends Model {
           posts: this.postsData,
           tags: this.tagsData,
           customConfig: this.db.themeCustomConfig,
+          utils: this.utils,
         },
       }
       let html = ''
@@ -455,6 +461,7 @@ export default class Renderer extends Model {
         posts: this.postsData,
         tags: this.tagsData,
         customConfig: this.db.themeCustomConfig,
+        utils: this.utils,
       },
     }
 
@@ -508,6 +515,7 @@ export default class Renderer extends Model {
             posts: this.postsData,
             tags: this.tagsData,
             customConfig: this.db.themeCustomConfig,
+            utils: this.utils,
           },
         }
 

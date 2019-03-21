@@ -145,7 +145,7 @@ export default class App {
    * Check if the hve-next folder exists, if it does not exist, it is initialized
    */
   private async checkDir() {
-    // 检查是否有自定义文件夹配置，若有则加载对应的文件夹，若无则加载默认文件夹
+    // Check if there is a .hve-notes folder, if it exists, load it, otherwise use the default configuration.
     const appConfigFolder = path.join(this.app.getPath('home'), '.hve-notes')
     const appConfigPath = path.join(appConfigFolder, 'config.json')
     let defaultAppDir = path.join(this.app.getPath('documents'), 'hve-notes')
@@ -161,7 +161,7 @@ export default class App {
       const appConfig = await fse.readJsonSync(appConfigPath)
       this.appDir = appConfig.sourceFolder
 
-      // 存在站点文件夹
+      // Site folder exists
       if (fse.pathExistsSync(this.appDir)) {
 
         // check if the images folder exists, if it does not exist, copy it from default-files
@@ -173,14 +173,14 @@ export default class App {
           )
         }
 
-        // 检查 默认 theme 是不是包含 notes、fly、simple 主题
+        // Check default theme folder if includes [notes、fly、simple] themes
         this.checkTheme('notes')
         this.checkTheme('fly')
         this.checkTheme('simple')
 
         return
       } else {
-        // 不存在站点文件夹
+        // Site folder not exists
         this.appDir = defaultAppDir
         const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
         await fse.writeFileSync(appConfigPath, jsonString)
@@ -200,7 +200,7 @@ export default class App {
   }
 
   /**
-   * 检查是否包含主题，若不包含，则将应用内主题初始化一份
+   * Check whether the theme is included, and if not, initialize one copy of the theme within the application.
    */
   private checkTheme(themeName: string): void {
     const themePath = path.join(this.appDir, 'themes', themeName)

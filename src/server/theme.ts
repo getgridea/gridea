@@ -19,7 +19,7 @@ export default class Theme extends Model {
   }
 
   /**
-   * 获取主题列表
+   * Get the theme list
    */
   async getThemeList() {
     let themes = await fse.readdir(this.themeDir)
@@ -28,7 +28,7 @@ export default class Theme extends Model {
   }
 
   /**
-   * 获取主题配置
+   * Get the theme configuration
    */
   async getThemeConfig() {
     this.themeConfig = await this.$theme.get('config').value()
@@ -37,12 +37,12 @@ export default class Theme extends Model {
   }
 
   /**
-   * 保存主题配置
+   * Save the theme configuration
    */
   public async saveThemeConfig(themeConfig: ITheme) {
     await this.$theme.set('config', themeConfig).write()
 
-    // 如果有自定义配置的备份，则复制备份到自定义配置
+    // If there is a backup of the custom configuration, copy the backup to the custom configuration
     const themeConfigBackupPath = path.join(this.appDir, 'config', `theme.${themeConfig.themeName}.config.json`)
     const existThemeConfigBackupFile = await fse.pathExists(themeConfigBackupPath)
     if (existThemeConfigBackupFile) {
@@ -55,7 +55,7 @@ export default class Theme extends Model {
   }
 
   /**
-   * 保存主题自定义配置
+   * Save the theme custom configuration
    */
   public async saveThemeCustomConfig(config: any) {
     await this.$theme.set('customConfig', config).write()
@@ -68,7 +68,7 @@ export default class Theme extends Model {
   }
 
   /**
-   * 获取主题自定义配置
+   * Get the theme custom configuration
    */
 
   public async getThemeCustomConfig() {
@@ -77,7 +77,7 @@ export default class Theme extends Model {
   }
 
   /**
-   * 获取当前主题自定义配置项
+   * Get current theme custom configuration
    */
   public async getCurrentThemeCustomConfig() {
     const themeConfigPath = path.join(this.currentThemePath, 'config.json')

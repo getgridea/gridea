@@ -33,7 +33,7 @@ export default class Posts extends Model {
     const results = await Bluebird.all(requestList)
     const fixedResults = JSON.parse(JSON.stringify(results))
     /**
-     * 修正标签格式由字符串换为数组，并更新文章源文件 from v0.7.6
+     * The format of the correction `tag` is changed from a string to an array, and the article source file is updated. from v0.7.6
      */
     await Promise.all(results.map(async (result: any, index: any) => {
       const postMatter = matter(result)
@@ -47,7 +47,7 @@ export default class Posts extends Model {
         }
       }
 
-      // 如果有标签，并且为字符串类型，则修正为数组类型
+      // If there is a `tag` and it is of string type, it is corrected to array type.
       if (data && typeof data.tags === 'string') {
         const tagReg = /tags: [^\s\[]/i
         const newTagString = data.tags.split(' ').toString()
@@ -72,7 +72,7 @@ ${postMatter.content}`
     fixedResults.forEach((result: any, index: any) => {
       const postMatter = matter(result)
 
-      // 修正 matter 格式化掉 日期问题
+      // Fix matter's formatted `date` problem
       const data = (postMatter.data as any)
 
       if (data && data.date) {
@@ -93,21 +93,21 @@ ${postMatter.content}`
       const moreReg = /\n\s*<!--\s*more\s*-->\s*\n/i
       const matchMore = moreReg.exec(post.content)
       if (matchMore) {
-        post.abstract = (post.content).substring(0, matchMore.index) // 摘要
+        post.abstract = (post.content).substring(0, matchMore.index) // Abstract
       }
 
-      post.fileName = files[index].substring(0, files[index].length - 3) // 有待优化!
+      post.fileName = files[index].substring(0, files[index].length - 3) // To be optimized!
       resultList.push(post)
     })
 
     const list: any = []
     resultList.forEach((item: any) => {
-      // 从 hexo 或其他平台迁移过来的文章不带有 published 字段
+      // Articles migrated from hexo or other platforms do not have a `published` field
       if (item.data.published === undefined) {
         item.data.published = false
       }
 
-      // 从其他平台迁移过来的文章或旧文章不带有 hideInList 字段
+      // Articles migrated from other platforms or old articles do not have `hideInList` fields
       if (item.data.hideInList === undefined) {
         item.data.hideInList = false
       }
@@ -138,8 +138,8 @@ ${postMatter.content}`
   }
 
   /**
-   * 保存文章到文件
-   * @param post 文章
+   * Save Post to file
+   * @param post
    */
   async savePostToFile(post: IPost): Promise<IPost | null> {
     const helper = new ContentHelper()
@@ -158,7 +158,7 @@ ${content}`
 
     try {
 
-      // 存在文章大图
+      // If exist feature image
       if (post.featureImage.path) {
 
         const filePath = `${this.postImageDir}/${post.fileName}.${extendName}`
@@ -166,17 +166,17 @@ ${content}`
         if (post.featureImage.path !== filePath) {
           await fse.copySync(post.featureImage.path, filePath)
 
-          // 清除旧文件
+          // Clean the old file
           if (post.featureImage.path.includes(this.postImageDir)) {
             await fse.removeSync(post.featureImage.path)
           }
         }
       }
 
-      // write file must use fse, beause fs.writeFile need callback
+      // Write file must use fse, beause fs.writeFile need callback
       await fse.writeFile(`${this.postDir}/${post.fileName}.md`, mdStr)
 
-      // 清除旧文件
+      // Clean the old file
       if (post.deleteFileName) {
         await fse.removeSync(`${this.postDir}/${post.deleteFileName}.md`)
       }
@@ -191,12 +191,12 @@ ${content}`
       const postUrl = `${this.postDir}/${post.fileName}.md`
       await fse.removeSync(postUrl)
 
-      // clean feature image
+      // Clean feature image
       if (post.data.feature) {
         await fse.removeSync(post.data.feature.replace('file://', ''))
       }
 
-      // clean post content image
+      // Clean post content image
       const imageReg = /(!\[.*?\]\()(.+?)(\))/g
       const imageList = post.content.match(imageReg)
       if (imageList) {
@@ -216,7 +216,6 @@ ${content}`
   }
 
   async uploadImages(files: any[]) {
-    console.log('传过来的 files', files)
     await fse.ensureDir(this.postImageDir)
     const results = []
     for (const file of files) {
@@ -225,7 +224,6 @@ ${content}`
       const filePath = `${this.postImageDir}/${newFileName}.${extendName}`
       await fse.copySync(file.path, filePath)
       results.push(filePath)
-      console.log('复制成功')
     }
     return results
   }

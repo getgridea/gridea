@@ -86,7 +86,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 检测远程连接是否正常
+   * Check whether the remote connection is normal
    */
   async remoteDetect() {
     const result = {
@@ -116,7 +116,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 检查分支是否需要切换
+   * Check whether the branch needs to be switched
    */
   async checkCurrentBranch() {
     const { setting } = this.db
@@ -219,12 +219,12 @@ export default class Renderer extends Model {
     await this.formatDataForRender(mode)
     await this.buildCss()
 
-    // 普通文章列表页
+    // Render post list page
     await this.renderPostList('', mode)
 
-    // 归档页
+    // Render archives page
     await this.renderPostList('/archives', mode)
-    // 标签列表页
+    // Render tag list page
     await this.renderTags()
     await this.renderPostDetail()
     await this.renderTagDetail(mode)
@@ -233,7 +233,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 加载配置
+   * Load Config
    */
   async loadConfig() {
     this.themePath = `${this.appDir}/themes/${this.db.themeConfig.themeName}`
@@ -243,12 +243,11 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 格式化数据，为渲染页面准备
+   * Format data for rendering pages
    */
   public formatDataForRender(mode: string): any {
     const { themeConfig } = this.db
 
-    /** 文章数据 */
     this.postsData = this.db.posts.filter((item: IPostDb) => item.data.published)
       .map((item: IPostDb) => {
         const currentTags = item.data.tags || []
@@ -273,7 +272,7 @@ export default class Renderer extends Model {
       })
       .sort((a: IPostRenderData, b: IPostRenderData) => moment(b.date).unix() - moment(a.date).unix())
 
-    /** 标签数据 */
+
     this.tagsData = []
     this.postsData.forEach((item: IPostRenderData) => {
       if (!item.hideInList) {
@@ -285,7 +284,6 @@ export default class Renderer extends Model {
       }
     })
 
-    /** 菜单数据 */
     this.menuData = this.db.menus.map((menu: IMenu) => {
       let link = menu.link.replace(this.db.setting.domain, this.db.themeConfig.domain)
 
@@ -302,7 +300,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 渲染文章列表，不包含隐藏的文章
+   * Render the article list, excluding hidden articles.
    */
   public async renderPostList(extraPath?: string, mode?: string) {
     const { postPageSize, archivesPageSize } = this.db.themeConfig
@@ -314,7 +312,7 @@ export default class Renderer extends Model {
 
     const postsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
 
-    // 若暂无文章
+    // If there is no article to render
     if (!postsData.length) {
       const renderData = {
         menus: this.menuData,
@@ -408,7 +406,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 渲染文章详情页，包含隐藏的文章
+   * Render the article details page, including hidden articles.
    */
   async renderPostDetail() {
     for (let i = 0; i < this.postsData.length; i += 1) {
@@ -449,7 +447,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 渲染标签页
+   * Render tags page
    */
   async renderTags() {
     await fse.ensureDir(`${this.outputDir}/tags`)
@@ -480,7 +478,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 渲染标签详情页
+   * Render tag detail page
    */
   async renderTagDetail(mode?: string) {
     const usedTags = this.db.tags.filter((tag: ITag) => tag.used)
@@ -519,7 +517,7 @@ export default class Renderer extends Model {
           },
         }
 
-        // 分页
+        // Paging
         let renderPath = `${tagFolderPath}/index.html`
 
         if (i === 0 && posts.length > pageSize) {
@@ -554,7 +552,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 生成 CSS
+   * Build CSS and write file
    */
   async buildCss() {
     const lessFilePath = `${this.themePath}/assets/styles/main.less`
@@ -592,7 +590,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 生成 CNAME 文件
+   * Create CNAME file
    */
   async buildCname() {
     const cnamePath = `${this.outputDir}/CNAME`
@@ -605,7 +603,7 @@ export default class Renderer extends Model {
   }
 
   /**
-   * 复制文件到输出文件夹
+   * Copy file to output folder
    */
   async copyFiles() {
     const postImageInputPath = `${this.appDir}/post-images`

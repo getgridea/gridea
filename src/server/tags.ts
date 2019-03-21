@@ -25,7 +25,7 @@ export default class Tags extends Model {
 
     let existUsedTags = this.$posts.get('tags').filter({ used: true }).value()
 
-    // 使用标签后删除文章，则有可能存在标签未使用状态
+    // If you delete an article after using a tag, there may be a tag unused state.
     existUsedTags = existUsedTags.map((tag: ITag) => {
       return {
         ...tag,
@@ -35,7 +35,7 @@ export default class Tags extends Model {
 
     const unusedTags = this.$posts.get('tags').filter({ used: false }).value()
 
-    // 导入文章的 tag 则为新使用过的
+    // The tag of the imported article is newly used
     const newUsedTags = list
       .filter((item: any) => !existUsedTags.find((tag: ITag) => tag.name === item))
       .map((item: any) => {

@@ -240,7 +240,7 @@ export default class ArticleUpdate extends Vue {
     }
   }
 
-  checkArticleValid() {
+  checkArticleUrlValid() {
     const restPosts = JSON.parse(JSON.stringify(this.site.posts))
     const foundPostIndex = restPosts.findIndex((post: IPost) => post.fileName === this.form.fileName)
     if (foundPostIndex !== -1) {
@@ -261,9 +261,14 @@ export default class ArticleUpdate extends Vue {
 
   saveDraft() {
     this.buildFileName()
-    const valid = this.checkArticleValid()
+    const valid = this.checkArticleUrlValid()
     if (!valid) {
       this.$message.error('文章的 URL 与其他文章重复')
+      return
+    }
+
+    if (this.form.fileName.includes('/')) {
+      this.$message.error('URL 不可包含 /')
       return
     }
 
@@ -288,9 +293,14 @@ export default class ArticleUpdate extends Vue {
 
   savePost() {
     this.buildFileName()
-    const valid = this.checkArticleValid()
+    const valid = this.checkArticleUrlValid()
     if (!valid) {
       this.$message.error('文章的 URL 与其他文章重复')
+      return
+    }
+
+    if (this.form.fileName.includes('/')) {
+      this.$message.error('URL 不可包含 /')
       return
     }
 

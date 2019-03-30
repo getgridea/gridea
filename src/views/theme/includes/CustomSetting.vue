@@ -23,7 +23,7 @@
 
               <!-- 下拉选择 -->
               <a-select v-if="item.type === 'select'" v-model="form[item.name]">
-                <a-select-option v-for="(option, index2) in item.options" :value="option.value">{{ option.label }}</a-select-option>
+                <a-select-option v-for="(option, index2) in item.options" :key="index2" :value="option.value">{{ option.label }}</a-select-option>
               </a-select>
 
               <a-textarea v-if="item.type === 'textarea'" v-model="form[item.name]" :placeholder="item.note" :autosize="{ minRows: 2, maxRows: 32 }" />

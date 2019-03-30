@@ -43,22 +43,35 @@
             </a-collapse-panel>
 
             <a-collapse-panel :header="$t('featureImage')" key="4">
-              <a-upload
-                action=""
-                listType="picture-card"
-                class="feature-uploader"
-                :showUploadList="false"
-                :beforeUpload="beforeFeatureUpload"
-              >
-                <div v-if="form.featureImage.path">
-                  <img class="feature-image" :src="`file://${form.featureImage.path}`" height="150" />
+              <a-radio-group style="margin-bottom: 16px;" defaultValue="a" buttonStyle="solid" v-model="featureType" size="small">
+                <a-radio-button value="DEFAULT">默认</a-radio-button>
+                <a-radio-button value="EXTERNAL">外链</a-radio-button>
+              </a-radio-group>
+              <div v-if="featureType === 'DEFAULT'">
+                <a-upload
+                  action=""
+                  listType="picture-card"
+                  class="feature-uploader"
+                  :showUploadList="false"
+                  :beforeUpload="beforeFeatureUpload"
+                >
+                  <div v-if="form.featureImage.path">
+                    <img class="feature-image" :src="`file://${form.featureImage.path}`" height="150" />
+                  </div>
+                  <div v-else>
+                    <a-icon type="plus" />
+                    <div class="ant-upload-text">Upload</div>
+                  </div>
+                </a-upload>
+                <a-button v-if="form.featureImage.path" type="danger" block icon="delete" @click="form.featureImage = {}" />
+              </div>
+              <div v-if="featureType === 'EXTERNAL'">
+                <a-input v-model="form.featureImagePath"></a-input>
+                <div class="tip-text">路径必须包含 http 或 https</div>
+                <div class="feature-image-container" v-if="form.featureImagePath">
+                  <img class="feature-image" :src="form.featureImagePath" height="150">
                 </div>
-                <div v-else>
-                  <a-icon type="plus" />
-                  <div class="ant-upload-text">Upload</div>
-                </div>
-              </a-upload>
-              <a-button v-if="form.featureImage.path" type="danger" block icon="delete" @click="form.featureImage = {}" />
+              </div>
             </a-collapse-panel>
             <a-collapse-panel :header="$t('hideInList')" key="5">
               <a-switch v-model="form.hideInList"></a-switch>
@@ -141,8 +154,11 @@ export default class ArticleUpdate extends Vue {
       name: '',
       type: '',
     },
+    featureImagePath: '',
     deleteFileName: '',
   }
+
+  featureType: 'DEFAULT' | 'EXTERNAL' = 'DEFAULT'
 
   activeKey = ['1']
 
@@ -184,8 +200,14 @@ export default class ArticleUpdate extends Vue {
         this.form.content = currentPost.content
         this.form.published = currentPost.data.published
         this.form.hideInList = currentPost.data.hideInList
-        this.form.featureImage.path = currentPost.data.feature && currentPost.data.feature.substring(7) || ''
-        this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
+
+        if (currentPost.data.feature.includes('http')) {
+          this.form.featureImagePath = currentPost.data.feature
+          this.featureType = 'EXTERNAL'
+        } else {
+          this.form.featureImage.path = currentPost.data.feature && currentPost.data.feature.substring(7) || ''
+          this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
+        }
       }
     } else {
       if (this.site.themeConfig.postUrlFormat === UrlFormats.ShortId) {
@@ -259,7 +281,7 @@ export default class ArticleUpdate extends Vue {
     return true
   }
 
-  saveDraft() {
+  formatForm(published: boolean) {
     this.buildFileName()
     const valid = this.checkArticleUrlValid()
     if (!valid) {
@@ -281,7 +303,23 @@ export default class ArticleUpdate extends Vue {
       ...this.form,
       date: this.form.date.format('YYYY-MM-DD HH:mm:ss'),
     }
-    form.published = false
+    if (this.featureType !== 'EXTERNAL') {
+      form.featureImagePath = ''
+    }
+    if (this.featureType !== 'DEFAULT') {
+      form.featureImage = {
+        path: '',
+        name: '',
+        type: '',
+      }
+    }
+    form.published = published
+
+    return form
+  }
+
+  saveDraft() {
+    const form = this.formatForm(false)
 
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
@@ -292,28 +330,7 @@ export default class ArticleUpdate extends Vue {
   }
 
   savePost() {
-    this.buildFileName()
-    const valid = this.checkArticleUrlValid()
-    if (!valid) {
-      this.$message.error('文章的 URL 与其他文章重复')
-      return
-    }
-
-    if (this.form.fileName.includes('/')) {
-      this.$message.error('URL 不可包含 /')
-      return
-    }
-
-    // 文件名改变之后，删除原来文件
-    if (this.form.fileName !== this.originalFileName) {
-      this.form.deleteFileName = this.originalFileName
-    }
-
-    const form = {
-      ...this.form,
-      date: this.form.date.format('YYYY-MM-DD HH:mm:ss'),
-    }
-    form.published = true
+   const form = this.formatForm(true)
 
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
@@ -414,6 +431,10 @@ export default class ArticleUpdate extends Vue {
 
 .btn {
   margin-left: 16px;
+}
+.feature-image-container {
+  text-align: center;
+  padding: 16px;
 }
 
 .feature-image {

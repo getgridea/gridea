@@ -130,7 +130,11 @@ ${postMatter.content}`
     const list = posts.map((post: IPostDb) => {
       const item = JSON.parse(JSON.stringify(post))
       item.content = helper.changeImageUrlDomainToLocal(item.content, this.appDir)
-      item.data.feature = item.data.feature ? helper.changeFeatureImageUrlDomainToLocal(item.data.feature, this.appDir) : item.data.feature
+      item.data.feature = item.data.feature
+        ? item.data.feature.includes('http')
+          ? item.data.feature
+          : helper.changeFeatureImageUrlDomainToLocal(item.data.feature, this.appDir)
+        : item.data.feature
       return item
     })
 
@@ -152,7 +156,7 @@ date: ${post.date}
 tags: [${post.tags.join(',')}]
 published: ${post.published}
 hideInList: ${post.hideInList}
-feature: ${post.featureImage.name ? `/post-images/${post.fileName}.${extendName}` : ''}
+feature: ${post.featureImage.name ? `/post-images/${post.fileName}.${extendName}` : post.featureImagePath}
 ---
 ${content}`
 

@@ -261,7 +261,11 @@ export default class Renderer extends Model {
             .map((tag: ITag) => ({ ...tag, link: `${this.db.themeConfig.domain}/tag/${tag.slug}${mode === 'preview' ? '/index.html' : ''}` })),
           date: item.data.date,
           dateFormat: (themeConfig.dateFormat && moment(item.data.date).format(themeConfig.dateFormat)) || item.data.date,
-          feature: item.data.feature && `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain, mode)}` || '',
+          feature: item.data.feature
+            ? item.data.feature.includes('http')
+              ? item.data.feature
+              : `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain, mode)}`
+            : '',
           link: `${this.db.themeConfig.domain}/post/${item.fileName}${mode === 'preview' ? '/index.html' : ''}`,
           hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
         }

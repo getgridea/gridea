@@ -13,6 +13,8 @@ export interface IPost {
     path?: string,
     type?: string,
   }
+  /** 外链封面图 */
+  featureImagePath: string
   deleteFileName?: string
 }
 

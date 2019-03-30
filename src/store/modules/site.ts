@@ -31,7 +31,7 @@ const siteState: Site = {
     archivesPageSize: 50,
     siteName: '',
     siteDescription: '',
-    footerInfo: 'Powered by Hve',
+    footerInfo: 'Powered by Gridea',
     showFeatureImage: true,
     postUrlFormat: 'SLUG',
     tagUrlFormat: 'SLUG',

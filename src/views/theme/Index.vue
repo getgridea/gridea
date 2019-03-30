@@ -1,10 +1,10 @@
 <template>
   <div class="">
-    <a-tabs defaultActiveKey="1">
-      <a-tab-pane :tab="$t('basicSetting')" key="1">
+    <a-tabs defaultActiveKey="basic" v-model="currentTab" forceRender>
+      <a-tab-pane :tab="$t('basicSetting')" key="basic">
         <basic-setting></basic-setting>
       </a-tab-pane>
-      <a-tab-pane :tab="$t('自定义配置')" key="2">
+      <a-tab-pane :tab="$t('自定义配置')" key="custom">
         <custom-setting></custom-setting>
       </a-tab-pane>
     </a-tabs>
@@ -23,7 +23,15 @@ import CustomSetting from './includes/CustomSetting.vue'
   },
 })
 export default class Theme extends Vue {
+  currentTab = 'basic'
 
+  mounted() {
+    const { tab } = this.$route.query
+    if (tab && typeof tab === 'string') {
+      this.currentTab = tab
+      console.log(this.currentTab)
+    }
+  }
 }
 </script>
 

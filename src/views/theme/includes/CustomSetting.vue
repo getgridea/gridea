@@ -3,7 +3,7 @@
     <a-card v-if="currentThemeConfig.length > 0" :bordered="false">
       <a-button style="margin-right: 16px;" slot="extra" @click="resetThemeCustomConfig">重置设置</a-button>
       <a-button slot="extra" @click="saveThemeCustomConfig" type="primary">{{ $t('save') }}</a-button>
-      <a-tabs tabPosition="left">
+      <a-tabs tabPosition="left" defaultActiveKey="1" v-model="activeKey">
         <a-tab-pane :tab="group" v-for="(group, index) in groups" :key="index + 1">
           <div v-for="(item, index) in currentThemeConfig">
             <a-form-item v-if="item.group === group" :label="item.label">
@@ -22,7 +22,7 @@
               </a-popover>
 
               <!-- 下拉选择 -->
-              <a-select v-if="item.type === 'select'" v-model="form[item.name]">
+              <a-select v-if="item.type === 'select'" v-model="form[item.name]" style="width: 100%;">
                 <a-select-option v-for="(option, index2) in item.options" :key="index2" :value="option.value">{{ option.label }}</a-select-option>
               </a-select>
 
@@ -67,7 +67,13 @@ export default class Theme extends Vue {
     return this.site.currentThemeConfig || []
   }
 
+  activeKey = 1
+
   mounted() {
+    this.loadCustomConfig()
+  }
+
+  loadCustomConfig() {
     const keys = Object.keys(this.site.themeCustomConfig || {})
     keys.forEach((key: string) => {
       this.$set(this.form, key, this.site.themeCustomConfig[key])
@@ -93,8 +99,10 @@ export default class Theme extends Vue {
 
   resetThemeCustomConfig() {
     ipcRenderer.send('theme-custom-config-save', {})
-    ipcRenderer.once('theme-custom-config-saved', (event: Event, result: any) => {
-      this.$bus.$emit('site-reload')
+    ipcRenderer.once('theme-custom-config-saved', async (event: Event, result: any) => {
+      await this.$bus.$emit('site-reload')
+      console.log('数据', this.site)
+      this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=custom' }})
       this.$message.success('主题自定义配置已重置')
     })
   }

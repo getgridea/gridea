@@ -80,8 +80,9 @@ export default class Theme extends Vue {
 
   saveTheme() {
     ipcRenderer.send('theme-save', this.form)
-    ipcRenderer.once('theme-saved', (event: Event, result: any) => {
-      this.$bus.$emit('site-reload')
+    ipcRenderer.once('theme-saved', async (event: Event, result: any) => {
+      await this.$bus.$emit('site-reload')
+      this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=basic' }})
       this.$message.success('主题配置已保存')
     })
   }

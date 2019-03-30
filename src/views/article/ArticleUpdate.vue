@@ -332,12 +332,12 @@ export default class ArticleUpdate extends Vue {
   savePost() {
    const form = this.formatForm(true)
 
-    ipcRenderer.send('app-post-create', form)
-    ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-      this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
-      this.close()
-      this.$emit('fetchData')
-    })
+   ipcRenderer.send('app-post-create', form)
+   ipcRenderer.once('app-post-created', (event: Event, data: any) => {
+     this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
+     this.close()
+     this.$emit('fetchData')
+   })
   }
 
   initEditor() {

@@ -8,6 +8,7 @@ import Tags from './views/tags/Index.vue'
 import Theme from './views/theme/Index.vue'
 import Setting from './views/setting/Index.vue'
 import System from './views/system/Index.vue'
+import Loading from './views/loading/Index.vue'
 
 Vue.use(Router)
 
@@ -49,6 +50,11 @@ export default new Router({
           path: '/system',
           name: 'system',
           component: System,
+        },
+        {
+          path: '/loading',
+          name: 'loading',
+          component: Loading,
         },
         {
           path: '*',

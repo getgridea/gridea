@@ -193,7 +193,7 @@ export default class App extends Vue {
 }
 
 /deep/ .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: #e8e8e8;
+  background-color: #edeced;
 }
 
 /deep/ .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {

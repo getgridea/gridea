@@ -163,6 +163,7 @@ export default class Articles extends Vue {
 }
 .post-date {
   color: #989898;
+  font-size: 12px;
 }
 
 .tag-success {

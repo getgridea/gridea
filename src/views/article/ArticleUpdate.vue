@@ -8,9 +8,9 @@
       </a-row>
     </div>
     <div class="page-content">
-      <a-row :gutter="8">
+      <a-row :gutter="16">
         <a-col :span="16">
-          <a-input size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
+          <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
           <div class="tip-text">{{ $t('editorTip') }}</div>
           <markdown-editor
             id="markdown-editor"
@@ -21,7 +21,7 @@
             v-model="form.content"
           ></markdown-editor>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="8" class="right-container">
           <a-collapse v-model="activeKey">
             <a-collapse-panel header="URL" key="1">
               <a-input v-model="form.fileName" @change="handleFileNameChange"></a-input>
@@ -458,23 +458,39 @@ export default class ArticleUpdate extends Vue {
   right: 0;
   bottom: 0;
   z-index: 1025;
-  background: #f9f7f3;
+  background: #fff;
   display: flex;
   flex-direction: column;
   .page-title {
     padding: 16px 32px;
     border-bottom: 1px solid #e4e2dd;
     box-shadow: 0 3px 20px #4343430d;
+    z-index: 1026;
+    background: #fff;
   }
   .page-content {
     flex: 1;
-    padding: 32px;
+    padding: 24px 16px;
     overflow: scroll;
   }
 }
 
 .tip-text {
   margin-top: 8px;
+}
+
+.right-container {
+  position: fixed;
+  height: 100vh;
+  overflow: scroll;
+  right: 8px;
+  top: 0px;
+  padding: 89px 0 32px;
+  z-index: 999;
+}
+
+.post-title {
+  font-weight: bold;
 }
 </style>
 
@@ -483,8 +499,7 @@ export default class ArticleUpdate extends Vue {
 /* @import '~github-markdown-css'; */
 .CodeMirror {
   border-radius: 2px;
-  border-color: #b3b3b3;
-  box-shadow: 0 0 5px #eee;
+  border-color: #d9d9d9;
   transition: all 0.3s;
   color: #434343;
 }

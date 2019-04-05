@@ -136,7 +136,7 @@ export default class ArticleUpdate extends Vue {
       },
       className: 'fa fa-link',
       title: '链接',
-    }, 'preview', 'fullscreen'],
+    }, 'preview'],
     promptURLs: true,
     spellChecker: false,
   }
@@ -201,7 +201,7 @@ export default class ArticleUpdate extends Vue {
         this.form.published = currentPost.data.published
         this.form.hideInList = currentPost.data.hideInList
 
-        if (currentPost.data.feature.includes('http')) {
+        if (currentPost.data.feature && currentPost.data.feature.includes('http')) {
           this.form.featureImagePath = currentPost.data.feature
           this.featureType = 'EXTERNAL'
         } else {

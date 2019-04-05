@@ -1,6 +1,13 @@
 <template>
   <div class="articles-page">
     <a-row type="flex" justify="end" class="tool-container">
+      <a-input-search
+        class="search-input"
+        placeholder="搜索文章"
+        style="width: 200px"
+        @search="onSearch"
+        v-model="keyword"
+      />
       <a-button class="btn" type="danger" v-if="selectedRowKeys.length > 0" @click="deleteSelectedPosts">删除选中</a-button>
       <a-button class="btn" type="primary" @click="newArticle">{{ $t('newArticle') }}</a-button>
     </a-row>
@@ -9,7 +16,7 @@
         :rowSelection="rowSelection"
         :columns="columns"
         :rowKey="record => record.fileName"
-        :dataSource="site.posts"
+        :dataSource="postList"
         :pagination="{ size: 'small' }"
       >
         <a
@@ -38,7 +45,7 @@
 
 <script lang="ts">
 import { ipcRenderer } from 'electron'
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { FadeTransition } from 'vue2-transitions'
 import { IPost } from '../../interfaces/post'
@@ -57,6 +64,7 @@ export default class Articles extends Vue {
   currentArticleFileName = ''
   selectedRowKeys = []
   selectedPost = []
+  keyword = ''
 
   get columns() {
     return [
@@ -79,6 +87,10 @@ export default class Articles extends Vue {
         width: 185,
       },
     ]
+  }
+
+  get postList() {
+    return this.site.posts.filter((item: IPost) => item.data.title.includes(this.keyword))
   }
 
   get rowSelection() {
@@ -154,10 +166,16 @@ export default class Articles extends Vue {
       },
     })
   }
+
+  onSearch(val: any) {
+    this.keyword = val
+  }
 }
 </script>
 
 <style lang="less" scoped>
+@import '~@/assets/styles/var.less';
+
 .articles-page {
   position: relative;
 }

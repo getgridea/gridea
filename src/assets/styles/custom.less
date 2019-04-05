@@ -47,8 +47,9 @@
   margin-top: 64px;
 }
 
-.ant-input {
-  border-width: 1px;
+.ant-input, .ant-input-group-addon, .ant-select-selection {
+  border: none;
+  background: @primary-bg;
 }
 
 .ant-select-dropdown-menu-item-active, .ant-select-dropdown-menu-item:hover {
@@ -121,4 +122,17 @@
 
 .ant-message {
   z-index: 3010;
+}
+
+.ant-drawer-close-x {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 50%;
+  background: #f3f7f9;
+  margin: 12px;
+  font-size: 14px;
+}
+.ant-drawer-header {
+  border-bottom: none;
 }

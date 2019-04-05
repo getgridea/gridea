@@ -139,6 +139,7 @@ export default class ArticleUpdate extends Vue {
     }, 'preview'],
     promptURLs: true,
     spellChecker: false,
+    placeholder: '输入内容...',
   }
 
   form = {
@@ -499,9 +500,10 @@ export default class ArticleUpdate extends Vue {
 /* @import '~github-markdown-css'; */
 .CodeMirror {
   border-radius: 2px;
-  border-color: #d9d9d9;
   transition: all 0.3s;
   color: #434343;
+  border: none;
+  background: #f9f7f3;
 }
 .CodeMirror.CodeMirror-focused {
   border-color: #4f4a4a;

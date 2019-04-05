@@ -8,6 +8,9 @@ module.exports = {
   css: {
     loaderOptions: {
       less: {
+        import: [
+          resolve('src/assets/styles/var.less'),
+        ],
         javascriptEnabled: true,
       },
     },

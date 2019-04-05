@@ -23,7 +23,7 @@ export default class App extends Vue {
 
   /* Global CSS */
   body {
-    background: #F7F6F3;
+    background: #fff;
     color: #434343;
   }
 

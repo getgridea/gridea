@@ -1,9 +1,3 @@
-@primary-color : #434343;
-@primary-bg: #F7F6F3;
-
-@border-radius-base : 2px;
-@link-color: #1067de;
-
 .ant-table-wrapper {
   background: #F7F6F3;
 }
@@ -22,12 +16,16 @@
 }
 
 .ant-table-thead > tr > th {
-  background: #eae8e1;
-  color: #6b6961;
+  background: #f9f7f352;
+  color: #434343b0;
 }
 
 .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-thead > tr:hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td {
   background: transparent;
+}
+
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+  padding: 12px 12px;
 }
 
 .ant-table-tbody > tr.ant-table-row-selected td {
@@ -41,7 +39,7 @@
   left: 216px;
   right: 16px;
   z-index: 1;
-  background: #F7F6F3;
+  background: #fff;
   border-bottom: 1px solid #e2e2e2;
   -webkit-app-region: drag;
   .btn {

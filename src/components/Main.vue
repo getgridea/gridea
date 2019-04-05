@@ -6,9 +6,10 @@
     >
       <div class="top-container">
         <div class="logo">
-          <h3>𝗛𝘃𝗲 𝗡𝗼𝘁𝗲𝘀</h3>
+          <img class="img" src="@/assets/logo-hey.png">
+          <h3>Gridea</h3>
         </div>
-        <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['articles']" @click="clickMenu">
+        <a-menu mode="inline" :defaultSelectedKeys="['articles']" @click="clickMenu">
           <a-menu-item key="articles">
             <a-icon type="file-text" />
             <span class="nav-text">{{ $t('article') }}</span>
@@ -153,24 +154,50 @@ export default class App extends Vue {
 </script>
 
 <style lang="less" scoped>
+@import '~@/assets/styles/var.less';
+
 .logo {
-  height: 64px;
+  min-height: 64px;
   -webkit-app-region: drag;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  padding: 32px 0 16px;
   h3 {
-    color: #fafafa;
+    color: @primary-color;
     font-size: 18px;
     transform: translateY(8px);
-    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(250, 250, 250, 1)), to(rgba(255, 255, 255, 0.4)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    // background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(250, 250, 250, 1)), to(rgba(255, 255, 255, 0.4)));
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
+  }
+  .img {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
   }
 }
 .sider {
-  background: #000000;
-  background: linear-gradient(to bottom, #434343, #000000);
+  background: @primary-bg;
+  // background: linear-gradient(to bottom, #434343, #000000);
+}
+
+/deep/ .ant-menu {
+  background: @primary-bg;
+  color: @primary-color;
+}
+
+/deep/ .ant-menu-vertical .ant-menu-item:after, .ant-menu-vertical-left .ant-menu-item:after, .ant-menu-vertical-right .ant-menu-item:after, .ant-menu-inline .ant-menu-item:after {
+  border-right: none;
+}
+
+/deep/ .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #e8e8e8;
+}
+
+/deep/ .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+  border-right: none;
 }
 
 /deep/ .ant-layout-sider-children {
@@ -186,11 +213,8 @@ export default class App extends Vue {
   }
 }
 
-/deep/ .ant-menu-dark, .ant-menu-dark .ant-menu-sub {
-  background: transparent;
-}
 .right-container {
-  background: #F7F6F3;
+  background: #fff;
   margin-left: 8px 8px 8px 208px;
   padding: 8px;
   position: absolute;

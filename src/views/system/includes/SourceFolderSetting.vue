@@ -4,9 +4,7 @@
       <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-input v-model="currentFolderPath" readonly>
           <a-upload slot="addonAfter" action="" directory :beforeUpload="handleFolderChange" :showUploadList="false">
-            <a-button class="folder-btn">
-              <a-icon type="folder-open" />
-            </a-button>
+            <a-icon class="folder-btn" type="folder-open" />
           </a-upload>
         </a-input>
       </a-form-item>
@@ -61,7 +59,6 @@ export default class System extends Vue {
   padding: 0;
 }
 .folder-btn {
-  border: none;
-  height: 28px;
+  padding: 0 8px;
 }
 </style>

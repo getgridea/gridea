@@ -90,7 +90,7 @@ export default class Articles extends Vue {
   }
 
   get postList() {
-    return this.site.posts.filter((item: IPost) => item.data.title.includes(this.keyword))
+    return this.site.posts.filter((item: IPost) => item.data.title.toLowerCase().includes(this.keyword.toLowerCase()))
   }
 
   get rowSelection() {

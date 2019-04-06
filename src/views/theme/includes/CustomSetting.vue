@@ -6,7 +6,7 @@
       <a-tabs tabPosition="left" defaultActiveKey="1" v-model="activeKey">
         <a-tab-pane :tab="group" v-for="(group, index) in groups" :key="index + 1">
           <div v-for="(item, index) in currentThemeConfig">
-            <a-form-item v-if="item.group === group" :label="item.label">
+            <a-form-item v-if="item.group === group" :label="item.label" :colon="false">
 
               <!-- 普通输入 -->
               <a-input v-if="item.type === 'input' && !item.card" :placeholder="item.note" v-model="form[item.name]" />

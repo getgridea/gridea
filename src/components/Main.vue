@@ -39,7 +39,12 @@
       <div class="bottom-container">
         <a-button class="preview-btn" icon="eye" block @click="preview">{{ $t('preview') }}</a-button>
         <a-button class="publish-btn" icon="sync" block type="primary" :loading="publishLoading" @click="publish">{{ $t('syncSite') }}</a-button>
-        <div class="version-container" :class="{ 'version-dot': hasUpdate }"><span>- {{ version }}</span> <i class="fa fa-github-square github" @click="openInBrowser('https://github.com/hve-notes/hve-notes')"></i></div>
+        <div class="version-container" :class="{ 'version-dot': hasUpdate }">
+          <span>- {{ version }}</span>
+          <a-tooltip title="🌟Star 支持作者！">
+            <a-icon type="github" style="font-size: 14px; cursor: pointer;" @click="openInBrowser('https://github.com/hve-notes/hve-notes')" />
+          </a-tooltip>
+        </div>
       </div>
     </a-layout-sider>
     <a-layout class="right-container">

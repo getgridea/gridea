@@ -1,5 +1,6 @@
 <template>
   <div class="loading-page">
+    <img class="img" src="@/assets/images/developing_code.svg" width="160px">
     配置中...
   </div>
 </template>
@@ -23,6 +24,10 @@ export default class Theme extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   min-height: 100vh;
+  .img {
+    margin-bottom: 16px;
+  }
 }
 </style>

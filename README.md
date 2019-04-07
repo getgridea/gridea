@@ -1,5 +1,7 @@
 # Gridea
 
+**Rename from Hve Notes**  
+
 <div align="center">
   <img src="public/app-icons/gridea.png"  width="80px" height="80px">
 

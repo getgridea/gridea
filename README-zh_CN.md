@@ -1,5 +1,7 @@
 # Gridea
 
+**旧称 Hve Notes**
+
 <div align="center">
   <img src="public/app-icons/gridea.png"  width="80px" height="80px">
 

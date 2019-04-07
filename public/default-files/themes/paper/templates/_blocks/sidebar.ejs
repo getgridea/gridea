@@ -1,0 +1,46 @@
+<div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="<%= themeConfig.domain %>/images/avatar.png?v=<%= site.utils.now %>" class="no-responsive avatar">
+    <div class="text-muted"><%- themeConfig.siteDescription %></div>
+    <div class="social-container">
+      <% ['github', 'twitter', 'weibo', 'zhihu', 'facebook'].forEach((item) => { %>
+        <% if (site.customConfig[item]) { %>
+          <a href="<%= site.customConfig[item] %>" target="_blank">
+            <i class="fab fa-<%= item %>"></i>
+          </a>
+        <% } %>
+      <% }) %>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      <%= site.customConfig.latestArticleText || '最新文章' %>
+    </div>
+    <div class="row">
+      <ul>
+        <% site.posts.forEach(function(post, index) { %>
+          <% if (index < 10) { %>
+            <li>
+              <a href="<%= post.link %>"><%= post.title %></a>
+            </li>
+          <% } %>
+        <% }); %>
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      <%= site.customConfig.tagListText || '标签列表' %>
+    </div>
+    <div class="row">
+      <% site.tags.forEach(function(tag, tagIndex) { %>
+        <a href="<%= tag.link %>" class="badge <%= ['', 'secondary', 'success', 'warning', 'secondary'][Math.floor(Math.random()*5)] %>">
+          <%= tag.name %>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+  <div class="paper">
+    <%- themeConfig.footerInfo %>
+  </div>
+</div>

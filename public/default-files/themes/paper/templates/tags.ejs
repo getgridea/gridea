@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./_blocks/head', { siteTitle: `标签列表 | ${themeConfig.siteName}` }) %>
+  </head>
+  <body>
+    <%- include('./_blocks/header') %>
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <h2 class="tag-list-title">标签列表</h2>
+          <div class="row tags-container">
+            <% tags.forEach(function(tag, tagIndex) { %>
+              <a href="<%= tag.link %>" class="badge <%= ['', 'secondary', 'success', 'warning', 'secondary'][Math.floor(Math.random()*5)] %>">
+                <%= tag.name %>
+              </a>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+      <%- include('./_blocks/sidebar') %>  
+    </div>
+
+    <%- include('./_blocks/scripts') %>
+  </body>
+</html>

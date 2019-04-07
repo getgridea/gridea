@@ -1,0 +1,129 @@
+{
+  "name": "Paper",
+  "version": "1.0.0",
+  "author": "EryouHao",
+  "customConfig": [
+    {
+      "name": "readMoreText",
+      "label": "Read More",
+      "group": "文案",
+      "value": "Read More",
+      "type": "input",
+      "note": "Read More"
+    },
+    {
+      "name": "nextArticleText",
+      "label": "下一篇",
+      "group": "文案",
+      "value": "下一篇",
+      "type": "input",
+      "note": "下一篇"
+    },
+    {
+      "name": "prevPageText",
+      "label": "上一页",
+      "group": "文案",
+      "value": "上一页",
+      "type": "input",
+      "note": "上一页"
+    },
+    {
+      "name": "nextPageText",
+      "label": "下一页",
+      "group": "文案",
+      "value": "下一页",
+      "type": "input",
+      "note": "下一页"
+    },
+    {
+      "name": "latestArticleText",
+      "label": "最新文章",
+      "group": "文案",
+      "value": "最新文章",
+      "type": "input",
+      "note": "最新文章"
+    },
+    {
+      "name": "tagListText",
+      "label": "标签列表",
+      "group": "文案",
+      "value": "标签列表",
+      "type": "input",
+      "note": "标签列表"
+    },
+    {
+      "name": "contentBgColor",
+      "label": "内容区背景色",
+      "group": "颜色",
+      "value": "#ffffff",
+      "type": "input",
+      "card": "color",
+      "note": "颜色字符串:（如：#EEEEEE、rgba(255, 255, 255, 0.9)）"
+    },
+    {
+      "name": "navBgColor",
+      "label": "导航栏背景色",
+      "group": "颜色",
+      "value": "#ffffff",
+      "type": "input",
+      "card": "color",
+      "note": "颜色字符串:（如：#EEEEEE、rgba(255, 255, 255, 0.9)）"
+    },
+    {
+      "name": "github",
+      "label": "Github",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "twitter",
+      "label": "Twitter",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "weibo",
+      "label": "微博",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "zhihu",
+      "label": "知乎",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "facebook",
+      "label": "Facebook",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "customCss",
+      "label": "自定义CSS",
+      "group": "自定义样式",
+      "value": "",
+      "type": "textarea",
+      "note": ""
+    },
+    {
+      "name": "ga",
+      "label": "跟踪 ID",
+      "group": "谷歌统计",
+      "value": "",
+      "type": "input",
+      "note": "UA-xxxxxxxxx-x"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+<div class="row flex-edges">
+  <% if (pagination.prev) { %>
+    <a href="<%= pagination.prev %>" class="paper-btn">
+      <%= site.customConfig.prevPageText || '上一页' %>
+    </a>
+  <% } %>
+  <% if (pagination.next) { %>
+    <a href="<%= pagination.next %>" class="paper-btn">
+      <%= site.customConfig.nextPageText || '下一页' %>
+    </a>
+  <% } %>
+</div>

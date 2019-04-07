@@ -42,7 +42,7 @@
         <div class="version-container" :class="{ 'version-dot': hasUpdate }">
           <span>- {{ version }}</span>
           <a-tooltip title="🌟Star 支持作者！">
-            <a-icon type="github" style="font-size: 14px; cursor: pointer;" @click="openInBrowser('https://github.com/hve-notes/hve-notes')" />
+            <a-icon type="github" style="font-size: 14px; cursor: pointer;" @click="openInBrowser('https://github.com/getgridea/gridea')" />
           </a-tooltip>
         </div>
       </div>
@@ -133,7 +133,7 @@ export default class App extends Vue {
   }
 
   public async checkUpdate() {
-    const res = await axios.get('https://api.github.com/repos/hve-notes/hve-notes/releases/latest')
+    const res = await axios.get('https://api.github.com/repos/getgridea/gridea/releases/latest')
     if (res.status === 200) {
       this.newVersion = res.data.name
       const latestVersion = res.data.name.substring(1).split('.').map((item: string) => parseInt(item, 10))

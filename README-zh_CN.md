@@ -1,39 +1,39 @@
-# Hve Notes
+# Gridea
 
 <div align="center">
   <img src="public/app-icons/logo.png"  width="80px" height="80px">
 
-  [下 载](https://github.com/hellohve/hve-notes/releases) | [主 页](http://hvenotes.fehey.com/)
+  [下 载](https://github.com/getgridea/gridea/releases) | [主 页](http://hvenotes.fehey.com/)
 
-  <a href="https://github.com/hve-notes/hve-notes/releases/latest">
-    <img src="https://img.shields.io/github/release/hve-notes/hve-notes.svg?style=flat-square" alt="">
+  <a href="https://github.com/getgridea/gridea/releases/latest">
+    <img src="https://img.shields.io/github/release/getgridea/gridea.svg?style=flat-square" alt="">
   </a>
 
-  <a href="https://github.com/hve-notes/hve-notes/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/hve-notes/hve-notes.svg?style=flat-square" alt="">
+  <a href="https://github.com/getgridea/gridea/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/getgridea/gridea.svg?style=flat-square" alt="">
   </a>
 
-  <a href="https://github.com/hve-notes/hve-notes/releases/latest">
-    <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/hve-notes/hve-notes/total.svg?color=%2312b886&style=flat-square">
+  <a href="https://github.com/getgridea/gridea/releases/latest">
+    <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/getgridea/gridea/total.svg?color=%2312b886&style=flat-square">
   </a>
 
 </div>
 
 <div align="center">
-  <img src="hve-notes-app.png">
+  <img src="gridea-app.png">
 
 </div>
 
 ## 依赖
 **需要安装 [git](https://git-scm.com/downloads) 并且可以使用命令 `git` 调用它。**
 
-[English](https://github.com/hve-notes/hve-notes/blob/master/README.md) | 简体中文  
+[English](https://github.com/getgridea/gridea/blob/master/README.md) | 简体中文  
 
-**[更新日志](https://github.com/hve-notes/hve-notes/blob/master/CHANGELOG.md)**  
+**[更新日志](https://github.com/getgridea/gridea/blob/master/CHANGELOG.md)**  
 
-👏  欢迎使用 **Hve Notes** ！  
+👏  欢迎使用 **Gridea** ！  
 
-✍️  **Hve Notes** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ... 
+✍️  **Gridea** 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ... 
 
 ## 特性👇
 📝  你可以使用最酷的 **Markdown** 语法，进行快速创作  
@@ -56,7 +56,7 @@
 
 🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步  
 
-🌱 当然 **Hve Notes** 还很年轻，有很多不足，但请相信，它会不停向前🏃
+🌱 当然 **Gridea** 还很年轻，有很多不足，但请相信，它会不停向前🏃
 
 未来，它一定会成为你离不开的伙伴
 
@@ -66,8 +66,8 @@
 
 ## 开发
 ``` shell
-$ git clone https://github.com/hve-notes/hve-notes.git
-$ cd hve-notes
+$ git clone https://github.com/getgridea/gridea.git
+$ cd gridea
 $ npm install
 $ npm run electron:serve
 $ npm run electron:build
@@ -83,7 +83,7 @@ $ npm run electron:build
 </div>
 
 ## 贡献
-我们欢迎任何形式的贡献。你可以用 [pull requests](https://github.com/hve-notes/hve-notes/pulls) 或 [issues](https://github.com/hve-notes/hve-notes/issues) 的方式提交任何想法。  
+我们欢迎任何形式的贡献。你可以用 [pull requests](https://github.com/getgridea/gridea/pulls) 或 [issues](https://github.com/getgridea/gridea/issues) 的方式提交任何想法。  
 
 ## 支持
 <div>
@@ -91,4 +91,4 @@ $ npm run electron:build
 </div>
 
 ## License
-[MIT](https://github.com/hve-notes/hve-notes/blob/master/LICENSE). Copyright (c) 2019 EryouHao
+[MIT](https://github.com/getgridea/gridea/blob/master/LICENSE). Copyright (c) 2019 EryouHao

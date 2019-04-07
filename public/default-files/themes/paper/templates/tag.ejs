@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./_blocks/head', { siteTitle: `${tag.name} | ${themeConfig.siteName}` }) %>
+  </head>
+  <body>
+    <%- include('./_blocks/header') %>
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <h2 class="current-tag">标签: <%= tag.name %></h2>
+          <%- include('./_blocks/post-list') %>
+        </div>
+        <%- include('./_blocks/pagination') %>
+      </div>
+      <%- include('./_blocks/sidebar') %>
+    </div>
+
+    <%- include('./_blocks/scripts') %>
+  </body>
+</html>

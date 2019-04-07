@@ -24,7 +24,7 @@ export default class App {
     this.mainWindow = setting.mainWindow
     this.app = setting.app
     this.baseDir = setting.baseDir
-    this.appDir = path.join(this.app.getPath('documents'), 'hve-notes')
+    this.appDir = path.join(this.app.getPath('documents'), 'gridea')
 
     this.db = {
       posts: [],
@@ -126,7 +126,7 @@ export default class App {
 
   public async saveSourceFolderSetting(sourceFolderPath: string = '') {
     try {
-      const appConfigFolder = path.join(this.app.getPath('home'), '.hve-notes')
+      const appConfigFolder = path.join(this.app.getPath('home'), '.gridea')
       const appConfigPath = path.join(appConfigFolder, 'config.json')
       const jsonString = `{"sourceFolder": "${sourceFolderPath || this.appDir}"}`
 
@@ -146,12 +146,19 @@ export default class App {
    */
   private async checkDir() {
     // Check if there is a .hve-notes folder, if it exists, load it, otherwise use the default configuration.
-    const appConfigFolder = path.join(this.app.getPath('home'), '.hve-notes')
+    const appConfigFolderOld = path.join(this.app.getPath('home'), '.hve-notes') // < 0.7.7
+
+    const appConfigFolder = path.join(this.app.getPath('home'), '.gridea')
     const appConfigPath = path.join(appConfigFolder, 'config.json')
-    let defaultAppDir = path.join(this.app.getPath('documents'), 'hve-notes')
+    let defaultAppDir = path.join(this.app.getPath('documents'), 'Gridea')
     defaultAppDir = defaultAppDir.replace(/\\/g, '/')
 
     try {
+      // if exist `.hve-notes` config folder, change folder name to `.gridea`
+      if (fse.pathExistsSync(appConfigFolderOld)) {
+        await fse.renameSync(appConfigFolderOld, appConfigFolder)
+      }
+
       if (!fse.pathExistsSync(appConfigFolder)) {
         await fse.mkdirSync(appConfigFolder)
         const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
@@ -173,10 +180,11 @@ export default class App {
           )
         }
 
-        // Check default theme folder if includes [notes、fly、simple] themes
+        // Check default theme folder if includes [notes、fly、simple、paper] themes
         this.checkTheme('notes')
         this.checkTheme('fly')
         this.checkTheme('simple')
+        this.checkTheme('paper')
 
         return
       } else {

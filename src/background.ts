@@ -68,7 +68,7 @@ function createWindow() {
       submenu: [
         {
           label: 'Learn More',
-          click() { require('electron').shell.openExternal('https://github.com/hve-notes/hve-notes') },
+          click() { require('electron').shell.openExternal('https://github.com/getgridea/gridea') },
         },
       ],
     },

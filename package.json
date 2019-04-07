@@ -1,5 +1,5 @@
 {
-  "name": "hve-notes",
+  "name": "gridea",
   "version": "0.7.7",
   "private": true,
   "description": "A static blog writing client. You can use it to record your life, mood, knowledge, notes and ideas...",
@@ -9,7 +9,7 @@
     "name": "EryouHao",
     "email": "eryouhao@gmail.com"
   },
-  "repository": "https://github.com/hve-notes/hve-notes",
+  "repository": "https://github.com/getgridea/gridea",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

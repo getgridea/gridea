@@ -1,0 +1,25 @@
+<% posts.forEach(function(post) { %>
+  <article class="article">
+    <h2 class="article-title">
+      <a href="<%= post.link %>"><%= post.title %></a>
+    </h2>
+    <p class="article-meta">
+      <%= post.dateFormat %>
+      <% post.tags.forEach(function(tag, tagIndex) { %>
+        <a href="<%= tag.link %>" class="badge <%= ['', 'secondary', 'success', 'warning', 'secondary'][Math.floor(Math.random()*5)] %>">
+          <%= tag.name %>
+        </a>
+      <% }); %>
+    </p>
+    <p class="text-lead">
+      <%- post.abstract %>
+    </p>
+    <div class="row">
+      <a href="<%= post.link %>" class="readmore-link">
+        <button>
+          <%= site.customConfig.readMoreText || 'Read More' %>
+        </button>
+      </a>
+    </div>
+  </article>
+<% }); %>

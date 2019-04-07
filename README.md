@@ -1,4 +1,4 @@
-# Hve Notes
+# Gridea
 
 <div align="center">
   <img src="public/app-icons/logo.png"  width="80px" height="80px">
@@ -25,7 +25,7 @@
 </div>
 
 ## Dependencies
-Requires [git](https://git-scm.com/downloads) to be installed and that it can be called using the command git.
+⚠️Requires [git](https://git-scm.com/downloads) to be installed and that it can be called using the command git.
 
 English | [简体中文](https://github.com/getgridea/gridea/blob/master/README-zh_CN.md)  
 

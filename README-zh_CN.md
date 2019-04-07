@@ -25,7 +25,7 @@
 </div>
 
 ## 依赖
-**需要安装 [git](https://git-scm.com/downloads) 并且可以使用命令 `git` 调用它。**
+**⚠️需要安装 [git](https://git-scm.com/downloads) 并且可以使用命令 `git` 调用它。**
 
 [English](https://github.com/getgridea/gridea/blob/master/README.md) | 简体中文  
 

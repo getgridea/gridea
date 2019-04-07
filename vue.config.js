@@ -20,7 +20,7 @@ module.exports = {
       builderOptions: {
         productName: 'Hve Notes',
         win: {
-          icon: './public/app-icons/logo.ico',
+          icon: './public/app-icons/gridea.ico',
           // target: [
           //   {
           //     target: 'nsis',
@@ -32,7 +32,7 @@ module.exports = {
           // ],
         },
         mac: {
-          icon: './public/app-icons/logo-fang2.icns',
+          icon: './public/app-icons/gridea.icns',
         },
         asar: false,
         nsis: {

@@ -1,7 +1,7 @@
 # Gridea
 
 <div align="center">
-  <img src="public/app-icons/logo.png"  width="80px" height="80px">
+  <img src="public/app-icons/gridea.png"  width="80px" height="80px">
 
   [Download](https://github.com/getgridea/gridea/releases) | [Homepage](http://hvenotes.fehey.com/)
 

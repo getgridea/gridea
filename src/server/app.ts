@@ -36,7 +36,7 @@ export default class App {
         archivesPageSize: 50,
         siteName: '',
         siteDescription: '',
-        footerInfo: 'Powered by Hve',
+        footerInfo: 'Powered by Gridea',
         showFeatureImage: true,
         domain: '',
         postUrlFormat: 'SLUG',

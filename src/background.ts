@@ -25,7 +25,7 @@ function createWindow() {
     // frame: false, // 去除默认窗口栏
     titleBarStyle: 'hidden',
   })
-  win.setTitle('Hve Notess')
+  win.setTitle('Gridea')
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode

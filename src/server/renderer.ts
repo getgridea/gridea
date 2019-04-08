@@ -189,7 +189,7 @@ export default class Renderer extends Model {
 
       if (statusSummary.modified.length > 0 || statusSummary.not_added.length > 0) {
         await this.git.add('./*')
-        await this.git.commit(`update from hve: ${moment().format('YYYY-MM-DD HH:mm:ss')}`)
+        await this.git.commit(`update from gridea: ${moment().format('YYYY-MM-DD HH:mm:ss')}`)
         localBranchs = await this.checkCurrentBranch()
         await this.git.push('origin', this.db.setting.branch, {'--force': true})
       } else {

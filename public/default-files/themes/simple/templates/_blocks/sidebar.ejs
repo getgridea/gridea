@@ -2,7 +2,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="<%= themeConfig.domain %>">
-        <img src="<%= themeConfig.domain %>/images/avatar.png" class="site-logo">
+        <img src="<%= themeConfig.domain %>/images/avatar.png?v=<%= site.utils.now %>" class="site-logo">
         <h1 class="site-title"><%= themeConfig.siteName %></h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -24,6 +24,15 @@
     </div>
   </div>
   <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      <% ['github', 'twitter', 'weibo', 'zhihu', 'facebook'].forEach((item) => { %>
+        <% if (site.customConfig[item]) { %>
+          <a class="social-link" href="<%= site.customConfig[item] %>" target="_blank">
+            <i class="fab fa-<%= item %>"></i>
+          </a>
+        <% } %>
+      <% }) %>
+    </div>
     <div class="site-description">
       <%- themeConfig.siteDescription %>
     </div>

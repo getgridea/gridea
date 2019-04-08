@@ -84,7 +84,6 @@ export default class Theme extends Model {
     const existThemeConfigFile = await fse.pathExists(themeConfigPath)
     if (existThemeConfigFile) {
       const themeConfig = await fse.readJSONSync(themeConfigPath)
-      console.log(themeConfig)
       if (themeConfig && themeConfig.customConfig) {
         return themeConfig.customConfig
       }

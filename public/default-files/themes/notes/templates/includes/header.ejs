@@ -1,6 +1,6 @@
 <div class="site-header">
   <a href="<%= themeConfig.domain %>">
-  <img class="avatar" src="<%= themeConfig.domain %>/images/avatar.png" alt="" width="80px" height="80px">
+  <img class="avatar" src="<%= themeConfig.domain %>/images/avatar.png?v=<%= site.utils.now %>" alt="">
   </a>
   <h1 class="site-title">
     <%= themeConfig.siteName %>
@@ -20,5 +20,14 @@
         </a>
       <% } %>
     <% }); %>
+  </div>
+  <div class="social-container">
+    <% ['github', 'twitter', 'weibo', 'zhihu', 'facebook'].forEach((item) => { %>
+      <% if (site.customConfig[item]) { %>
+        <a href="<%= site.customConfig[item] %>" target="_blank">
+          <i class="fab fa-<%= item %>"></i>
+        </a>
+      <% } %>
+    <% }) %>
   </div>
 </div>

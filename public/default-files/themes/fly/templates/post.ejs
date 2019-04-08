@@ -10,6 +10,10 @@
 
       <div class="content-container">
         <div class="post-detail">
+          <% if (themeConfig.showFeatureImage && post.feature) { %>
+            <div class="feature-container" style="background-image: url('<%= post.feature %>')">
+            </div>
+          <% } %>
           <h2 class="post-title"><%= post.title %></h2>
           <div class="post-info post-detail-info">
             <span><i class="icon-calendar-outline"></i> <%= post.dateFormat %></span>

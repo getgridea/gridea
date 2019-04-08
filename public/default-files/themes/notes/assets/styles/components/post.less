@@ -2,11 +2,19 @@
   flex: 1;
   .post {
     padding: 24px 32px;
+    .post-feature-image {
+      padding-top: 56.25%;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 24px;
+      border-radius: 2px;
+    }
   
     .post-title {
       font-size: 32px;
       text-align: center;
       padding: 24px;
+      font-weight: 600;
     }
   
     .post-info {
@@ -43,6 +51,8 @@
       p {
         line-height: 1.725;
         margin-bottom: 24px;
+        font-size: 16px;
+        letter-spacing: 1.0382;
   
         code {
           padding: 0 3px;
@@ -57,7 +67,7 @@
       pre {
         margin-bottom: 24px;
         code {
-          font-size: 14px;
+          font-size: 16px;
           font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
           padding: 1em;
           border-radius: 5px;
@@ -100,7 +110,22 @@
         font-weight: bold;
       }
       h1 {
+        font-size: 28px;
+      }
+      h2 {
         font-size: 24px;
+      }
+      h3 {
+        font-size: 20px;
+      }
+      h4 {
+        font-size: 18px;
+      }
+      h5 {
+        font-size: 16px;
+      }
+      h6 {
+        font-size: 14px;
       }
     }
   }
@@ -112,9 +137,11 @@
   padding: 24px 32px;
   .next {
     margin-bottom: 24px;
+    color: @oc-gray-8;
   }
   .post-title {
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: bold;
   }
 }
 

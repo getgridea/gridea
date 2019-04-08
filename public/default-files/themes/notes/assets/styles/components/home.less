@@ -1,12 +1,13 @@
 .post-container {
   flex: 1;
   .post {
-    padding: 24px 32px;
-  
+    padding-bottom: 32px;
+    
     .post-title {
-      font-size: 24px;
+      font-size: 28px;
       text-align: center;
       padding: 24px 0;
+      font-weight: 600;
     }
   
     .post-info {
@@ -17,13 +18,13 @@
         color: @dark-gray;
       }
       .post-tag {
-        padding: 8px 16px;
+        padding: 8px 8px;
       }
     }
     .post-feature-image {
       display: block;
       width: 100%;
-      height: 240px;
+      padding-top: 32.6%;
       border-radius: 2px;
       overflow: hidden;
       background-size: cover;
@@ -34,12 +35,13 @@
         // height: 100%
       }
       &:hover {
-        transform: scale(1.0382);
+        transform: scale(1.0082);
       }
     }
     .post-abstract {
       padding: 24px 0;
       line-height: 1.5;
+      font-size: 16px;
       strong {
         font-weight: bolder;
       }
@@ -80,9 +82,13 @@
       padding: 16px 16px;
       .post-title {
         padding: 16px 0;
+        font-size: 24px;
       }
       .post-abstract {
         padding: 16px 0;
+      }
+      .post-feature-image {
+        padding-top: 56.25%;
       }
     }
   }

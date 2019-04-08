@@ -1,0 +1,97 @@
+{
+  "name": "Simple",
+  "version": "1.0.0",
+  "author": "EryouHao",
+  "customConfig": [
+    {
+      "name": "sidebarWidth",
+      "label": "菜单栏宽度",
+      "group": "布局",
+      "value": "320px",
+      "type": "input",
+      "note": "可填像素类型（如：320px）或百分比类型（如：38.2%）"
+    },
+    {
+      "name": "featureBorderRadius",
+      "label": "封面图圆角",
+      "group": "布局",
+      "value": "3px",
+      "type": "input",
+      "note": "像素类型（如：3px）"
+    },
+    {
+      "name": "menuColor",
+      "label": "菜单颜色",
+      "group": "颜色",
+      "value": "#dee2e6",
+      "type": "input",
+      "card": "color",
+      "note": "颜色字符串:（如：#EEEEEE、rgba(255, 255, 255, 0.9)）"
+    },
+    {
+      "name": "contentBgColor",
+      "label": "内容区背景色",
+      "group": "颜色",
+      "value": "#f8f9fa",
+      "type": "input",
+      "card": "color",
+      "note": "颜色字符串:（如：#EEEEEE、rgba(255, 255, 255, 0.9)）"
+    },
+    {
+      "name": "github",
+      "label": "Github",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "twitter",
+      "label": "Twitter",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "weibo",
+      "label": "微博",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "zhihu",
+      "label": "知乎",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "facebook",
+      "label": "Facebook",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "customCss",
+      "label": "自定义CSS",
+      "group": "自定义样式",
+      "value": "",
+      "type": "textarea",
+      "note": ""
+    },
+    {
+      "name": "ga",
+      "label": "跟踪 ID",
+      "group": "谷歌统计",
+      "value": "",
+      "type": "input",
+      "note": "UA-xxxxxxxxx-x"
+    }
+  ]
+}

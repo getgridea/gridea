@@ -8,3 +8,4 @@ declare module '*.json' {
 }
 
 declare module 'vue2-transitions'
+declare module 'markdown-it-katex'

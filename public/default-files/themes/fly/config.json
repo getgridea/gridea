@@ -1,0 +1,96 @@
+{
+  "name": "Fly",
+  "version": "1.0.0",
+  "author": "EryouHao",
+  "customConfig": [
+    {
+      "name": "skin",
+      "label": "皮肤",
+      "group": "皮肤",
+      "value": "white",
+      "type": "select",
+      "options": [
+        {
+          "label": "简约白",
+          "value": "white"
+        },
+        {
+          "label": "低调黑",
+          "value": "black"
+        }
+      ]
+    },
+    {
+      "name": "contentMaxWidth",
+      "label": "内容区最大宽度",
+      "group": "布局",
+      "value": "800px",
+      "type": "input",
+      "note": "可填像素类型（如：320px）或百分比类型（如：38.2%）"
+    },
+    {
+      "name": "textSize",
+      "label": "正文内容文字大小",
+      "group": "布局",
+      "value": "16px",
+      "type": "input",
+      "note": "px 或 rem（如 16px 或 1rem）"
+    },
+    {
+      "name": "github",
+      "label": "Github",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "twitter",
+      "label": "Twitter",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "weibo",
+      "label": "微博",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "zhihu",
+      "label": "知乎",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "facebook",
+      "label": "Facebook",
+      "group": "社交",
+      "value": "",
+      "type": "input",
+      "note": "链接地址"
+    },
+    {
+      "name": "customCss",
+      "label": "自定义CSS",
+      "group": "自定义样式",
+      "value": "",
+      "type": "textarea",
+      "note": ""
+    },
+    {
+      "name": "ga",
+      "label": "跟踪 ID",
+      "group": "谷歌统计",
+      "value": "",
+      "type": "input",
+      "note": "UA-xxxxxxxxx-x"
+    }
+  ]
+}

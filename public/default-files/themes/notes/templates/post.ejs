@@ -22,6 +22,10 @@
                 </a>
               <% }); %>
             </div>
+            <% if (themeConfig.showFeatureImage && post.feature) { %>
+              <div class="post-feature-image" style="background-image: url('<%= post.feature %>')">
+              </div>
+            <% } %>
             <div class="post-content">
               <%- post.content %>
             </div>

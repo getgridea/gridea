@@ -3,7 +3,7 @@ import path from 'path'
 import Bluebird from 'bluebird'
 Bluebird.promisifyAll(fs)
 import * as fse from 'fs-extra'
-import marked from 'marked'
+import markdown from './plugins/markdown'
 import ejs, { render } from 'ejs'
 import simpleGit, { SimpleGit } from 'simple-git/promise'
 import moment from 'moment'
@@ -15,21 +15,6 @@ import { IPostDb, IPostRenderData, ITagRenderData } from './interfaces/post'
 import { ITag } from './interfaces/tag'
 import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE } from '../helpers/constants'
 import { IMenu } from './interfaces/menu'
-
-// marked toc support
-const renderer = (new marked.Renderer() as any)
-
-let toc: any = []
-
-renderer.heading = function(text: any, level: any, raw: any) {
-    const anchor = this.options.headerPrefix + raw.toLowerCase().replace(/[^\w\\u4e00-\\u9fa5]]+/g, '-')
-    toc.push({ anchor, level, text })
-    return `<h${level} id="${anchor}">${text}</h${level}>`
-}
-
-marked.setOptions({
-  renderer,
-})
 
 export default class Renderer extends Model {
   outputDir: string = `${this.appDir}/output`
@@ -252,9 +237,9 @@ export default class Renderer extends Model {
       .map((item: IPostDb) => {
         const currentTags = item.data.tags || []
         const result: IPostRenderData = {
-          content: marked(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain), { breaks: true }),
+          content: markdown.render(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain)),
           fileName: item.fileName,
-          abstract: marked(helper.changeImageUrlLocalToDomain(item.abstract, this.db.themeConfig.domain), { breaks: true }),
+          abstract: markdown.render(helper.changeImageUrlLocalToDomain(item.abstract, this.db.themeConfig.domain)),
           title: item.data.title,
           tags: this.db.tags
             .filter((tag: ITag) => currentTags.find((i) => i === tag.name))
@@ -269,9 +254,9 @@ export default class Renderer extends Model {
           link: `${this.db.themeConfig.domain}/post/${item.fileName}${mode === 'preview' ? '/index.html' : ''}`,
           hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
         }
-        console.log('toc:::', toc)
-        result.toc = toc
-        toc = []
+        // console.log('toc:::', toc)
+        // result.toc = toc
+        // toc = []
         return result
       })
       .sort((a: IPostRenderData, b: IPostRenderData) => moment(b.date).unix() - moment(a.date).unix())

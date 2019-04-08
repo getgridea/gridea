@@ -4,11 +4,13 @@
 
   .site-title {
     font-size: 32px;
+    font-weight: bold;
   }
 
   .site-description {
-    font-size: 20px;
+    font-size: 16px;
     padding: 24px;
+    color: @oc-gray-7;
   }
 
   .menu-container {
@@ -19,12 +21,35 @@
       font-size: 16px;
       padding: 8px 16px;
       flex-shrink: 0;
+      font-weight: 600;
     }
   }
 
   .avatar {
     margin-bottom: 24px;
     border-radius: 50%;
+    width: 120px;
+    height: 120px;
   }
 
+  .social-container {
+    padding: 16px;
+    font-size: 18px;
+    a {
+      margin: 4 8px;
+      color: #868e96;
+    }
+  }
+
+}
+
+@media (max-width: 600px) {
+  .site-header {
+    padding: 24px 0 0;
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+    }
+  }
 }

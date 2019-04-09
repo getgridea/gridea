@@ -54,7 +54,7 @@ English | [简体中文](https://github.com/getgridea/gridea/blob/master/README-
 
 🇬🇧  You can use simplified **Chinese** or **English**  
 
-🌁  You can use any default theme within the application or any third-party theme  
+🌁  You can use any default theme within the application or any third-party theme, free theme customization  
 
 🖥  You can customize the source folder and synchronize multiple devices using OneDrive, iCloud, Dropbox, etc.  
 

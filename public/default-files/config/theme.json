@@ -1,6 +1,6 @@
 {
   "config": {
-    "footerInfo": "Powered by Gridea",
+    "footerInfo": "Powered by <a href=\"https://github.com/getgridea/gridea\" target=\"_blank\">Gridea</a>",
     "postPageSize": 10,
     "archivesPageSize": 50,
     "showFeatureImage": true,
@@ -10,5 +10,6 @@
     "dateFormat": "YYYY-MM-DD",
     "postUrlFormat": "SLUG",
     "tagUrlFormat": "SHORT_ID"
-  }
+  },
+  "customConfig": {}
 }

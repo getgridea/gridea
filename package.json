@@ -32,6 +32,7 @@
     "lowdb": "^1.0.0",
     "markdown-it": "^8.4.2",
     "markdown-it-katex": "^2.0.3",
+    "markdown-it-toc-and-anchor": "^4.2.0",
     "material-design-icons-iconfont": "^4.0.3",
     "shortid": "^2.2.14",
     "simple-git": "^1.107.0",

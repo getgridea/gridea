@@ -236,8 +236,13 @@ export default class Renderer extends Model {
     this.postsData = this.db.posts.filter((item: IPostDb) => item.data.published)
       .map((item: IPostDb) => {
         const currentTags = item.data.tags || []
+        let toc = ''
         const result: IPostRenderData = {
-          content: markdown.render(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain)),
+          content: markdown.render(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain), {
+            tocCallback(tocMarkdown: any, tocArray: any, tocHtml: any) {
+              toc = tocHtml
+            },
+          }),
           fileName: item.fileName,
           abstract: markdown.render(helper.changeImageUrlLocalToDomain(item.abstract, this.db.themeConfig.domain)),
           title: item.data.title,
@@ -254,9 +259,7 @@ export default class Renderer extends Model {
           link: `${this.db.themeConfig.domain}/post/${item.fileName}${mode === 'preview' ? '/index.html' : ''}`,
           hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
         }
-        // console.log('toc:::', toc)
-        // result.toc = toc
-        // toc = []
+        result.toc = toc
         return result
       })
       .sort((a: IPostRenderData, b: IPostRenderData) => moment(b.date).unix() - moment(a.date).unix())

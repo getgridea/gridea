@@ -80,8 +80,7 @@ $ npm run electron:build
 
 ## 示例截图
 <div align="center">
-  <img src="./files/fehey.png" width="80%">
-  <img src="./files/fehey2.png" width="320px">
+  <img src="./files/themes.png">
 </div>
 
 ## 贡献

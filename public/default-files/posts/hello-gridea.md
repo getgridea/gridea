@@ -4,7 +4,7 @@ date: 2018-12-12
 tags: [Gridea]
 published: true
 hideInList: false
-feature: /post-images/hello-hve-notes.png
+feature: /post-images/hello-gridea.png
 ---
 👏  欢迎使用 **Gridea** ！  
 

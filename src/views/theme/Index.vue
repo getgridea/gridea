@@ -4,7 +4,7 @@
       <a-tab-pane :tab="$t('basicSetting')" key="basic">
         <basic-setting></basic-setting>
       </a-tab-pane>
-      <a-tab-pane :tab="$t('自定义配置')" key="custom">
+      <a-tab-pane :tab="$t('customConfig')" key="custom">
         <custom-setting></custom-setting>
       </a-tab-pane>
     </a-tabs>

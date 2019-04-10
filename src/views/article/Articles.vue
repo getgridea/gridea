@@ -3,12 +3,12 @@
     <a-row type="flex" justify="end" class="tool-container">
       <a-input-search
         class="search-input"
-        placeholder="搜索文章"
+        :placeholder="$t('searchArticle')"
         style="width: 200px"
         @search="onSearch"
         v-model="keyword"
       />
-      <a-button class="btn" type="danger" v-if="selectedRowKeys.length > 0" @click="deleteSelectedPosts">删除选中</a-button>
+      <a-button class="btn" type="danger" v-if="selectedRowKeys.length > 0" @click="deleteSelectedPosts">{{ $t('deleteSelected') }}</a-button>
       <a-button class="btn" type="primary" @click="newArticle">{{ $t('newArticle') }}</a-button>
     </a-row>
     <div class="content-container">

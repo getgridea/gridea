@@ -139,7 +139,7 @@ export default class ArticleUpdate extends Vue {
     }, 'preview'],
     promptURLs: true,
     spellChecker: false,
-    placeholder: '输入内容...',
+    placeholder: `${this.$t('inputContent')}...`,
   }
 
   form = {
@@ -286,12 +286,12 @@ export default class ArticleUpdate extends Vue {
     this.buildFileName()
     const valid = this.checkArticleUrlValid()
     if (!valid) {
-      this.$message.error('文章的 URL 与其他文章重复')
+      this.$message.error(this.$t('postUrlRepeatTip'))
       return
     }
 
     if (this.form.fileName.includes('/')) {
-      this.$message.error('URL 不可包含 /')
+      this.$message.error(this.$t('postUrlIncludeTip'))
       return
     }
 
@@ -354,7 +354,7 @@ export default class ArticleUpdate extends Vue {
 
           for (const data of dataList as any) {
             if (data.type.indexOf('image') === -1) {
-              this.$message.error('仅支持图片拖拽')
+              this.$message.error(this.$t('onlyPicDrag'))
               return
             }
             imageFiles.push({

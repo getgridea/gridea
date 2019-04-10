@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-card v-if="currentThemeConfig.length > 0" :bordered="false">
-      <a-button style="margin-right: 16px;" slot="extra" @click="resetThemeCustomConfig">重置设置</a-button>
+      <a-button style="margin-right: 16px;" slot="extra" @click="resetThemeCustomConfig">{{ $t('reset') }}</a-button>
       <a-button slot="extra" @click="saveThemeCustomConfig" type="primary">{{ $t('save') }}</a-button>
       <a-tabs tabPosition="left" defaultActiveKey="1" v-model="activeKey">
         <a-tab-pane :tab="group" v-for="(group, index) in groups" :key="index + 1">
@@ -35,7 +35,7 @@
     </a-card>
     <div class="empty-container" v-else>
       <img class="icon" src="@/assets/images/graphic-empty-box.svg" alt="">
-      <div class="description">当前主题暂无自定义配置</div>
+      <div class="description">{{ $t('noCustomConfigTip') }}</div>
     </div>
   </div>
 </template>
@@ -93,7 +93,7 @@ export default class Theme extends Vue {
     ipcRenderer.send('theme-custom-config-save', this.form)
     ipcRenderer.once('theme-custom-config-saved', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
-      this.$message.success('主题自定义配置已保存')
+      this.$message.success(this.$t('saved'))
     })
   }
 
@@ -101,9 +101,8 @@ export default class Theme extends Vue {
     ipcRenderer.send('theme-custom-config-save', {})
     ipcRenderer.once('theme-custom-config-saved', async (event: Event, result: any) => {
       await this.$bus.$emit('site-reload')
-      console.log('数据', this.site)
       this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=custom' }})
-      this.$message.success('主题自定义配置已重置')
+      this.$message.success(this.$t('reseted'))
     })
   }
 

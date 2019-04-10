@@ -1,7 +1,7 @@
 <template>
   <div class="loading-page">
     <img class="img" src="@/assets/images/developing_code.svg" width="160px">
-    配置中...
+    {{ $t('inConfig') }}...
   </div>
 </template>
 

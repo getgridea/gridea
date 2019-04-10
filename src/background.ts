@@ -57,7 +57,7 @@ function createWindow() {
         {role: 'selectall'},
         {role: 'toggledevtools'},
         {type: 'separator'},
-        {role: 'quit'},
+        {role: 'quit', label: 'Quit Gridea'},
       ],
     },
     {

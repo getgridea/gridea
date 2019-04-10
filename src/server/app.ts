@@ -155,8 +155,12 @@ export default class App {
 
     try {
       // if exist `.hve-notes` config folder, change folder name to `.gridea`
-      if (fse.pathExistsSync(appConfigFolderOld)) {
-        await fse.renameSync(appConfigFolderOld, appConfigFolder)
+      try {
+        if (fse.pathExistsSync(appConfigFolderOld)) {
+          await fse.renameSync(appConfigFolderOld, appConfigFolder)
+        }
+      } catch (e) {
+        console.log('Rename Error: ', e)
       }
 
       if (!fse.pathExistsSync(appConfigFolder)) {

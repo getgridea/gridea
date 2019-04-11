@@ -81,6 +81,12 @@ export default class Renderer extends Model {
     try {
       const { setting } = this.db
       const isRepo = await this.git.checkIsRepo()
+      if (!setting.username || !setting.repository || !setting.token) {
+        return {
+          success: false,
+          message: 'Username、repository、token is required',
+        }
+      }
       if (!isRepo) {
         await this.git.init()
         await this.git.addConfig('user.name', setting.username)

@@ -31,8 +31,8 @@
         <a-input v-model="form.cname" />
       </a-form-item>
       <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-button :loading="detectLoading" @click="remoteDetect" style="margin-right: 16px;">{{ $t('testConnection') }}</a-button>
-        <a-button @click="submit" type="primary">{{ $t('save') }}</a-button>
+        <a-button :disabled="!canSubmit" :loading="detectLoading" @click="remoteDetect" style="margin-right: 16px;">{{ $t('testConnection') }}</a-button>
+        <a-button :disabled="!canSubmit" @click="submit" type="primary">{{ $t('save') }}</a-button>
       </a-form-item>
       
     </a-form>
@@ -65,6 +65,14 @@ export default class BasicSetting extends Vue {
     email: '',
     token: '',
     cname: '',
+  }
+
+  get canSubmit() {
+    return this.form.domain
+      && this.form.repository
+      && this.form.branch
+      && this.form.username
+      && this.form.token
   }
 
   mounted() {

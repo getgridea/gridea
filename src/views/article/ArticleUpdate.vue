@@ -139,7 +139,7 @@ export default class ArticleUpdate extends Vue {
     }, 'preview'],
     promptURLs: true,
     spellChecker: false,
-    placeholder: `${this.$t('inputContent')}...`,
+    placeholder: '输入内容...',
   }
 
   form = {

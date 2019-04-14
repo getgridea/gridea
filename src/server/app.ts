@@ -175,14 +175,16 @@ export default class App {
       // Site folder exists
       if (fse.pathExistsSync(this.appDir)) {
 
-        // check if the images folder exists, if it does not exist, copy it from default-files
-        const imagesPath = path.join(this.appDir, 'images')
-        if (!fse.pathExistsSync(imagesPath)) {
-          fse.copySync(
-            path.join(__static, 'default-files', 'images'),
-            imagesPath,
-          )
-        }
+        // check if the `images`, `config`, 'output', `post-images`, 'posts', 'themes' folder exists, if it does not exist, copy it from default-files
+        ['images', 'config', 'output', 'post-images', 'posts', 'themes'].forEach((folder: string) => {
+          const folderPath = path.join(this.appDir, folder)
+          if (!fse.pathExistsSync(folderPath)) {
+            fse.copySync(
+              path.join(__static, 'default-files', folder),
+              folderPath,
+            )
+          }
+        })
 
         // Check default theme folder if includes [notes、fly、simple、paper] themes
         this.checkTheme('notes')

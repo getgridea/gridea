@@ -134,6 +134,8 @@ export default class App {
       const appConfig = await fse.readJsonSync(appConfigPath)
       this.appDir = appConfig.sourceFolder
 
+      this.checkDir()
+
       return true
     } catch (e) {
       console.log(e)

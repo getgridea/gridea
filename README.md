@@ -52,7 +52,7 @@ English | [简体中文](https://github.com/getgridea/gridea/blob/master/README-
 
 💬  You can simply configure and access the [Gitalk](https://github.com/gitalk/gitalk) or [DisqusJS](https://github.com/SukkaW/DisqusJS) comment system  
 
-🇬🇧  You can use simplified **Chinese** or **English**  
+🇬🇧  You can use **simplified Chinese** or **English**  
 
 🌁  You can use any default theme within the application or any third-party theme, free theme customization  
 

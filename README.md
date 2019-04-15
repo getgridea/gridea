@@ -89,7 +89,7 @@ We welcome all contributions.You can submit any ideas as [pull requests](https:/
 
 ## Donation
 <div>
-  <img src="./files/wechat.jpeg" width="240px">
+  <img src="./files/wechat.png" width="240px">
 </div>
 
 ## License

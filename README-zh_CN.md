@@ -88,7 +88,7 @@ $ npm run electron:build
 
 ## 支持
 <div>
-  <img src="./files/wechat.jpeg" width="240px">
+  <img src="./files/wechat.png" width="240px">
 </div>
 
 ## License

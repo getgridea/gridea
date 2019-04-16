@@ -86,7 +86,22 @@ export default class BasicSetting extends Vue {
     this.form.cname = this.site.setting.cname
   }
 
+  /**
+   * check form validate
+   * @returns {boolean} 
+   */
+  checkFormValid() {
+    if(!['https://', 'http://'].some(d => this.form.domain.startsWith(d))) {
+      this.$message.warn(this.$t('domainShouldStartsWithWarn'))
+      return false
+    }
+    return true
+  }
+
   submit() {
+    const formValid = this.checkFormValid()
+    if(!formValid) return false
+    
     ipcRenderer.send('setting-save', this.form)
     ipcRenderer.once('setting-saved', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')

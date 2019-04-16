@@ -90,7 +90,7 @@ const message = {
     customConfig: '自定义配置',
   },
   en: {
-    preview: 'Preiview',
+    preview: 'Preview',
     syncSite: 'Sync Website',
     newVersion: 'New version',
     article: 'Article',

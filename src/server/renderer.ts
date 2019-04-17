@@ -604,6 +604,12 @@ export default class Renderer extends Model {
    * Copy file to output folder
    */
   async copyFiles() {
+    const postMDInputPath = `${this.appDir}/posts`
+    const postMDOutputPath = `${this.outputDir}/posts-bak`
+
+    await fse.ensureDir(postMDOutputPath)
+    await fse.copySync(postMDInputPath, postMDOutputPath)
+
     const postImageInputPath = `${this.appDir}/post-images`
     const postImageOutputPath = `${this.outputDir}/post-images`
 

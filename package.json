@@ -62,10 +62,23 @@
     "@vue/cli-plugin-typescript": "^3.6.0",
     "@vue/cli-service": "^3.6.0",
     "electron": "^4.0.0",
+    "husky": "^1.3.1",
     "less-loader": "^4.1.0",
+    "lint-staged": "^8.1.5",
     "typescript": "^3.0.0",
     "vue-cli-plugin-electron-builder": "^1.0.0-rc.10",
     "vue-template-compiler": "^2.5.17"
   },
-  "main": "background.js"
+  "main": "background.js",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
 }

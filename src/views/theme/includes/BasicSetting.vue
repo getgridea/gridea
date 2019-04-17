@@ -37,7 +37,7 @@
     </a-form-item>
     <a-form-item :label="$t('dateFormat')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
       <a-input v-model="form.dateFormat" />
-      <div><a href="#" @click="openPage('http://momentjs.cn/docs/#/displaying/format/')">Momentjs Format</a></div>
+      <div><a @click.prevent="openPage('http://momentjs.cn/docs/#/displaying/format/')">Momentjs Format</a></div>
     </a-form-item>
     <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
       <a-button class="btn" type="primary" @click="saveTheme">{{ $t('save') }}</a-button>

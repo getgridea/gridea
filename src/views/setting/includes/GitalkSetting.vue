@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-      <a href="#" @click="openPage('https://github.com/gitalk/gitalk')">Gitalk Document</a>
+      <a @click.prevent="openPage('https://github.com/gitalk/gitalk')">Gitalk Document</a>
     </a-form-item>
     <a-form-item label="Client ID" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
       <a-input v-model="form.clientId"></a-input>

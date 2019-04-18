@@ -87,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event, shell } from 'electron'
+import { ipcRenderer, Event, shell , clipboard, remote } from 'electron'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
 import { State } from 'vuex-class'
@@ -97,6 +97,7 @@ import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
 import { UrlFormats } from '../../helpers/enums'
+import * as fse from 'fs-extra'
 
 @Component({
   components: { MarkdownEditor },
@@ -186,6 +187,7 @@ export default class ArticleUpdate extends Vue {
   }
 
   buildCurrentForm() {
+
     const { articleFileName } = this
     console.log('articleFileName: ', articleFileName)
     if (articleFileName) {
@@ -366,6 +368,30 @@ export default class ArticleUpdate extends Vue {
           console.log(imageFiles)
           this.uploadImageFiles(imageFiles)
           e.preventDefault()
+        }
+      })
+      codemirror.on(('paste'), (editor: any, e: any) => {
+
+        if (!(e.clipboardData && e.clipboardData.items)) {
+          return
+        }
+        try {
+          const file = e.clipboardData.files[0]
+          const data = e.clipboardData.items[0]
+          if (data.kind === 'file' && data.type.indexOf('image') !== -1 && file.type.indexOf('image') !== -1 && file.path === '') {// file.path==='' 说明是剪切板来的
+              const parseImg = clipboard.readImage()
+              const imgBuffer = parseImg.toPNG()
+              const tempImageFile = remote.app.getPath('temp') + 'gridea_temp.png'
+              fse.writeFileSync(tempImageFile, imgBuffer)
+              // console.log(remote.app.getPath('temp'))
+              this.uploadImageFiles([{
+              name: 'gridea_post.png',
+              path: tempImageFile,
+              type: data.type,
+            }])
+          }
+        } catch (ex) {
+          // ignore error
         }
       })
     }

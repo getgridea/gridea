@@ -9,7 +9,7 @@
     </div>
     <div class="page-content">
       <a-row :gutter="16">
-        <a-col :span="16">
+        <a-col :span="16"  @click.capture='preventDefault($event)'>
           <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
           <div class="tip-text">{{ $t('editorTip') }}</div>
           <markdown-editor
@@ -250,6 +250,17 @@ export default class ArticleUpdate extends Vue {
 
   handleFileNameChange(val: string) {
     this.fileNameChanged = !!val
+  }
+
+  preventDefault(event: any) {
+    if (event.target.tagName === 'A') {
+      const href = event.target.getAttribute('href')
+      if (!href.startsWith('#')) {
+        // ignore anchor link.
+        event.preventDefault()
+        shell.openExternal(href)
+      }
+    }
   }
 
   buildFileName() {

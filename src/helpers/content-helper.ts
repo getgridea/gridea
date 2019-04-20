@@ -14,11 +14,11 @@ export default class ContentHelper {
   /**
    * 将文章中本地图片路径，变更为线上路径
    * @param content 内容
-   * @param domainPath 线上路径
+   * @param basePath 线上路径
    */
-  changeImageUrlLocalToDomain(content: string, domainPath: string) {
-    domainPath = domainPath.replace(/\\/g, '/')
-    return content.replace(this.localReg, `(${domainPath}/post-images/`)
+  changeImageUrlLocalToBasePath(content: string, basePath: string) {
+    basePath = basePath.replace(/\\/g, '/')
+    return content.replace(this.localReg, `(${basePath}/post-images/`)
   }
 
   /**
@@ -41,8 +41,8 @@ export default class ContentHelper {
   /**
    * 将 feature 本地图片路径，变更为线上路径
    */
-  changeFeatureImageUrlLocalToDomain(content: string, domainPath: string, mode: string) {
-    let url = content.replace(this.featureLocalReg, `${mode === 'preview' ? 'file:///' : ''}${domainPath}/post-images/`)
+  changeFeatureImageUrlLocalToBathPath(content: string, basePath: string, mode: string) {
+    let url = content.replace(this.featureLocalReg, `${mode === 'preview' ? 'file:///' : ''}${basePath}/post-images/`)
     url = url.replace(/\\/g, '/')
     return url
   }

@@ -147,7 +147,7 @@ ${postMatter.content}`
    */
   async savePostToFile(post: IPost): Promise<IPost | null> {
     const helper = new ContentHelper()
-    const content = helper.changeImageUrlLocalToDomain(post.content, this.db.setting.domain)
+    const content = helper.changeImageUrlLocalToBasePath(post.content, this.db.setting.domain)
     const extendName = (post.featureImage.name || 'jpg').split('.').pop()
 
     const mdStr = `---

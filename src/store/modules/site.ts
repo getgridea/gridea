@@ -43,6 +43,7 @@ const siteState: Site = {
   setting: {
     platform: '',
     domain: '',
+    basePath: '',
     repository: '',
     branch: '',
     username: '',

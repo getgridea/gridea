@@ -47,12 +47,15 @@ export default class Renderer extends Model {
 
   async preview() {
     this.db.themeConfig.domain = this.outputDir
+    this.db.themeConfig.basePath = this.outputDir
     await this.renderAll('preview')
   }
 
   async publish() {
     this.db.themeConfig.domain = this.db.setting.domain
     console.log('domain', this.db.themeConfig.domain)
+    this.db.themeConfig.basePath = this.db.setting.basePath
+    console.log('basePath', this.db.themeConfig.basePath)
     await this.renderAll('publish')
     console.log('渲染完毕')
     let result = {
@@ -244,25 +247,25 @@ export default class Renderer extends Model {
         const currentTags = item.data.tags || []
         let toc = ''
         const result: IPostRenderData = {
-          content: markdown.render(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain), {
+          content: markdown.render(helper.changeImageUrlLocalToBasePath(item.content, this.db.themeConfig.basePath), {
             tocCallback(tocMarkdown: any, tocArray: any, tocHtml: any) {
               toc = tocHtml
             },
           }),
           fileName: item.fileName,
-          abstract: markdown.render(helper.changeImageUrlLocalToDomain(item.abstract, this.db.themeConfig.domain)),
+          abstract: markdown.render(helper.changeImageUrlLocalToBasePath(item.abstract, this.db.themeConfig.basePath)),
           title: item.data.title,
           tags: this.db.tags
             .filter((tag: ITag) => currentTags.find((i) => i === tag.name))
-            .map((tag: ITag) => ({ ...tag, link: `${this.db.themeConfig.domain}/tag/${tag.slug}${mode === 'preview' ? '/index.html' : ''}` })),
+            .map((tag: ITag) => ({ ...tag, link: `${this.db.themeConfig.basePath}/tag/${tag.slug}${mode === 'preview' ? '/index.html' : ''}` })),
           date: item.data.date,
           dateFormat: (themeConfig.dateFormat && moment(item.data.date).format(themeConfig.dateFormat)) || item.data.date,
           feature: item.data.feature
             ? item.data.feature.includes('http')
               ? item.data.feature
-              : `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain, mode)}`
+              : `${helper.changeFeatureImageUrlLocalToBathPath(item.data.feature, this.db.themeConfig.basePath, mode)}`
             : '',
-          link: `${this.db.themeConfig.domain}/post/${item.fileName}${mode === 'preview' ? '/index.html' : ''}`,
+          link: `${this.db.themeConfig.basePath}/post/${item.fileName}${mode === 'preview' ? '/index.html' : ''}`,
           hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
         }
         result.toc = toc
@@ -283,13 +286,8 @@ export default class Renderer extends Model {
     })
 
     this.menuData = this.db.menus.map((menu: IMenu) => {
-      let link = menu.link.replace(this.db.setting.domain, this.db.themeConfig.domain)
-
-      const isSiteLink = menu.link.includes(this.db.setting.domain)
-      if (isSiteLink) {
-        link = `${link}${mode === 'preview' ? '/index.html' : ''}`
-      }
-
+      let link = `${this.db.themeConfig.basePath}${menu.link}`
+      link = `${link}${mode === 'preview' ? '/index.html' : ''}`
       return {
         ...menu,
         link,
@@ -366,7 +364,7 @@ export default class Renderer extends Model {
       if (i === 0 && postsData.length > pageSize) {
         await fse.ensureDir(`${this.outputDir}${extraPath}/page`)
 
-        renderData.pagination.next = `${this.db.themeConfig.domain}${extraPath}/page/2/${mode === 'preview' ? 'index.html' : ''}`
+        renderData.pagination.next = `${this.db.themeConfig.basePath}${extraPath}/page/2/${mode === 'preview' ? 'index.html' : ''}`
 
       } else if (i > 0 && postsData.length > pageSize) {
         await fse.ensureDir(`${this.outputDir}${extraPath}/page/${i + 1}`)
@@ -374,11 +372,11 @@ export default class Renderer extends Model {
         renderPath = `${this.outputDir}${extraPath}/page/${i + 1}/index.html`
 
         renderData.pagination.prev = i === 1
-          ? `${this.db.themeConfig.domain}${extraPath}/${mode === 'preview' ? 'index.html' : ''}`
-          : `${this.db.themeConfig.domain}${extraPath}/page/${i}/${mode === 'preview' ? 'index.html' : ''}`
+          ? `${this.db.themeConfig.basePath}${extraPath}/${mode === 'preview' ? 'index.html' : ''}`
+          : `${this.db.themeConfig.basePath}${extraPath}/page/${i}/${mode === 'preview' ? 'index.html' : ''}`
 
         renderData.pagination.next = (i + 1) * pageSize < postsData.length
-          ? `${this.db.themeConfig.domain}${extraPath}/page/${i + 2}/${mode === 'preview' ? 'index.html' : ''}`
+          ? `${this.db.themeConfig.basePath}${extraPath}/page/${i + 2}/${mode === 'preview' ? 'index.html' : ''}`
           : ''
       } else {
         await fse.ensureDir(`${this.outputDir}${extraPath}`)
@@ -493,7 +491,7 @@ export default class Renderer extends Model {
       const currentTag = usedTag
 
       const tagFolderPath = `${this.outputDir}/tag/${currentTag.slug}`
-      const tagDomainPath = `${this.db.themeConfig.domain}/tag/${currentTag.slug}/`
+      const tagServerPath = `${this.db.themeConfig.basePath}/tag/${currentTag.slug}/`
       await fse.ensureDir(`${this.outputDir}/tag`)
       await fse.ensureDir(tagFolderPath)
 
@@ -521,7 +519,7 @@ export default class Renderer extends Model {
         if (i === 0 && posts.length > pageSize) {
           await fse.ensureDir(`${tagFolderPath}/page`)
 
-          renderData.pagination.next = `${tagDomainPath}/page/2/${mode === 'preview' ? 'index.html' : ''}`
+          renderData.pagination.next = `${tagServerPath}/page/2/${mode === 'preview' ? 'index.html' : ''}`
 
         } else if (i > 0 && posts.length > pageSize) {
           await fse.ensureDir(`${tagFolderPath}/page/${i + 1}`)
@@ -529,11 +527,11 @@ export default class Renderer extends Model {
           renderPath = `${tagFolderPath}/page/${i + 1}/index.html`
 
           renderData.pagination.prev = i === 1
-            ? `${tagDomainPath}${mode === 'preview' ? '/index.html' : ''}`
-            : `${tagDomainPath}/page/${i}/${mode === 'preview' ? 'index.html' : ''}`
+            ? `${tagServerPath}${mode === 'preview' ? '/index.html' : ''}`
+            : `${tagServerPath}/page/${i}/${mode === 'preview' ? 'index.html' : ''}`
 
           renderData.pagination.next = (i + 1) * pageSize < posts.length
-            ? `${tagDomainPath}/page/${i + 2}/${mode === 'preview' ? 'index.html' : ''}`
+            ? `${tagServerPath}/page/${i + 2}/${mode === 'preview' ? 'index.html' : ''}`
             : ''
         }
 

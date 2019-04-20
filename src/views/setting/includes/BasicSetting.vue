@@ -59,6 +59,7 @@ export default class BasicSetting extends Vue {
   form = {
     platform: 'github',
     domain: '',
+    basePath: '',
     repository: '',
     branch: '',
     username: '',
@@ -78,6 +79,7 @@ export default class BasicSetting extends Vue {
   mounted() {
     this.form.platform = this.site.setting.platform || 'github'
     this.form.domain = this.site.setting.domain
+    this.form.basePath = this.site.setting.basePath
     this.form.repository = this.site.setting.repository
     this.form.branch = this.site.setting.branch
     this.form.username = this.site.setting.username
@@ -139,6 +141,14 @@ export default class BasicSetting extends Vue {
   onTokenChanged(val: string) {
     this.form.token = this.form.token.trim()
   }
+
+
+  @Watch('form.domain')
+  onDomainchanged(val: string) {
+    const domain = new URL(this.form.domain)
+    this.form.basePath = domain.pathname === '/' ? '' : domain.pathname
+  }
+
 }
 </script>
 

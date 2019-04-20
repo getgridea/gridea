@@ -126,21 +126,21 @@ export default class Menu extends Vue {
     const posts = this.site.posts.map((item: IPost) => {
       return {
         text: `📄 ${item.data.title}`,
-        value: `${this.site.setting.domain}/post/${item.fileName}/`,
+        value: `/post/${item.fileName}`,
       }
     })
     return [
       {
         text: '🏠 Homepage',
-        value: this.site.setting.domain,
+        value: '/',
       },
       {
         text: '📚 Archives',
-        value: `${this.site.setting.domain}/archives`,
+        value: `/archives`,
       },
       {
         text: '🏷️ Tags',
-        value: `${this.site.setting.domain}/tags`,
+        value: `/tags`,
       },
       ...posts,
     ]

@@ -48,6 +48,7 @@ export default class App {
       setting: {
         platform: '',
         domain: '',
+        basePath: '',
         repository: '',
         branch: '',
         username: '',

@@ -1,6 +1,7 @@
 export interface ISetting {
   platform?: string,
   domain: string
+  basePath: string
   repository: string
   branch: string
   username: string

@@ -178,7 +178,7 @@ const message = {
     themeConfigSaved: 'The theme configuration has been saved',
     reset: 'Reset',
     reseted: 'Reset',
-    noCustomConfigTip: 'there is no custom configuration for the theme',
+    noCustomConfigTip: 'There is no custom configuration for the theme',
     customConfig: 'Custom configuration',
   },
 }

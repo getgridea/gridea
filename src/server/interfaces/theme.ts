@@ -7,6 +7,7 @@ export interface ITheme {
   footerInfo: string
   showFeatureImage: boolean
   domain: string
+  basePath: string
   postUrlFormat: string
   tagUrlFormat: string
   dateFormat: string

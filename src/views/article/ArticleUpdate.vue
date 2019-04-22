@@ -19,6 +19,7 @@
             :configs="configs"
             preview-class="markdown-body"
             v-model="form.content"
+            @click.native.capture="preventDefault($event)"
           ></markdown-editor>
         </a-col>
         <a-col :span="8" class="right-container">
@@ -252,6 +253,17 @@ export default class ArticleUpdate extends Vue {
 
   handleFileNameChange(val: string) {
     this.fileNameChanged = !!val
+  }
+
+  preventDefault(event: any) {
+    if (event.target.tagName === 'A') {
+      const href = event.target.getAttribute('href')
+      if (href && !href.startsWith('#')) {
+        // ignore anchor link.
+        event.preventDefault()
+        shell.openExternal(href)
+      }
+    }
   }
 
   buildFileName() {

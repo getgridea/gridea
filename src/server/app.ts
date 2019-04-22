@@ -39,6 +39,7 @@ export default class App {
         footerInfo: 'Powered by Gridea',
         showFeatureImage: true,
         domain: '',
+        basePath: '',
         postUrlFormat: 'SLUG',
         tagUrlFormat: 'SLUG',
         dateFormat: 'YYYY-MM-DD',

@@ -378,20 +378,20 @@ export default class ArticleUpdate extends Vue {
         try {
           const file = e.clipboardData.files[0]
           const data = e.clipboardData.items[0]
-          if (data.kind === 'file' && data.type.indexOf('image') !== -1 && file.type.indexOf('image') !== -1 && file.path === '') {// file.path==='' 说明是剪切板来的
-              const parseImg = clipboard.readImage()
-              const imgBuffer = parseImg.toPNG()
-              const tempImageFile = remote.app.getPath('temp') + 'gridea_temp.png'
-              fse.writeFileSync(tempImageFile, imgBuffer)
-              // console.log(remote.app.getPath('temp'))
-              this.uploadImageFiles([{
+          if (data.kind === 'file' && data.type.indexOf('image') !== -1 && file.type.indexOf('image') !== -1 && file.path === '') { // file.path === '' 说明是剪切板来的
+            const parseImg = clipboard.readImage()
+            const imgBuffer = parseImg.toPNG()
+            const tempImageFile = `${remote.app.getPath('temp')}gridea_temp.png`
+            fse.writeFileSync(tempImageFile, imgBuffer)
+
+            this.uploadImageFiles([{
               name: 'gridea_post.png',
               path: tempImageFile,
               type: data.type,
             }])
           }
-        } catch (ex) {
-          // ignore error
+        } catch (e) {
+          console.log(e)
         }
       })
     }

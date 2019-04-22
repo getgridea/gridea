@@ -100,10 +100,15 @@ export default class BasicSetting extends Vue {
     return true
   }
 
+  getBasePath() {
+    const domain = new URL(this.form.domain)
+    return domain.pathname === '/' ? '' : domain.pathname
+  }
+
   submit() {
     const formValid = this.checkFormValid()
     if (!formValid) { return false }
-
+    this.form.basePath = this.getBasePath()
     ipcRenderer.send('setting-save', this.form)
     ipcRenderer.once('setting-saved', (event: Event, result: any) => {
       this.$bus.$emit('site-reload')
@@ -140,13 +145,6 @@ export default class BasicSetting extends Vue {
   @Watch('form.token')
   onTokenChanged(val: string) {
     this.form.token = this.form.token.trim()
-  }
-
-
-  @Watch('form.domain')
-  onDomainchanged(val: string) {
-    const domain = new URL(this.form.domain)
-    this.form.basePath = domain.pathname === '/' ? '' : domain.pathname
   }
 
 }

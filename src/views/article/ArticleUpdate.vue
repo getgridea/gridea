@@ -9,7 +9,7 @@
     </div>
     <div class="page-content">
       <a-row :gutter="16">
-        <a-col :span="16"  @click.capture='preventDefault($event)'>
+        <a-col :span="16">
           <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
           <div class="tip-text">{{ $t('editorTip') }}</div>
           <markdown-editor
@@ -19,6 +19,7 @@
             :configs="configs"
             preview-class="markdown-body"
             v-model="form.content"
+            @click.native.capture="preventDefault($event)"
           ></markdown-editor>
         </a-col>
         <a-col :span="8" class="right-container">
@@ -255,7 +256,7 @@ export default class ArticleUpdate extends Vue {
   preventDefault(event: any) {
     if (event.target.tagName === 'A') {
       const href = event.target.getAttribute('href')
-      if (!href.startsWith('#')) {
+      if (href && !href.startsWith('#')) {
         // ignore anchor link.
         event.preventDefault()
         shell.openExternal(href)

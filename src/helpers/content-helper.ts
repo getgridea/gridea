@@ -1,7 +1,10 @@
 export default class ContentHelper {
   localReg: RegExp
+
   domainReg: RegExp
+
   featureDomainReg: RegExp
+
   featureLocalReg: RegExp
 
   constructor() {
@@ -46,5 +49,4 @@ export default class ContentHelper {
     url = url.replace(/\\/g, '/')
     return url
   }
-
 }

@@ -66,6 +66,7 @@ export default class Tags extends Vue {
   @State('site') site!: Site
 
   visible = false
+
   isUpdate = false
 
   form = {
@@ -82,7 +83,7 @@ export default class Tags extends Vue {
 
   handleNameChange(val: string) {
     if (!this.slugChanged && this.site.themeConfig.tagUrlFormat === UrlFormats.Slug) {
-        this.form.slug = slug(this.form.name)
+      this.form.slug = slug(this.form.name)
     }
   }
 
@@ -163,6 +164,7 @@ export default class Tags extends Vue {
       this.visible = false
     })
   }
+
   async handleDelete(tagValue: string) {
     this.$confirm({
       title: `${this.$t('warning')}`,

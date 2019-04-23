@@ -23,7 +23,7 @@
           class="table-cell-link"
           href="javascript:;"
           slot="name"
-          slot-scope="text, record, index"
+          slot-scope="text, record"
           @click="editPost(record)"
         >{{ text }} <a-tag v-if="record.data.hideInList" color="orange">Hide</a-tag> </a>
         <a-tag :class="{'tag-success': text, 'tag-draft': !text }" slot="status" :color="text ? '#d8f5ea': '#e8e8e8'" slot-scope="text">{{ text ? $t('published') : $t('draft') }}</a-tag>
@@ -61,9 +61,13 @@ export default class Articles extends Vue {
   @State('site') site!: any
 
   articleUpdateVisible = false
+
   currentArticleFileName = ''
+
   selectedRowKeys = []
+
   selectedPost = []
+
   keyword = ''
 
   get columns() {

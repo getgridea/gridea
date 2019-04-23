@@ -1,14 +1,17 @@
 import * as path from 'path'
 import * as fse from 'fs-extra'
-// tslint:disable-next-line
-const junk = require('junk')
 import Model from './model'
 import { ITheme } from './interfaces/theme'
+// tslint:disable-next-line
+const junk = require('junk')
 
 export default class Theme extends Model {
   themeDir: string
+
   themeList: string[]
+
   themeConfig: any
+
   currentThemePath = ''
 
   constructor(appInstance: any) {
@@ -91,5 +94,4 @@ export default class Theme extends Model {
 
     return []
   }
-
 }

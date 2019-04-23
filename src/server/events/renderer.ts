@@ -28,7 +28,5 @@ export default class RendererEvents {
       const result = await renderer.remoteDetect()
       event.sender.send('remote-detected', result)
     })
-
   }
-
 }

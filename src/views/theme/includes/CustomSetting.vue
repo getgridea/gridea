@@ -5,7 +5,7 @@
       <a-button slot="extra" @click="saveThemeCustomConfig" type="primary">{{ $t('save') }}</a-button>
       <a-tabs tabPosition="left" defaultActiveKey="1" v-model="activeKey">
         <a-tab-pane :tab="group" v-for="(group, index) in groups" :key="index + 1">
-          <div v-for="(item, index) in currentThemeConfig">
+          <div v-for="(item, index1) in currentThemeConfig" :key="index1">
             <a-form-item v-if="item.group === group" :label="item.label" :colon="false">
 
               <!-- 普通输入 -->
@@ -17,8 +17,8 @@
                 trigger="click"
                 placement="bottomLeft"
               >
-                <color-card slot="content" @change="handleColorChange($event, index, item.name)"></color-card>
-                <a-input :ref="`color${index}`" v-if="item.type === 'input' && item.card === 'color'" :placeholder="item.note" v-model="form[item.name]" />
+                <color-card slot="content" @change="handleColorChange($event, index1, item.name)"></color-card>
+                <a-input :ref="`color${index1}`" v-if="item.type === 'input' && item.card === 'color'" :placeholder="item.note" v-model="form[item.name]" />
               </a-popover>
 
               <!-- 下拉选择 -->
@@ -101,7 +101,7 @@ export default class Theme extends Vue {
     ipcRenderer.send('theme-custom-config-save', {})
     ipcRenderer.once('theme-custom-config-saved', async (event: Event, result: any) => {
       await this.$bus.$emit('site-reload')
-      this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=custom' }})
+      this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=custom' } })
       this.$message.success(this.$t('reseted'))
     })
   }

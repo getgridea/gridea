@@ -20,7 +20,5 @@ export default class TagEvents {
       const data = await tags.saveTag(tag)
       event.sender.send('tag-saved', data)
     })
-
   }
-
 }

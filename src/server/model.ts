@@ -5,9 +5,13 @@ import { IApplicationDb, IApplication } from './interfaces/application'
 
 export default class Model {
   appDir: string
+
   $setting: any
+
   $posts: any
+
   $theme: any
+
   db: IApplicationDb
 
   constructor(appInstance: IApplication) {
@@ -30,6 +34,4 @@ export default class Model {
     const theme = low(themeAdapter)
     this.$theme = theme
   }
-
 }
-

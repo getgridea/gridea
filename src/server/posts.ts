@@ -1,18 +1,20 @@
 import * as fs from 'fs'
-import Model from './model'
 import * as fse from 'fs-extra'
 import * as path from 'path'
-// tslint:disable-next-line
-const junk = require('junk')
-import { IPost, IPostDb } from './interfaces/post'
-import ContentHelper from '../helpers/content-helper'
 import matter from 'gray-matter'
 import moment from 'moment'
 import Bluebird from 'bluebird'
+import Model from './model'
+import { IPost, IPostDb } from './interfaces/post'
+import ContentHelper from '../helpers/content-helper'
+// tslint:disable-next-line
+const junk = require('junk')
+
 Bluebird.promisifyAll(fs)
 
 export default class Posts extends Model {
   postDir: string
+
   postImageDir: string
 
   constructor(appInstance: any) {
@@ -49,7 +51,7 @@ export default class Posts extends Model {
 
       // If there is a `tag` and it is of string type, it is corrected to array type.
       if (data && typeof data.tags === 'string') {
-        const tagReg = /tags: [^\s\[]/i
+        const tagReg = /tags: [^\s[]/i
         const newTagString = data.tags.split(' ').toString()
 
         if (tagReg.test(result)) {
@@ -130,10 +132,8 @@ ${postMatter.content}`
     const list = posts.map((post: IPostDb) => {
       const item = JSON.parse(JSON.stringify(post))
       item.content = helper.changeImageUrlDomainToLocal(item.content, this.appDir)
-      item.data.feature = item.data.feature
-        ? item.data.feature.includes('http')
-          ? item.data.feature
-          : helper.changeFeatureImageUrlDomainToLocal(item.data.feature, this.appDir)
+      item.data.feature = item.data.feature && !item.data.feature.includes('http')
+        ? helper.changeFeatureImageUrlDomainToLocal(item.data.feature, this.appDir)
         : item.data.feature
       return item
     })
@@ -161,10 +161,8 @@ feature: ${post.featureImage.name ? `/post-images/${post.fileName}.${extendName}
 ${content}`
 
     try {
-
       // If exist feature image
       if (post.featureImage.path) {
-
         const filePath = `${this.postImageDir}/${post.fileName}.${extendName}`
 
         if (post.featureImage.path !== filePath) {
@@ -226,7 +224,7 @@ ${content}`
       const extendName = file.name.split('.').pop()
       const newFileName = new Date().getTime()
       const filePath = `${this.postImageDir}/${newFileName}.${extendName}`
-      await fse.copySync(file.path, filePath)
+      fse.copySync(file.path, filePath)
       results.push(filePath)
     }
     return results

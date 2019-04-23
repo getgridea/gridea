@@ -38,22 +38,19 @@ export default class App extends Vue {
   ::-webkit-scrollbar-button{
     display: none;
   }
-    /*	经测试好像并不能控制什么	*/
   ::-webkit-scroll-track{
     display: none;
   }
-    /*	滚动条内侧部分 去掉	*/
   ::-webkit-scrollbar-track-piece {
     display: none;
   }
 
-  /*	滚动条中可以拖动的那部分	*/
   ::-webkit-scrollbar-thumb{
     background-color: #eee;
     opacity: 0.7;
     border-radius: 4px;
   }
-  /*	变角部分	*/
+
   ::-webkit-scrollbar-corner {
     display: none;
   }

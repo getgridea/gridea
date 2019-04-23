@@ -20,7 +20,5 @@ export default class MenuEvents {
       const data = await menus.saveMenu(menu)
       event.sender.send('menu-saved', data)
     })
-
   }
-
 }

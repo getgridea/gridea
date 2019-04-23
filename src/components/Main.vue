@@ -59,14 +59,15 @@
 import { ipcRenderer, Event, shell } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import axios from 'axios'
-import ISnackbar from '../interfaces/snackbar'
 import { State, Action } from 'vuex-class'
+import ISnackbar from '../interfaces/snackbar'
 import { Site } from '../store/modules/site'
 import * as pkg from '../../package.json'
 
 @Component
 export default class App extends Vue {
   @State('site') site!: any
+
   @Action('site/updateSite') updateSite!: (siteData: Site) => void
 
   ipcRenderer = ipcRenderer
@@ -76,7 +77,9 @@ export default class App extends Vue {
   drawer = true
 
   publishLoading = false
+
   hasUpdate = false
+
   newVersion = ''
 
   created() {

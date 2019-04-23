@@ -1,15 +1,10 @@
+import shortid from 'shortid'
 import Model from './model'
 import { ITag } from './interfaces/tag'
 import slug from '../helpers/slug'
-import shortid from 'shortid'
 import { UrlFormats } from '../helpers/enums'
 
 export default class Tags extends Model {
-
-  constructor(appInstance: any) {
-    super(appInstance)
-  }
-
   public async saveTags() {
     const posts = this.$posts.get('posts').value()
     let list: any = []
@@ -84,5 +79,4 @@ export default class Tags extends Model {
     const tag = await this.$posts.get('tags').remove({ name: tagValue }).write()
     return tag
   }
-
 }

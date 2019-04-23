@@ -51,6 +51,7 @@ module.exports = {
     'class-methods-use-this': 0,
     'no-irregular-whitespace': 0,
     'consistent-return': 0,
+    'import/no-extraneous-dependencies': 0,
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',

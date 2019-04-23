@@ -286,8 +286,11 @@ export default class Renderer extends Model {
     })
 
     this.menuData = this.db.menus.map((menu: IMenu) => {
-      let link = `${this.db.themeConfig.basePath}${menu.link}`
-      link = `${link}${mode === 'preview' ? '/index.html' : ''}`
+      let link = menu.link
+      if (link.startsWith('/')) {
+        link = `${this.db.themeConfig.basePath}${link}`
+        link = `${link}${mode === 'preview' ? '/index.html' : ''}`
+      }
       return {
         ...menu,
         link,

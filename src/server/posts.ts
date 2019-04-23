@@ -7,6 +7,7 @@ import Bluebird from 'bluebird'
 import Model from './model'
 import { IPost, IPostDb } from './interfaces/post'
 import ContentHelper from '../helpers/content-helper'
+import { formatYamlString } from '../helpers/utils'
 // tslint:disable-next-line
 const junk = require('junk')
 
@@ -41,6 +42,8 @@ export default class Posts extends Model {
       const postMatter = matter(result)
       const data = (postMatter.data as any)
 
+      data.title = formatYamlString(data.title)
+
       if (data && data.date) {
         if (typeof data.date === 'string') {
           data.date = moment(data.date).format('YYYY-MM-DD HH:mm:ss')
@@ -56,7 +59,7 @@ export default class Posts extends Model {
 
         if (tagReg.test(result)) {
           const mdStr = `---
-title: ${data.title}
+title: '${data.title}'
 date: ${data.date}
 tags: [${newTagString}]
 published: ${data.published || false}
@@ -74,9 +77,14 @@ ${postMatter.content}`
     fixedResults.forEach((result: any, index: any) => {
       const postMatter = matter(result)
 
-      // Fix matter's formatted `date` problem
       const data = (postMatter.data as any)
 
+      // Remove useless `'` in formatYamlString generate
+      if (data && data.title) {
+        data.title = String(data.title).replace(/''/g, '\'')
+      }
+      
+      // Fix matter's formatted `date` problem
       if (data && data.date) {
         if (typeof data.date === 'string') {
           data.date = moment(data.date).format('YYYY-MM-DD HH:mm:ss')
@@ -150,8 +158,10 @@ ${postMatter.content}`
     const content = helper.changeImageUrlLocalToDomain(post.content, this.db.setting.domain)
     const extendName = (post.featureImage.name || 'jpg').split('.').pop()
 
+    post.title = formatYamlString(post.title)
+
     const mdStr = `---
-title: ${post.title}
+title: '${post.title}'
 date: ${post.date}
 tags: [${post.tags.join(',')}]
 published: ${post.published}

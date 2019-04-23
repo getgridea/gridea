@@ -196,6 +196,7 @@ export default class ArticleUpdate extends Vue {
     const { articleFileName } = this
     console.log('articleFileName: ', articleFileName)
     if (articleFileName) {
+      this.fileNameChanged = true // 编辑文章标题时 URL 不跟随其变化
       this.currentPostIndex = this.site.posts.findIndex((item: IPost) => item.fileName === articleFileName)
       const currentPost = this.site.posts[this.currentPostIndex]
       this.originalFileName = currentPost.fileName

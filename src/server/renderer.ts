@@ -6,6 +6,7 @@ import ejs from 'ejs'
 import simpleGit, { SimpleGit } from 'simple-git/promise'
 import moment from 'moment'
 import less from 'less'
+import { Feed } from 'feed'
 import Model from './model'
 import ContentHelper from '../helpers/content-helper'
 import { IPostDb, IPostRenderData, ITagRenderData } from './interfaces/post'
@@ -230,6 +231,8 @@ export default class Renderer extends Model {
     await this.renderTagDetail(mode)
     await this.copyFiles()
     await this.buildCname()
+
+    await this.buildFeed()
   }
 
   /**
@@ -603,6 +606,39 @@ export default class Renderer extends Model {
     } else {
       await fse.removeSync(cnamePath)
     }
+  }
+
+  /**
+   * Build Feed
+   */
+  async buildFeed() {
+    const feed = new Feed({
+      title: this.db.themeConfig.siteName,
+      description: this.db.themeConfig.siteDescription,
+      id: this.db.themeConfig.domain,
+      link: this.db.themeConfig.domain,
+      image: `${this.db.themeConfig.domain}/images/avatar.png`,
+      favicon: `${this.db.themeConfig.domain}/favicon.ico`,
+      copyright: `All rights reserved ${(new Date()).getFullYear()}, ${this.db.themeConfig.siteName}`,
+      feedLinks: {
+        atom: `${this.db.themeConfig.domain}/atom.xml`,
+      },
+    })
+
+    const postsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
+    postsData.forEach((post: IPostRenderData) => {
+      feed.addItem({
+        title: post.title,
+        id: post.link,
+        link: post.link,
+        description: post.abstract,
+        content: post.content,
+        image: post.feature,
+        date: new Date(post.date),
+      })
+    })
+    console.log(feed.atom1())
+    await fs.writeFileSync(`${this.outputDir}/atom.xml`, feed.atom1())
   }
 
   /**

@@ -3,17 +3,20 @@ module.exports = {
   env: {
     node: true,
   },
-  'extends': [
+  extends: [
     'plugin:vue/essential',
     '@vue/airbnb',
+    '@vue/typescript',
   ],
   rules: {
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    // js 和 vue 不需要检查 import 的文件后缀
+    // js 和 ts 不需要检查 import 的文件后缀
     'import/extensions': ['error', 'always', {
       'js': 'never',
-      'vue': 'never',
+      'ts': 'never',
     }],
+    'no-restricted-syntax': ['error', 'WithStatement', 'BinaryExpression[operator=\'in\']'],
+    // 可以 debugger
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     // 不要分号
     'semi': [2, 'never'],
     // 全部单引号
@@ -29,7 +32,7 @@ module.exports = {
     // 允许对函数的参数赋值
     'no-param-reassign': 0,
     // 函数的参数可以不使用
-    'no-unused-vars': ['error', { 'vars': 'all', 'args': 'none' }],
+    'no-unused-vars': 0,
     // 不用强制 export default
     'import/prefer-default-export': 0,
     // 不禁止箭头函数直接return对象
@@ -39,20 +42,17 @@ module.exports = {
     // 允许short circuit evaluations
     'no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true }],
     // 最长字符
-    'max-len': ['error', { 'code': 500 }],
-    'vue/no-parsing-error': 0,
+    'max-len': ['error', { 'code': 1500 }],
+    'vue/no-parsing-error': [2, {
+      'invalid-first-character-of-tag-name': false,
+    }],
     // no-plusplus
     'no-plusplus': 0,
-    'line-breaks': 0,
+    'class-methods-use-this': 0,
+    'no-irregular-whitespace': 0,
+    'consistent-return': 0,
   },
   parserOptions: {
-    parser: 'babel-eslint',
-  },
-  settings: {
-    'import/resolver': {
-      node: {
-        extensions: ['.js','.jsx','.vue'],
-      },
-    },
+    parser: '@typescript-eslint/parser',
   },
 }

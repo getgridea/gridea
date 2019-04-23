@@ -10,14 +10,18 @@ import Renderer from './renderer'
 import Setting from './setting'
 
 import { IApplicationDb, IApplicationSetting } from './interfaces/application'
-
+// eslint-disable-next-line
 declare const __static: string
 
 export default class App {
   mainWindow: BrowserWindow
+
   app: any
+
   baseDir: string
+
   appDir: string
+
   db: IApplicationDb
 
   constructor(setting: IApplicationSetting) {
@@ -81,7 +85,6 @@ export default class App {
    *  Load site config and data
    */
   public async loadSite() {
-
     const postsInstance = new Posts(this)
     const posts = await postsInstance.list()
 
@@ -178,8 +181,7 @@ export default class App {
 
       // Site folder exists
       if (fse.pathExistsSync(this.appDir)) {
-
-        // check if the `images`, `config`, 'output', `post-images`, 'posts', 'themes' folder exists, if it does not exist, copy it from default-files
+        // Check if the `images`, `config`, 'output', `post-images`, 'posts', 'themes' folder exists, if it does not exist, copy it from default-files
         ['images', 'config', 'output', 'post-images', 'posts', 'themes'].forEach((folder: string) => {
           const folderPath = path.join(this.appDir, folder)
           if (!fse.pathExistsSync(folderPath)) {
@@ -197,24 +199,23 @@ export default class App {
         this.checkTheme('paper')
 
         return
-      } else {
-        // Site folder not exists
-        this.appDir = defaultAppDir
-        const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
-        await fse.writeFileSync(appConfigPath, jsonString)
-        fse.mkdirSync(this.appDir)
-
-        fse.copySync(
-          path.join(__static, 'default-files'),
-          path.join(this.appDir),
-        )
       }
+
+      // Site folder not exists
+      this.appDir = defaultAppDir
+      const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
+      await fse.writeFileSync(appConfigPath, jsonString)
+      fse.mkdirSync(this.appDir)
+
+      fse.copySync(
+        path.join(__static, 'default-files'),
+        path.join(this.appDir),
+      )
     } catch (e) {
       console.log('Error', e)
     } finally {
       this.initEvents()
     }
-
   }
 
   /**
@@ -231,27 +232,22 @@ export default class App {
   }
 
   private initEvents(): void {
-    const SiteEvents = EventClasses.SiteEvents
+    const {
+      SiteEvents,
+      PostEvents,
+      TagEvents,
+      MenuEvents,
+      ThemeEvents,
+      RendererEvents,
+      SettingEvents,
+    } = EventClasses
+
     const site = new SiteEvents(this)
-
-    const PostEvents = EventClasses.PostEvents
     const post = new PostEvents(this)
-
-    const TagEvents = EventClasses.TagEvents
     const tag = new TagEvents(this)
-
-    const MenuEvents = EventClasses.MenuEvents
     const menu = new MenuEvents(this)
-
-    const ThemeEvents = EventClasses.ThemeEvents
     const theme = new ThemeEvents(this)
-
-    const RendererEvents = EventClasses.RendererEvents
     const renderer = new RendererEvents(this)
-
-    const SettingEvents = EventClasses.SettingEvents
     const setting = new SettingEvents(this)
   }
-
 }
-

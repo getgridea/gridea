@@ -31,7 +31,7 @@ new Vue({
   router,
   store,
   i18n,
-  render: (h) => h(App),
+  render: h => h(App),
   mounted() {
     this.$router.push('/')
   },

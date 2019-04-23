@@ -1,9 +1,9 @@
 import { ipcMain, Event } from 'electron'
 import { IPost, IPostDb } from '../interfaces/post'
 import Posts from '../posts'
+
 export default class PostEvents {
   constructor(appInstance: any) {
-
     ipcMain.removeAllListeners('app-post-create')
     ipcMain.removeAllListeners('app-post-created')
     ipcMain.removeAllListeners('app-post-delete')
@@ -26,9 +26,9 @@ export default class PostEvents {
     })
 
     ipcMain.on('app-post-list-delete', async (event: Event, postList: IPostDb[]) => {
-      let data = false
+      let data: any = false
       for (const post of postList) {
-        data = await posts.deletePost(post)
+        data = posts.deletePost(post)
       }
 
       event.sender.send('app-post-list-deleted', data)
@@ -40,5 +40,4 @@ export default class PostEvents {
       event.sender.send('image-uploaded', data)
     })
   }
-
 }

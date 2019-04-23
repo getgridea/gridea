@@ -49,6 +49,7 @@ export default class BasicSetting extends Vue {
   @State('site') site!: any
 
   showToken = false
+
   detectLoading = false
 
   formLayout = {
@@ -93,7 +94,7 @@ export default class BasicSetting extends Vue {
    * @returns {boolean}
    */
   checkFormValid() {
-    if (!['https://', 'http://'].some((d) => this.form.domain.startsWith(d))) {
+    if (!['https://', 'http://'].some(d => this.form.domain.startsWith(d))) {
       this.$message.warn(this.$t('domainShouldStartsWithWarn'))
       return false
     }
@@ -119,26 +120,20 @@ export default class BasicSetting extends Vue {
   async remoteDetect() {
     ipcRenderer.send('setting-save', this.form)
     ipcRenderer.once('setting-saved', () => {
-
       ipcRenderer.send('app-site-reload')
       ipcRenderer.once('app-site-loaded', () => {
-
         this.detectLoading = true
         ipcRenderer.send('remote-detect')
         ipcRenderer.once('remote-detected', (event: Event, result: any) => {
-
           console.log('检测结果', result)
           this.detectLoading = false
           if (result.success) {
             this.$message.success(this.$t('connectSuccess'))
           } else {
-            this.$message.error(this.$t(`connectFailed`))
+            this.$message.error(this.$t('connectFailed'))
           }
-
         })
-
       })
-
     })
   }
 

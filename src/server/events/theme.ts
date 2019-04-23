@@ -21,5 +21,4 @@ export default class ThemeEvents {
       event.sender.send('theme-custom-config-saved', result)
     })
   }
-
 }

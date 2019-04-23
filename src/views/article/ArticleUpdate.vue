@@ -19,6 +19,7 @@
             :configs="configs"
             preview-class="markdown-body"
             v-model="form.content"
+            @click.native.capture="preventDefault($event)"
           ></markdown-editor>
         </a-col>
         <a-col :span="8" class="right-container">
@@ -87,12 +88,15 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event, shell } from 'electron'
+import {
+  ipcRenderer, Event, shell, clipboard, remote,
+} from 'electron'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
 import { State } from 'vuex-class'
 import shortid from 'shortid'
 import moment from 'moment'
+import * as fse from 'fs-extra'
 import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
@@ -103,6 +107,7 @@ import { UrlFormats } from '../../helpers/enums'
 })
 export default class ArticleUpdate extends Vue {
   @Prop(Boolean) visible!: boolean
+
   @Prop(String) articleFileName!: string
 
   $refs!: {
@@ -169,7 +174,9 @@ export default class ArticleUpdate extends Vue {
 
   // 编辑文章时，当前文章的索引
   currentPostIndex = -1
+
   originalFileName = ''
+
   fileNameChanged = false
 
   get canSubmit() {
@@ -206,14 +213,12 @@ export default class ArticleUpdate extends Vue {
           this.form.featureImagePath = currentPost.data.feature
           this.featureType = 'EXTERNAL'
         } else {
-          this.form.featureImage.path = currentPost.data.feature && currentPost.data.feature.substring(7) || ''
-          this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
+          this.form.featureImage.path = (currentPost.data.feature && currentPost.data.feature.substring(7)) || ''
+          this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\/]/, '')
         }
       }
-    } else {
-      if (this.site.themeConfig.postUrlFormat === UrlFormats.ShortId) {
-        this.form.fileName = shortid.generate()
-      }
+    } else if (this.site.themeConfig.postUrlFormat === UrlFormats.ShortId) {
+      this.form.fileName = shortid.generate()
     }
   }
 
@@ -238,18 +243,30 @@ export default class ArticleUpdate extends Vue {
   cancel() {
     this.close()
   }
+
   close() {
     this.$emit('close')
   }
 
   handleTitleChange(val: string) {
     if (!this.fileNameChanged && this.site.themeConfig.postUrlFormat === UrlFormats.Slug) {
-        this.form.fileName = slug(this.form.title)
+      this.form.fileName = slug(this.form.title)
     }
   }
 
   handleFileNameChange(val: string) {
     this.fileNameChanged = !!val
+  }
+
+  preventDefault(event: any) {
+    if (event.target.tagName === 'A') {
+      const href = event.target.getAttribute('href')
+      if (href && !href.startsWith('#')) {
+        // ignore anchor link.
+        event.preventDefault()
+        shell.openExternal(href)
+      }
+    }
   }
 
   buildFileName() {
@@ -270,12 +287,11 @@ export default class ArticleUpdate extends Vue {
       // 新增
       if (this.currentPostIndex === -1) {
         return false
-      } else {
-        restPosts.splice(this.currentPostIndex, 1)
-        const index = restPosts.findIndex((post: IPost) => post.fileName === this.form.fileName)
-        if (index !== -1) {
-          return false
-        }
+      }
+      restPosts.splice(this.currentPostIndex, 1)
+      const index = restPosts.findIndex((post: IPost) => post.fileName === this.form.fileName)
+      if (index !== -1) {
+        return false
       }
     }
 
@@ -331,14 +347,14 @@ export default class ArticleUpdate extends Vue {
   }
 
   savePost() {
-   const form = this.formatForm(true)
+    const form = this.formatForm(true)
 
-   ipcRenderer.send('app-post-create', form)
-   ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-     this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
-     this.close()
-     this.$emit('fetchData')
-   })
+    ipcRenderer.send('app-post-create', form)
+    ipcRenderer.once('app-post-created', (event: Event, data: any) => {
+      this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
+      this.close()
+      this.$emit('fetchData')
+    })
   }
 
   initEditor() {
@@ -368,6 +384,29 @@ export default class ArticleUpdate extends Vue {
           e.preventDefault()
         }
       })
+      codemirror.on(('paste'), (editor: any, e: any) => {
+        if (!(e.clipboardData && e.clipboardData.items)) {
+          return
+        }
+        try {
+          const file = e.clipboardData.files[0]
+          const data = e.clipboardData.items[0]
+          if (data.kind === 'file' && data.type.indexOf('image') !== -1 && file.type.indexOf('image') !== -1 && file.path === '') { // file.path === '' 说明是剪切板来的
+            const parseImg = clipboard.readImage()
+            const imgBuffer = parseImg.toPNG()
+            const tempImageFile = `${remote.app.getPath('temp')}gridea_temp.png`
+            fse.writeFileSync(tempImageFile, imgBuffer)
+
+            this.uploadImageFiles([{
+              name: 'gridea_post.png',
+              path: tempImageFile,
+              type: data.type,
+            }])
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      })
     }
   }
 
@@ -392,6 +431,7 @@ export default class ArticleUpdate extends Vue {
     editor.replaceSelection('\n<!-- more -->\n')
     editor.focus()
   }
+
   insertLink() {
     const editor = this.$refs.editor.simplemde.codemirror
 
@@ -421,7 +461,6 @@ export default class ArticleUpdate extends Vue {
       ])
     }
   }
-
 }
 </script>
 

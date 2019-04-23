@@ -73,7 +73,9 @@ export default class Theme extends Vue {
     tagUrlFormat: 'SLUG',
     dateFormat: 'YYYY-MM-DD',
   }
+
   lCol = { span: 5 }
+
   wCol = { span: 12 }
 
   urlFormats = UrlFormats
@@ -82,7 +84,7 @@ export default class Theme extends Vue {
     ipcRenderer.send('theme-save', this.form)
     ipcRenderer.once('theme-saved', async (event: Event, result: any) => {
       await this.$bus.$emit('site-reload')
-      this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=basic' }})
+      this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=basic' } })
       this.$message.success(this.$t('themeConfigSaved'))
     })
   }

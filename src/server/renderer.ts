@@ -1,33 +1,42 @@
 import * as fs from 'fs'
 import path from 'path'
 import Bluebird from 'bluebird'
-Bluebird.promisifyAll(fs)
 import * as fse from 'fs-extra'
-import markdown from './plugins/markdown'
-import ejs, { render } from 'ejs'
+import ejs from 'ejs'
 import simpleGit, { SimpleGit } from 'simple-git/promise'
 import moment from 'moment'
 import less from 'less'
 import Model from './model'
 import ContentHelper from '../helpers/content-helper'
-const helper = new ContentHelper()
 import { IPostDb, IPostRenderData, ITagRenderData } from './interfaces/post'
 import { ITag } from './interfaces/tag'
 import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE } from '../helpers/constants'
+import markdown from './plugins/markdown'
 import { IMenu } from './interfaces/menu'
+
+Bluebird.promisifyAll(fs)
+const helper = new ContentHelper()
 
 export default class Renderer extends Model {
   outputDir: string = `${this.appDir}/output`
+
   themePath: string = ''
+
   postsData: IPostRenderData[] = []
+
   tagsData: ITagRenderData[] = []
+
   menuData: IMenu[] = []
+
   git: SimpleGit
+
   platformAddress = ''
+
   remoteUrl = ''
+
   utils: any = {}
 
-  constructor(appInstance: any)  {
+  constructor(appInstance: any) {
     super(appInstance)
 
     this.loadConfig()
@@ -154,7 +163,7 @@ export default class Renderer extends Model {
       await this.git.commit('first commit')
       await this.git.addRemote('origin', this.remoteUrl)
       localBranchs = await this.checkCurrentBranch()
-      await this.git.push('origin', setting.branch, {'--force': true})
+      await this.git.push('origin', setting.branch, { '--force': true })
       return {
         success: true,
         data: localBranchs,
@@ -185,10 +194,10 @@ export default class Renderer extends Model {
         await this.git.add('./*')
         await this.git.commit(`update from gridea: ${moment().format('YYYY-MM-DD HH:mm:ss')}`)
         localBranchs = await this.checkCurrentBranch()
-        await this.git.push('origin', this.db.setting.branch, {'--force': true})
+        await this.git.push('origin', this.db.setting.branch, { '--force': true })
       } else {
         await this.checkCurrentBranch()
-        await this.git.push('origin', this.db.setting.branch, {'--force': true})
+        await this.git.push('origin', this.db.setting.branch, { '--force': true })
       }
       return {
         success: true,
@@ -256,15 +265,13 @@ export default class Renderer extends Model {
           abstract: markdown.render(helper.changeImageUrlLocalToBasePath(item.abstract, this.db.themeConfig.basePath)),
           title: item.data.title,
           tags: this.db.tags
-            .filter((tag: ITag) => currentTags.find((i) => i === tag.name))
+            .filter((tag: ITag) => currentTags.find(i => i === tag.name))
             .map((tag: ITag) => ({ ...tag, link: `${this.db.themeConfig.basePath}/tag/${tag.slug}${mode === 'preview' ? '/index.html' : ''}` })),
           date: item.data.date,
           dateFormat: (themeConfig.dateFormat && moment(item.data.date).format(themeConfig.dateFormat)) || item.data.date,
-          feature: item.data.feature
-            ? item.data.feature.includes('http')
-              ? item.data.feature
-              : `${helper.changeFeatureImageUrlLocalToBathPath(item.data.feature, this.db.themeConfig.basePath, mode)}`
-            : '',
+          feature: item.data.feature && !item.data.feature.includes('http')
+            ? `${helper.changeFeatureImageUrlLocalToBathPath(item.data.feature, this.db.themeConfig.basePath, mode)}`
+            : item.data.feature || '',
           link: `${this.db.themeConfig.basePath}/post/${item.fileName}${mode === 'preview' ? '/index.html' : ''}`,
           hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
         }
@@ -307,7 +314,7 @@ export default class Renderer extends Model {
     // Compatible: < v0.7.0
     const pageSize = extraPath === '/archives'
       ? archivesPageSize || DEFAULT_ARCHIVES_PAGE_SIZE
-      : postPageSize ||  DEFAULT_POST_PAGE_SIZE
+      : postPageSize || DEFAULT_POST_PAGE_SIZE
 
     const postsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
 
@@ -329,7 +336,7 @@ export default class Renderer extends Model {
         },
       }
       let html = ''
-      const renderTemplatePath  = extraPath === '/archives'
+      const renderTemplatePath = extraPath === '/archives'
         ? `${this.themePath}/templates/archives.ejs`
         : `${this.themePath}/templates/index.ejs`
 
@@ -365,12 +372,10 @@ export default class Renderer extends Model {
       let renderPath = `${this.outputDir}${extraPath}/index.html`
 
       if (i === 0 && postsData.length > pageSize) {
-        await fse.ensureDir(`${this.outputDir}${extraPath}/page`)
-
+        fse.ensureDir(`${this.outputDir}${extraPath}/page`)
         renderData.pagination.next = `${this.db.themeConfig.basePath}${extraPath}/page/2/${mode === 'preview' ? 'index.html' : ''}`
-
       } else if (i > 0 && postsData.length > pageSize) {
-        await fse.ensureDir(`${this.outputDir}${extraPath}/page/${i + 1}`)
+        fse.ensureDir(`${this.outputDir}${extraPath}/page/${i + 1}`)
 
         renderPath = `${this.outputDir}${extraPath}/page/${i + 1}/index.html`
 
@@ -382,15 +387,15 @@ export default class Renderer extends Model {
           ? `${this.db.themeConfig.basePath}${extraPath}/page/${i + 2}/${mode === 'preview' ? 'index.html' : ''}`
           : ''
       } else {
-        await fse.ensureDir(`${this.outputDir}${extraPath}`)
+        fse.ensureDir(`${this.outputDir}${extraPath}`)
       }
 
       let html = ''
-      const renderTemplatePath  = extraPath === '/archives'
+      const renderTemplatePath = extraPath === '/archives'
         ? `${this.themePath}/templates/archives.ejs`
         : `${this.themePath}/templates/index.ejs`
 
-      await ejs.renderFile(renderTemplatePath, renderData, {}, async (err: any, str) => {
+      ejs.renderFile(renderTemplatePath, renderData, {}, async (err: any, str) => {
         if (err) {
           console.log(err)
         }
@@ -400,7 +405,7 @@ export default class Renderer extends Model {
       })
 
       console.log('👏  PostList Page:', renderPath)
-      await fs.writeFileSync(renderPath, html)
+      fs.writeFileSync(renderPath, html)
     }
   }
 
@@ -430,7 +435,7 @@ export default class Renderer extends Model {
         },
       }
       let html = ''
-      await ejs.renderFile(`${this.themePath}/templates/post.ejs`, renderData, {}, async (err: any, str) => {
+      ejs.renderFile(`${this.themePath}/templates/post.ejs`, renderData, {}, async (err: any, str) => {
         if (err) {
           console.error('EJS Render Error', err)
         }
@@ -440,8 +445,8 @@ export default class Renderer extends Model {
       })
 
       const renderFolerPath = `${this.outputDir}/post/${post.fileName}`
-      await fse.ensureDir(renderFolerPath)
-      await fs.writeFileSync(`${renderFolerPath}/index.html`, html)
+      fse.ensureDirSync(renderFolerPath)
+      fs.writeFileSync(`${renderFolerPath}/index.html`, html)
     }
   }
 
@@ -495,8 +500,8 @@ export default class Renderer extends Model {
 
       const tagFolderPath = `${this.outputDir}/tag/${currentTag.slug}`
       const tagServerPath = `${this.db.themeConfig.basePath}/tag/${currentTag.slug}/`
-      await fse.ensureDir(`${this.outputDir}/tag`)
-      await fse.ensureDir(tagFolderPath)
+      fse.ensureDirSync(`${this.outputDir}/tag`)
+      fse.ensureDirSync(tagFolderPath)
 
       for (let i = 0; i * pageSize < posts.length; i += 1) {
         const renderData = {
@@ -520,12 +525,10 @@ export default class Renderer extends Model {
         let renderPath = `${tagFolderPath}/index.html`
 
         if (i === 0 && posts.length > pageSize) {
-          await fse.ensureDir(`${tagFolderPath}/page`)
-
+          fse.ensureDirSync(`${tagFolderPath}/page`)
           renderData.pagination.next = `${tagServerPath}/page/2/${mode === 'preview' ? 'index.html' : ''}`
-
         } else if (i > 0 && posts.length > pageSize) {
-          await fse.ensureDir(`${tagFolderPath}/page/${i + 1}`)
+          fse.ensureDirSync(`${tagFolderPath}/page/${i + 1}`)
 
           renderPath = `${tagFolderPath}/page/${i + 1}/index.html`
 
@@ -539,13 +542,13 @@ export default class Renderer extends Model {
         }
 
         let html = ''
-        await ejs.renderFile(`${this.themePath}/templates/tag.ejs`, renderData, {}, async (err: any, str) => {
+        ejs.renderFile(`${this.themePath}/templates/tag.ejs`, renderData, {}, async (err: any, str) => {
           if (str) {
             html = str
           }
         })
         console.log('👏  Tag Page:', renderPath)
-        await fs.writeFileSync(renderPath, html)
+        fs.writeFileSync(renderPath, html)
       }
     }
   }
@@ -622,7 +625,6 @@ export default class Renderer extends Model {
 
     await fse.ensureDir(mediaInputPath)
     await fse.copySync(mediaInputPath, mediaOutputPath)
-
   }
 
   async clearOutputFolder() {
@@ -634,5 +636,4 @@ export default class Renderer extends Model {
     await fse.removeSync(`${this.outputDir}/styles`)
     await fse.removeSync(`${this.outputDir}/tag`)
   }
-
 }

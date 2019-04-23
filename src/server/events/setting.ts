@@ -36,7 +36,5 @@ export default class SettingEvents {
       const data = await settingInstance.uploadAvatar(filePath)
       event.sender.send('avatar-uploaded', data)
     })
-
   }
-
 }

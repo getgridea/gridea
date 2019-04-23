@@ -1,11 +1,13 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, ipcMain, Menu } from 'electron'
-import App from './server/app'
-
+import {
+  app, protocol, BrowserWindow, ipcMain, Menu, shell,
+} from 'electron'
 import {
   createProtocol,
 } from 'vue-cli-plugin-electron-builder/lib'
+import App from './server/app'
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -46,18 +48,18 @@ function createWindow() {
     {
       label: 'Edit',
       submenu: [
-        {role: 'undo'},
-        {role: 'redo'},
-        {type: 'separator'},
-        {role: 'cut'},
-        {role: 'copy'},
-        {role: 'paste'},
-        {role: 'pasteandmatchstyle'},
-        {role: 'delete'},
-        {role: 'selectall'},
-        {role: 'toggledevtools'},
-        {type: 'separator'},
-        {role: 'quit', label: 'Quit Gridea'},
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'pasteandmatchstyle' },
+        { role: 'delete' },
+        { role: 'selectall' },
+        { role: 'toggledevtools' },
+        { type: 'separator' },
+        { role: 'quit', label: 'Quit Gridea' },
       ],
     },
     {
@@ -68,7 +70,7 @@ function createWindow() {
       submenu: [
         {
           label: 'Learn More',
-          click() { require('electron').shell.openExternal('https://github.com/getgridea/gridea') },
+          click() { shell.openExternal('https://github.com/getgridea/gridea') },
         },
       ],
     },

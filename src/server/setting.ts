@@ -4,11 +4,6 @@ import Model from './model'
 import { ISetting, ICommentSetting } from './interfaces/setting'
 
 export default class Setting extends Model {
-
-  constructor(appInstance: any) {
-    super(appInstance)
-  }
-
   getSetting() {
     const setting = this.$setting.get('config').value()
     return setting
@@ -43,5 +38,4 @@ export default class Setting extends Model {
     const avatarPath = path.join(this.appDir, 'images/avatar.png')
     await fse.copySync(filePath, avatarPath)
   }
-
 }

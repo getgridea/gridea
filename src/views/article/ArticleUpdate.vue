@@ -88,23 +88,26 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event, shell , clipboard, remote } from 'electron'
+import {
+  ipcRenderer, Event, shell, clipboard, remote,
+} from 'electron'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
 import { State } from 'vuex-class'
 import shortid from 'shortid'
 import moment from 'moment'
+import * as fse from 'fs-extra'
 import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
 import { UrlFormats } from '../../helpers/enums'
-import * as fse from 'fs-extra'
 
 @Component({
   components: { MarkdownEditor },
 })
 export default class ArticleUpdate extends Vue {
   @Prop(Boolean) visible!: boolean
+
   @Prop(String) articleFileName!: string
 
   $refs!: {
@@ -171,7 +174,9 @@ export default class ArticleUpdate extends Vue {
 
   // 编辑文章时，当前文章的索引
   currentPostIndex = -1
+
   originalFileName = ''
+
   fileNameChanged = false
 
   get canSubmit() {
@@ -188,7 +193,6 @@ export default class ArticleUpdate extends Vue {
   }
 
   buildCurrentForm() {
-
     const { articleFileName } = this
     console.log('articleFileName: ', articleFileName)
     if (articleFileName) {
@@ -209,14 +213,12 @@ export default class ArticleUpdate extends Vue {
           this.form.featureImagePath = currentPost.data.feature
           this.featureType = 'EXTERNAL'
         } else {
-          this.form.featureImage.path = currentPost.data.feature && currentPost.data.feature.substring(7) || ''
-          this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\\/]/, '')
+          this.form.featureImage.path = (currentPost.data.feature && currentPost.data.feature.substring(7)) || ''
+          this.form.featureImage.name = this.form.featureImage.path.replace(/^.*[\\/]/, '')
         }
       }
-    } else {
-      if (this.site.themeConfig.postUrlFormat === UrlFormats.ShortId) {
-        this.form.fileName = shortid.generate()
-      }
+    } else if (this.site.themeConfig.postUrlFormat === UrlFormats.ShortId) {
+      this.form.fileName = shortid.generate()
     }
   }
 
@@ -241,13 +243,14 @@ export default class ArticleUpdate extends Vue {
   cancel() {
     this.close()
   }
+
   close() {
     this.$emit('close')
   }
 
   handleTitleChange(val: string) {
     if (!this.fileNameChanged && this.site.themeConfig.postUrlFormat === UrlFormats.Slug) {
-        this.form.fileName = slug(this.form.title)
+      this.form.fileName = slug(this.form.title)
     }
   }
 
@@ -284,12 +287,11 @@ export default class ArticleUpdate extends Vue {
       // 新增
       if (this.currentPostIndex === -1) {
         return false
-      } else {
-        restPosts.splice(this.currentPostIndex, 1)
-        const index = restPosts.findIndex((post: IPost) => post.fileName === this.form.fileName)
-        if (index !== -1) {
-          return false
-        }
+      }
+      restPosts.splice(this.currentPostIndex, 1)
+      const index = restPosts.findIndex((post: IPost) => post.fileName === this.form.fileName)
+      if (index !== -1) {
+        return false
       }
     }
 
@@ -345,14 +347,14 @@ export default class ArticleUpdate extends Vue {
   }
 
   savePost() {
-   const form = this.formatForm(true)
+    const form = this.formatForm(true)
 
-   ipcRenderer.send('app-post-create', form)
-   ipcRenderer.once('app-post-created', (event: Event, data: any) => {
-     this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
-     this.close()
-     this.$emit('fetchData')
-   })
+    ipcRenderer.send('app-post-create', form)
+    ipcRenderer.once('app-post-created', (event: Event, data: any) => {
+      this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
+      this.close()
+      this.$emit('fetchData')
+    })
   }
 
   initEditor() {
@@ -383,7 +385,6 @@ export default class ArticleUpdate extends Vue {
         }
       })
       codemirror.on(('paste'), (editor: any, e: any) => {
-
         if (!(e.clipboardData && e.clipboardData.items)) {
           return
         }
@@ -402,8 +403,8 @@ export default class ArticleUpdate extends Vue {
               type: data.type,
             }])
           }
-        } catch (e) {
-          console.log(e)
+        } catch (error) {
+          console.log(error)
         }
       })
     }
@@ -430,6 +431,7 @@ export default class ArticleUpdate extends Vue {
     editor.replaceSelection('\n<!-- more -->\n')
     editor.focus()
   }
+
   insertLink() {
     const editor = this.$refs.editor.simplemde.codemirror
 
@@ -459,7 +461,6 @@ export default class ArticleUpdate extends Vue {
       ])
     }
   }
-
 }
 </script>
 

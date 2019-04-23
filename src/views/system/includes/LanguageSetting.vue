@@ -19,7 +19,6 @@ import { Vue, Component } from 'vue-property-decorator'
 
 @Component
 export default class System extends Vue {
-
   formLayout = {
     label: { span: 5 },
     wrapper: { span: 12 },

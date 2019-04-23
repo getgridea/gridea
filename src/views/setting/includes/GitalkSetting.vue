@@ -47,6 +47,7 @@ export default class GitalkSetting extends Vue {
     this.form.repository = gitalkSetting.repository
     this.form.owner = gitalkSetting.owner
   }
+
   openPage(url: string) {
     shell.openExternal(url)
   }

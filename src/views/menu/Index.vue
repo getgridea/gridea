@@ -96,6 +96,7 @@ export default class Menu extends Vue {
   }
 
   visible = false
+
   menuTypes = MenuTypes
 
   get columns() {

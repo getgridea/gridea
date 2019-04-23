@@ -1,8 +1,8 @@
 <template>
   <div class="color-card">
-    <div class="item-container" v-for="(item, index) in colorList" :index="index">
-      <div class="item" v-for="(color, index) in item" :index="index" @click="handleColorSelect(color)" :style="{ 'background-color': color }"></div>
-    </div>    
+    <div class="item-container" v-for="(item, index) in colorList" :key="index">
+      <div class="item" v-for="(color, index1) in item" :key="index1" @click="handleColorSelect(color)" :style="{ 'background-color': color }"></div>
+    </div>
   </div>
 </template>
 

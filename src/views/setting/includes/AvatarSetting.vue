@@ -74,4 +74,3 @@ export default class AvatarSetting extends Vue {
   margin-bottom: 8px;
 }
 </style>
-

@@ -15,7 +15,6 @@ import { IPostDb, IPostRenderData, ITagRenderData } from './interfaces/post'
 import { ITag } from './interfaces/tag'
 import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE } from '../helpers/constants'
 import { IMenu } from './interfaces/menu'
-import { MenuTypes } from '../helpers/enums'
 
 export default class Renderer extends Model {
   outputDir: string = `${this.appDir}/output`
@@ -287,11 +286,8 @@ export default class Renderer extends Model {
     })
 
     this.menuData = this.db.menus.map((menu: IMenu) => {
-      let link = menu.link
-      if (menu.openType === MenuTypes.Internal) {
-        link = `${this.db.themeConfig.basePath}${link}`
-        link = `${link}${mode === 'preview' ? '/index.html' : ''}`
-      }
+      let link = `${this.db.themeConfig.basePath}${menu.link}`
+      link = `${link}${mode === 'preview' ? '/index.html' : ''}`
       return {
         ...menu,
         link,

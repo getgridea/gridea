@@ -40,8 +40,8 @@
           </a-radio-group>
         </a-form-item>
         <a-form-item label="Link">
-          <a-input v-model="form.link" class="link-input" v-if="form.openType === 'External'"></a-input>
-          <a-select v-model="form.link"  v-if="form.openType === 'Internal'">
+          <a-input v-model="form.link" class="link-input"></a-input>
+          <a-select v-model="form.link">
             <a-select-option v-for="item in menuLinks" :key="item.value" :value="item.value">{{ item.text }}</a-select-option>
           </a-select>
         </a-form-item>

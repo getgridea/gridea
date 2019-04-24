@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import 'font-awesome/css/font-awesome.css'
 import * as Dayjs from 'dayjs'
 import moment from 'moment'
 import Antd from 'ant-design-vue'

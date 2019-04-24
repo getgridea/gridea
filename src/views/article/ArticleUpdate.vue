@@ -126,21 +126,21 @@ export default class ArticleUpdate extends Vue {
         this.$refs.uploadInput.click()
       },
       className: 'fa fa-picture-o',
-      title: '图片',
+      title: 'Image',
     }, {
       name: 'more',
       action: (editor: any) => {
         this.insertMore()
       },
       className: 'fa fa-ellipsis-h',
-      title: '摘要',
+      title: 'More',
     }, {
       name: 'link',
       action: (editor: any) => {
         this.insertLink()
       },
       className: 'fa fa-link',
-      title: '链接',
+      title: 'Link',
     }, 'preview'],
     promptURLs: true,
     spellChecker: false,
@@ -533,6 +533,61 @@ export default class ArticleUpdate extends Vue {
 .post-title {
   font-weight: bold;
 }
+/deep/ .editor-toolbar {
+  &:first-child {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+  }
+  .fa {
+    font-family: 'zwicon' !important;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .fa-bold:before {
+    content: '\eae7';
+  }
+  .fa-italic:before {
+    content: "\eaf2";
+  }
+  .fa-header:before {
+    content: "\eaed";
+  }
+  .fa-code:before {
+    content: "\e983";
+  }
+  .fa-quote-left:before {
+    content: "\e920";
+  }
+  .fa-list-ul:before {
+    content: "\eaf3";
+  }
+  .fa-list-ol:before {
+    content: "\eaf4";
+  }
+  .fa-picture-o:before {
+    content: "\eaac";
+  }
+  .fa-ellipsis-h:before {
+    content: "\ea6a";
+  }
+  .fa-link:before {
+    content: "\ea61";
+  }
+  .fa-eye:before {
+    content: "\ea57";
+  }
+}
+
+/deep/ .editor-preview pre, .editor-preview-side pre {
+  background: #f7f3ec;
+  padding: 8px;
+  border: 1px solid #e0dacd;
+}
+/deep/ .editor-preview {
+  ul {
+    padding-left: 20px;
+  }
+}
 </style>
 
 <style>
@@ -559,15 +614,16 @@ export default class ArticleUpdate extends Vue {
   padding: 0;
 }
 .editor-toolbar a.active, .editor-toolbar a:hover {
-  border-color: #95a5a6;
-  background: #95a5a6;
-  border-radius: 0;
+  border-color: #d2c7b3;
+  background: #f9f7f3;
 }
 .editor-toolbar a {
   color: #000 !important;
-  background: #fafafa;
   width: 32px;
   height: 32px;
+  border-radius: 2px;
+  margin-right: 4px;
+  transition: all 0.3s;
 }
 .editor-toolbar.fullscreen {
   z-index: 1025;
@@ -575,6 +631,7 @@ export default class ArticleUpdate extends Vue {
 .CodeMirror .editor-preview.markdown-body.editor-preview-active {
   line-height: 1.618;
   background: #f9f7f3;
+  padding: 16px;
 }
 .CodeMirror .editor-preview.markdown-body.editor-preview-active img {
   max-width: 100%;

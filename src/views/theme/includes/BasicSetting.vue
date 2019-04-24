@@ -59,9 +59,7 @@ import { ipcRenderer, Event, shell } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { Site } from '../../../store/modules/site'
-import { UrlFormats } from '../../../helpers/constants'
-
-const DEFAULT_FEED_COUNT = 10
+import { UrlFormats, DEFAULT_FEED_COUNT } from '../../../helpers/constants'
 
 @Component
 export default class Theme extends Vue {
@@ -112,13 +110,11 @@ export default class Theme extends Vue {
     this.form.siteDescription = config.siteDescription
     this.form.footerInfo = config.footerInfo
     this.form.showFeatureImage = config.showFeatureImage
-    this.form.postUrlFormat = config.postUrlFormat || 'SLUG'
-    this.form.tagUrlFormat = config.tagUrlFormat || 'SLUG'
-    this.form.dateFormat = config.dateFormat || 'YYYY-MM-DD'
-    // from > 0.8.0
-    this.form.feedFullText = (typeof config.feedFullText) === 'undefined' ? true : config.feedFullText
-    this.form.feedCount = config.feedCount || DEFAULT_FEED_COUNT
-    console.log(this.form.feedFullText)
+    this.form.postUrlFormat = config.postUrlFormat
+    this.form.tagUrlFormat = config.tagUrlFormat
+    this.form.dateFormat = config.dateFormat
+    this.form.feedFullText = config.feedFullText
+    this.form.feedCount = config.feedCount
   }
 
   openPage(url: string) {

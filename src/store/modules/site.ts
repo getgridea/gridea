@@ -4,7 +4,7 @@ import { ITag } from '../../interfaces/tag'
 import { ITheme } from '../../interfaces/theme'
 import { IMenu } from '../../interfaces/menu'
 import { ISetting, ICommentSetting } from '../../interfaces/setting'
-import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE } from '../../helpers/constants'
+import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT } from '../../helpers/constants'
 
 export interface Site {
   appDir: string,
@@ -27,8 +27,8 @@ const siteState: Site = {
   menus: [],
   themeConfig: {
     themeName: '',
-    postPageSize: 10,
-    archivesPageSize: 50,
+    postPageSize: DEFAULT_POST_PAGE_SIZE,
+    archivesPageSize: DEFAULT_ARCHIVES_PAGE_SIZE,
     siteName: '',
     siteDescription: '',
     footerInfo: 'Powered by Gridea',
@@ -36,6 +36,8 @@ const siteState: Site = {
     postUrlFormat: 'SLUG',
     tagUrlFormat: 'SLUG',
     dateFormat: 'YYYY-MM-DD',
+    feedCount: DEFAULT_FEED_COUNT,
+    feedFullText: true,
   },
   themeCustomConfig: {},
   currentThemeConfig: {},
@@ -81,6 +83,8 @@ const mutations: MutationTree<Site> = {
     state.themeConfig.dateFormat = siteData.themeConfig.dateFormat || 'YYYY-MM-DD'
     state.themeConfig.postPageSize = siteData.themeConfig.postPageSize || DEFAULT_POST_PAGE_SIZE
     state.themeConfig.archivesPageSize = siteData.themeConfig.archivesPageSize || DEFAULT_ARCHIVES_PAGE_SIZE
+    state.themeConfig.feedCount = siteData.themeConfig.feedCount || DEFAULT_FEED_COUNT
+    state.themeConfig.feedFullText = (typeof siteData.themeConfig.feedFullText) === 'undefined' ? true : siteData.themeConfig.feedFullText // from > 0.8.0
     state.themes = siteData.themes
     state.setting = siteData.setting
     state.commentSetting = siteData.commentSetting

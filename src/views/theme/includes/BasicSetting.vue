@@ -39,6 +39,15 @@
       <a-input v-model="form.dateFormat" />
       <div><a @click.prevent="openPage('http://momentjs.cn/docs/#/displaying/format/')">Momentjs Format</a></div>
     </a-form-item>
+    <a-form-item label="RSS/Feed" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-radio-group name="tagUrlFormat" v-model="form.feedFullText">
+        <a-radio :value="true">显示全文</a-radio>
+        <a-radio :value="false">仅显示摘要</a-radio>
+      </a-radio-group>
+    </a-form-item>
+    <a-form-item label="RSS/Feed 文章数量" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-input-number :min="0" :max="10000" v-model="form.feedCount" />
+    </a-form-item>
     <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
       <a-button class="btn" type="primary" @click="saveTheme">{{ $t('save') }}</a-button>
     </a-form-item>
@@ -51,6 +60,8 @@ import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { Site } from '../../../store/modules/site'
 import { UrlFormats } from '../../../helpers/constants'
+
+const DEFAULT_FEED_COUNT = 10
 
 @Component
 export default class Theme extends Vue {
@@ -72,6 +83,8 @@ export default class Theme extends Vue {
     postUrlFormat: 'SLUG',
     tagUrlFormat: 'SLUG',
     dateFormat: 'YYYY-MM-DD',
+    feedFullText: true,
+    feedCount: DEFAULT_FEED_COUNT,
   }
 
   lCol = { span: 5 }
@@ -102,6 +115,10 @@ export default class Theme extends Vue {
     this.form.postUrlFormat = config.postUrlFormat || 'SLUG'
     this.form.tagUrlFormat = config.tagUrlFormat || 'SLUG'
     this.form.dateFormat = config.dateFormat || 'YYYY-MM-DD'
+    // from > 0.8.0
+    this.form.feedFullText = (typeof config.feedFullText) === 'undefined' ? true : config.feedFullText
+    this.form.feedCount = config.feedCount || DEFAULT_FEED_COUNT
+    console.log(this.form.feedFullText)
   }
 
   openPage(url: string) {

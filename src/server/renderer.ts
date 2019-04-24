@@ -612,6 +612,7 @@ export default class Renderer extends Model {
    * Build Feed
    */
   async buildFeed() {
+    const DEFAULT_FEED_COUNT = 10
     const feed = new Feed({
       title: this.db.themeConfig.siteName,
       description: this.db.themeConfig.siteDescription,
@@ -625,19 +626,24 @@ export default class Renderer extends Model {
       },
     })
 
-    const postsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
+    const postsData = this.postsData
+      .filter((item: IPostRenderData) => !item.hideInList)
+      .slice(0, this.db.themeConfig.feedCount || DEFAULT_FEED_COUNT)
+
+    const feedFullText = (typeof this.db.themeConfig.feedFullText) === 'undefined' ? true : this.db.themeConfig.feedFullText
+
     postsData.forEach((post: IPostRenderData) => {
       feed.addItem({
         title: post.title,
         id: post.link,
         link: post.link,
         description: post.abstract,
-        content: post.content,
+        content: feedFullText ? post.content : post.abstract,
         image: post.feature,
         date: new Date(post.date),
       })
     })
-    console.log(feed.atom1())
+
     await fs.writeFileSync(`${this.outputDir}/atom.xml`, feed.atom1())
   }
 

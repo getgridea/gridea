@@ -10,4 +10,6 @@ export interface ITheme {
   postUrlFormat: string
   tagUrlFormat: string
   dateFormat: string
+  feedFullText: boolean
+  feedCount: number
 }

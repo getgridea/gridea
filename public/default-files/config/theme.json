@@ -9,7 +9,9 @@
     "themeName": "notes",
     "dateFormat": "YYYY-MM-DD",
     "postUrlFormat": "SLUG",
-    "tagUrlFormat": "SHORT_ID"
+    "tagUrlFormat": "SHORT_ID",
+    "feedCount": 10,
+    "feedFullText": true
   },
   "customConfig": {}
 }

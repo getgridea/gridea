@@ -46,6 +46,8 @@ export default class App {
         postUrlFormat: 'SLUG',
         tagUrlFormat: 'SLUG',
         dateFormat: 'YYYY-MM-DD',
+        feedFullText: true,
+        feedCount: 10,
       },
       themeCustomConfig: {},
       themes: [],

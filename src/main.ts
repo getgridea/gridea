@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import * as Dayjs from 'dayjs'
 import moment from 'moment'
 import Antd from 'ant-design-vue'
 import '@/assets/styles/main.less'
@@ -21,7 +20,6 @@ console.log('messages', locale)
 
 Vue.use(Antd)
 Vue.use(VueBus)
-Vue.prototype.$dayjs = Dayjs
 Vue.prototype.$moment = moment
 
 Vue.config.productionTip = false

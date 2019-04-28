@@ -16,12 +16,10 @@
   },
   "repository": "https://github.com/getgridea/gridea",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "ant-design-vue": "^1.3.5",

@@ -3,7 +3,12 @@
   "version": "0.8.0",
   "private": true,
   "description": "A static blog writing client. You can use it to record your life, mood, knowledge, notes and ideas...",
-  "homepage": "http://hvenotes.fehey.com",
+  "keywords": [
+    "gridea",
+    "static-site",
+    "static-site-generator"
+  ],
+  "homepage": "http://gridea.dev",
   "license": "MIT",
   "author": {
     "name": "EryouHao",

@@ -69,11 +69,12 @@ Give full play to your talents！
 
 ## Development
 ``` shell
+$ # Node version > v10.0.0 is requied
 $ git clone https://github.com/getgridea/gridea.git
 $ cd gridea
-$ npm install
-$ npm run electron:serve
-$ npm run electron:build
+$ yarn
+$ yarn electron:serve
+$ yarn electron:build
 ```
 
 ## Contract

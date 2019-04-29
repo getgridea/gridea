@@ -34,6 +34,9 @@ module.exports = {
         mac: {
           icon: './public/app-icons/gridea.icns',
         },
+        linux: {
+          icon: './public/app-icons/gridea.png',
+        },
         asar: false,
         nsis: {
           oneClick: false, // 是否一键安装

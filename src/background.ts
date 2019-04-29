@@ -18,15 +18,21 @@ let win: any
 protocol.registerStandardSchemes(['app'], { secure: true })
 function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({
+  const winOption: any = {
     width: 1200,
     height: 800,
     webPreferences: {
       webSecurity: false, // FIXED: Not allowed to load local resource
     },
     // frame: false, // 去除默认窗口栏
-    titleBarStyle: 'hidden',
-  })
+    titleBarStyle: 'hidden' as ('hidden' | 'default' | 'hiddenInset' | 'customButtonsOnHover' | undefined),
+  }
+
+  if (process.platform !== 'darwin') {
+    winOption.icon = `${__dirname}/app-icons/gridea.png`
+  }
+  
+  win = new BrowserWindow(winOption)
   win.setTitle('Gridea')
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {

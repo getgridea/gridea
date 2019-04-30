@@ -517,7 +517,7 @@ export default class ArticleUpdate extends Vue {
 }
 
 .tip-text {
-  margin-top: 8px;
+  margin: 8px 0;
 }
 
 .right-container {
@@ -586,6 +586,13 @@ export default class ArticleUpdate extends Vue {
 /deep/ .editor-preview {
   ul {
     padding-left: 20px;
+  }
+}
+#markdown-editor {
+  /deep/ .editor-toolbar {
+    position: fixed;
+    top: 16px;
+    z-index: 3000;
   }
 }
 </style>

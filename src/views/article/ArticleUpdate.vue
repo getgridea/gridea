@@ -587,6 +587,18 @@ export default class ArticleUpdate extends Vue {
   ul {
     padding-left: 20px;
   }
+  code {
+    background: #e6e0d2;
+    padding: 2px;
+    border: 1px solid #cac3b5;
+    border-radius: 2px;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    border: none;
+    border-radius: none;
+  }
 }
 #markdown-editor {
   /deep/ .editor-toolbar {
@@ -606,6 +618,7 @@ export default class ArticleUpdate extends Vue {
   color: #434343;
   border: none;
   background: #f9f7f3;
+  font-size: 16px;
 }
 .CodeMirror.CodeMirror-focused {
   border-color: #4f4a4a;

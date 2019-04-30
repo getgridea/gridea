@@ -2,7 +2,7 @@ const generateOverride = (params = {}) => {
   let result = ''
 
   // 侧边栏宽度 - sidebarWidth
-  if (params.sidebarWidth !== '320px') {
+  if (params.sidebarWidth && params.sidebarWidth !== '320px') {
     result += `
       .sidebar {
         width: ${params.sidebarWidth};

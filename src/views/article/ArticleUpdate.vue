@@ -82,7 +82,7 @@
       </a-row>
 
       <!-- 编辑器点击图片上传用 -->
-      <input ref="uploadInput" class="upload-input" type="file" @change="fileChangeHandler">
+      <input ref="uploadInput" class="upload-input" type="file" accept="image/*" @change="fileChangeHandler">
     </div>
   </div>
 </template>

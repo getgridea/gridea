@@ -193,6 +193,7 @@ export default class Tags extends Vue {
 .tag-wrapper {
   display: inline-flex;
   margin-right: 32px;
+  margin-bottom: 8px;
   align-items: center;
   box-shadow: 0 0 17px #d6d3cd;
   .tag {

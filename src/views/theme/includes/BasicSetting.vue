@@ -1,8 +1,25 @@
 <template>
   <a-form :form="form">
     <a-form-item :label="$t('selectTheme')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-      <a-select v-model="form.themeName">
-        <a-select-option v-for="item in site.themes" :key="item" :value="item">{{ item }}</a-select-option>
+      <a-select v-model="form.themeName" optionLabelProp="name">
+        <a-select-option v-for="item in site.themes" :key="item.folder" :name="item.name" :value="item.folder">
+          <div class="theme-option">
+            <div class="left">
+              <div class="theme-name">{{ item.name }}</div>
+              <div class="theme-version" v-if="item.version">{{ item.version }}</div>
+            </div>
+            <div class="extra" v-if="item.repository">
+              <a-button @click.stop="openPage(item.repository)" type="dashed" shape="circle" size="small" icon="github"></a-button>
+            </div>
+          </div>
+        </a-select-option>
+        <div slot="dropdownRender" slot-scope="menu">
+          <v-nodes :vnodes="menu"/>
+          <a-divider style="margin: 4px 0;" />
+          <div style="padding: 8px; cursor: pointer;" @click="openPage('https://gridea.dev/themes/')">
+            <a-icon type="picture" /> {{ $t('moreThemes') }}
+          </div>
+        </div>
       </a-select>
     </a-form-item>
     <a-form-item :label="$t('siteName')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
@@ -61,7 +78,14 @@ import { State } from 'vuex-class'
 import { Site } from '../../../store/modules/site'
 import { UrlFormats, DEFAULT_FEED_COUNT } from '../../../helpers/constants'
 
-@Component
+@Component({
+  components: {
+    VNodes: {
+      functional: true,
+      render: (h: any, ctx: any) => ctx.props.vnodes,
+    },
+  },
+})
 export default class Theme extends Vue {
   @State('site') site!: Site
 
@@ -126,5 +150,17 @@ export default class Theme extends Vue {
 <style lang="less" scoped>
 /deep/ .ant-slider-rail {
   background: #e1e1e1;
+}
+.theme-option {
+  display: flex;
+  justify-content: space-between;
+  .theme-name {
+    padding-bottom: 8px;
+  }
+  .theme-version {
+    font-size: 12px;
+    color: #ced4da;
+    font-weight: lighter !important;
+  }
 }
 </style>

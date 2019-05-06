@@ -27,7 +27,26 @@ export default class Theme extends Model {
   async getThemeList() {
     let themes = await fse.readdir(this.themeDir)
     themes = themes.filter(junk.not)
-    return themes
+    const result = await Promise.all(themes.map(async (item: string) => {
+      const data = {
+        folder: item,
+        name: item,
+        version: '',
+        author: '',
+        repository: '',
+      }
+      const themeConfigPath = path.join(this.themeDir, item, 'config.json')
+      if (fse.existsSync(themeConfigPath)) {
+        const config = await fse.readJSONSync(themeConfigPath)
+        data.name = config.name
+        data.version = config.version
+        data.author = config.repository
+        data.repository = config.repository
+      }
+      return data
+    }))
+
+    return result
   }
 
   /**

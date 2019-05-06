@@ -690,6 +690,13 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@iktakahiro/markdown-it-katex@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@iktakahiro/markdown-it-katex/-/markdown-it-katex-3.1.0.tgz#cd40c1037f038ab00cbfee2464604435848deae9"
+  integrity sha512-Im2hih9ZkUqnUP7FhK0DTkGEVHgKNQ3BNQlbiBreWjSFPxysdylP1Ns5hLvoO+IdI1drhiiip/54VP8Gs3fLvw==
+  dependencies:
+    katex "^0.10.0"
+
 "@intervolga/optimize-cssnano-plugin@^1.0.5":
   version "1.0.6"
   resolved "http://registry.npm.taobao.org/@intervolga/optimize-cssnano-plugin/download/@intervolga/optimize-cssnano-plugin-1.0.6.tgz#be7c7846128b88f6a9b1d1261a0ad06eb5c0fdf8"
@@ -5518,12 +5525,12 @@ junk@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/junk/-/junk-2.1.0.tgz#f431b4b7f072dc500a5f10ce7f4ec71930e70134"
 
-katex@^0.6.0:
-  version "0.6.0"
-  resolved "http://registry.npm.taobao.org/katex/download/katex-0.6.0.tgz#12418e09121c05c92041b6b3b9fb6bab213cb6f3"
-  integrity sha1-EkGOCRIcBckgQbazuftrqyE8tvM=
+katex@^0.10.0:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.10.1.tgz#5bb0b72bf19cecfc1fa217a9261760e5d301efff"
+  integrity sha512-iZXZ2L8pEP7HXBLAaeWkdLxnoRQ8Fdks8IuIVt01tYb+D8e0em5JYgfe6J48wXsuEr512IRCN5Kvwb9FjZH6kg==
   dependencies:
-    match-at "^0.1.0"
+    commander "^2.19.0"
 
 killable@^1.0.1:
   version "1.0.1"
@@ -5918,13 +5925,6 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-it-katex@^2.0.3:
-  version "2.0.3"
-  resolved "http://registry.npm.taobao.org/markdown-it-katex/download/markdown-it-katex-2.0.3.tgz#d7b86a1aea0b9d6496fab4e7919a18fdef589c39"
-  integrity sha1-17hqGuoLnWSW+rTnkZoY/e9YnDk=
-  dependencies:
-    katex "^0.6.0"
-
 markdown-it-toc-and-anchor@^4.2.0:
   version "4.2.0"
   resolved "http://registry.npm.taobao.org/markdown-it-toc-and-anchor/download/markdown-it-toc-and-anchor-4.2.0.tgz#d1613327cc63c61f82cd66cbac5564f4db12c0e9"
@@ -5951,11 +5951,6 @@ marked@*:
 marked@^0.3.6:
   version "0.3.19"
   resolved "http://registry.npmjs.org/marked/-/marked-0.3.19.tgz#5d47f709c4c9fc3c216b6d46127280f40b39d790"
-
-match-at@^0.1.0:
-  version "0.1.1"
-  resolved "http://registry.npm.taobao.org/match-at/download/match-at-0.1.1.tgz#25d040d291777704d5e6556bbb79230ec2de0540"
-  integrity sha1-JdBA0pF3dwTV5lVru3kjDsLeBUA=
 
 matcher@^1.0.0:
   version "1.1.1"

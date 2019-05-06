@@ -2,6 +2,7 @@
   "name": "Fly",
   "version": "1.0.0",
   "author": "EryouHao",
+  "repository": "https://github.com/getgridea/gridea-theme-fly",
   "customConfig": [
     {
       "name": "skin",

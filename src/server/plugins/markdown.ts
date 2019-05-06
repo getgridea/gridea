@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it'
-import MarkdownItKatex from 'markdown-it-katex'
+import MarkdownItKatex from '@iktakahiro/markdown-it-katex'
 import markdownItTocAndAnchor from 'markdown-it-toc-and-anchor'
 
 const markdownIt = new MarkdownIt({

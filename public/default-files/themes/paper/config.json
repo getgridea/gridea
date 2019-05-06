@@ -2,6 +2,7 @@
   "name": "Paper",
   "version": "1.0.0",
   "author": "EryouHao",
+  "repository": "https://github.com/getgridea/gridea-theme-paper",
   "customConfig": [
     {
       "name": "readMoreText",

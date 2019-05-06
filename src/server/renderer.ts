@@ -318,10 +318,10 @@ export default class Renderer extends Model {
       ? archivesPageSize || DEFAULT_ARCHIVES_PAGE_SIZE
       : postPageSize || DEFAULT_POST_PAGE_SIZE
 
-    const postsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
+    const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
 
     // If there is no article to render
-    if (!postsData.length) {
+    if (!excludeHidePostsData.length) {
       const renderData = {
         menus: this.menuData,
         posts: [],
@@ -331,7 +331,7 @@ export default class Renderer extends Model {
         },
         themeConfig: this.db.themeConfig,
         site: {
-          posts: postsData,
+          posts: excludeHidePostsData,
           tags: this.tagsData,
           customConfig: this.db.themeCustomConfig,
           utils: this.utils,
@@ -354,17 +354,17 @@ export default class Renderer extends Model {
       await fs.writeFileSync(renderPath, html)
     }
 
-    for (let i = 0; i * pageSize < postsData.length; i += 1) {
+    for (let i = 0; i * pageSize < excludeHidePostsData.length; i += 1) {
       const renderData = {
         menus: this.menuData,
-        posts: postsData.slice(i * pageSize, (i + 1) * pageSize),
+        posts: excludeHidePostsData.slice(i * pageSize, (i + 1) * pageSize),
         pagination: {
           prev: '',
           next: '',
         },
         themeConfig: this.db.themeConfig,
         site: {
-          posts: postsData,
+          posts: excludeHidePostsData,
           tags: this.tagsData,
           customConfig: this.db.themeCustomConfig,
           utils: this.utils,
@@ -373,11 +373,11 @@ export default class Renderer extends Model {
 
       let renderPath = `${this.outputDir}${extraPath}/index.html`
 
-      if (i === 0 && postsData.length > pageSize) {
+      if (i === 0 && excludeHidePostsData.length > pageSize) {
         fse.ensureDir(`${this.outputDir}${extraPath}/page`)
 
         renderData.pagination.next = `${this.db.themeConfig.domain}${extraPath}/page/2/${mode === 'preview' ? 'index.html' : ''}`
-      } else if (i > 0 && postsData.length > pageSize) {
+      } else if (i > 0 && excludeHidePostsData.length > pageSize) {
         fse.ensureDir(`${this.outputDir}${extraPath}/page/${i + 1}`)
 
         renderPath = `${this.outputDir}${extraPath}/page/${i + 1}/index.html`
@@ -386,7 +386,7 @@ export default class Renderer extends Model {
           ? `${this.db.themeConfig.domain}${extraPath}/${mode === 'preview' ? 'index.html' : ''}`
           : `${this.db.themeConfig.domain}${extraPath}/page/${i}/${mode === 'preview' ? 'index.html' : ''}`
 
-        renderData.pagination.next = (i + 1) * pageSize < postsData.length
+        renderData.pagination.next = (i + 1) * pageSize < excludeHidePostsData.length
           ? `${this.db.themeConfig.domain}${extraPath}/page/${i + 2}/${mode === 'preview' ? 'index.html' : ''}`
           : ''
       } else {
@@ -425,13 +425,15 @@ export default class Renderer extends Model {
         }
       }
 
+      const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
+
       const renderData = {
         menus: this.menuData,
         post,
         themeConfig: this.db.themeConfig,
         commentSetting: this.db.commentSetting,
         site: {
-          posts: this.postsData,
+          posts: excludeHidePostsData,
           tags: this.tagsData,
           customConfig: this.db.themeCustomConfig,
           utils: this.utils,
@@ -458,12 +460,14 @@ export default class Renderer extends Model {
    */
   async renderTags() {
     await fse.ensureDir(`${this.outputDir}/tags`)
+    const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
+
     const renderData = {
       tags: this.tagsData,
       menus: this.menuData,
       themeConfig: this.db.themeConfig,
       site: {
-        posts: this.postsData,
+        posts: excludeHidePostsData,
         tags: this.tagsData,
         customConfig: this.db.themeCustomConfig,
         utils: this.utils,
@@ -490,6 +494,7 @@ export default class Renderer extends Model {
   async renderTagDetail(mode?: string) {
     const usedTags = this.db.tags.filter((tag: ITag) => tag.used)
     const { postPageSize } = this.db.themeConfig
+    const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
 
     // Compatible: < v0.7.0
     const pageSize = postPageSize || DEFAULT_POST_PAGE_SIZE
@@ -517,7 +522,7 @@ export default class Renderer extends Model {
           },
           themeConfig: this.db.themeConfig,
           site: {
-            posts: this.postsData,
+            posts: excludeHidePostsData,
             tags: this.tagsData,
             customConfig: this.db.themeCustomConfig,
             utils: this.utils,

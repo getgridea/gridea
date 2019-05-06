@@ -9,5 +9,5 @@ declare module '*.json' {
 }
 
 declare module 'vue2-transitions'
-declare module 'markdown-it-katex'
+declare module '@iktakahiro/markdown-it-katex'
 declare module 'markdown-it-toc-and-anchor'

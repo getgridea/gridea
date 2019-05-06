@@ -6,6 +6,13 @@ import { IMenu } from '../../interfaces/menu'
 import { ISetting, ICommentSetting } from '../../interfaces/setting'
 import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT } from '../../helpers/constants'
 
+interface IThemeMore {
+  version: string,
+  name: string,
+  author: string,
+  [key: string]: string
+}
+
 export interface Site {
   appDir: string,
   config: any
@@ -15,7 +22,7 @@ export interface Site {
   themeConfig: ITheme
   themeCustomConfig: any
   currentThemeConfig: any
-  themes: string[]
+  themes: IThemeMore[]
   setting: ISetting
   commentSetting: ICommentSetting
 }

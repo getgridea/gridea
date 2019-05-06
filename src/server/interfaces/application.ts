@@ -5,6 +5,12 @@ import { ITheme } from './theme'
 import { IMenu } from './menu'
 import { ISetting, ICommentSetting } from './setting'
 
+interface IThemeMore {
+  version: string,
+  name: string,
+  author: string,
+  [key: string]: string
+}
 export interface IApplicationSetting {
   mainWindow: BrowserWindow
   app: any
@@ -17,7 +23,7 @@ export interface IApplicationDb {
   menus: IMenu[]
   themeConfig: ITheme
   themeCustomConfig: any
-  themes: any[]
+  themes: IThemeMore[]
   setting: ISetting
   commentSetting: ICommentSetting
 }

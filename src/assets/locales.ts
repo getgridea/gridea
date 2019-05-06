@@ -90,6 +90,12 @@ const message = {
     noCustomConfigTip: '当前主题暂无自定义配置',
     customConfig: '自定义配置',
     moreThemes: '更多主题',
+    themeManager: '主题管理',
+    themeDownloadWarning: '主题下载地址必须以 \'.git\' 结尾',
+    loadTheme: '加载主题',
+    loadThemePlaceholder: '请输入主题的 git 地址',
+    deleteUsingThemeWarning: '您当前正在使用该主题！',
+    themeUpdated: '主题已更新',
   },
   en: {
     preview: 'Preview',
@@ -182,6 +188,12 @@ const message = {
     noCustomConfigTip: 'there is no custom configuration for the theme',
     customConfig: 'Custom configuration',
     moreThemes: 'More Themes',
+    themeManager: 'Theme Manager',
+    themeDownloadWarning: 'The url to be downloaded must end with \'.git\' ',
+    loadTheme: 'load theme',
+    loadThemePlaceholder: 'Please input the theme\'s git url',
+    deleteUsingThemeWarning: 'This theme is being used！',
+    themeUpdated: 'Themes have been updated！',
   },
 }
 

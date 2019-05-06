@@ -2,10 +2,13 @@
   <div class="">
     <a-tabs defaultActiveKey="basic" v-model="currentTab" forceRender>
       <a-tab-pane :tab="$t('basicSetting')" key="basic">
-        <basic-setting></basic-setting>
+        <basic-setting />
       </a-tab-pane>
       <a-tab-pane :tab="$t('customConfig')" key="custom">
-        <custom-setting></custom-setting>
+        <custom-setting />
+      </a-tab-pane>
+      <a-tab-pane :tab="$t('themeManager')" key="manager">
+        <theme-manager />
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -15,11 +18,13 @@
 import { Vue, Component } from 'vue-property-decorator'
 import BasicSetting from './includes/BasicSetting.vue'
 import CustomSetting from './includes/CustomSetting.vue'
+import ThemeManager from './includes/ThemeManager.vue'
 
 @Component({
   components: {
     BasicSetting,
     CustomSetting,
+    ThemeManager,
   },
 })
 export default class Theme extends Vue {

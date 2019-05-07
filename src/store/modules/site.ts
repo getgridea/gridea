@@ -3,7 +3,7 @@ import { IPost } from '../../interfaces/post'
 import { ITag } from '../../interfaces/tag'
 import { ITheme } from '../../interfaces/theme'
 import { IMenu } from '../../interfaces/menu'
-import { ISetting, ICommentSetting } from '../../interfaces/setting'
+import { ISetting, ICommentSetting, ICdnSetting } from '../../interfaces/setting'
 import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT } from '../../helpers/constants'
 
 export interface Site {
@@ -17,6 +17,7 @@ export interface Site {
   currentThemeConfig: any
   themes: string[]
   setting: ISetting
+  cdnSetting: ICdnSetting
   commentSetting: ICommentSetting
 }
 const siteState: Site = {
@@ -51,6 +52,13 @@ const siteState: Site = {
     email: '',
     token: '',
     cname: '',
+  },
+  cdnSetting: {
+    platform: '',
+    domain: '',
+    accessKey: '',
+    secretKey: '',
+    bucket: '',
   },
   commentSetting: {
     showComment: false,
@@ -87,6 +95,7 @@ const mutations: MutationTree<Site> = {
     state.themeConfig.feedFullText = (typeof siteData.themeConfig.feedFullText) === 'undefined' ? true : siteData.themeConfig.feedFullText // from > 0.8.0
     state.themes = siteData.themes
     state.setting = siteData.setting
+    state.cdnSetting = siteData.cdnSetting
     state.commentSetting = siteData.commentSetting
     state.themeCustomConfig = siteData.themeCustomConfig
     state.currentThemeConfig = siteData.currentThemeConfig

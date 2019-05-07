@@ -1,6 +1,6 @@
 import { ipcMain, Event } from 'electron'
 import Setting from '../setting'
-import { ISetting, ICommentSetting } from '../interfaces/setting'
+import { ISetting, ICommentSetting, ICdnSetting } from '../interfaces/setting'
 
 export default class SettingEvents {
   constructor(appInstance: any) {
@@ -14,6 +14,9 @@ export default class SettingEvents {
     ipcMain.removeAllListeners('favicon-uploaded')
     ipcMain.removeAllListeners('avatar-upload')
     ipcMain.removeAllListeners('avatar-uploaded')
+    ipcMain.removeAllListeners('cdn-setting-save')
+    ipcMain.removeAllListeners('cdn-setting-save-success')
+    ipcMain.removeAllListeners('cdn-setting-save-fail')
 
     ipcMain.on('setting-save', async (event: Event, setting: ISetting) => {
       const data = await settingInstance.saveSetting(setting)
@@ -35,6 +38,14 @@ export default class SettingEvents {
       console.log('执行了上传头像', filePath)
       const data = await settingInstance.uploadAvatar(filePath)
       event.sender.send('avatar-uploaded', data)
+    })
+
+    ipcMain.on('cdn-setting-save', async (event: Event, setting: ICdnSetting) => {
+      settingInstance.saveCdnSetting(setting).then((res) => {
+        event.sender.send('cdn-setting-save-success', res)
+      }).catch((err) => {
+        event.sender.send('cdn-setting-save-fail', err)
+      })
     })
   }
 }

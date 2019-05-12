@@ -11,7 +11,7 @@
 - 新增一款主题 「Paper」，英文手写体风格，欢迎体验
 - 封面图支持外链
 - 文章支持 `@[toc]` 显示文章目录，同时增加 `post.toc` 字段供主题显示
-- [**Katex**](https://katex.org/) 公式支持
+- [**KaTeX**](https://katex.org/) 公式支持
 - 全新项目主页，欢迎 [访问](https://gridea.dev)
 
 ### 修复

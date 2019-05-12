@@ -1,7 +1,6 @@
 @import "_core/colors";
 @import "_core/base";
 @import "_core/a11y-dark";
-@import "_core/katex";
 
 body {
   background: @oc-gray-0;
@@ -82,7 +81,7 @@ a {
   margin-bottom: 32px;
   border-bottom: 1px solid @oc-gray-4;
   &:last-of-type {
-   border-bottom: none; 
+   border-bottom: none;
   }
   .left {
     flex: 1;
@@ -159,7 +158,7 @@ a {
       margin: 16px 0;
       color: @oc-gray-8;
     }
-  
+
     a {
       color: @oc-indigo-6;
       border-bottom: 1px dotted @oc-indigo-6;
@@ -176,7 +175,7 @@ a {
       border-radius: 2px;
       margin: 24px auto;
     }
-  
+
     p {
       line-height: 1.725;
       margin-bottom: 24px;
@@ -195,7 +194,7 @@ a {
         color: @oc-gray-6;
       }
     }
-  
+
     blockquote {
       background: @oc-gray-2;
       padding: 16px;
@@ -207,7 +206,7 @@ a {
         margin-bottom: 0;
       }
     }
-  
+
     pre {
       margin-bottom: 16px;
       code {
@@ -232,7 +231,7 @@ a {
         }
       }
     }
-  
+
     table {
       border-collapse: collapse;
       margin: 1rem 0;
@@ -246,14 +245,14 @@ a {
       border: 1px solid #dfe2e5;
       padding: .6em 1em;
     }
-  
+
     ul, ol {
       color: var(--c-base-blacklight);
       padding-left: 24px;
       line-height: 1.725;
       margin-bottom: 16px;
     }
-  
+
     strong {
       font-weight: bolder;
     }
@@ -326,7 +325,7 @@ a {
 @media (max-width: 800px) {
   .sidebar {
     position: relative;
-    width: 100%;
+    width: 100% !important;
     height: 80px;
     overflow: hidden;
     transition: height 0.382s ease-in-out;
@@ -396,7 +395,7 @@ a {
   }
 
   .main-container {
-    margin-left: 0;
+    margin-left: 0 !important;;
   }
   .content-container {
     padding: 32px 16px;

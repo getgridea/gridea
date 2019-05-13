@@ -9,28 +9,28 @@
       margin-bottom: 24px;
       border-radius: 2px;
     }
-  
+
     .post-title {
       font-size: 32px;
       text-align: center;
       padding: 24px;
       font-weight: 600;
     }
-  
+
     .post-info {
       text-align: center;
       font-size: 12px;
       padding-bottom: 24px;
-  
+
       .post-time {
         color: @dark-gray;
       }
-  
+
       .post-tag {
-        padding: 8px 16px;
+        padding: 8px 8px;
       }
     }
-  
+
     .post-content {
       a {
         color: @main-color;
@@ -47,25 +47,28 @@
         border-radius: 2px;
         margin: 24px auto;
       }
-  
+
       p {
         line-height: 1.725;
         margin-bottom: 24px;
         font-size: 16px;
-        letter-spacing: 1.0382;
+        letter-spacing: .05em;
       }
-      
+
       p, li {
         code {
-          padding: 0 3px;
-          margin: 0 2px;
-          background: rgba(195,195,195,0.41);
-          font-size: 0.9em;
-          border-radius: 2px;
-          display: inline-block;
+          font-family: monospace;
+          font-size: inherit;
+          background-color: rgba(0,0,0,.06);
+          padding: 0 2px;
+          border: 1px solid rgba(0,0,0,.08);
+          border-radius: 2px 2px;
+          line-height: initial;
+          word-wrap: break-word;
+          text-indent: 0;
         }
       }
-  
+
       pre {
         margin-bottom: 24px;
         code {
@@ -100,7 +103,7 @@
         border: 1px solid #dfe2e5;
         padding: .6em 1em;
       }
-    
+
       ul, ol {
         padding-left: 24px;
         line-height: 1.725;

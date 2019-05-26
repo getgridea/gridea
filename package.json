@@ -1,6 +1,6 @@
 {
   "name": "gridea",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "private": true,
   "description": "A static blog writing client. You can use it to record your life, mood, knowledge, notes and ideas...",
   "keywords": [
@@ -92,5 +92,6 @@
       "vue-cli-service lint",
       "git add"
     ]
-  }
+  },
+  "__npminstall_done": false
 }

@@ -12,7 +12,7 @@
         <a-col :span="16">
           <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
           <div class="tip-text">{{ $t('editorTip') }}</div>
-          <markdown-editor
+          <!-- <markdown-editor
             id="markdown-editor"
             ref="editor"
             class="md-editor"
@@ -20,7 +20,8 @@
             preview-class="markdown-body"
             v-model="form.content"
             @click.native.capture="preventDefault($event)"
-          ></markdown-editor>
+          ></markdown-editor> -->
+          <muya-editor></muya-editor>
         </a-col>
         <a-col :span="8" class="right-container">
           <a-collapse v-model="activeKey">
@@ -97,13 +98,14 @@ import { State } from 'vuex-class'
 import shortid from 'shortid'
 import moment from 'moment'
 import * as fse from 'fs-extra'
+import MuyaEditor from '../../components/MuyaEditor.vue'
 import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
 import { UrlFormats } from '../../helpers/enums'
 
 @Component({
-  components: { MarkdownEditor },
+  components: { MarkdownEditor, MuyaEditor },
 })
 export default class ArticleUpdate extends Vue {
   @Prop(Boolean) visible!: boolean
@@ -189,7 +191,7 @@ export default class ArticleUpdate extends Vue {
 
   mounted() {
     this.buildCurrentForm()
-    this.initEditor()
+    // this.initEditor()
   }
 
   buildCurrentForm() {

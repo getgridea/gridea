@@ -1,0 +1,62 @@
+.ag-list-picker {
+  width: 150px;
+  max-height: 230px;
+  padding: 10px 0;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.ag-list-picker ul,
+.ag-list-picker li {
+  margin: 0;
+  padding: 0;
+}
+
+.ag-list-picker .item {
+  height: 35px;
+  display: flex;
+  list-style: none;
+}
+
+.ag-list-picker:hover .active {
+  background: transparent;
+}
+
+.ag-list-picker .item .language {
+  color: var(--editorColor);
+}
+
+.ag-list-picker .item:hover,
+.ag-list-picker .item.active {
+ background-color: var(--floatHoverColor);
+}
+
+.ag-list-picker .item .icon-wrapper {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.ag-list-picker .item .icon-wrapper span:before {
+  font-size: 18px;
+}
+
+.ag-list-picker .icon-wrapper > svg{
+  width: 20px;
+  height: 20px;
+  opacity: .6;
+  fill: var(--iconColor);
+}
+
+.ag-list-picker .item .icon-wrapper img {
+  width: 20px;
+  height: 20px;
+}
+
+.ag-list-picker .item .language {
+  font-size: 14px;
+  line-height: 35px;
+  margin-left: 10px;
+}

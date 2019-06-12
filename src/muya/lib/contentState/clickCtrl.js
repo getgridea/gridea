@@ -2,7 +2,7 @@ import selection from '../selection'
 import { isMuyaEditorElement } from '../selection/dom'
 import { HAS_TEXT_BLOCK_REG } from '../config'
 
-const clickCtrl = ContentState => {
+const clickCtrl = (ContentState) => {
   ContentState.prototype.clickHandler = function (event) {
     const { eventCenter } = this.muya
     const { target } = event
@@ -29,11 +29,11 @@ const clickCtrl = ContentState => {
         if (needToInsertNewParagraph) {
           const paragraphBlock = this.createBlockP()
           this.insertAfter(paragraphBlock, archor)
-          const key = paragraphBlock.key
+          const { key } = paragraphBlock
           const offset = 0
           this.cursor = {
             start: { key, offset },
-            end: { key, offset }
+            end: { key, offset },
           }
 
           return this.partialRender()
@@ -57,15 +57,17 @@ const clickCtrl = ContentState => {
         const frontIcon = target.closest('.ag-front-icon')
         const rect = frontIcon.getBoundingClientRect()
         const reference = {
-          getBoundingClientRect () {
+          getBoundingClientRect() {
             return rect
           },
           clientWidth: rect.width,
           clientHeight: rect.height,
-          id: currentBlock.key
+          id: currentBlock.key,
         }
         this.selectedBlock = currentBlock
-        eventCenter.dispatch('muya-front-menu', { reference, outmostBlock: currentBlock, startBlock, endBlock })
+        eventCenter.dispatch('muya-front-menu', {
+          reference, outmostBlock: currentBlock, startBlock, endBlock,
+        })
         return this.partialRender()
       }
     }
@@ -95,7 +97,7 @@ const clickCtrl = ContentState => {
           formatType = 'link' // auto link or []() link
           data = {
             text: inlineNode.textContent,
-            href: inlineNode.getAttribute('href')
+            href: inlineNode.getAttribute('href'),
           }
           break
         }
@@ -132,11 +134,11 @@ const clickCtrl = ContentState => {
     let needRender = false
     // is show format float box?
     if (
-      start.key === end.key &&
-      start.offset !== end.offset &&
-      HAS_TEXT_BLOCK_REG.test(block.type) &&
-      block.functionType !== 'codeLine' &&
-      block.functionType !== 'languageInput'
+      start.key === end.key
+      && start.offset !== end.offset
+      && HAS_TEXT_BLOCK_REG.test(block.type)
+      && block.functionType !== 'codeLine'
+      && block.functionType !== 'languageInput'
     ) {
       const reference = this.getPositionReference()
       const { formats } = this.selectionFormats()
@@ -153,8 +155,8 @@ const clickCtrl = ContentState => {
 
     // change active status when paragraph changed
     if (
-      start.key !== this.cursor.start.key ||
-      end.key !== this.cursor.end.key
+      start.key !== this.cursor.start.key
+      || end.key !== this.cursor.end.key
     ) {
       needRender = true
     }
@@ -164,7 +166,7 @@ const clickCtrl = ContentState => {
     if (needRender) {
       this.cursor = { start, end }
       return this.partialRender()
-    } else if (needMarkedUpdate) {
+    } if (needMarkedUpdate) {
       // Fix: whole select can not be canceled #613
       requestAnimationFrame(() => {
         const cursor = selection.getCursorRange()

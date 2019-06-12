@@ -1,19 +1,19 @@
 const defaultSearchOption = {
   caseSensitive: false,
   selectHighlight: false,
-  highlightIndex: -1
+  highlightIndex: -1,
 }
 
-const searchCtrl = ContentState => {
+const searchCtrl = (ContentState) => {
   ContentState.prototype.replaceOne = function (match, value) {
     const {
       start,
       end,
-      key
+      key,
     } = match
     const block = this.getBlock(key)
     const {
-      text
+      text,
     } = block
 
     block.text = text.substring(0, start) + value + text.substring(end)
@@ -47,12 +47,12 @@ const searchCtrl = ContentState => {
       noHistory: true,
       start: {
         key,
-        offset: start
+        offset: start,
       },
       end: {
         key,
-        offset: end
-      }
+        offset: end,
+      },
     }
   }
 
@@ -70,10 +70,10 @@ const searchCtrl = ContentState => {
 
   ContentState.prototype.search = function (value, opt = {}) {
     value = value.trim()
-    let matches = []
+    const matches = []
     const { caseSensitive, highlightIndex } = Object.assign(defaultSearchOption, opt)
     const { blocks } = this
-    const search = blocks => {
+    const search = (blocks) => {
       for (const block of blocks) {
         let { text, key } = block
         if (!caseSensitive) {
@@ -86,7 +86,7 @@ const searchCtrl = ContentState => {
             matches.push({
               key,
               start: i,
-              end: i + value.length
+              end: i + value.length,
             })
             i = text.indexOf(value, i + value.length)
           }

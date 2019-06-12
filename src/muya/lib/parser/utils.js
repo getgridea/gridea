@@ -7,7 +7,7 @@ export const PUNCTUATION_REG = new RegExp(/[!"#$%&'()*+,\-./:;<=>?@\[\]^_`{|}~\x
 export const WHITELIST_ATTRIBUTES = [
   'align', 'alt', 'checked', 'class', 'color', 'dir', 'disabled', 'for', 'height', 'hidden',
   'href', 'id', 'lang', 'lazyload', 'rel', 'spellcheck', 'src', 'srcset', 'start', 'style',
-  'target', 'title', 'type', 'value', 'width'
+  'target', 'title', 'type', 'value', 'width',
 ]
 
 // export const unicodeZsCategory = [
@@ -37,7 +37,7 @@ export const WHITELIST_ATTRIBUTES = [
 
 const UNICODE_WHITESPACE_REG = /^\s/
 
-const validWidthAndHeight = value => {
+const validWidthAndHeight = (value) => {
   if (!/^\d{1,}$/.test(value)) return ''
   value = parseInt(value)
   return value >= 0 ? value : ''
@@ -64,7 +64,7 @@ export const lowerPriority = (src, offset, rules) => {
   return true
 }
 
-export const getAttributes = html => {
+export const getAttributes = (html) => {
   const parser = new DOMParser()
   const doc = parser.parseFromString(html, 'text/html')
   const target = doc.querySelector('body').firstElementChild
@@ -87,7 +87,7 @@ export const parseSrcAndTitle = (text = '') => {
   if (parts.length === 1) {
     return {
       src: text.trim(),
-      title: ''
+      title: '',
     }
   }
   const rawTitle = parts.pop()
@@ -108,7 +108,7 @@ export const parseSrcAndTitle = (text = '') => {
 const canOpenEmphasis = (src, marker, pending) => {
   const precededChar = pending.charAt(pending.length - 1) || '\n'
   const followedChar = src[marker.length]
-  // not followed by Unicode whitespace, 
+  // not followed by Unicode whitespace,
   if (UNICODE_WHITESPACE_REG.test(followedChar)) {
     return false
   }
@@ -127,7 +127,7 @@ const canOpenEmphasis = (src, marker, pending) => {
 const canCloseEmphasis = (src, offset, marker) => {
   const precededChar = src[offset - marker.length - 1]
   const followedChar = src[offset] || '\n'
-  // not preceded by Unicode whitespace, 
+  // not preceded by Unicode whitespace,
   if (UNICODE_WHITESPACE_REG.test(precededChar)) {
     return false
   }

@@ -1,4 +1,4 @@
-const selectionCtrl = ContentState => {
+const selectionCtrl = (ContentState) => {
   // Returns the table from the table cell:
   //   table <-- thead or tbody <-- tr <-- th or td (cell)
   ContentState.prototype.getTableFromTableCell = function (block) {
@@ -20,7 +20,7 @@ const selectionCtrl = ContentState => {
         const { text, key } = startBlock
         this.cursor = {
           start: { key, offset: 0 },
-          end: { key, offset: text.length }
+          end: { key, offset: text.length },
         }
       } else {
         const startTable = this.getTableFromTableCell(startBlock)
@@ -29,14 +29,14 @@ const selectionCtrl = ContentState => {
         if (!startTable || !endTable) {
           console.error('No table found or invalid type.')
           return
-        } else if (startTable.key !== endTable.key) {
+        } if (startTable.key !== endTable.key) {
           // Select entire document
           return
         }
         const firstTableCell = this.firstInDescendant(startTable)
         const lastTableCell = this.lastInDescendant(startTable)
-        if (!firstTableCell || !/th|td/.test(firstTableCell.type) ||
-          !lastTableCell || !/th|td/.test(lastTableCell.type)) {
+        if (!firstTableCell || !/th|td/.test(firstTableCell.type)
+          || !lastTableCell || !/th|td/.test(lastTableCell.type)) {
           console.error('No table cell found or invalid type.')
           return
         }
@@ -44,7 +44,7 @@ const selectionCtrl = ContentState => {
         const { key: endKey, text } = lastTableCell
         this.cursor = {
           start: { key: startKey, offset: 0 },
-          end: { key: endKey, offset: text.length }
+          end: { key: endKey, offset: text.length },
         }
       }
 

@@ -57,5 +57,5 @@ export default {
   referenceDefinition,
   htmlRuby,
   referenceLink,
-  referenceImage
+  referenceImage,
 }

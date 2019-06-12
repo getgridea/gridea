@@ -1,5 +1,7 @@
 import Renderer from './renderer'
-import { normal, breaks, gfm, pedantic } from './inlineRules'
+import {
+  normal, breaks, gfm, pedantic,
+} from './inlineRules'
 import defaultOptions from './options'
 import { escape, findClosingBracket } from './utils'
 import { validateEmphasize, lowerPriority } from '../utils'
@@ -8,7 +10,7 @@ import { validateEmphasize, lowerPriority } from '../utils'
  * Inline Lexer & Compiler
  */
 
-function InlineLexer (links, options) {
+function InlineLexer(links, options) {
   this.options = options || defaultOptions
   this.links = links
   this.rules = normal
@@ -39,7 +41,7 @@ function InlineLexer (links, options) {
     if (/^(?:autolink|code|tag)$/.test(key) && this.rules[key] instanceof RegExp) {
       this.highPriorityLinkRules[key] = this.rules[key]
     }
-  } 
+  }
 }
 
 /**
@@ -48,7 +50,7 @@ function InlineLexer (links, options) {
 
 InlineLexer.prototype.output = function (src) {
   // src = src
-    // .replace(/\u00a0/g, ' ')
+  // .replace(/\u00a0/g, ' ')
   const { disableInline, emoji, math } = this.options
   if (disableInline) {
     return escape(src)
@@ -126,7 +128,7 @@ InlineLexer.prototype.output = function (src) {
       href = href.trim().replace(/^<([\s\S]*)>$/, '$1')
       out += this.outputLink(cap, {
         href: this.escapes(href),
-        title: this.escapes(title)
+        title: this.escapes(title),
       })
       this.inLink = false
       continue
@@ -232,7 +234,7 @@ InlineLexer.prototype.output = function (src) {
       lastChar = cap[0].charAt(cap[0].length - 1)
       if (cap[2] === '@') {
         text = escape(this.mangle(cap[1]))
-        href = 'mailto:' + text
+        href = `mailto:${text}`
       } else {
         text = escape(cap[1])
         href = text
@@ -246,7 +248,7 @@ InlineLexer.prototype.output = function (src) {
     if (!this.inLink && cap) {
       if (cap[2] === '@') {
         text = escape(cap[0])
-        href = 'mailto:' + text
+        href = `mailto:${text}`
       } else {
         // do extended autolink path validation
         do {
@@ -255,7 +257,7 @@ InlineLexer.prototype.output = function (src) {
         } while (prevCapZero !== cap[0])
         text = escape(cap[0])
         if (cap[1] === 'www.') {
-          href = 'http://' + text
+          href = `http://${text}`
         } else {
           href = text
         }
@@ -280,7 +282,7 @@ InlineLexer.prototype.output = function (src) {
     }
 
     if (src) {
-      throw new Error('Infinite loop on byte: ' + src.charCodeAt(0))
+      throw new Error(`Infinite loop on byte: ${src.charCodeAt(0)}`)
     }
   }
 
@@ -296,7 +298,7 @@ InlineLexer.prototype.escapes = function (text) {
  */
 
 InlineLexer.prototype.outputLink = function (cap, link) {
-  const href = link.href
+  const { href } = link
   const title = link.title ? escape(link.title) : null
 
   return cap[0].charAt(0) !== '!'
@@ -342,9 +344,9 @@ InlineLexer.prototype.mangle = function (text) {
   for (let i = 0; i < l; i++) {
     ch = text.charCodeAt(i)
     if (Math.random() > 0.5) {
-      ch = 'x' + ch.toString(16)
+      ch = `x${ch.toString(16)}`
     }
-    out += '&#' + ch + ';'
+    out += `&#${ch};`
   }
 
   return out

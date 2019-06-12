@@ -3,7 +3,7 @@ import { inlineRules } from '../parser/rules'
 
 const HTML_BLOCK_REG = /^<([a-zA-Z\d-]+)(?=\s|>)[^<>]*?>$/
 
-const htmlBlock = ContentState => {
+const htmlBlock = (ContentState) => {
   ContentState.prototype.createHtmlBlock = function (code) {
     const block = this.createBlock('figure')
     block.functionType = 'html'
@@ -15,7 +15,7 @@ const htmlBlock = ContentState => {
 
   ContentState.prototype.initHtmlBlock = function (block) {
     let htmlContent = ''
-    const text = block.children[0].text
+    const { text } = block.children[0]
     const matches = inlineRules.html_tag.exec(text)
     if (matches) {
       const tag = matches[3]

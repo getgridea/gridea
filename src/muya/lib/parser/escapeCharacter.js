@@ -54,7 +54,7 @@ const charachers = [
   '‍', '‎', '‏', '–', '—',
   '‘', '’', '‚', '“', '”',
   '„', '†', '‡', '‰', '‹',
-  '›', '€'
+  '›', '€',
 ]
 
 export const escapeCharacters = [
@@ -112,7 +112,7 @@ export const escapeCharacters = [
   '&zwj;', '&lrm;', '&rlm;', '&ndash;', '&mdash;',
   '&lsquo;', '&rsquo;', '&sbquo;', '&ldquo;', '&rdquo;',
   '&bdquo;', '&dagger;', '&Dagger;', '&permil;', '&lsaquo;',
-  '&rsaquo;', '&euro;'
+  '&rsaquo;', '&euro;',
 ]
 
 const escapeCharactersMap = escapeCharacters.reduce((acc, escapeCharacter, index) => {

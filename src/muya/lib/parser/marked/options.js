@@ -24,5 +24,5 @@ export default {
   smartypants: false,
   tables: true,
   xhtml: false,
-  disableInline: false
+  disableInline: false,
 }

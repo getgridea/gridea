@@ -1,34 +1,35 @@
 class DragDrop {
-  constructor (muya) {
+  constructor(muya) {
     this.muya = muya
     this.dragOverBinding()
     this.dropBinding()
     this.dragendBinding()
   }
 
-  dragOverBinding () {
+  dragOverBinding() {
     const { container, eventCenter, contentState } = this.muya
 
-    const dragoverHandler = event => {
+    const dragoverHandler = (event) => {
       contentState.dragoverHandler(event)
     }
 
     eventCenter.attachDOMEvent(container, 'dragover', dragoverHandler)
   }
-  dropBinding () {
+
+  dropBinding() {
     const { container, eventCenter, contentState } = this.muya
 
-    const dropHandler = event => {
+    const dropHandler = (event) => {
       contentState.dropHandler(event)
     }
 
     eventCenter.attachDOMEvent(container, 'drop', dropHandler)
   }
 
-  dragendBinding () {
+  dragendBinding() {
     const { eventCenter, contentState } = this.muya
 
-    const dragleaveHandler = event => {
+    const dragleaveHandler = (event) => {
       contentState.dragleaveHandler(event)
     }
 

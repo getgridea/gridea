@@ -7,15 +7,14 @@ const LINE_BREAKS_REG = /\n/
 // get header level
 //  eg: h1 => 1
 //      h2 => 2
-const getCurrentLevel = type => {
+const getCurrentLevel = (type) => {
   if (/\d/.test(type)) {
     return Number(/\d/.exec(type)[0])
-  } else {
-    return 0
   }
+  return 0
 }
 
-const paragraphCtrl = ContentState => {
+const paragraphCtrl = (ContentState) => {
   ContentState.prototype.selectionChange = function (cursor) {
     const { start, end } = cursor || selection.getCursorRange()
     if (!start || !end) {
@@ -40,7 +39,7 @@ const paragraphCtrl = ContentState => {
       start,
       end,
       affiliation,
-      cursorCoords
+      cursorCoords,
     }
   }
 
@@ -71,14 +70,14 @@ const paragraphCtrl = ContentState => {
     const lang = 'yaml'
     const frontMatter = this.createBlock('pre', {
       functionType: 'frontmatter',
-      lang
+      lang,
     })
     const codeBlock = this.createBlock('code', {
-      lang
+      lang,
     })
     const emptyLine = this.createBlock('span', {
       functionType: 'codeLine',
-      lang
+      lang,
     })
 
     this.appendChild(codeBlock, emptyLine)
@@ -88,7 +87,7 @@ const paragraphCtrl = ContentState => {
     const offset = 0
     this.cursor = {
       start: { key, offset },
-      end: { key, offset }
+      end: { key, offset },
     }
   }
 
@@ -102,8 +101,8 @@ const paragraphCtrl = ContentState => {
       const listBlock = isListed[0]
       if (listType === listBlock.listType) {
         const listItems = listBlock.children
-        listItems.forEach(listItem => {
-          listItem.children.forEach(itemParagraph => {
+        listItems.forEach((listItem) => {
+          listItem.children.forEach((itemParagraph) => {
             if (itemParagraph.type !== 'input') {
               this.insertBefore(itemParagraph, listBlock)
             }
@@ -115,7 +114,7 @@ const paragraphCtrl = ContentState => {
       // if the old list block is task list, remove checkbox
       if (listBlock.listType === 'task') {
         const listItems = listBlock.children
-        listItems.forEach(item => {
+        listItems.forEach((item) => {
           const inputBlock = item.children[0]
           inputBlock && this.removeBlock(inputBlock)
         })
@@ -130,8 +129,8 @@ const paragraphCtrl = ContentState => {
         listBlock.children.forEach(b => (b.bulletMarkerOrDelimiter = orderListDelimiter))
       }
       if (
-        (listType === 'bullet' && oldListType === 'order') ||
-        (listType === 'task' && oldListType === 'order')
+        (listType === 'bullet' && oldListType === 'order')
+        || (listType === 'task' && oldListType === 'order')
       ) {
         delete listBlock.start
         listBlock.children.forEach(b => (b.bulletMarkerOrDelimiter = bulletListMarker))
@@ -140,54 +139,52 @@ const paragraphCtrl = ContentState => {
       // if the new block is task list, add checkbox
       if (listType === 'task') {
         const listItems = listBlock.children
-        listItems.forEach(item => {
+        listItems.forEach((item) => {
           const checkbox = this.createBlock('input')
           checkbox.checked = false
           this.insertBefore(checkbox, item.children[0])
         })
       }
-    } else {
-      if (start.key === end.key || (start.block.parent && start.block.parent === end.block.parent)) {
-        const block = this.getBlock(start.key)
-        const paragraph = this.getBlock(block.parent)
-        if (listType === 'task') {
-          // 1. first update the block to bullet list
-          const listItemParagraph = this.updateList(paragraph, 'bullet', undefined, block)
-          // 2. second update bullet list to task list
-          setTimeout(() => {
-            this.updateTaskListItem(listItemParagraph, listType)
-            this.partialRender()
-          })
-        } else {
-          this.updateList(paragraph, listType, undefined, block)
-        }
-      } else {
-        const { parent, startIndex, endIndex } = this.getCommonParent()
-        const children = parent ? parent.children : this.blocks
-        const referBlock = children[endIndex]
-        const listWrapper = this.createBlock(listType === 'order' ? 'ol' : 'ul')
-        listWrapper.listType = listType
-        if (listType === 'order') listWrapper.start = 1
-
-        children.slice(startIndex, endIndex + 1).forEach(child => {
-          if (child !== referBlock) {
-            this.removeBlock(child, children)
-          } else {
-            this.insertAfter(listWrapper, child)
-            this.removeBlock(child, children)
-          }
-          const listItem = this.createBlock('li')
-          listItem.listItemType = listType
-          listItem.isLooseListItem = preferLooseListItem
-          this.appendChild(listWrapper, listItem)
-          if (listType === 'task') {
-            const checkbox = this.createBlock('input')
-            checkbox.checked = false
-            this.appendChild(listItem, checkbox)
-          }
-          this.appendChild(listItem, child)
+    } else if (start.key === end.key || (start.block.parent && start.block.parent === end.block.parent)) {
+      const block = this.getBlock(start.key)
+      const paragraph = this.getBlock(block.parent)
+      if (listType === 'task') {
+        // 1. first update the block to bullet list
+        const listItemParagraph = this.updateList(paragraph, 'bullet', undefined, block)
+        // 2. second update bullet list to task list
+        setTimeout(() => {
+          this.updateTaskListItem(listItemParagraph, listType)
+          this.partialRender()
         })
+      } else {
+        this.updateList(paragraph, listType, undefined, block)
       }
+    } else {
+      const { parent, startIndex, endIndex } = this.getCommonParent()
+      const children = parent ? parent.children : this.blocks
+      const referBlock = children[endIndex]
+      const listWrapper = this.createBlock(listType === 'order' ? 'ol' : 'ul')
+      listWrapper.listType = listType
+      if (listType === 'order') listWrapper.start = 1
+
+      children.slice(startIndex, endIndex + 1).forEach((child) => {
+        if (child !== referBlock) {
+          this.removeBlock(child, children)
+        } else {
+          this.insertAfter(listWrapper, child)
+          this.removeBlock(child, children)
+        }
+        const listItem = this.createBlock('li')
+        listItem.listItemType = listType
+        listItem.isLooseListItem = preferLooseListItem
+        this.appendChild(listWrapper, listItem)
+        if (listType === 'task') {
+          const checkbox = this.createBlock('input')
+          checkbox.checked = false
+          this.appendChild(listItem, checkbox)
+        }
+        this.appendChild(listItem, child)
+      })
     }
   }
 
@@ -209,7 +206,7 @@ const paragraphCtrl = ContentState => {
 
   ContentState.prototype.handleCodeBlockMenu = function () {
     const { start, end, affiliation } = this.selectionChange(this.cursor)
-    let startBlock = this.getBlock(start.key)
+    const startBlock = this.getBlock(start.key)
     const endBlock = this.getBlock(end.key)
     const startParents = this.getParents(startBlock)
     const endParents = this.getParents(endBlock)
@@ -229,7 +226,7 @@ const paragraphCtrl = ContentState => {
       this.removeBlock(preBlock)
       const { start, end } = this.cursor
 
-      const key = newParagraphBlock.children[0].key
+      const { key } = newParagraphBlock.children[0]
       let startOffset = 0
       let endOffset = 0
       let startStop = false
@@ -251,101 +248,99 @@ const paragraphCtrl = ContentState => {
 
       this.cursor = {
         start: { key, offset: startOffset },
-        end: { key, offset: endOffset }
+        end: { key, offset: endOffset },
       }
-    } else {
-      if (start.key === end.key) {
-        if (startBlock.type === 'span') {
-          const anchorBlock = this.getParent(startBlock)
-          const lang = ''
-          const preBlock = this.createBlock('pre', {
-            functionType: 'fencecode',
-            lang
-          })
-
-          const codeBlock = this.createBlock('code', {
-            lang: ''
-          })
-
-          const inputBlock = this.createBlock('span', {
-            functionType: 'languageInput'
-          })
-
-          const codes = startBlock.text.split('\n')
-
-          for (const code of codes) {
-            const codeLine = this.createBlock('span', {
-              text: code,
-              functionType: 'codeLine',
-              lang
-            })
-            this.appendChild(codeBlock, codeLine)
-          }
-
-          this.appendChild(preBlock, inputBlock)
-          this.appendChild(preBlock, codeBlock)
-          this.insertBefore(preBlock, anchorBlock)
-
-          this.removeBlock(anchorBlock)
-
-          const { key } = inputBlock
-          const offset = 0
-
-          this.cursor = {
-            start: { key, offset },
-            end: { key, offset }
-          }
-        } else {
-          this.cursor = {
-            start: this.cursor.start,
-            end: this.cursor.end
-          }
-        }
-      } else if (!hasFencedCodeBlockParent()) {
-        const { parent, startIndex, endIndex } = this.getCommonParent()
-        const children = parent ? parent.children : this.blocks
-        const referBlock = children[endIndex]
+    } else if (start.key === end.key) {
+      if (startBlock.type === 'span') {
+        const anchorBlock = this.getParent(startBlock)
         const lang = ''
         const preBlock = this.createBlock('pre', {
           functionType: 'fencecode',
-          lang
+          lang,
         })
+
         const codeBlock = this.createBlock('code', {
-          lang
+          lang: '',
         })
 
-        const listIndentation = this.listIndentation
-        const markdown = new ExportMarkdown(children.slice(startIndex, endIndex + 1), listIndentation).generate()
-
-        markdown.split(LINE_BREAKS_REG).forEach(text => {
-          const codeLine = this.createBlock('span', {
-            text,
-            lang,
-            functionType: 'codeLine'
-          })
- 
-          this.appendChild(codeBlock, codeLine)
-        })
         const inputBlock = this.createBlock('span', {
-          functionType: 'languageInput'
+          functionType: 'languageInput',
         })
+
+        const codes = startBlock.text.split('\n')
+
+        for (const code of codes) {
+          const codeLine = this.createBlock('span', {
+            text: code,
+            functionType: 'codeLine',
+            lang,
+          })
+          this.appendChild(codeBlock, codeLine)
+        }
 
         this.appendChild(preBlock, inputBlock)
         this.appendChild(preBlock, codeBlock)
-        this.insertAfter(preBlock, referBlock)
-        let i
-        const removeCache = []
-        for (i = startIndex; i <= endIndex; i++) {
-          const child = children[i]
-          removeCache.push(child)
-        }
-        removeCache.forEach(b => this.removeBlock(b))
-        const key = inputBlock.key
+        this.insertBefore(preBlock, anchorBlock)
+
+        this.removeBlock(anchorBlock)
+
+        const { key } = inputBlock
         const offset = 0
+
         this.cursor = {
           start: { key, offset },
-          end: { key, offset }
+          end: { key, offset },
         }
+      } else {
+        this.cursor = {
+          start: this.cursor.start,
+          end: this.cursor.end,
+        }
+      }
+    } else if (!hasFencedCodeBlockParent()) {
+      const { parent, startIndex, endIndex } = this.getCommonParent()
+      const children = parent ? parent.children : this.blocks
+      const referBlock = children[endIndex]
+      const lang = ''
+      const preBlock = this.createBlock('pre', {
+        functionType: 'fencecode',
+        lang,
+      })
+      const codeBlock = this.createBlock('code', {
+        lang,
+      })
+
+      const { listIndentation } = this
+      const markdown = new ExportMarkdown(children.slice(startIndex, endIndex + 1), listIndentation).generate()
+
+      markdown.split(LINE_BREAKS_REG).forEach((text) => {
+        const codeLine = this.createBlock('span', {
+          text,
+          lang,
+          functionType: 'codeLine',
+        })
+ 
+        this.appendChild(codeBlock, codeLine)
+      })
+      const inputBlock = this.createBlock('span', {
+        functionType: 'languageInput',
+      })
+
+      this.appendChild(preBlock, inputBlock)
+      this.appendChild(preBlock, codeBlock)
+      this.insertAfter(preBlock, referBlock)
+      let i
+      const removeCache = []
+      for (i = startIndex; i <= endIndex; i++) {
+        const child = children[i]
+        removeCache.push(child)
+      }
+      removeCache.forEach(b => this.removeBlock(b))
+      const { key } = inputBlock
+      const offset = 0
+      this.cursor = {
+        start: { key, offset },
+        end: { key, offset },
       }
     }
   }
@@ -357,37 +352,35 @@ const paragraphCtrl = ContentState => {
     // change blockquote to paragraph
     if (isBlockQuote.length && !insertMode) {
       const quoteBlock = isBlockQuote[0]
-      const children = quoteBlock.children
+      const { children } = quoteBlock
       for (const child of children) {
         this.insertBefore(child, quoteBlock)
       }
       this.removeBlock(quoteBlock)
     // change paragraph to blockquote
-    } else {
-      if (start.key === end.key) {
-        if (startBlock.type === 'span') {
-          startBlock = this.getParent(startBlock)
-        }
-        const quoteBlock = this.createBlock('blockquote')
-        this.insertAfter(quoteBlock, startBlock)
-        this.removeBlock(startBlock)
-        this.appendChild(quoteBlock, startBlock)
-      } else {
-        const { parent, startIndex, endIndex } = this.getCommonParent()
-        const children = parent ? parent.children : this.blocks
-        const referBlock = children[endIndex]
-        const quoteBlock = this.createBlock('blockquote')
-
-        children.slice(startIndex, endIndex + 1).forEach(child => {
-          if (child !== referBlock) {
-            this.removeBlock(child, children)
-          } else {
-            this.insertAfter(quoteBlock, child)
-            this.removeBlock(child, children)
-          }
-          this.appendChild(quoteBlock, child)
-        })
+    } else if (start.key === end.key) {
+      if (startBlock.type === 'span') {
+        startBlock = this.getParent(startBlock)
       }
+      const quoteBlock = this.createBlock('blockquote')
+      this.insertAfter(quoteBlock, startBlock)
+      this.removeBlock(startBlock)
+      this.appendChild(quoteBlock, startBlock)
+    } else {
+      const { parent, startIndex, endIndex } = this.getCommonParent()
+      const children = parent ? parent.children : this.blocks
+      const referBlock = children[endIndex]
+      const quoteBlock = this.createBlock('blockquote')
+
+      children.slice(startIndex, endIndex + 1).forEach((child) => {
+        if (child !== referBlock) {
+          this.removeBlock(child, children)
+        } else {
+          this.insertAfter(quoteBlock, child)
+          this.removeBlock(child, children)
+        }
+        this.appendChild(quoteBlock, child)
+      })
     }
   }
 
@@ -408,7 +401,7 @@ const paragraphCtrl = ContentState => {
     const offset = 0
     this.cursor = {
       start: { key, offset },
-      end: { key, offset }
+      end: { key, offset },
     }
   }
 
@@ -434,7 +427,7 @@ const paragraphCtrl = ContentState => {
     const offset = 0
     this.cursor = {
       start: { key, offset },
-      end: { key, offset }
+      end: { key, offset },
     }
   }
 
@@ -494,7 +487,7 @@ const paragraphCtrl = ContentState => {
       case 'degrade heading':
       case 'paragraph': {
         if (start.key !== end.key) return
-        const headingStyle = DEFAULT_TURNDOWN_CONFIG.headingStyle
+        const { headingStyle } = DEFAULT_TURNDOWN_CONFIG
         const parent = this.getParent(block)
         // \u00A0 is &nbsp;
         const [, hash, partText] = /(^ {0,3}#*[ \u00A0]*)([\s\S]*)/.exec(text)
@@ -525,7 +518,7 @@ const paragraphCtrl = ContentState => {
           ? end.offset + newLevel - hash.length + 1
           : end.offset - hash.length
         const newText = newLevel > 0
-          ? '#'.repeat(newLevel) + `${String.fromCharCode(160)}${partText}` // &nbsp; code: 160
+          ? `${'#'.repeat(newLevel)}${String.fromCharCode(160)}${partText}` // &nbsp; code: 160
           : partText
 
         // No change
@@ -539,11 +532,11 @@ const paragraphCtrl = ContentState => {
 
         if (newType !== 'p') {
           const header = this.createBlock(newType, {
-            headingStyle
+            headingStyle,
           })
           const headerContent = this.createBlock('span', {
-            text: headingStyle === 'atx'? newText.replace(/\n/g, ' ') : newText,
-            functionType: headingStyle === 'atx'? 'atxLine' : 'paragraphContent'
+            text: headingStyle === 'atx' ? newText.replace(/\n/g, ' ') : newText,
+            functionType: headingStyle === 'atx' ? 'atxLine' : 'paragraphContent',
           })
           this.appendChild(header, headerContent)
           key = headerContent.key
@@ -559,7 +552,7 @@ const paragraphCtrl = ContentState => {
 
         this.cursor = {
           start: { key, offset: startOffset },
-          end: { key, offset: endOffset }
+          end: { key, offset: endOffset },
         }
         break
       }
@@ -569,7 +562,7 @@ const paragraphCtrl = ContentState => {
         const hrBlock = this.createBlock('hr')
         const thematicContent = this.createBlock('span', {
           functionType: 'thematicBreakLine',
-          text: '---'
+          text: '---',
         })
         this.appendChild(hrBlock, thematicContent)
         this.insertAfter(hrBlock, archor)
@@ -585,7 +578,7 @@ const paragraphCtrl = ContentState => {
         const offset = 0
         this.cursor = {
           start: { key, offset },
-          end: { key, offset }
+          end: { key, offset },
         }
         break
       }
@@ -628,7 +621,7 @@ const paragraphCtrl = ContentState => {
     const offset = text.length
     this.cursor = {
       start: { key, offset },
-      end: { key, offset }
+      end: { key, offset },
     }
     this.partialRender()
     this.muya.eventCenter.dispatch('stateChange')
@@ -640,9 +633,8 @@ const paragraphCtrl = ContentState => {
     for (const child of children) {
       if (child.type === 'pre') {
         return child
-      } else {
-        return this.getPreBlock(child)
       }
+      return this.getPreBlock(child)
     }
     return null
   }
@@ -666,7 +658,7 @@ const paragraphCtrl = ContentState => {
     const offset = text.length
     this.cursor = {
       start: { key, offset },
-      end: { key, offset }
+      end: { key, offset },
     }
     this.partialRender()
     return this.muya.eventCenter.dispatch('stateChange')
@@ -697,7 +689,7 @@ const paragraphCtrl = ContentState => {
     const offset = text.length
     this.cursor = {
       start: { key, offset },
-      end: { key, offset }
+      end: { key, offset },
     }
     this.partialRender()
     return this.muya.eventCenter.dispatch('stateChange')
@@ -714,12 +706,12 @@ const paragraphCtrl = ContentState => {
       this.cursor = {
         start: {
           key,
-          offset: 0
+          offset: 0,
         },
         end: {
           key,
-          offset: textLength
-        }
+          offset: textLength,
+        },
       }
       return this.partialRender()
     }
@@ -732,12 +724,12 @@ const paragraphCtrl = ContentState => {
       this.cursor = {
         start: {
           key: firstCodeLine.key,
-          offset: 0
+          offset: 0,
         },
         end: {
           key: lastCodeLine.key,
-          offset: lastCodeLine.text.length
-        }
+          offset: lastCodeLine.text.length,
+        },
       }
       return this.partialRender()
     }
@@ -746,12 +738,12 @@ const paragraphCtrl = ContentState => {
       this.cursor = {
         start: {
           key: startBlock.key,
-          offset: 0
+          offset: 0,
         },
         end: {
           key: startBlock.key,
-          offset: startBlock.text.length
-        }
+          offset: startBlock.text.length,
+        },
       }
       return this.partialRender()
     }
@@ -760,12 +752,12 @@ const paragraphCtrl = ContentState => {
     this.cursor = {
       start: {
         key: firstTextBlock.key,
-        offset: 0
+        offset: 0,
       },
       end: {
         key: lastTextBlock.key,
-        offset: lastTextBlock.text.length
-      }
+        offset: lastTextBlock.text.length,
+      },
     }
     this.render()
   }

@@ -11,32 +11,32 @@ import clearIcon from '../../assets/pngicon/format_clear/2.png'
 const icons = [
   {
     type: 'strong',
-    icon: strongIcon
+    icon: strongIcon,
   }, {
     type: 'em',
-    icon: emphasisIcon
+    icon: emphasisIcon,
   }, {
     type: 'u',
-    icon: underlineIcon
+    icon: underlineIcon,
   }, {
     type: 'del',
-    icon: strikeIcon
+    icon: strikeIcon,
   }, {
     type: 'inline_code',
-    icon: codeIcon
+    icon: codeIcon,
   }, {
     type: 'inline_math',
-    icon: mathIcon
+    icon: mathIcon,
   }, {
     type: 'link',
-    icon: linkIcon
+    icon: linkIcon,
   }, {
     type: 'image',
-    icon: imageIcon
+    icon: imageIcon,
   }, {
     type: 'clear',
-    icon: clearIcon
-  }
+    icon: clearIcon,
+  },
 ]
 
 export default icons

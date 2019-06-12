@@ -8,7 +8,7 @@ export const beginRules = {
   'reference_definition': /^( {0,3}\[)([^\]]+?)(\\*)(\]: *)(<?)([^\s>]+)(>?)(?:( +)(["'(]?)([^\n"'\(\)]+)\9)?( *)$/,
 
   // extra syntax (not belogs to GFM)
-  'multiple_math': /^(\$\$)$/
+  'multiple_math': /^(\$\$)$/,
 }
 
 export const inlineRules = {
@@ -32,6 +32,6 @@ export const inlineRules = {
   'backlash': /^(\\)([\\`*{}\[\]()#+\-.!_>~:\|\<\>$]{1})/,
 
   // extra (not belongs to GFM)
-  'inline_math': /^(\$)([^\$]*?[^\$\\])(\\*)\1(?!\1)/
+  'inline_math': /^(\$)([^\$]*?[^\$\\])(\\*)\1(?!\1)/,
 }
 /* eslint-enable no-useless-escape */

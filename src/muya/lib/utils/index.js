@@ -36,14 +36,13 @@ export const union = ({ start: tStart, end: tEnd }, { start: lStart, end: lEnd, 
       return {
         start: tStart,
         end: tEnd < lEnd ? tEnd : lEnd,
-        active
+        active,
       }
-    } else {
-      return {
-        start: lStart,
-        end: tEnd < lEnd ? tEnd : lEnd,
-        active
-      }
+    }
+    return {
+      start: lStart,
+      end: tEnd < lEnd ? tEnd : lEnd,
+      active,
     }
   }
   return null
@@ -98,7 +97,7 @@ export const debounce = (func, wait = 50) => {
   }
 }
 
-export const deepCopyArray = array => {
+export const deepCopyArray = (array) => {
   const result = []
   const len = array.length
   let i
@@ -117,9 +116,9 @@ export const deepCopyArray = array => {
 }
 
 // TODO: @jocs rewrite deepCopy
-export const deepCopy = object => {
+export const deepCopy = (object) => {
   const obj = {}
-  Object.keys(object).forEach(key => {
+  Object.keys(object).forEach((key) => {
     if (typeof object[key] === 'object' && object[key] !== null) {
       if (Array.isArray(object[key])) {
         obj[key] = deepCopyArray(object[key])
@@ -143,14 +142,14 @@ export const loadImage = async (url, detectContentType = false) => {
     image.onload = () => {
       resolve(url)
     }
-    image.onerror = err => {
+    image.onerror = (err) => {
       reject(err)
     }
     image.src = url
   })
 }
 
-export const checkImageContentType = url => {
+export const checkImageContentType = (url) => {
   const req = new XMLHttpRequest()
   let settle
   const promise = new Promise((resolve, reject) => {
@@ -205,13 +204,13 @@ export const getImageInfo = (src, baseUrl = window.DIRNAME) => {
 
       return {
         isUnknownType: false,
-        src
+        src,
       }
-    } else if (isInElectron) {
+    } if (isInElectron) {
       // Correct relative path on desktop. If we resolve a absolute path "path.resolve" doesn't do anything.
       return {
         isUnknownType: false,
-        src: 'file://' + require('path').resolve(baseUrl, src)
+        src: `file://${require('path').resolve(baseUrl, src)}`,
       }
     }
     // else: Forbid the request due absolute or relative path in browser
@@ -219,7 +218,7 @@ export const getImageInfo = (src, baseUrl = window.DIRNAME) => {
     // Assume it's a valid image and make a http request later
     return {
       isUnknownType: true,
-      src
+      src,
     }
   }
 
@@ -227,18 +226,18 @@ export const getImageInfo = (src, baseUrl = window.DIRNAME) => {
   if (DATA_URL_REG.test(src)) {
     return {
       isUnknownType: false,
-      src
+      src,
     }
   }
 
   // Url type is unknown
   return {
     isUnknownType: false,
-    src: ''
+    src: '',
   }
 }
 
-export const escapeHtml = html => {
+export const escapeHtml = (html) => {
   return html
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -246,22 +245,22 @@ export const escapeHtml = html => {
     .replace(/'/g, '&#39;')
 }
 
-export const unescapeHtml = text => {
+export const unescapeHtml = (text) => {
   return text
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, `'`)
+    .replace(/&#39;/g, '\'')
 }
 
-export const escapeInBlockHtml = html => {
+export const escapeInBlockHtml = (html) => {
   return html
     .replace(/(<(style|script|title)[^<>]*>)([\s\S]*?)(<\/\2>)/g, (m, p1, p2, p3, p4) => {
       return `${escapeHtml(p1)}${p3}${escapeHtml(p4)}`
     })
 }
 
-export const wordCount = markdown => {
+export const wordCount = (markdown) => {
   const paragraph = markdown.split(/\n{2,}/).filter(line => line).length
   let word = 0
   let character = 0
@@ -274,14 +273,16 @@ export const wordCount = markdown => {
   character += tokens.reduce((acc, t) => acc + t.length, 0) + chineseWordLength
   all += markdown.length
 
-  return { word, paragraph, character, all }
+  return {
+    word, paragraph, character, all,
+  }
 }
 
 /**
  * [genUpper2LowerKeyHash generate constants map hash, the value is lowercase of the key,
  * also translate `_` to `-`]
  */
-export const genUpper2LowerKeyHash = keys => {
+export const genUpper2LowerKeyHash = (keys) => {
   return keys.reduce((acc, key) => {
     const value = key.toLowerCase().replace(/_/g, '-')
     return Object.assign(acc, { [key]: value })
@@ -291,7 +292,7 @@ export const genUpper2LowerKeyHash = keys => {
 /**
  * generate constants map, the value is the key.
  */
-export const generateKeyHash = keys => {
+export const generateKeyHash = (keys) => {
   return keys.reduce((acc, key) => {
     return Object.assign(acc, { [key]: key })
   }, {})
@@ -308,14 +309,18 @@ export const sanitize = (html, options) => {
 }
 
 export const getParagraphReference = (ele, id) => {
-  const { x, y, left, top, bottom, height } = ele.getBoundingClientRect()
+  const {
+    x, y, left, top, bottom, height,
+  } = ele.getBoundingClientRect()
   return {
-    getBoundingClientRect () {
-      return { x, y, left, top, bottom, height, width: 0, right: left }
+    getBoundingClientRect() {
+      return {
+        x, y, left, top, bottom, height, width: 0, right: left,
+      }
     },
     clientWidth: 0,
     clientHeight: height,
-    id
+    id,
   }
 }
 

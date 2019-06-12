@@ -1,7 +1,7 @@
 import selection from '../selection'
 import { getTextContent } from '../selection/dom'
 import { beginRules } from '../parser/rules'
-import { tokenizer } from '../parser/'
+import { tokenizer } from '../parser'
 import { CLASS_OR_ID } from '../config'
 
 const BRACKET_HASH = {
@@ -13,7 +13,7 @@ const BRACKET_HASH = {
   '"': '"',
   '\'': '\'',
   '$': '$',
-  '~': '~'
+  '~': '~',
 }
 
 const BACK_HASH = {
@@ -25,10 +25,10 @@ const BACK_HASH = {
   '"': '"',
   '\'': '\'',
   '$': '$',
-  '~': '~'
+  '~': '~',
 }
 
-const inputCtrl = ContentState => {
+const inputCtrl = (ContentState) => {
   // Input @ to quick insert paragraph
   ContentState.prototype.checkQuickInsert = function (block) {
     const { type, text, functionType } = block
@@ -84,10 +84,10 @@ const inputCtrl = ContentState => {
     }
 
     const { start: oldStart, end: oldEnd } = this.cursor
-    const key = start.key
+    const { key } = start
     const block = this.getBlock(key)
     const paragraph = document.querySelector(`#${key}`)
-    let text = getTextContent(paragraph, [ CLASS_OR_ID['AG_MATH_RENDER'], CLASS_OR_ID['AG_RUBY_RENDER'] ])
+    let text = getTextContent(paragraph, [CLASS_OR_ID.AG_MATH_RENDER, CLASS_OR_ID.AG_RUBY_RENDER])
 
     let needRender = false
     let needRenderAll = false
@@ -126,9 +126,9 @@ const inputCtrl = ContentState => {
     // auto pair (not need to auto pair in math block)
     if (block && block.text !== text) {
       if (
-        start.key === end.key &&
-        start.offset === end.offset &&
-        event.type === 'input'
+        start.key === end.key
+        && start.offset === end.offset
+        && event.type === 'input'
       ) {
         const { offset } = start
         const { autoPairBracket, autoPairMarkdownSyntax, autoPairQuote } = this.muya.options
@@ -152,14 +152,14 @@ const inputCtrl = ContentState => {
           }
           /* eslint-disable no-useless-escape */
         } else if (
-          (event.inputType.indexOf('delete') === -1) &&
-          (inputChar === postInputChar) &&
-          (
-            (autoPairQuote && /[']{1}/.test(inputChar)) ||
-            (autoPairQuote && /["]{1}/.test(inputChar)) ||
-            (autoPairBracket && /[\}\]\)]{1}/.test(inputChar)) ||
-            (autoPairMarkdownSyntax && /[$]{1}/.test(inputChar)) ||
-            (autoPairMarkdownSyntax && /[*$`~_]{1}/.test(inputChar)) && /[_*~]{1}/.test(prePreInputChar)
+          (event.inputType.indexOf('delete') === -1)
+          && (inputChar === postInputChar)
+          && (
+            (autoPairQuote && /[']{1}/.test(inputChar))
+            || (autoPairQuote && /["]{1}/.test(inputChar))
+            || (autoPairBracket && /[\}\]\)]{1}/.test(inputChar))
+            || (autoPairMarkdownSyntax && /[$]{1}/.test(inputChar))
+            || (autoPairMarkdownSyntax && /[*$`~_]{1}/.test(inputChar)) && /[_*~]{1}/.test(prePreInputChar)
           )
         ) {
           needRender = true
@@ -169,11 +169,11 @@ const inputCtrl = ContentState => {
           // Not Unicode aware, since things like \p{Alphabetic} or \p{L} are not supported yet
           const isInInlineMath = this.checkCursorInInlineMath(text, offset)
           if (
-            !/\\/.test(preInputChar) &&
-            ((autoPairQuote && /[']{1}/.test(inputChar) && !(/[a-zA-Z\d]{1}/.test(preInputChar))) ||
-            (autoPairQuote && /["]{1}/.test(inputChar)) ||
-            (autoPairBracket && /[\{\[\(]{1}/.test(inputChar)) ||
-            (block.functionType !== 'codeLine' && !isInInlineMath && autoPairMarkdownSyntax && /[*$`~_]{1}/.test(inputChar)))
+            !/\\/.test(preInputChar)
+            && ((autoPairQuote && /[']{1}/.test(inputChar) && !(/[a-zA-Z\d]{1}/.test(preInputChar)))
+            || (autoPairQuote && /["]{1}/.test(inputChar))
+            || (autoPairBracket && /[\{\[\(]{1}/.test(inputChar))
+            || (block.functionType !== 'codeLine' && !isInInlineMath && autoPairMarkdownSyntax && /[*$`~_]{1}/.test(inputChar)))
           ) {
             needRender = true
             text = BRACKET_HASH[event.data]
@@ -183,11 +183,11 @@ const inputCtrl = ContentState => {
           /* eslint-enable no-useless-escape */
           // Delete the last `*` of `**` when you insert one space between `**` to create a bullet list.
           if (
-            /\s/.test(event.data) &&
-            /^\* /.test(text) &&
-            preInputChar === '*' &&
-            postInputChar === '*'
-            ) {
+            /\s/.test(event.data)
+            && /^\* /.test(text)
+            && preInputChar === '*'
+            && postInputChar === '*'
+          ) {
             text = text.substring(0, offset) + text.substring(offset + 1)
             needRender = true
           }
@@ -199,17 +199,17 @@ const inputCtrl = ContentState => {
       }
       // Just work for `Shift + Enter` to create a soft and hard line break.
       if (
-        block.text.endsWith('\n') &&
-        start.offset === text.length &&
-        event.inputType === 'insertText'
+        block.text.endsWith('\n')
+        && start.offset === text.length
+        && event.inputType === 'insertText'
       ) {
         block.text += event.data
         start.offset++
         end.offset++
       } else if (
-        block.text.length === oldStart.offset &&
-        block.text[oldStart.offset - 2] === '\n' &&
-        event.inputType === 'deleteContentBackward'
+        block.text.length === oldStart.offset
+        && block.text[oldStart.offset - 2] === '\n'
+        && event.inputType === 'deleteContentBackward'
       ) {
         block.text = block.text.substring(0, oldStart.offset - 1)
         start.offset = block.text.length
@@ -217,7 +217,7 @@ const inputCtrl = ContentState => {
       } else {
         block.text = text
       }
-      if (beginRules['reference_definition'].test(text)) {
+      if (beginRules.reference_definition.test(text)) {
         needRenderAll = true
       }
     }
@@ -227,7 +227,9 @@ const inputCtrl = ContentState => {
     const checkQuickInsert = this.checkQuickInsert(block)
     const reference = this.getPositionReference()
     reference.getBoundingClientRect = function () {
-      const { x, y, left, top, height, bottom } = rect
+      const {
+        x, y, left, top, height, bottom,
+      } = rect
 
       return Object.assign({}, {
         left,
@@ -237,7 +239,7 @@ const inputCtrl = ContentState => {
         bottom,
         height,
         width: 0,
-        right: left
+        right: left,
       })
     }
 

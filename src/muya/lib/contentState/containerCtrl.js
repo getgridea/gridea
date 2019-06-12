@@ -5,13 +5,13 @@ const FUNCTION_TYPE_LANG = {
   'mermaid': 'yaml',
   'sequence': 'yaml',
   'vega-lite': 'yaml',
-  'html': 'markup'
+  'html': 'markup',
 }
 
-const containerCtrl = ContentState => {
+const containerCtrl = (ContentState) => {
   ContentState.prototype.createContainerBlock = function (functionType, value = '') {
     const figureBlock = this.createBlock('figure', {
-      functionType
+      functionType,
     })
 
     const { preBlock, preview } = this.createPreAndPreview(functionType, value)
@@ -24,20 +24,20 @@ const containerCtrl = ContentState => {
     const lang = FUNCTION_TYPE_LANG[functionType]
     const preBlock = this.createBlock('pre', {
       functionType,
-      lang
+      lang,
     })
     const codeBlock = this.createBlock('code', {
-      lang
+      lang,
     })
 
     this.appendChild(preBlock, codeBlock)
 
     if (typeof value === 'string' && value) {
-      value.replace(/^\s+/, '').split(LINE_BREAKS_REG).forEach(line => {
+      value.replace(/^\s+/, '').split(LINE_BREAKS_REG).forEach((line) => {
         const codeLine = this.createBlock('span', {
           text: line,
           functionType: 'codeLine',
-          lang
+          lang,
         })
 
         this.appendChild(codeBlock, codeLine)
@@ -45,7 +45,7 @@ const containerCtrl = ContentState => {
     } else {
       const emptyLine = this.createBlock('span', {
         functionType: 'codeLine',
-        lang
+        lang,
       })
 
       this.appendChild(codeBlock, emptyLine)
@@ -53,7 +53,7 @@ const containerCtrl = ContentState => {
 
     const preview = this.createBlock('div', {
       editable: false,
-      functionType
+      functionType,
     })
 
     return { preBlock, preview }
@@ -81,7 +81,7 @@ const containerCtrl = ContentState => {
     const offset = 0
     this.cursor = {
       start: { key, offset },
-      end: { key, offset }
+      end: { key, offset },
     }
     this.partialRender()
   }

@@ -14,14 +14,14 @@ import { CURSOR_DNA } from '../config'
 const LINE_BREAKS_REG = /\n/
 
 // Just because turndown change `\n`(soft line break) to space, So we add `span.ag-soft-line-break` to workaround.
-const turnSoftBreakToSpan = html => {
+const turnSoftBreakToSpan = (html) => {
   const parser = new DOMParser()
   const doc = parser.parseFromString(
     `<x-mt id="turn-root">${html}</x-mt>`,
-    'text/html'
+    'text/html',
   )
-  const root = doc.querySelector(`#turn-root`)
-  const travel = childNodes => {
+  const root = doc.querySelector('#turn-root')
+  const travel = (childNodes) => {
     for (const node of childNodes) {
       if (node.nodeType === 3) {
         let startLen = 0
@@ -38,13 +38,13 @@ const turnSoftBreakToSpan = html => {
           const params = []
           let i = 0
           const len = tokens.length
-          for (; i< len; i++) {
+          for (; i < len; i++) {
             let text = tokens[i]
             if (i === 0 && startLen !== 0) {
               text = '\n'.repeat(startLen) + text
             } else if (i === len - 1 && endLen !== 0) {
-              text = text + '\n'.repeat(endLen)
-            } 
+              text += '\n'.repeat(endLen)
+            }
             params.push(document.createTextNode(text))
             if (i !== len - 1) {
               const softBreak = document.createElement('span')
@@ -63,7 +63,7 @@ const turnSoftBreakToSpan = html => {
   return root.innerHTML.trim()
 }
 
-const importRegister = ContentState => {
+const importRegister = (ContentState) => {
   // turn markdown to blocks
   ContentState.prototype.markdownToState = function (markdown) {
     // mock a root block...
@@ -74,14 +74,14 @@ const importRegister = ContentState => {
       parent: null,
       preSibling: null,
       nextSibling: null,
-      children: []
+      children: [],
     }
     const tokens = new Lexer({ disableInline: true }).lex(markdown)
 
     let token
     let block
     let value
-    let parentList = [ rootState ]
+    const parentList = [rootState]
     const languageLoaded = new Set()
 
     while ((token = tokens.shift())) {
@@ -91,19 +91,19 @@ const importRegister = ContentState => {
           value = token.text
           block = this.createBlock('pre', {
             functionType: token.type,
-            lang
+            lang,
           })
           const codeBlock = this.createBlock('code', {
-            lang
+            lang,
           })
           value
             .replace(/^\s+/, '')
             .replace(/\s$/, '')
-            .split(LINE_BREAKS_REG).forEach(line => {
+            .split(LINE_BREAKS_REG).forEach((line) => {
               const codeLine = this.createBlock('span', {
                 text: line,
                 lang,
-                functionType: 'codeLine'
+                functionType: 'codeLine',
               })
 
               this.appendChild(codeBlock, codeLine)
@@ -118,22 +118,24 @@ const importRegister = ContentState => {
           block = this.createBlock('hr')
           const thematicBreakContent = this.createBlock('span', {
             text: value,
-            functionType: 'thematicBreakLine'
+            functionType: 'thematicBreakLine',
           })
           this.appendChild(block, thematicBreakContent)
           this.appendChild(parentList[0], block)
           break
         }
         case 'heading': {
-          const { headingStyle, depth, text, marker } = token
-          value = headingStyle === 'atx' ? '#'.repeat(+depth) + ` ${text}` : text
+          const {
+            headingStyle, depth, text, marker,
+          } = token
+          value = headingStyle === 'atx' ? `${'#'.repeat(+depth)} ${text}` : text
           block = this.createBlock(`h${depth}`, {
-            headingStyle
+            headingStyle,
           })
 
           const headingContent = this.createBlock('span', {
             text: value,
-            functionType: headingStyle === 'atx'? 'atxLine' : 'paragraphContent'
+            functionType: headingStyle === 'atx' ? 'atxLine' : 'paragraphContent',
           })
 
           this.appendChild(block, headingContent)
@@ -167,14 +169,14 @@ const importRegister = ContentState => {
           } else {
             block = this.createBlock('pre', {
               functionType: codeBlockStyle === 'fenced' ? 'fencecode' : 'indentcode',
-              lang
+              lang,
             })
             const codeBlock = this.createBlock('code', {
-              lang
+              lang,
             })
-            value.split(LINE_BREAKS_REG).forEach(line => {
+            value.split(LINE_BREAKS_REG).forEach((line) => {
               const codeLine = this.createBlock('span', {
-                text: line
+                text: line,
               })
               codeLine.lang = lang
               codeLine.functionType = 'codeLine'
@@ -182,12 +184,12 @@ const importRegister = ContentState => {
             })
             const inputBlock = this.createBlock('span', {
               text: lang,
-              functionType: 'languageInput'
+              functionType: 'languageInput',
             })
             if (lang && !languageLoaded.has(lang)) {
               languageLoaded.add(lang)
               loadLanguage(lang)
-                .then(infoList => {
+                .then((infoList) => {
                   if (!Array.isArray(infoList)) return
                   // There are three status `loaded`, `noexist` and `cached`.
                   // if the status is `loaded`, indicated that it's a new loaded language
@@ -196,7 +198,7 @@ const importRegister = ContentState => {
                     this.render()
                   }
                 })
-                .catch(err => {
+                .catch((err) => {
                   // if no parameter provided, will cause error.
                   console.warn(err)
                 })
@@ -214,7 +216,7 @@ const importRegister = ContentState => {
           const thead = this.createBlock('thead')
           const tbody = this.createBlock('tbody')
           const theadRow = this.createBlock('tr')
-          const restoreTableEscapeCharacters = text => {
+          const restoreTableEscapeCharacters = (text) => {
             // NOTE: markedjs replaces all escaped "|" ("\|") characters inside a cell with "|".
             //       We have to re-escape the chraracter to not break the table.
             return text.replace(/\|/g, '\\|')
@@ -222,7 +224,7 @@ const importRegister = ContentState => {
           for (const headText of header) {
             const i = header.indexOf(headText)
             const th = this.createBlock('th', {
-              text: restoreTableEscapeCharacters(headText)
+              text: restoreTableEscapeCharacters(headText),
             })
             Object.assign(th, { align: align[i] || '', column: i })
             this.appendChild(theadRow, th)
@@ -232,7 +234,7 @@ const importRegister = ContentState => {
             for (const cell of row) {
               const i = row.indexOf(cell)
               const td = this.createBlock('td', {
-                text: restoreTableEscapeCharacters(cell)
+                text: restoreTableEscapeCharacters(cell),
               })
               Object.assign(td, { align: align[i] || '', column: i })
               this.appendChild(rowBlock, td)
@@ -263,7 +265,7 @@ const importRegister = ContentState => {
           }
           block = this.createBlock('p')
           const contentBlock = this.createBlock('span', {
-            text: value
+            text: value,
           })
           this.appendChild(block, contentBlock)
           this.appendChild(parentList[0], block)
@@ -273,7 +275,7 @@ const importRegister = ContentState => {
           value = token.text
           block = this.createBlock('p')
           const contentBlock = this.createBlock('span', {
-            text: value
+            text: value,
           })
           this.appendChild(block, contentBlock)
           this.appendChild(parentList[0], block)
@@ -306,16 +308,18 @@ const importRegister = ContentState => {
         }
         case 'loose_item_start':
         case 'list_item_start': {
-          const { listItemType, bulletMarkerOrDelimiter, checked, type } = token
+          const {
+            listItemType, bulletMarkerOrDelimiter, checked, type,
+          } = token
           block = this.createBlock('li', {
             listItemType: checked !== undefined ? 'task' : listItemType,
             bulletMarkerOrDelimiter,
-            isLooseListItem: type === 'loose_item_start'
+            isLooseListItem: type === 'loose_item_start',
           })
 
           if (checked !== undefined) {
             const input = this.createBlock('input', {
-              checked
+              checked,
             })
 
             this.appendChild(block, input)
@@ -372,7 +376,7 @@ const importRegister = ContentState => {
     const block = this.getBlock(key)
     const { text } = block
     block.text = text.substring(0, offset) + CURSOR_DNA + text.substring(offset)
-    const listIndentation = this.listIndentation
+    const { listIndentation } = this
     const markdown = new ExportMarkdown(blocks, listIndentation).generate()
     const cursor = markdown.split('\n').reduce((acc, line, index) => {
       const ch = line.indexOf(CURSOR_DNA)
@@ -382,7 +386,7 @@ const importRegister = ContentState => {
       return acc
     }, {
       line: 0,
-      ch: 0
+      ch: 0,
     })
     // remove CURSOR_DNA
     block.text = text
@@ -391,9 +395,11 @@ const importRegister = ContentState => {
 
   ContentState.prototype.importCursor = function (cursor) {
     // set cursor
-    const travel = blocks => {
+    const travel = (blocks) => {
       for (const block of blocks) {
-        const { key, text, children, editable } = block
+        const {
+          key, text, children, editable,
+        } = block
         if (text) {
           const offset = text.indexOf(CURSOR_DNA)
           if (offset > -1) {
@@ -401,7 +407,7 @@ const importRegister = ContentState => {
             if (editable) {
               this.cursor = {
                 start: { key, offset },
-                end: { key, offset }
+                end: { key, offset },
               }
               return
             }
@@ -415,11 +421,11 @@ const importRegister = ContentState => {
       travel(this.blocks)
     } else {
       const lastBlock = this.getLastBlock()
-      const key = lastBlock.key
+      const { key } = lastBlock
       const offset = lastBlock.text.length
       this.cursor = {
         start: { key, offset },
-        end: { key, offset }
+        end: { key, offset },
       }
     }
   }

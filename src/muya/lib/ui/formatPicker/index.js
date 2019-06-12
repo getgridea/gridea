@@ -8,15 +8,16 @@ const defaultOptions = {
   placement: 'top',
   modifiers: {
     offset: {
-      offset: '20, 5'
-    }
+      offset: '20, 5',
+    },
   },
-  showArrow: false
+  showArrow: false,
 }
 
 class FormatPicker extends BaseFloat {
   static pluginName = 'formatPicker'
-  constructor (muya, options = {}) {
+
+  constructor(muya, options = {}) {
     const name = 'ag-format-picker'
     const opts = Object.assign({}, defaultOptions, options)
     super(muya, name, opts)
@@ -29,7 +30,7 @@ class FormatPicker extends BaseFloat {
     this.listen()
   }
 
-  listen () {
+  listen() {
     const { eventCenter } = this.muya
     super.listen()
     eventCenter.subscribe('muya-format-picker', ({ reference, formats }) => {
@@ -45,19 +46,21 @@ class FormatPicker extends BaseFloat {
     })
   }
 
-  render () {
-    const { icons, oldVnode, formatContainer, formats } = this
-    const children = icons.map(i => {
+  render() {
+    const {
+      icons, oldVnode, formatContainer, formats,
+    } = this
+    const children = icons.map((i) => {
       let icon
       let iconWrapperSelector
       if (i.icon) {
         // SVG icon Asset
         iconWrapperSelector = 'div.icon-wrapper'
-        icon = h('i.icon', h(`i.icon-inner`, {
+        icon = h('i.icon', h('i.icon-inner', {
           style: {
             background: `url(${i.icon}) no-repeat`,
-            'background-size': '100%'
-          }
+            'background-size': '100%',
+          },
         }, ''))
       }
       const iconWrapper = h(iconWrapperSelector, icon)
@@ -67,10 +70,10 @@ class FormatPicker extends BaseFloat {
       }
       return h(itemSelector, {
         on: {
-          click: event => {
+          click: (event) => {
             this.selectItem(event, i)
-          }
-        }
+          },
+        },
       }, iconWrapper)
     })
 
@@ -84,7 +87,7 @@ class FormatPicker extends BaseFloat {
     this.oldVnode = vnode
   }
 
-  selectItem (event, item) {
+  selectItem(event, item) {
     event.preventDefault()
     event.stopPropagation()
     const { contentState } = this.muya

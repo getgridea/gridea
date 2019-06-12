@@ -10,27 +10,27 @@ import DeleteIcon from '../../../assets/pngicon/delete/delete@2x.png'
 export const TABLE_TOOLS = [{
   label: 'table',
   title: 'Resize Table',
-  icon: TableIcon
+  icon: TableIcon,
 }, {
   label: 'left',
   title: 'Align Left',
-  icon: AlignLeftIcon
+  icon: AlignLeftIcon,
 }, {
   label: 'center',
   title: 'Align Center',
-  icon: AlignCenterIcon
+  icon: AlignCenterIcon,
 }, {
   label: 'right',
   title: 'Align Right',
-  icon: AlignRightIcon
+  icon: AlignRightIcon,
 }, {
   label: 'delete',
   title: 'Delete Table',
-  icon: DeleteIcon
+  icon: DeleteIcon,
 }]
 
 const renderToolBar = (type, tools, activeBlocks) => {
-  const children = tools.map(tool => {
+  const children = tools.map((tool) => {
     const { label, title, icon } = tool
     const { align } = activeBlocks[0]
     let selector = 'li'
@@ -40,22 +40,22 @@ const renderToolBar = (type, tools, activeBlocks) => {
     const iconVnode = h('i.icon', h(`i.icon-${label}`, {
       style: {
         background: `url(${icon}) no-repeat`,
-        'background-size': '100%'
-      }
+        'background-size': '100%',
+      },
     }, ''))
     return h(selector, {
       dataset: {
         label,
-        tooltip: title
-      }
+        tooltip: title,
+      },
     }, iconVnode)
   })
-  let selector = `div.ag-tool-${type}.${CLASS_OR_ID['AG_TOOL_BAR']}`
+  const selector = `div.ag-tool-${type}.${CLASS_OR_ID.AG_TOOL_BAR}`
 
   return h(selector, {
     attrs: {
-      contenteditable: false
-    }
+      contenteditable: false,
+    },
   }, h('ul', children))
 }
 

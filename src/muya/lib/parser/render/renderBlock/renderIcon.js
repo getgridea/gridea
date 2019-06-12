@@ -32,15 +32,15 @@ const FUNCTION_TYPE_HASH = {
   'multiplemath': mathblockIcon,
   'fencecode': codeIcon,
   'indentcode': codeIcon,
-  'frontmatter': frontMatterIcon
+  'frontmatter': frontMatterIcon,
 }
 
-export default function renderIcon (block) {
+export default function renderIcon(block) {
   if (block.parent) {
     console.error('Only top most block can render front icon button.')
   }
   const { type, functionType, listType } = block
-  const selector = `a.${CLASS_OR_ID['AG_FRONT_ICON']}`
+  const selector = `a.${CLASS_OR_ID.AG_FRONT_ICON}`
   let icon = null
 
   switch (type) {
@@ -106,16 +106,16 @@ export default function renderIcon (block) {
       break
   }
 
-  const iconVnode = h('i.icon', h(`i.icon-inner`, {
+  const iconVnode = h('i.icon', h('i.icon-inner', {
     style: {
       background: `url(${icon}) no-repeat`,
-      'background-size': '100%'
-    }
+      'background-size': '100%',
+    },
   }, ''))
 
   return h(selector, {
     attrs: {
-      contenteditable: 'false'
-    }
+      contenteditable: 'false',
+    },
   }, iconVnode)
 }

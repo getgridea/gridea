@@ -37,7 +37,7 @@ const inline = {
   emoji: noop,
 
   // TODO: make math optional GH#740
-  math: /^\$([^$]{1}[\s\S]+?[^$]{1})\$(?!\$)/
+  math: /^\$([^$]{1}[\s\S]+?[^$]{1})\$(?!\$)/,
 }
 
 // list of punctuation marks from common mark spec
@@ -93,7 +93,7 @@ export const pedantic = Object.assign({}, normal, {
     .getRegex(),
   reflink: edit(/^!?\[(label)\]\s*\[([^\]]*)\]/)
     .replace('label', inline._label)
-    .getRegex()
+    .getRegex(),
 })
 
 /**
@@ -116,11 +116,11 @@ export const gfm = Object.assign({}, normal, {
   // ------------------------
   // extra
 
-  emoji: /^(:)([a-z_\d+-]+?)\1/ // not real GFM but put it in here
+  emoji: /^(:)([a-z_\d+-]+?)\1/, // not real GFM but put it in here
 })
 
-gfm.url = edit(gfm.url, 'i').
-  replace('email', gfm._extended_email)
+gfm.url = edit(gfm.url, 'i')
+  .replace('email', gfm._extended_email)
   .getRegex()
 
 /**
@@ -129,7 +129,7 @@ gfm.url = edit(gfm.url, 'i').
 
 export const breaks = Object.assign({}, gfm, {
   br: edit(inline.br).replace('{2,}', '*').getRegex(),
-  text: edit(gfm.text).replace(/\{2,\}/g, '*').getRegex()
+  text: edit(gfm.text).replace(/\{2,\}/g, '*').getRegex(),
 })
 
 /* eslint-ensable no-useless-escape */

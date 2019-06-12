@@ -2,7 +2,9 @@ import { compareParagraphsOrder } from './dom'
 
 class Cursor {
   // You need to provide either `anchor`&&`focus` or `start`&&`end` or all.
-  constructor ({ anchor, focus, start, end, noHistory = false }) {
+  constructor({
+    anchor, focus, start, end, noHistory = false,
+  }) {
     if (anchor && focus && start && end) {
       this.anchor = anchor
       this.focus = focus

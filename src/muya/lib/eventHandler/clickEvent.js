@@ -4,15 +4,15 @@ import { CLASS_OR_ID } from '../config'
 import selection from '../selection'
 
 class ClickEvent {
-  constructor (muya) {
+  constructor(muya) {
     this.muya = muya
     this.clickBinding()
     this.contextClickBingding()
   }
 
-  contextClickBingding () {
+  contextClickBingding() {
     const { container, eventCenter, contentState } = this.muya
-    const handler = event => {
+    const handler = (event) => {
       event.preventDefault()
       event.stopPropagation()
 
@@ -29,7 +29,7 @@ class ClickEvent {
       // Commit native cursor position because right-clicking doesn't update the cursor postion.
       contentState.cursor = {
         start,
-        end
+        end,
       }
 
       const sectionChanges = contentState.selectionChange(contentState.cursor)
@@ -38,9 +38,9 @@ class ClickEvent {
     eventCenter.attachDOMEvent(container, 'contextmenu', handler)
   }
 
-  clickBinding () {
+  clickBinding() {
     const { container, eventCenter, contentState } = this.muya
-    const handler = event => {
+    const handler = (event) => {
       const { target } = event
       // handler table click
       const toolItem = getToolItem(target)
@@ -56,18 +56,18 @@ class ClickEvent {
       }
       // handler image and inline math preview click
       const markedImageText = target.previousElementSibling
-      const mathRender = target.closest(`.${CLASS_OR_ID['AG_MATH_RENDER']}`)
-      const rubyRender = target.closest(`.${CLASS_OR_ID['AG_RUBY_RENDER']}`)
-      const imageWrapper = target.closest(`.${CLASS_OR_ID['AG_INLINE_IMAGE']}`)
+      const mathRender = target.closest(`.${CLASS_OR_ID.AG_MATH_RENDER}`)
+      const rubyRender = target.closest(`.${CLASS_OR_ID.AG_RUBY_RENDER}`)
+      const imageWrapper = target.closest(`.${CLASS_OR_ID.AG_INLINE_IMAGE}`)
       const imageTurnInto = target.closest('.ag-image-icon-turninto')
       const imageDelete = target.closest('.ag-image-icon-delete') || target.closest('.ag-image-icon-close')
       const mathText = mathRender && mathRender.previousElementSibling
       const rubyText = rubyRender && rubyRender.previousElementSibling
-      if (markedImageText && markedImageText.classList.contains(CLASS_OR_ID['AG_IMAGE_MARKED_TEXT'])) {
+      if (markedImageText && markedImageText.classList.contains(CLASS_OR_ID.AG_IMAGE_MARKED_TEXT)) {
         eventCenter.dispatch('format-click', {
           event,
           formatType: 'image',
-          data: event.target.getAttribute('src')
+          data: event.target.getAttribute('src'),
         })
         selectionText(markedImageText)
       } else if (mathText) {
@@ -96,27 +96,27 @@ class ClickEvent {
 
       // Handle click imagewrapper when it's empty or image load failed.
       if (
-        (imageTurnInto && imageWrapper) ||
-        (imageWrapper &&
-        (
-          imageWrapper.classList.contains('ag-empty-image') ||
-          imageWrapper.classList.contains('ag-image-fail')
+        (imageTurnInto && imageWrapper)
+        || (imageWrapper
+        && (
+          imageWrapper.classList.contains('ag-empty-image')
+          || imageWrapper.classList.contains('ag-image-fail')
         ))
       ) {
         const rect = imageWrapper.getBoundingClientRect()
         const reference = {
-          getBoundingClientRect () {
+          getBoundingClientRect() {
             if (imageTurnInto) {
               rect.height = 0
             }
             return rect
-          }
+          },
         }
         const imageInfo = getImageInfo(imageWrapper)
         eventCenter.dispatch('muya-image-selector', {
           reference,
           imageInfo,
-          cb: () => {}
+          cb: () => {},
         })
         event.preventDefault()
         return event.stopPropagation()
@@ -125,7 +125,7 @@ class ClickEvent {
         return event.stopPropagation()
       }
       // handler container preview click
-      const editIcon = target.closest(`.ag-container-icon`)
+      const editIcon = target.closest('.ag-container-icon')
       if (editIcon) {
         event.preventDefault()
         event.stopPropagation()
@@ -135,7 +135,7 @@ class ClickEvent {
       }
 
       // handler to-do checkbox click
-      if (target.tagName === 'INPUT' && target.classList.contains(CLASS_OR_ID['AG_TASK_LIST_ITEM_CHECKBOX'])) {
+      if (target.tagName === 'INPUT' && target.classList.contains(CLASS_OR_ID.AG_TASK_LIST_ITEM_CHECKBOX)) {
         contentState.listItemCheckBoxClick(target)
       }
       contentState.clickHandler(event)
@@ -145,17 +145,17 @@ class ClickEvent {
   }
 }
 
-function getToolItem (target) {
+function getToolItem(target) {
   return target.closest('[data-label]')
 }
 
-function selectionText (node) {
+function selectionText(node) {
   const textLen = node.textContent.length
-  operateClassName(node, 'remove', CLASS_OR_ID['AG_HIDE'])
-  operateClassName(node, 'add', CLASS_OR_ID['AG_GRAY'])
+  operateClassName(node, 'remove', CLASS_OR_ID.AG_HIDE)
+  operateClassName(node, 'add', CLASS_OR_ID.AG_GRAY)
   selection.importSelection({
     start: textLen,
-    end: textLen
+    end: textLen,
   }, node)
 }
 

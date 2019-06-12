@@ -1,17 +1,17 @@
 class Clipboard {
-  constructor (muya) {
+  constructor(muya) {
     this.muya = muya
     this._copyType = 'normal' // `normal` or `copyAsMarkdown` or `copyAsHtml`
     this._pasteType = 'normal' // `normal` or `pasteAsPlainText`
     this.listen()
   }
 
-  listen () {
+  listen() {
     const { container, eventCenter, contentState } = this.muya
-    const docPasteHandler = event => {
+    const docPasteHandler = (event) => {
       contentState.docPasteHandler(event)
     }
-    const copyCutHandler = event => {
+    const copyCutHandler = (event) => {
       contentState.copyHandler(event, this._copyType)
       if (event.type === 'cut') {
         // when user use `cut` function, the dom has been deleted by default.
@@ -20,7 +20,7 @@ class Clipboard {
       }
       this._copyType = 'normal'
     }
-    const pasteHandler = event => {
+    const pasteHandler = (event) => {
       contentState.pasteHandler(event, this._pasteType)
       this._pasteType = 'normal'
     }
@@ -31,22 +31,22 @@ class Clipboard {
     eventCenter.attachDOMEvent(container, 'copy', copyCutHandler)
   }
 
-  copyAsMarkdown () {
+  copyAsMarkdown() {
     this._copyType = 'copyAsMarkdown'
     document.execCommand('copy')
   }
 
-  copyAsHtml () {
+  copyAsHtml() {
     this._copyType = 'copyAsHtml'
     document.execCommand('copy')
   }
 
-  pasteAsPlainText () {
+  pasteAsPlainText() {
     this._pasteType = 'pasteAsPlainText'
     document.execCommand('paste')
   }
 
-  copy (name) {
+  copy(name) {
     switch (name) {
       case 'table':
         this._copyType = 'copyTable'

@@ -13,18 +13,18 @@ for (const name of Object.keys(languages)) {
   const lang = languages[name]
   langs.push({
     name,
-    ...lang
+    ...lang,
   })
   if (lang.alias) {
     if (typeof lang.alias === 'string') {
       langs.push({
         name: lang.alias,
-        ...lang
+        ...lang,
       })
     } else if (Array.isArray(lang.alias)) {
       langs.push(...lang.alias.map(a => ({
         name: a,
-        ...lang
+        ...lang,
       })))
     }
   }
@@ -32,7 +32,7 @@ for (const name of Object.keys(languages)) {
 
 const loadLanguage = initLoadLanguage(Prism)
 
-const search = text => {
+const search = (text) => {
   return filter(langs, text, { key: 'name' })
 }
 
@@ -45,7 +45,7 @@ export {
   loadLanguage,
   loadedCache,
   transfromAliasToOrigin,
-  languages
+  languages,
 }
 
 export default prism

@@ -2,6 +2,12 @@ import MarkdownIt from 'markdown-it'
 import MarkdownItKatex from '@iktakahiro/markdown-it-katex'
 import markdownItTocAndAnchor from 'markdown-it-toc-and-anchor'
 import MarkdownItTaskLists from 'markdown-it-task-lists'
+import MarkdownItMark from 'markdown-it-mark'
+import MarkdownItSup from 'markdown-it-sup'
+import MarkdownItSub from 'markdown-it-sub'
+import MarkdownItAbbr from 'markdown-it-abbr'
+import MarkdownItFootnote from 'markdown-it-footnote'
+import MarkdownItInclude from 'markdown-it-include'
 
 const markdownIt = new MarkdownIt({
   html: true,
@@ -14,5 +20,10 @@ markdownIt.use(markdownItTocAndAnchor, {
 markdownIt.use(MarkdownItTaskLists, {
   label: true, labelAfter: true,
 })
-
+markdownIt.use(MarkdownItMark)
+markdownIt.use(MarkdownItSup)
+markdownIt.use(MarkdownItSub)
+markdownIt.use(MarkdownItAbbr)
+markdownIt.use(MarkdownItFootnote)
+markdownIt.use(MarkdownItInclude)
 export default markdownIt

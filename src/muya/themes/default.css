@@ -94,24 +94,24 @@
   src: url('./fonts/DejaVuSansMono-Oblique.ttf');
 }
 
-html, body {
+.muya-editor {
   font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
-}
+} 
 
-span code,
-td code,
-th code,
-code,
-code[class*="language-"],
-.CodeMirror,
-pre.ag-paragraph {
+.muya-editor span code,
+.muya-editor td code,
+.muya-editor th code,
+.muya-editor code,
+.muya-editor code[class*="language-"],
+.muya-editor .CodeMirror,
+.muya-editor pre.ag-paragraph {
   font-family: "DejaVu Sans Mono", "Source Code Pro", "Droid Sans Mono", Consolas, monospace;
   font-size: 14px;
 }
 
-kbd {
+.muya-editor kbd {
   color: var(--editorColor);
   background: var(--floatBgColor);
   border: 1px solid var(--floatBorderColor);
@@ -153,24 +153,24 @@ kbd {
     background: var(--maskColor) !important;
   }
 
-  body>*:first-child {
+  .muya-editor body>*:first-child {
     margin-top: 0 !important;
   }
 
-  body>*:last-child {
+  .muya-editor body>*:last-child {
     margin-bottom: 0 !important;
   }
 
-  a {
+  .muya-editor a {
     color: var(--themeColor);
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  .muya-editor h1,
+  .muya-editor h2,
+  .muya-editor h3,
+  .muya-editor h4,
+  .muya-editor h5,
+  .muya-editor h6 {
     position: relative;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -180,104 +180,104 @@ kbd {
     color: var(--editorColor80);
   }
 
-  h1:hover a.anchor,
-  h2:hover a.anchor,
-  h3:hover a.anchor,
-  h4:hover a.anchor,
-  h5:hover a.anchor,
-  h6:hover a.anchor {
+  .muya-editor h1:hover a.anchor,
+  .muya-editor h2:hover a.anchor,
+  .muya-editor h3:hover a.anchor,
+  .muya-editor h4:hover a.anchor,
+  .muya-editor h5:hover a.anchor,
+  .muya-editor h6:hover a.anchor {
     /*background: url("../../images/modules/styleguide/para.png") no-repeat 10px center;*/
     text-decoration: none;
   }
 
-  h1 tt,
-  h1 code {
+  .muya-editor h1 tt,
+  .muya-editor h1 code {
     font-size: inherit;
   }
 
-  h2 tt,
-  h2 code {
+  .muya-editor h2 tt,
+  .muya-editor h2 code {
     font-size: inherit;
   }
 
-  h3 tt,
-  h3 code {
+  .muya-editor h3 tt,
+  .muya-editor h3 code {
     font-size: inherit;
   }
 
-  h4 tt,
-  h4 code {
+  .muya-editor h4 tt,
+  .muya-editor h4 code {
     font-size: inherit;
   }
 
-  h5 tt,
-  h5 code {
+  .muya-editor h5 tt,
+  .muya-editor h5 code {
     font-size: inherit;
   }
 
-  h6 tt,
-  h6 code {
+  .muya-editor h6 tt,
+  .muya-editor h6 code {
     font-size: inherit;
   }
 
-  h1 {
+  .muya-editor h1 {
     font-size: 30px;
   }
 
-  h2 {
+  .muya-editor h2 {
     font-size: 24px;
   }
 
-  h3 {
+  .muya-editor h3 {
     font-size: 22px;
   }
 
-  h4 {
+  .muya-editor h4 {
     font-size: 20px;
   }
 
-  h5 {
+  .muya-editor h5 {
     font-size: 18px;
   }
 
-  h6 {
+  .muya-editor h6 {
     font-size: 16px;
   }
 
-  h1 .ag-gray {
+  .muya-editor h1 .ag-gray {
     font-size: 21px;
   }
-  h2 .ag-gray {
+  .muya-editor h2 .ag-gray {
     font-size: 20px;
   }
-  h3 .ag-gray {
+  .muya-editor h3 .ag-gray {
     font-size: 19px;
   }
-  h4 .ag-gray {
+  .muya-editor h4 .ag-gray {
     font-size: 18px;
   }
-  h5 .ag-gray {
+  .muya-editor h5 .ag-gray {
     font-size: 17px;
   }
-  h6 .ag-gray {
+  .muya-editor h6 .ag-gray {
     font-size: 16px;
   }
 
-  p,
-  blockquote,
-  ul,
-  ol,
-  dl,
-  table {
+  .muya-editor p,
+  .muya-editor blockquote,
+  .muya-editor ul,
+  .muya-editor ol,
+  .muya-editor dl,
+  .muya-editor table {
     margin: 0.5em 0;
   }
 
-  li>ol,
-  li>ul {
+  .muya-editor li>ol,
+  .muya-editor li>ul {
     margin: 0 0;
   }
 
-  hr {
+  .muya-editor hr {
     height: 4px;
     padding: 0;
     margin: 16px 0;
@@ -287,79 +287,79 @@ kbd {
     box-sizing: content-box;
   }
 
-  body>h2:first-child {
+  .muya-editor body>h2:first-child {
     margin-top: 0;
     padding-top: 0;
   }
 
-  body>h1:first-child {
+  .muya-editor body>h1:first-child {
     margin-top: 0;
     padding-top: 0;
   }
 
-  body>h1:first-child+h2 {
+  .muya-editor body>h1:first-child+h2 {
     margin-top: 0;
     padding-top: 0;
   }
 
-  body>h3:first-child,
-  body>h4:first-child,
-  body>h5:first-child,
-  body>h6:first-child {
+  .muya-editor body>h3:first-child,
+  .muya-editor body>h4:first-child,
+  .muya-editor body>h5:first-child,
+  .muya-editor body>h6:first-child {
     margin-top: 0;
     padding-top: 0;
   }
 
-  a:first-child h1,
-  a:first-child h2,
-  a:first-child h3,
-  a:first-child h4,
-  a:first-child h5,
-  a:first-child h6 {
+  .muya-editor a:first-child h1,
+  .muya-editor a:first-child h2,
+  .muya-editor a:first-child h3,
+  .muya-editor a:first-child h4,
+  .muya-editor a:first-child h5,
+  .muya-editor a:first-child h6 {
     margin-top: 0;
     padding-top: 0;
   }
 
-  h1 p,
-  h2 p,
-  h3 p,
-  h4 p,
-  h5 p,
-  h6 p {
+  .muya-editor h1 p,
+  .muya-editor h2 p,
+  .muya-editor h3 p,
+  .muya-editor h4 p,
+  .muya-editor h5 p,
+  .muya-editor h6 p {
     margin-top: 0;
   }
 
-  li p.first {
+  .muya-editor li p.first {
     display: inline-block;
   }
 
-  li.ag-tight-list-item > p {
+  .muya-editor li.ag-tight-list-item > p {
     padding: 0;
     margin: 0;
   }
 
-  ul,
-  ol {
+  .muya-editor ul,
+  .muya-editor ol {
     padding-left: 30px;
   }
 
-  ul:first-child,
-  ol:first-child {
+  .muya-editor ul:first-child,
+  .muya-editor ol:first-child {
     margin-top: 0;
   }
 
-  ul:last-child,
-  ol:last-child {
+  .muya-editor ul:last-child,
+  .muya-editor ol:last-child {
     margin-bottom: 0;
   }
 
-  blockquote {
+  .muya-editor blockquote {
     position: relative;
     padding: 0 30px;
     color: var(--editorColor50);
   }
 
-  blockquote::before {
+  .muya-editor blockquote::before {
     content: '';
     display: block;
     height: 100%;
@@ -370,26 +370,26 @@ kbd {
     background: var(--themeColor);
   }
 
-  blockquote blockquote {
+  .muya-editor blockquote blockquote {
     padding-right: 0;
   }
 
-  table {
+  .muya-editor table {
     padding: 0;
     word-break: initial;
   }
 
-  table tr {
+  .muya-editor table tr {
     margin: 0;
     padding: 0;
   }
 
-  table thead tr,
-  table tr:nth-child(2n) {
+  .muya-editor table thead tr,
+  .muya-editor table tr:nth-child(2n) {
     background-color: var(--editorColor04);
   }
 
-  table tr th {
+  .muya-editor table tr th {
     font-weight: bold;
     border: 1px solid var(--editorColor10);
     text-align: left;
@@ -397,26 +397,26 @@ kbd {
     padding: 6px 13px;
   }
 
-  table tr td {
+  .muya-editor table tr td {
     border: 1px solid var(--editorColor10);
     text-align: left;
     margin: 0;
     padding: 6px 13px;
   }
 
-  table tr th:first-child,
-  table tr td:first-child {
+  .muya-editor table tr th:first-child,
+  .muya-editor table tr td:first-child {
     margin-top: 0;
   }
 
-  table tr th:last-child,
-  table tr td:last-child {
+  .muya-editor table tr th:last-child,
+  .muya-editor table tr td:last-child {
     margin-bottom: 0;
   }
 
-  span code,
-  td code,
-  th code {
+  .muya-editor span code,
+  .muya-editor td code,
+  .muya-editor th code {
     background-color: var(--codeBlockBgColor);
     border-radius: 3px;
     padding: 0;
@@ -428,10 +428,10 @@ kbd {
     color: var(--editorColor);
   }
 
-  :not(pre) > code[class*="language-"],
-  pre:not(.CodeMirror-line),
-  pre[class*="language-"],
-  pre.ag-paragraph {
+  .muya-editor :not(pre) > code[class*="language-"],
+  .muya-editor pre:not(.CodeMirror-line),
+  .muya-editor pre[class*="language-"],
+  .muya-editor pre.ag-paragraph {
     overflow: visible;
     font-size: 90%;
     line-height: 1.6;
@@ -515,14 +515,14 @@ kbd {
 } /* end not print */
 
 @media print {
-  html {
+  .muya-editor html {
     font-size: 13px;
   }
-  table,
-  pre {
+  .muya-editor table,
+  .muya-editor pre {
     page-break-inside: avoid;
   }
-  pre {
+  .muya-editor pre {
     word-wrap: break-word;
   }
 }

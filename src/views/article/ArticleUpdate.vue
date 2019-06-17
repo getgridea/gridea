@@ -21,7 +21,7 @@
             v-model="form.content"
             @click.native.capture="preventDefault($event)"
           ></markdown-editor> -->
-          <muya-editor></muya-editor>
+          <muya-editor ref="muyaEditor" @updateContent="updateContent"></muya-editor>
         </a-col>
         <a-col :span="8" class="right-container">
           <a-collapse v-model="activeKey">
@@ -117,6 +117,7 @@ export default class ArticleUpdate extends Vue {
     uploadInput: any,
     image: any,
     articlePage: HTMLElement,
+    muyaEditor: any,
   }
 
   @State('site') site!: Site
@@ -194,6 +195,10 @@ export default class ArticleUpdate extends Vue {
     // this.initEditor()
   }
 
+  updateContent(content: any) {
+    this.form.content = content
+  }
+
   buildCurrentForm() {
     const { articleFileName } = this
     console.log('articleFileName: ', articleFileName)
@@ -211,6 +216,8 @@ export default class ArticleUpdate extends Vue {
         this.form.content = currentPost.content
         this.form.published = currentPost.data.published
         this.form.hideInList = currentPost.data.hideInList
+
+        this.$refs.muyaEditor.content = currentPost.content
 
         if (currentPost.data.feature && currentPost.data.feature.includes('http')) {
           this.form.featureImagePath = currentPost.data.feature
@@ -350,6 +357,7 @@ export default class ArticleUpdate extends Vue {
   }
 
   savePost() {
+    console.log('clicked save')
     const form = this.formatForm(true)
 
     ipcRenderer.send('app-post-create', form)

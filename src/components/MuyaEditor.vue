@@ -1,5 +1,5 @@
 <template>
-  <div ref="editor"></div>
+  <div class="muya-editor" ref="editor"></div>
 </template>
 
 <script lang="ts">
@@ -19,6 +19,8 @@ import FrontMenu from '../muya/lib/ui/frontMenu'
 export default class ArticleUpdate extends Vue {
   editor: any = null
 
+  content: string = ''
+
   created() {
     this.$nextTick(() => {
       const ele = this.$refs.editor
@@ -33,10 +35,11 @@ export default class ArticleUpdate extends Vue {
       Muya.use(FrontMenu)
 
       this.editor = new Muya(ele, {
-        markdown: 'Welcome to use muya...',
+        markdown: this.content,
       })
-      this.editor.on('change', () => {
-        // console.log(changes)
+      this.editor.on('change', (changes: any) => {
+        console.log('changes', changes)
+        this.$emit('updateContent', changes.markdown)
       })
     })
   }

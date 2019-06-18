@@ -1,0 +1,251 @@
+<template>
+  <div class="markdown-editor">
+    <textarea :name="name"></textarea>
+  </div>
+</template>
+
+<script>
+import EasyMDE from 'easymde'
+import marked from 'marked'
+import markdown from '../server/plugins/markdown'
+
+export default {
+  name: 'markdown-editor',
+  props: {
+    value: String,
+    name: String,
+    previewClass: String,
+    autoinit: {
+      type: Boolean,
+      default() {
+        return true
+      },
+    },
+    highlight: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    sanitize: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    configs: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
+  },
+  mounted() {
+    if (this.autoinit) this.initialize()
+  },
+  activated() {
+    const editor = this.easymde
+    if (!editor) return
+    const isActive = editor.isSideBySideActive() || editor.isPreviewActive()
+    if (isActive) editor.toggleFullScreen()
+  },
+  methods: {
+    initialize() {
+      const configs = Object.assign({
+        element: this.$el.firstElementChild,
+        initialValue: this.value,
+        renderingConfig: {},
+        previewRender: function (text) {
+          return markdown.render(text)
+        },
+      }, this.configs)
+      // 同步 value 和 initialValue 的值 \ Synchronize the values of value and initialValue
+      if (configs.initialValue) {
+        this.$emit('input', configs.initialValue)
+      }
+      // 判断是否开启代码高亮 \ Determine whether to enable code highlighting
+      if (this.highlight) {
+        configs.renderingConfig.codeSyntaxHighlighting = true
+      }
+      // 设置是否渲染输入的html \ Set whether to render the input html
+      marked.setOptions({ sanitize: this.sanitize })
+      // 实例化编辑器 \ Instantiated editor
+      this.easymde = new EasyMDE(configs)
+      // 添加自定义 previewClass \ Add a custom previewClass
+      const className = this.previewClass || ''
+      this.addPreviewClass(className)
+      // 绑定事件 \ Binding event
+      this.bindingEvents()
+    },
+    bindingEvents() {
+      this.easymde.codemirror.on('change', () => {
+        this.$emit('input', this.easymde.value())
+      })
+    },
+    addPreviewClass(className) {
+      const wrapper = this.easymde.codemirror.getWrapperElement()
+      const preview = document.createElement('div')
+      wrapper.nextSibling.className += ` ${className}`
+      preview.className = `editor-preview ${className}`
+      wrapper.appendChild(preview)
+    },
+  },
+  destroyed() {
+    this.easymde = null
+  },
+  watch: {
+    value(val) {
+      if (val === this.easymde.value()) return
+      this.easymde.value(val)
+    },
+  },
+}
+</script>
+
+<style lang="less" scoped>
+/deep/ .editor-toolbar {
+  border: none;
+
+  &:first-child {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+  }
+  .fa {
+    font-family: 'zwicon' !important;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .fa-bold:before {
+    content: '\eae7';
+  }
+  .fa-italic:before {
+    content: "\eaf2";
+  }
+  .fa-header:before {
+    content: "\eaed";
+  }
+  .fa-code:before {
+    content: "\e983";
+  }
+  .fa-quote-left:before {
+    content: "\e920";
+  }
+  .fa-list-ul:before {
+    content: "\eaf3";
+  }
+  .fa-list-ol:before {
+    content: "\eaf4";
+  }
+  .fa-picture-o:before {
+    content: "\eaac";
+  }
+  .fa-ellipsis-h:before {
+    content: "\ea6a";
+  }
+  .fa-link:before {
+    content: "\ea61";
+  }
+  .fa-eye:before {
+    content: "\ea57";
+  }
+}
+
+/deep/ .editor-preview pre, .editor-preview-side pre {
+  background: #f7f3ec;
+  padding: 8px;
+  border: 1px solid #e0dacd;
+}
+/deep/ .editor-preview {
+  ul {
+    padding-left: 20px;
+  }
+  code {
+    background: #e6e0d2;
+    padding: 2px;
+    border: 1px solid #cac3b5;
+    border-radius: 2px;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    border: none;
+    border-radius: none;
+  }
+
+  .contains-task-list {
+    list-style-type: none;
+  }
+  .task-list-item-checkbox {
+    position: absolute;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    margin: 4px 0 0;
+    top: 0;
+    left: -22px;
+    transform-origin: center;
+    transform: rotate(-90deg);
+    transition: all .2s ease;
+  }
+}
+</style>
+
+
+<style lang="less">
+@import '~easymde/dist/easymde.min.css';
+.markdown-editor .markdown-body {
+  padding: 0.5em
+}
+.markdown-editor .editor-preview-active, .markdown-editor .editor-preview-active-side {
+  display: block;
+}
+
+/* @import '~github-markdown-css'; */
+.CodeMirror {
+  border-radius: 2px;
+  transition: all 0.3s;
+  color: #434343;
+  border: none;
+  background: #f9f7f3;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+}
+.CodeMirror.CodeMirror-focused {
+  border-color: #4f4a4a;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgba(67, 67, 67, 0.2);
+  box-shadow: 0 0 0 2px rgba(67, 67, 67, 0.2);
+  border-right-width: 1px !important;
+}
+.editor-toolbar {
+  border-color: #fff;
+  box-shadow: none;
+  border-radius: 2px;
+  padding: 0;
+}
+.editor-toolbar button.active, .editor-toolbar button:hover {
+  border-color: #d2c7b3;
+  background: #f9f7f3;
+}
+.editor-toolbar button {
+  color: #000 !important;
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  margin-right: 8px;
+  transition: all 0.3s;
+}
+.editor-toolbar.fullscreen {
+  z-index: 1025;
+}
+.CodeMirror .editor-preview.markdown-body.editor-preview-active {
+  line-height: 1.618;
+  background: #f9f7f3;
+  padding: 16px;
+}
+.CodeMirror .editor-preview.markdown-body.editor-preview-active img {
+  max-width: 100%;
+  display: block;
+  margin: 8px 0;
+}
+</style>

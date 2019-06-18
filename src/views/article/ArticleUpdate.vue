@@ -92,11 +92,11 @@ import {
   ipcRenderer, Event, shell, clipboard, remote,
 } from 'electron'
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
 import { State } from 'vuex-class'
 import shortid from 'shortid'
 import moment from 'moment'
 import * as fse from 'fs-extra'
+import MarkdownEditor from '../../components/MarkdownEditor.vue'
 import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
@@ -361,7 +361,7 @@ export default class ArticleUpdate extends Vue {
   initEditor() {
     console.log(this.$refs.editor)
     if (this.$refs.editor !== null) {
-      const { codemirror } = this.$refs.editor.simplemde
+      const { codemirror } = this.$refs.editor.easymde
 
       // 拖拽上传
       codemirror.on(('drop'), (editor: any, e: DragEvent) => {
@@ -414,7 +414,7 @@ export default class ArticleUpdate extends Vue {
   uploadImageFiles(files: any[]) {
     ipcRenderer.send('image-upload', files)
     ipcRenderer.once('image-uploaded', (event: Event, data: any) => {
-      const editor = this.$refs.editor.simplemde.codemirror
+      const editor = this.$refs.editor.easymde.codemirror
       for (const path of data) {
         let url = `![](file://${path})`
         url = url.replace(/\\/g, '/')
@@ -427,14 +427,14 @@ export default class ArticleUpdate extends Vue {
   }
 
   insertMore() {
-    const editor = this.$refs.editor.simplemde.codemirror
+    const editor = this.$refs.editor.easymde.codemirror
 
     editor.replaceSelection('\n<!-- more -->\n')
     editor.focus()
   }
 
   insertLink() {
-    const editor = this.$refs.editor.simplemde.codemirror
+    const editor = this.$refs.editor.easymde.codemirror
 
     editor.replaceSelection('[]()')
     editor.focus()
@@ -533,73 +533,7 @@ export default class ArticleUpdate extends Vue {
 .post-title {
   font-weight: bold;
 }
-/deep/ .editor-toolbar {
-  &:first-child {
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-  }
-  .fa {
-    font-family: 'zwicon' !important;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  .fa-bold:before {
-    content: '\eae7';
-  }
-  .fa-italic:before {
-    content: "\eaf2";
-  }
-  .fa-header:before {
-    content: "\eaed";
-  }
-  .fa-code:before {
-    content: "\e983";
-  }
-  .fa-quote-left:before {
-    content: "\e920";
-  }
-  .fa-list-ul:before {
-    content: "\eaf3";
-  }
-  .fa-list-ol:before {
-    content: "\eaf4";
-  }
-  .fa-picture-o:before {
-    content: "\eaac";
-  }
-  .fa-ellipsis-h:before {
-    content: "\ea6a";
-  }
-  .fa-link:before {
-    content: "\ea61";
-  }
-  .fa-eye:before {
-    content: "\ea57";
-  }
-}
 
-/deep/ .editor-preview pre, .editor-preview-side pre {
-  background: #f7f3ec;
-  padding: 8px;
-  border: 1px solid #e0dacd;
-}
-/deep/ .editor-preview {
-  ul {
-    padding-left: 20px;
-  }
-  code {
-    background: #e6e0d2;
-    padding: 2px;
-    border: 1px solid #cac3b5;
-    border-radius: 2px;
-  }
-  pre code {
-    background: none;
-    padding: 0;
-    border: none;
-    border-radius: none;
-  }
-}
 #markdown-editor {
   /deep/ .editor-toolbar {
     position: fixed;
@@ -610,54 +544,6 @@ export default class ArticleUpdate extends Vue {
 </style>
 
 <style>
-@import '~simplemde/dist/simplemde.min.css';
-/* @import '~github-markdown-css'; */
-.CodeMirror {
-  border-radius: 2px;
-  transition: all 0.3s;
-  color: #434343;
-  border: none;
-  background: #f9f7f3;
-  font-size: 16px;
-}
-.CodeMirror.CodeMirror-focused {
-  border-color: #4f4a4a;
-  outline: 0;
-  -webkit-box-shadow: 0 0 0 2px rgba(67, 67, 67, 0.2);
-  box-shadow: 0 0 0 2px rgba(67, 67, 67, 0.2);
-  border-right-width: 1px !important;
-}
-.editor-toolbar {
-  border-color: #fff;
-  box-shadow: none;
-  border-radius: 2px;
-  padding: 0;
-}
-.editor-toolbar a.active, .editor-toolbar a:hover {
-  border-color: #d2c7b3;
-  background: #f9f7f3;
-}
-.editor-toolbar a {
-  color: #000 !important;
-  width: 32px;
-  height: 32px;
-  border-radius: 2px;
-  margin-right: 4px;
-  transition: all 0.3s;
-}
-.editor-toolbar.fullscreen {
-  z-index: 1025;
-}
-.CodeMirror .editor-preview.markdown-body.editor-preview-active {
-  line-height: 1.618;
-  background: #f9f7f3;
-  padding: 16px;
-}
-.CodeMirror .editor-preview.markdown-body.editor-preview-active img {
-  max-width: 100%;
-  display: block;
-  margin: 8px 0;
-}
 
 .ant-upload-select-picture-card i {
   font-size: 32px;

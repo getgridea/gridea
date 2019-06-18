@@ -40,7 +40,8 @@
         <a-button class="preview-btn" icon="eye" block @click="preview">{{ $t('preview') }}</a-button>
         <a-button class="publish-btn" icon="sync" block type="primary" :loading="publishLoading" @click="publish">{{ $t('syncSite') }}</a-button>
         <div class="version-container" :class="{ 'version-dot': hasUpdate }">
-          <span>- {{ version }}</span>
+          <span>v {{ version }}</span>
+          <i class="zwicon-web web-btn" @click="goWeb" v-if="site.setting.domain"></i>
           <a-tooltip title="🌟Star 支持作者！">
             <a-icon type="github" style="font-size: 14px; cursor: pointer;" @click="openInBrowser('https://github.com/getgridea/gridea')" />
           </a-tooltip>
@@ -66,7 +67,7 @@ import * as pkg from '../../package.json'
 
 @Component
 export default class App extends Vue {
-  @State('site') site!: any
+  @State('site') site!: Site
 
   @Action('site/updateSite') updateSite!: (siteData: Site) => void
 
@@ -133,6 +134,12 @@ export default class App extends Vue {
 
   openInBrowser(url: string) {
     shell.openExternal(url)
+  }
+
+  goWeb() {
+    if (this.site.setting.domain) {
+      shell.openExternal(this.site.setting.domain)
+    }
   }
 
   public async checkUpdate() {
@@ -271,6 +278,14 @@ export default class App extends Vue {
   &:hover {
     background: #252525;
     border: none;
+  }
+}
+
+.web-btn {
+  font-size: 16px;
+  cursor: pointer;
+  &:hover {
+    color: @link-color;
   }
 }
 </style>

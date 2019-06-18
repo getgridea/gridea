@@ -174,6 +174,10 @@ export default {
 
   .contains-task-list {
     list-style-type: none;
+    padding-left: 30px;
+  }
+  .task-list-item {
+    position: relative;
   }
   .task-list-item-checkbox {
     position: absolute;
@@ -186,6 +190,48 @@ export default {
     transform-origin: center;
     transform: rotate(-90deg);
     transition: all .2s ease;
+    &:checked {
+      transform: rotate(0);
+      &:before {
+        border: transparent;
+        background-color: #66a80f;
+      }
+      &:after {
+        transform: rotate(-45deg) scale(1);
+      }
+      + .task-list-item-label {
+        color: #adb5bd;
+        text-decoration: line-through;
+      }
+    }
+    &:before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      box-sizing: border-box;
+      display: inline-block;
+      border: 2px solid #ced4da;
+      border-radius: 2px;
+      background-color: #fff;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all .2s ease;
+    }
+    &:after {
+      content: "";
+      transform: rotate(-45deg) scale(0);
+      width: 9px;
+      height: 5px;
+      border: 2px solid #fff;
+      border-top: none;
+      border-right: none;
+      position: absolute;
+      display: inline-block;
+      top: 3px;
+      left: 3px;
+      transition: all .2s ease;
+    }
   }
 }
 </style>
@@ -247,5 +293,8 @@ export default {
   max-width: 100%;
   display: block;
   margin: 8px 0;
+}
+.CodeMirror-line {
+  margin: .5em 0;
 }
 </style>

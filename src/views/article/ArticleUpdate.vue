@@ -32,7 +32,7 @@
         :visible="postSettingsVisible"
         @close="postSettingsVisible = false"
         width="400"
-        :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px', zIndex: 3000}"
+        :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px', zIndex: 1025}"
       >
         <a-collapse v-model="activeKey">
           <a-collapse-panel header="URL" key="1">

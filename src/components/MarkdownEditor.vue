@@ -252,17 +252,11 @@ export default {
   transition: all 0.3s;
   color: #434343;
   border: none;
-  background: #f9f7f3;
   font-size: 16px;
   letter-spacing: 0.05em;
+  padding: 16px 0;
 }
-.CodeMirror.CodeMirror-focused {
-  border-color: #4f4a4a;
-  outline: 0;
-  -webkit-box-shadow: 0 0 0 2px rgba(67, 67, 67, 0.2);
-  box-shadow: 0 0 0 2px rgba(67, 67, 67, 0.2);
-  border-right-width: 1px !important;
-}
+
 .editor-toolbar {
   border-color: #fff;
   box-shadow: none;
@@ -286,7 +280,7 @@ export default {
 }
 .CodeMirror .editor-preview.markdown-body.editor-preview-active {
   line-height: 1.618;
-  background: #f9f7f3;
+  background: #fff;
   padding: 16px;
 }
 .CodeMirror .editor-preview.markdown-body.editor-preview-active img {

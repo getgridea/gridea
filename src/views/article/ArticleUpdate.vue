@@ -2,6 +2,7 @@
   <div class="article-update-page" v-if="visible">
     <div class="page-title">
       <a-row type="flex" justify="end">
+        <a-button class="btn" @click="postSettingsVisible = true">Post Settings</a-button>
         <a-button class="btn" @click="close">{{ $t('cancel') }}</a-button>
         <a-button class="btn" :disabled="!canSubmit" @click="saveDraft">{{ $t('saveDraft') }}</a-button>
         <a-button class="btn" type="primary" :disabled="!canSubmit" @click="savePost">{{ $t('save') }}</a-button>
@@ -9,77 +10,86 @@
     </div>
     <div class="page-content">
       <a-row :gutter="16">
-        <a-col :span="16">
-          <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
+        <a-col :span="16" :offset="4">
           <div class="tip-text">{{ $t('editorTip') }}</div>
-          <markdown-editor
-            id="markdown-editor"
-            ref="editor"
-            class="md-editor"
-            :configs="configs"
-            preview-class="markdown-body"
-            v-model="form.content"
-            @click.native.capture="preventDefault($event)"
-          ></markdown-editor>
-        </a-col>
-        <a-col :span="8" class="right-container">
-          <a-collapse v-model="activeKey">
-            <a-collapse-panel header="URL" key="1">
-              <a-input v-model="form.fileName" @change="handleFileNameChange"></a-input>
-            </a-collapse-panel>
-            <a-collapse-panel :header="$t('tag')" key="2">
-              <div>
-                <a-select mode="multiple" style="width: 100%" v-model="form.tags">
-                  <a-select-option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</a-select-option>
-                </a-select>
-              </div>
-            </a-collapse-panel>
-            <a-collapse-panel :header="$t('createAt')" key="3">
-              <a-date-picker
-                showTime
-                format="YYYY-MM-DD HH:mm:ss"
-                v-model="form.date"
-                style="width: 100%"
-              />
-            </a-collapse-panel>
-
-            <a-collapse-panel :header="$t('featureImage')" key="4">
-              <a-radio-group style="margin-bottom: 16px;" defaultValue="a" buttonStyle="solid" v-model="featureType" size="small">
-                <a-radio-button value="DEFAULT">默认</a-radio-button>
-                <a-radio-button value="EXTERNAL">外链</a-radio-button>
-              </a-radio-group>
-              <div v-if="featureType === 'DEFAULT'">
-                <a-upload
-                  action=""
-                  listType="picture-card"
-                  class="feature-uploader"
-                  :showUploadList="false"
-                  :beforeUpload="beforeFeatureUpload"
-                >
-                  <div v-if="form.featureImage.path">
-                    <img class="feature-image" :src="`file://${form.featureImage.path}`" height="150" />
-                  </div>
-                  <div v-else>
-                    <a-icon type="plus" />
-                    <div class="ant-upload-text">Upload</div>
-                  </div>
-                </a-upload>
-                <a-button v-if="form.featureImage.path" type="danger" block icon="delete" @click="form.featureImage = {}" />
-              </div>
-              <div v-if="featureType === 'EXTERNAL'">
-                <a-input v-model="form.featureImagePath"></a-input>
-                <div class="tip-text">路径必须包含 http 或 https</div>
-                <div class="feature-image-container" v-if="form.featureImagePath">
-                  <img class="feature-image" :src="form.featureImagePath" height="150">
-                </div>
-              </div>
-            </a-collapse-panel>
-            <a-collapse-panel :header="$t('hideInList')" key="5">
-              <a-switch v-model="form.hideInList"></a-switch>
-            </a-collapse-panel>
-          </a-collapse>
+          <div class="editor-container">
+            <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
+            <markdown-editor
+              id="markdown-editor"
+              ref="editor"
+              class="md-editor"
+              :configs="configs"
+              preview-class="markdown-body"
+              v-model="form.content"
+              @click.native.capture="preventDefault($event)"
+            ></markdown-editor>
+          </div>
         </a-col>
       </a-row>
+
+      <a-drawer
+        title="Post Settings"
+        :visible="postSettingsVisible"
+        @close="postSettingsVisible = false"
+        width="400"
+        :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px', zIndex: 3000}"
+      >
+        <a-collapse v-model="activeKey">
+          <a-collapse-panel header="URL" key="1">
+            <a-input v-model="form.fileName" @change="handleFileNameChange"></a-input>
+          </a-collapse-panel>
+          <a-collapse-panel :header="$t('tag')" key="2">
+            <div>
+              <a-select mode="multiple" style="width: 100%" v-model="form.tags">
+                <a-select-option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</a-select-option>
+              </a-select>
+            </div>
+          </a-collapse-panel>
+          <a-collapse-panel :header="$t('createAt')" key="3">
+            <a-date-picker
+              showTime
+              format="YYYY-MM-DD HH:mm:ss"
+              v-model="form.date"
+              style="width: 100%"
+            />
+          </a-collapse-panel>
+
+          <a-collapse-panel :header="$t('featureImage')" key="4">
+            <a-radio-group style="margin-bottom: 16px;" defaultValue="a" buttonStyle="solid" v-model="featureType" size="small">
+              <a-radio-button value="DEFAULT">默认</a-radio-button>
+              <a-radio-button value="EXTERNAL">外链</a-radio-button>
+            </a-radio-group>
+            <div v-if="featureType === 'DEFAULT'">
+              <a-upload
+                action=""
+                listType="picture-card"
+                class="feature-uploader"
+                :showUploadList="false"
+                :beforeUpload="beforeFeatureUpload"
+              >
+                <div v-if="form.featureImage.path">
+                  <img class="feature-image" :src="`file://${form.featureImage.path}`" height="150" />
+                </div>
+                <div v-else>
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">Upload</div>
+                </div>
+              </a-upload>
+              <a-button v-if="form.featureImage.path" type="danger" block icon="delete" @click="form.featureImage = {}" />
+            </div>
+            <div v-if="featureType === 'EXTERNAL'">
+              <a-input v-model="form.featureImagePath"></a-input>
+              <div class="tip-text">路径必须包含 http 或 https</div>
+              <div class="feature-image-container" v-if="form.featureImagePath">
+                <img class="feature-image" :src="form.featureImagePath" height="150">
+              </div>
+            </div>
+          </a-collapse-panel>
+          <a-collapse-panel :header="$t('hideInList')" key="5">
+            <a-switch v-model="form.hideInList"></a-switch>
+          </a-collapse-panel>
+        </a-collapse>
+      </a-drawer>
 
       <!-- 编辑器点击图片上传用 -->
       <input ref="uploadInput" class="upload-input" type="file" accept="image/*" @change="fileChangeHandler">
@@ -109,6 +119,8 @@ export default class ArticleUpdate extends Vue {
   @Prop(Boolean) visible!: boolean
 
   @Prop(String) articleFileName!: string
+
+  postSettingsVisible = false
 
   $refs!: {
     editor: any,
@@ -510,6 +522,7 @@ export default class ArticleUpdate extends Vue {
     background: #fff;
   }
   .page-content {
+    background: #f9f9f9;
     flex: 1;
     padding: 24px 16px;
     overflow: scroll;
@@ -532,6 +545,13 @@ export default class ArticleUpdate extends Vue {
 
 .post-title {
   font-weight: bold;
+  background: #fff;
+  padding: 24px 0;
+  font-size: 24px;
+  &:focus {
+    box-shadow: none;
+  }
+  border-bottom: 1px solid #e8e8e8;
 }
 
 #markdown-editor {
@@ -540,6 +560,15 @@ export default class ArticleUpdate extends Vue {
     top: 16px;
     z-index: 3000;
   }
+}
+.editor-container {
+  padding: 32px;
+  border: 1px solid #e8e8e8;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(115, 115, 115, 0.08);
+}
+.ant-drawer {
+  z-index: 1025;
 }
 </style>
 

@@ -67,6 +67,7 @@
 😘 Enjoy~
 
 ## 开发
+如果你想贡献代码，请提前参阅[贡献指南](https://github.com/getgridea/gridea/wiki/%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97)
 ``` shell
 $ # Node version > v10.0.0 is requied
 $ git clone https://github.com/getgridea/gridea.git

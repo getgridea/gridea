@@ -1,6 +1,6 @@
+import { generateKeyHash, genUpper2LowerKeyHash, getLongUniqueId } from '../utils'
 import htmlTags from 'html-tags'
 import voidHtmlTags from 'html-tags/void'
-import { generateKeyHash, genUpper2LowerKeyHash, getLongUniqueId } from '../utils'
 
 // [0.25, 0.5, 1, 2, 4, 8] <—?—> [256M, 500M/768M, 1G/1000M, 2G, 4G, 8G]
 // Electron 2.0.2 not support yet! So give a default value 4
@@ -11,7 +11,7 @@ export const VOID_HTML_TAGS = voidHtmlTags
 export const HTML_TAGS = htmlTags
 // TYPE1 ~ TYPE7 according to https://github.github.com/gfm/#html-blocks
 export const BLOCK_TYPE1 = [
-  'script', 'pre', 'style',
+  'script', 'pre', 'style'
 ]
 
 export const BLOCK_TYPE2_REG = /^<!--(?=\s).*\s+-->$/
@@ -21,10 +21,10 @@ export const BLOCK_TYPE6 = [
   'details', 'dialog', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset',
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu',
   'menuitem', 'meta', 'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table',
-  'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul',
+  'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul'
 ]
 
-export const BLOCK_TYPE7 = htmlTags.filter((tag) => {
+export const BLOCK_TYPE7 = htmlTags.filter(tag => {
   return !BLOCK_TYPE1.find(t => t === tag) && !BLOCK_TYPE6.find(t => t === tag)
 })
 
@@ -39,7 +39,7 @@ export const blockContainerElementNames = [
   'address', 'article', 'aside', 'audio', 'canvas', 'dd', 'dl', 'dt', 'fieldset',
   'figcaption', 'footer', 'form', 'header', 'hgroup', 'main', 'nav',
   'noscript', 'output', 'section', 'video',
-  'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td',
+  'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td'
 ]
 
 export const emptyElementNames = ['br', 'col', 'colgroup', 'hr', 'img', 'input', 'source', 'wbr']
@@ -54,11 +54,11 @@ export const EVENT_KEYS = generateKeyHash([
   'ArrowLeft',
   'ArrowRight',
   'Tab',
-  'Escape',
+  'Escape'
 ])
 
 export const LOWERCASE_TAGS = generateKeyHash([
-  ...blockContainerElementNames, ...emptyElementNames, 'div',
+  ...blockContainerElementNames, ...emptyElementNames, 'div'
 ])
 
 export const CLASS_OR_ID = genUpper2LowerKeyHash([
@@ -151,7 +151,7 @@ export const CLASS_OR_ID = genUpper2LowerKeyHash([
   'AG_TIGHT_LIST_ITEM',
   'AG_TOOL_BAR',
   'AG_VEGA_LITE',
-  'AG_WARN',
+  'AG_WARN'
 ])
 
 export const DAED_REMOVE_SELECTOR = new Set([
@@ -159,7 +159,7 @@ export const DAED_REMOVE_SELECTOR = new Set([
   '.ag-image-marked-text.ag-image-fail::before',
   '.ag-hide',
   '.ag-gray',
-  '.ag-warn',
+  '.ag-warn'
 ])
 
 export const CURSOR_DNA = getLongUniqueId()
@@ -174,16 +174,17 @@ export const DEFAULT_TURNDOWN_CONFIG = {
   strongDelimiter: '**', // ** or __
   linkStyle: 'inlined',
   linkReferenceStyle: 'full',
-  blankReplacement(content, node, options) {
+  blankReplacement (content, node, options) {
     if (node && node.classList.contains('ag-soft-line-break')) {
       return LINE_BREAK
-    } if (node && node.classList.contains('ag-hard-line-break')) {
-      return `  ${LINE_BREAK}`
-    } if (node && node.classList.contains('ag-hard-line-break-sapce')) {
+    } else if (node && node.classList.contains('ag-hard-line-break')) {
+      return '  ' + LINE_BREAK
+    } else if (node && node.classList.contains('ag-hard-line-break-sapce')) {
       return ''
+    } else {
+      return node.isBlock ? '\n\n' : ''
     }
-    return node.isBlock ? '\n\n' : ''
-  },
+  }
 }
 
 export const FORMAT_MARKER_MAP = {
@@ -194,16 +195,16 @@ export const FORMAT_MARKER_MAP = {
   'inline_math': '$',
   'u': {
     open: '<u>',
-    close: '</u>',
+    close: '</u>'
   },
   'sub': {
     open: '<sub>',
-    close: '</sub>',
+    close: '</sub>'
   },
   'sup': {
     open: '<sup>',
-    close: '</sup>',
-  },
+    close: '</sup>'
+  }
 }
 
 export const FORMAT_TYPES = ['strong', 'em', 'del', 'inline_code', 'link', 'image', 'inline_math']
@@ -218,8 +219,8 @@ export const PREVIEW_DOMPURIFY_CONFIG = {
     html: true,
     svg: true,
     svgFilters: true,
-    mathMl: true,
-  },
+    mathMl: true
+  }
 }
 
 export const EXPORT_DOMPURIFY_CONFIG = {
@@ -229,8 +230,8 @@ export const EXPORT_DOMPURIFY_CONFIG = {
     html: true,
     svg: true,
     svgFilters: true,
-    mathMl: true,
-  },
+    mathMl: true
+  }
 }
 
 export const MUYA_DEFAULT_OPTION = {
@@ -255,7 +256,7 @@ export const MUYA_DEFAULT_OPTION = {
   imagePathPicker: null,
   clipboardFilePath: () => {},
   // image path auto completed when you input in image selector.
-  imagePathAutoComplete: () => [],
+  imagePathAutoComplete: () => []
 }
 
 // export const DIAGRAM_TEMPLATE = {

@@ -2,13 +2,13 @@ import { deepCopy } from '../utils'
 import { UNDO_DEPTH } from '../config'
 
 class History {
-  constructor(contentState) {
+  constructor (contentState) {
     this.stack = []
     this.index = -1
     this.contentState = contentState
   }
 
-  undo() {
+  undo () {
     if (this.index > 0) {
       this.index = this.index - 1
 
@@ -22,7 +22,7 @@ class History {
     }
   }
 
-  redo() {
+  redo () {
     const { index, stack } = this
     const len = stack.length
     if (index < len - 1) {
@@ -37,7 +37,7 @@ class History {
     }
   }
 
-  push(state) {
+  push (state) {
     this.stack.splice(this.index + 1)
     const copyState = deepCopy(state)
     this.stack.push(copyState)
@@ -48,7 +48,7 @@ class History {
     this.index = this.index + 1
   }
 
-  clearHistory() {
+  clearHistory () {
     this.stack = []
     this.index = -1
   }

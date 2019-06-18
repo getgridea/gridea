@@ -9,13 +9,12 @@ import './index.css'
 const iconhash = {
   'icon-image': ImageIcon,
   'icon-folder': FolderIcon,
-  'icon-upload': UploadIcon,
+  'icon-upload': UploadIcon
 }
 
 class ImagePathPicker extends BaseScrollFloat {
   static pluginName = 'imagePathPicker'
-
-  constructor(muya) {
+  constructor (muya) {
     const name = 'ag-list-picker'
     super(muya, name)
     this.renderArray = []
@@ -25,7 +24,7 @@ class ImagePathPicker extends BaseScrollFloat {
     this.listen()
   }
 
-  listen() {
+  listen () {
     super.listen()
     const { eventCenter } = this.muya
     eventCenter.subscribe('muya-image-picker', ({ reference, list, cb }) => {
@@ -40,40 +39,39 @@ class ImagePathPicker extends BaseScrollFloat {
     })
   }
 
-  render() {
-    const {
-      renderArray, oldVnode, scrollElement, activeItem,
-    } = this
-    const children = renderArray.map((item) => {
+  render () {
+    const { renderArray, oldVnode, scrollElement, activeItem } = this
+    let children = renderArray.map((item) => {
       const { text, iconClass } = item
       const icon = h('div.icon-wrapper', h('svg', {
         attrs: {
           viewBox: iconhash[iconClass].viewBox,
-          'aria-hidden': 'true',
+          'aria-hidden': 'true'
         },
         hook: {
-          prepatch(oldvnode, vnode) {
+          prepatch (oldvnode, vnode) {
             // cheat snabbdom that the pre block is changed!!!
             oldvnode.children = []
             oldvnode.elm.innerHTML = ''
-          },
-        },
+          }
+        }
       }, h('use', {
         attrs: {
-          'xlink:href': iconhash[iconClass].url,
-        },
-      })))
+          'xlink:href': iconhash[iconClass].url
+        }
+      }))
+    )
       const textEle = h('div.language', text)
       const selector = activeItem === item ? 'li.item.active' : 'li.item'
       return h(selector, {
         dataset: {
-          label: item.text,
+          label: item.text
         },
         on: {
           click: () => {
             this.selectItem(item)
-          },
-        },
+          }
+        }
       }, [icon, textEle])
     })
 
@@ -87,7 +85,7 @@ class ImagePathPicker extends BaseScrollFloat {
     this.oldVnode = vnode
   }
 
-  getItemElement(item) {
+  getItemElement (item) {
     const { text } = item
     return this.floatBox.querySelector(`[data-label="${text}"]`)
   }

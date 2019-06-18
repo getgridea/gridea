@@ -1,10 +1,10 @@
 import { CLASS_OR_ID } from '../../../config'
 import { snakeToCamel } from '../../../utils'
 
-export default function referenceLink(h, cursor, block, token, outerClass) {
+export default function referenceLink (h, cursor, block, token, outerClass) {
   const className = this.getClassName(outerClass, block, token, cursor)
-  const labelClass = className === CLASS_OR_ID.AG_GRAY
-    ? CLASS_OR_ID.AG_REFERENCE_LABEL
+  const labelClass = className === CLASS_OR_ID['AG_GRAY']
+    ? CLASS_OR_ID['AG_REFERENCE_LABEL']
     : className
 
   const { start, end } = token.range
@@ -13,7 +13,7 @@ export default function referenceLink(h, cursor, block, token, outerClass) {
     children,
     backlash,
     isFullLink,
-    label,
+    label
   } = token
   const MARKER = '['
   const key = (label + backlash.second).toLowerCase()
@@ -23,7 +23,7 @@ export default function referenceLink(h, cursor, block, token, outerClass) {
       const chunk = this[snakeToCamel(to.type)](h, cursor, block, to, className)
       return Array.isArray(chunk) ? [...acc, ...chunk] : [...acc, chunk]
     }, []),
-    ...this.backlashInToken(h, backlash.first, className, backlashStart, token),
+    ...this.backlashInToken(h, backlash.first, className, backlashStart, token)
   ]
 
   const { href, title } = this.labels.get(key)
@@ -32,20 +32,20 @@ export default function referenceLink(h, cursor, block, token, outerClass) {
     block,
     start,
     start + MARKER.length,
-    token,
+    token
   )
   const endMarker = this.highlight(
     h,
     block,
     start + MARKER.length + anchor.length + backlash.first.length,
     end,
-    token,
+    token
   )
-  const anchorSelector = href ? `a.${CLASS_OR_ID.AG_INLINE_RULE}` : `span.${CLASS_OR_ID.AG_REFERENCE_LINK}`
+  const anchorSelector = href ? `a.${CLASS_OR_ID['AG_INLINE_RULE']}` : `span.${CLASS_OR_ID['AG_REFERENCE_LINK']}`
   const dataSet = {
     props: {
-      title,
-    },
+      title
+    }
   }
   if (href) {
     Object.assign(dataSet.props, { href })
@@ -57,21 +57,21 @@ export default function referenceLink(h, cursor, block, token, outerClass) {
       block,
       start + 3 * MARKER.length + anchor.length + backlash.first.length,
       end - MARKER.length - backlash.second.length,
-      token,
+      token
     )
     const middleMarker = this.highlight(
       h,
       block,
       start + MARKER.length + anchor.length + backlash.first.length,
       start + 3 * MARKER.length + anchor.length + backlash.first.length,
-      token,
+      token
     )
     const lastMarker = this.highlight(
       h,
       block,
       end - MARKER.length,
       end,
-      token,
+      token
     )
     const secondBacklashStart = end - MARKER.length - backlash.second.length
 
@@ -81,12 +81,13 @@ export default function referenceLink(h, cursor, block, token, outerClass) {
       h(`span.${className}`, middleMarker),
       h(`span.${labelClass}`, labelContent),
       ...this.backlashInToken(h, backlash.second, className, secondBacklashStart, token),
-      h(`span.${className}`, lastMarker),
+      h(`span.${className}`, lastMarker)
+    ]
+  } else {
+    return [
+      h(`span.${className}`, startMarker),
+      h(anchorSelector, dataSet, content),
+      h(`span.${className}`, endMarker)
     ]
   }
-  return [
-    h(`span.${className}`, startMarker),
-    h(anchorSelector, dataSet, content),
-    h(`span.${className}`, endMarker),
-  ]
 }

@@ -2,7 +2,7 @@
  * Slugger generates header id
  */
 
-function Slugger() {
+function Slugger () {
   this.seen = {}
 }
 
@@ -18,10 +18,10 @@ Slugger.prototype.slug = function (value) {
     .replace(/\s/g, '-')
 
   if (this.seen.hasOwnProperty(slug)) {
-    const originalSlug = slug
+    let originalSlug = slug
     do {
       this.seen[originalSlug]++
-      slug = `${originalSlug}-${this.seen[originalSlug]}`
+      slug = originalSlug + '-' + this.seen[originalSlug]
     } while (this.seen.hasOwnProperty(slug))
   }
   this.seen[slug] = 0

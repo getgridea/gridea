@@ -54,8 +54,20 @@ function createWindow() {
     {
       label: 'Edit',
       submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
+        {
+          label: 'Undo',
+          accelerator: 'CmdOrCtrl+Z',
+          click: () => {
+            win.webContents.send('editor-undo', 'undo')
+          },
+        },
+        {
+          label: 'Redo',
+          accelerator: 'CmdOrCtrl+Shift+Z',
+          click: () => {
+            win.webContents.send('editor-redo', 'redo')
+          },
+        },
         { type: 'separator' },
         { role: 'cut' },
         { role: 'copy' },

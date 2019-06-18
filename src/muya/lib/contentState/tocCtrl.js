@@ -1,4 +1,4 @@
-const tocCtrl = (ContentState) => {
+const tocCtrl = ContentState => {
   ContentState.prototype.getTOC = function () {
     const { blocks } = this
     const toc = []
@@ -13,7 +13,7 @@ const tocCtrl = (ContentState) => {
         toc.push({
           content,
           lvl,
-          slug,
+          slug
         })
       }
     }

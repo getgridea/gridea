@@ -8,14 +8,14 @@ const defaultOptions = {
   placement: 'bottom-start',
   modifiers: {
     offset: {
-      offset: '0, 12',
-    },
+      offset: '0, 12'
+    }
   },
-  showArrow: true,
+  showArrow: true
 }
 
 class BaseFloat {
-  constructor(muya, name, options = {}) {
+  constructor (muya, name, options = {}) {
     this.name = name
     this.muya = muya
     this.options = Object.assign({}, defaultOptions, options)
@@ -28,7 +28,7 @@ class BaseFloat {
     this.init()
   }
 
-  init() {
+  init () {
     const { showArrow } = this.options
     const floatBox = document.createElement('div')
     const container = document.createElement('div')
@@ -47,11 +47,11 @@ class BaseFloat {
     floatBox.appendChild(container)
     document.body.appendChild(floatBox)
     const erd = resezeDetector({
-      strategy: 'scroll',
+      strategy: 'scroll'
     })
 
     // use polyfill
-    erd.listenTo(container, (ele) => {
+    erd.listenTo(container, ele => {
       const { offsetWidth, offsetHeight } = ele
       Object.assign(floatBox.style, { width: `${offsetWidth}px`, height: `${offsetHeight}px` })
       this.popper && this.popper.update()
@@ -69,15 +69,15 @@ class BaseFloat {
     this.container = container
   }
 
-  listen() {
+  listen () {
     const { eventCenter, container } = this.muya
     const { floatBox } = this
-    const keydownHandler = (event) => {
+    const keydownHandler = event => {
       if (event.key === EVENT_KEYS.Escape) {
         this.hide()
       }
     }
-    const scrollHandler = (event) => {
+    const scrollHandler = event => {
       if (typeof this.lastScrollTop !== 'number') {
         this.lastScrollTop = event.target.scrollTop
         return
@@ -89,7 +89,7 @@ class BaseFloat {
     }
 
     eventCenter.attachDOMEvent(document, 'click', this.hide.bind(this))
-    eventCenter.attachDOMEvent(floatBox, 'click', (event) => {
+    eventCenter.attachDOMEvent(floatBox, 'click', event => {
       event.stopPropagation()
       event.preventDefault()
     })
@@ -97,7 +97,7 @@ class BaseFloat {
     eventCenter.attachDOMEvent(container, 'scroll', scrollHandler)
   }
 
-  hide() {
+  hide () {
     const { eventCenter } = this.muya
     if (!this.status) return
     this.status = false
@@ -109,7 +109,7 @@ class BaseFloat {
     this.lastScrollTop = null
   }
 
-  show(reference, cb = noop) {
+  show (reference, cb = noop) {
     const { floatBox } = this
     const { eventCenter } = this.muya
     const { placement, modifiers } = this.options
@@ -119,13 +119,13 @@ class BaseFloat {
     this.cb = cb
     this.popper = new Popper(reference, floatBox, {
       placement,
-      modifiers,
+      modifiers
     })
     this.status = true
     eventCenter.dispatch('muya-float', this, true)
   }
 
-  destroy() {
+  destroy () {
     if (this.popper && this.popper.destroy) {
       this.popper.destroy()
     }

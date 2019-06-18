@@ -1,14 +1,14 @@
 import Renderer from './renderer'
 import InlineLexer from './inlineLexer'
 import Slugger from './slugger'
-import TextRenderer from './textRenderer'
+import TextRenderer from  './textRenderer'
 import defaultOptions from './options'
 
 /**
  * Parsing & Compiling
  */
 
-function Parser(options) {
+function Parser (options) {
   this.tokens = []
   this.token = null
   this.options = options || defaultOptions
@@ -27,7 +27,7 @@ Parser.prototype.parse = function (src) {
   // use an InlineLexer with a TextRenderer to extract pure text
   this.inlineText = new InlineLexer(
     src.links,
-    Object.assign({}, this.options, { renderer: new TextRenderer() }),
+    Object.assign({}, this.options, {renderer: new TextRenderer()})
   )
   this.tokens = src.reverse()
 
@@ -64,7 +64,7 @@ Parser.prototype.parseText = function () {
   let body = this.token.text
 
   while (this.peek().type === 'text') {
-    body += `\n${this.next().text}`
+    body += '\n' + this.next().text
   }
 
   return this.inline.output(body)
@@ -91,7 +91,7 @@ Parser.prototype.tok = function () {
         this.token.depth,
         unescape(this.inlineText.output(this.token.text)),
         this.slugger,
-        this.token.headingStyle,
+        this.token.headingStyle
       )
     }
     case 'multiplemath': {
@@ -99,9 +99,7 @@ Parser.prototype.tok = function () {
       return this.renderer.multiplemath(text)
     }
     case 'code': {
-      const {
-        codeBlockStyle, text, lang, escaped,
-      } = this.token
+      const { codeBlockStyle, text, lang, escaped } = this.token
       return this.renderer.code(text, lang, escaped, codeBlockStyle)
     }
     case 'table': {
@@ -118,8 +116,8 @@ Parser.prototype.tok = function () {
         cell += this.renderer.tablecell(
           this.inline.output(this.token.header[i]), {
             header: true,
-            align: this.token.align[i],
-          },
+            align: this.token.align[i]
+          }
         )
       }
       header += this.renderer.tablerow(cell)
@@ -132,8 +130,8 @@ Parser.prototype.tok = function () {
           cell += this.renderer.tablecell(
             this.inline.output(row[j]), {
               header: false,
-              align: this.token.align[j],
-            },
+              align: this.token.align[j]
+            }
           )
         }
 
@@ -196,7 +194,7 @@ Parser.prototype.tok = function () {
       return this.renderer.paragraph(this.parseText())
     }
     default: {
-      const errMsg = `Token with "${this.token.type}" type was not found.`
+      let errMsg = 'Token with "' + this.token.type + '" type was not found.'
       if (this.options.silent) {
         console.error(errMsg)
       } else {

@@ -1,18 +1,18 @@
+import marked from '../parser/marked'
 import Prism from 'prismjs'
 import katex from 'katex'
 import mermaid from 'mermaid'
 import flowchart from 'flowchart.js'
+import Diagram from '../parser/render/sequence'
 import vegaEmbed from 'vega-embed'
 import githubMarkdownCss from 'github-markdown-css/github-markdown.css'
 import highlightCss from 'prismjs/themes/prism.css'
 import katexCss from 'katex/dist/katex.css'
-import Diagram from '../parser/render/sequence'
-import marked from '../parser/marked'
 import { EXPORT_DOMPURIFY_CONFIG } from '../config'
-import { sanitize, unescapeHtml } from '.'
+import { sanitize, unescapeHtml } from '../utils'
 import { validEmoji } from '../ui/emojis'
 
-export const getSanitizeHtml = (markdown) => {
+export const getSanitizeHtml = markdown => {
   const html = marked(markdown)
   return sanitize(html, EXPORT_DOMPURIFY_CONFIG)
 }
@@ -21,18 +21,18 @@ const DIAGRAM_TYPE = [
   'mermaid',
   'flowchart',
   'sequence',
-  'vega-lite',
+  'vega-lite'
 ]
 
 class ExportHtml {
-  constructor(markdown, muya) {
+  constructor (markdown, muya) {
     this.markdown = markdown
     this.muya = muya
     this.exportContainer = null
     this.mathRendererCalled = false
   }
 
-  renderMermaid() {
+  renderMermaid () {
     const codes = this.exportContainer.querySelectorAll('code.language-mermaid')
     for (const code of codes) {
       const preEle = code.parentNode
@@ -43,22 +43,22 @@ class ExportHtml {
     }
     // We only export light theme, so set mermaid theme to `default`, in the future, we can choose whick theme to export.
     mermaid.initialize({
-      theme: 'default',
+      theme: 'default'
     })
     mermaid.init(undefined, this.exportContainer.querySelectorAll('div.mermaid'))
-    if (this.muya) {
+    if (this.muya){
       mermaid.initialize({
-        theme: this.muya.options.mermaidTheme,
+        theme: this.muya.options.mermaidTheme
       })
     }
   }
 
-  async renderDiagram() {
+  async renderDiagram () {
     const selector = 'code.language-vega-lite, code.language-flowchart, code.language-sequence'
     const RENDER_MAP = {
       'flowchart': flowchart,
       'sequence': Diagram,
-      'vega-lite': vegaEmbed,
+      'vega-lite': vegaEmbed
     }
     const codes = this.exportContainer.querySelectorAll(selector)
     for (const code of codes) {
@@ -74,10 +74,8 @@ class ExportHtml {
         Object.assign(options, { theme: 'hand' })
       } else if (functionType === 'vega-lite') {
         Object.assign(options, {
-          actions: false,
-          tooltip: false,
-          renderer: 'svg',
-          theme: 'latimes', // only render light theme
+          actions: false, tooltip: false, renderer: 'svg',
+          theme: 'latimes' // only render light theme
         })
       }
       try {
@@ -90,7 +88,7 @@ class ExportHtml {
         }
       } catch (err) {
         console.log(err)
-        diagramContainer.innerHTML = '< Invalid Diagram >'
+        diagramContainer.innerHTML = `< Invalid Diagram >`
       }
     }
   }
@@ -98,15 +96,15 @@ class ExportHtml {
   mathRenderer = (math, displayMode) => {
     this.mathRendererCalled = true
     return katex.renderToString(math, {
-      displayMode,
+      displayMode
     })
   }
 
   // render pure html by marked
-  async renderHtml() {
+  async renderHtml () {
     this.mathRendererCalled = false
     let html = marked(this.markdown, {
-      highlight(code, lang) {
+      highlight (code, lang) {
         // Language may be undefined (GH#591)
         if (!lang) {
           return code
@@ -123,14 +121,15 @@ class ExportHtml {
         }
         return Prism.highlight(code, grammar, lang)
       },
-      emojiRenderer(emoji) {
+      emojiRenderer (emoji) {
         const validate = validEmoji(emoji)
         if (validate) {
           return validate.emoji
+        } else {
+          return `:${emoji}:`
         }
-        return `:${emoji}:`
       },
-      mathRenderer: this.mathRenderer,
+      mathRenderer: this.mathRenderer
     })
     html = sanitize(html, EXPORT_DOMPURIFY_CONFIG)
     const exportContainer = this.exportContainer = document.createElement('div')
@@ -162,7 +161,7 @@ class ExportHtml {
    * @param {*} title Page title
    * @param {*} printOptimization Optimize HTML and CSS for printing
    */
-  async generate(title = '', printOptimization = false) {
+  async generate (title = '', printOptimization = false, extraCss = '') {
     // WORKAROUND: Hide Prism.js style when exporting or printing. Otherwise the background color is white in the dark theme.
     const highlightCssStyle = printOptimization ? `@media print { ${highlightCss} }` : highlightCss
     const html = await this.renderHtml()
@@ -209,6 +208,7 @@ class ExportHtml {
       }
     }
   </style>
+  <style>${extraCss}</style>
 </head>
 <body>
   <article class="markdown-body">

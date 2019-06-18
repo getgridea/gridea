@@ -12,16 +12,15 @@ const defaultOptions = {
   placement: 'left',
   modifiers: {
     offset: {
-      offset: '20, 20',
-    },
+      offset: '20, 20'
+    }
   },
-  showArrow: false,
+  showArrow: false
 }
 
 class FrontMenu extends BaseFloat {
   static pluginName = 'frontMenu'
-
-  constructor(muya, options = {}) {
+  constructor (muya, options = {}) {
     const name = 'ag-front-menu'
     const opts = Object.assign({}, defaultOptions, options)
     super(muya, name, opts)
@@ -33,18 +32,16 @@ class FrontMenu extends BaseFloat {
     this.reference = null
     const frontMenuContainer = this.frontMenuContainer = document.createElement('div')
     Object.assign(this.container.parentNode.style, {
-      overflow: 'visible',
+      overflow: 'visible'
     })
     this.container.appendChild(frontMenuContainer)
     this.listen()
   }
 
-  listen() {
+  listen () {
     const { eventCenter } = this.muya
     super.listen()
-    eventCenter.subscribe('muya-front-menu', ({
-      reference, outmostBlock, startBlock, endBlock,
-    }) => {
+    eventCenter.subscribe('muya-front-menu', ({ reference, outmostBlock, startBlock, endBlock }) => {
       if (reference) {
         this.outmostBlock = outmostBlock
         this.startBlock = startBlock
@@ -61,36 +58,34 @@ class FrontMenu extends BaseFloat {
     })
   }
 
-  renderSubMenu(subMenu) {
+  renderSubMenu (subMenu) {
     const { reference } = this
     const rect = reference.getBoundingClientRect()
     const windowHeight = document.documentElement.clientHeight
-    const children = subMenu.map((menuItem) => {
-      const {
-        icon, title, label, shortCut,
-      } = menuItem
+    const children = subMenu.map(menuItem => {
+      const { icon, title, label, shortCut } = menuItem
       const iconWrapperSelector = 'div.icon-wrapper'
       const iconWrapper = h(iconWrapperSelector, h('i.icon', h(`i.icon-${label.replace(/\s/g, '-')}`, {
         style: {
           background: `url(${icon}) no-repeat`,
-          'background-size': '100%',
-        },
+          'background-size': '100%'
+        }
       }, '')))
 
       const textWrapper = h('span', title)
       const shortCutWrapper = h('div.short-cut', [
-        h('span', shortCut),
+        h('span', shortCut)
       ])
       let itemSelector = `li.item.${label}`
       if (label === getLabel(this.outmostBlock)) {
-        itemSelector += '.active'
+        itemSelector += `.active`
       }
       return h(itemSelector, {
         on: {
-          click: (event) => {
+          click: event => {
             this.selectItem(event, { label })
-          },
-        },
+          }
+        }
       }, [iconWrapper, textWrapper, shortCutWrapper])
     })
     let subMenuSelector = 'div.submenu'
@@ -100,25 +95,21 @@ class FrontMenu extends BaseFloat {
     return h(subMenuSelector, h('ul', children))
   }
 
-  render() {
-    const {
-      oldVnode, frontMenuContainer, outmostBlock, startBlock, endBlock,
-    } = this
+  render () {
+    const { oldVnode, frontMenuContainer, outmostBlock, startBlock, endBlock } = this
     const { type, functionType } = outmostBlock
-    const children = menu.map(({
-      icon, label, text, shortCut,
-    }) => {
+    const children = menu.map(({ icon, label, text, shortCut }) => {
       const subMenu = getSubMenu(outmostBlock, startBlock, endBlock)
       const iconWrapperSelector = 'div.icon-wrapper'
       const iconWrapper = h(iconWrapperSelector, h('i.icon', h(`i.icon-${label.replace(/\s/g, '-')}`, {
         style: {
           background: `url(${icon}) no-repeat`,
-          'background-size': '100%',
-        },
+          'background-size': '100%'
+        }
       }, '')))
       const textWrapper = h('span', text)
       const shortCutWrapper = h('div.short-cut', [
-        h('span', shortCut),
+        h('span', shortCut)
       ])
       let itemSelector = `li.item.${label}`
       const itemChildren = [iconWrapper, textWrapper, shortCutWrapper]
@@ -126,18 +117,18 @@ class FrontMenu extends BaseFloat {
         itemChildren.push(this.renderSubMenu(subMenu))
       }
       if (label === 'turnInto' && subMenu.length === 0) {
-        itemSelector += '.disabled'
+        itemSelector += `.disabled`
       }
       // front matter can not be duplicated.
       if (label === 'duplicate' && type === 'pre' && functionType === 'frontmatter') {
-        itemSelector += '.disabled'
+        itemSelector += `.disabled`
       }
       return h(itemSelector, {
         on: {
-          click: (event) => {
+          click: event => {
             this.selectItem(event, { label })
-          },
-        },
+          }
+        }
       }, itemChildren)
     })
 
@@ -151,7 +142,7 @@ class FrontMenu extends BaseFloat {
     this.oldVnode = vnode
   }
 
-  selectItem(event, { label }) {
+  selectItem (event, { label }) {
     event.preventDefault()
     event.stopPropagation()
     const { type, functionType } = this.outmostBlock

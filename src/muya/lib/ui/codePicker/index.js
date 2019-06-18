@@ -7,8 +7,7 @@ import './index.css'
 
 class CodePicker extends BaseScrollFloat {
   static pluginName = 'codePicker'
-
-  constructor(muya) {
+  constructor (muya) {
     const name = 'ag-list-picker'
     super(muya, name)
     this.renderArray = []
@@ -17,7 +16,7 @@ class CodePicker extends BaseScrollFloat {
     this.listen()
   }
 
-  listen() {
+  listen () {
     super.listen()
     const { eventCenter } = this.muya
     eventCenter.subscribe('muya-code-picker', ({ reference, lang, cb }) => {
@@ -33,11 +32,9 @@ class CodePicker extends BaseScrollFloat {
     })
   }
 
-  render() {
-    const {
-      renderArray, oldVnode, scrollElement, activeItem,
-    } = this
-    let children = renderArray.map((item) => {
+  render () {
+    const { renderArray, oldVnode, scrollElement, activeItem } = this
+    let children = renderArray.map(item => {
       let iconClassNames
       if (item.ext && Array.isArray(item.ext)) {
         for (const ext of item.ext) {
@@ -53,19 +50,19 @@ class CodePicker extends BaseScrollFloat {
       if (!iconClassNames) {
         iconClassNames = item.name === 'markdown' ? fileIcons.getClassWithColor('fackname.md') : 'atom-icon light-cyan'
       }
-      const iconSelector = `span${iconClassNames.split(/\s/).map(s => `.${s}`).join('')}`
+      const iconSelector = 'span' + iconClassNames.split(/\s/).map(s => `.${s}`).join('')
       const icon = h('div.icon-wrapper', h(iconSelector))
       const text = h('div.language', item.name)
       const selector = activeItem === item ? 'li.item.active' : 'li.item'
       return h(selector, {
         dataset: {
-          label: item.name,
+          label: item.name
         },
         on: {
           click: () => {
             this.selectItem(item)
-          },
-        },
+          }
+        }
       }, [icon, text])
     })
 
@@ -82,7 +79,7 @@ class CodePicker extends BaseScrollFloat {
     this.oldVnode = vnode
   }
 
-  getItemElement(item) {
+  getItemElement (item) {
     const { name } = item
     return this.floatBox.querySelector(`[data-label="${name}"]`)
   }

@@ -7,8 +7,7 @@ import './index.css'
 
 class QuickInsert extends BaseScrollFloat {
   static pluginName = 'quickInsert'
-
-  constructor(muya) {
+  constructor (muya) {
     const name = 'ag-quick-insert'
     super(muya, name)
     this.reference = null
@@ -22,10 +21,10 @@ class QuickInsert extends BaseScrollFloat {
     this.listen()
   }
 
-  set renderObj(obj) {
+  set renderObj (obj) {
     this._renderObj = obj
     const renderArray = []
-    Object.keys(obj).forEach((key) => {
+    Object.keys(obj).forEach(key => {
       renderArray.push(...obj[key])
     })
     this.renderArray = renderArray
@@ -36,31 +35,29 @@ class QuickInsert extends BaseScrollFloat {
     }
   }
 
-  render() {
+  render () {
     const { scrollElement, activeItem, _renderObj } = this
-    let children = Object.keys(_renderObj).filter((key) => {
+    let children = Object.keys(_renderObj).filter(key => {
       return _renderObj[key].length !== 0
     })
-      .map((key) => {
+      .map(key => {
         const titleVnode = h('div.title', key.toUpperCase())
         const items = []
         for (const item of _renderObj[key]) {
-          const {
-            title, subTitle, label, icon, shortCut,
-          } = item
+          const { title, subTitle, label, icon, shortCut } = item
           const iconVnode = h('div.icon-container', h('i.icon', h(`i.icon-${label.replace(/\s/g, '-')}`, {
             style: {
               background: `url(${icon}) no-repeat`,
-              'background-size': '100%',
-            },
+              'background-size': '100%'
+            }
           }, '')))
 
           const description = h('div.description', [
             h('div.big-title', title),
-            h('div.sub-title', subTitle),
+            h('div.sub-title', subTitle)
           ])
           const shortCutVnode = h('div.short-cut', [
-            h('span', shortCut),
+            h('span', shortCut)
           ])
           const selector = activeItem.label === label ? 'div.item.active' : 'div.item'
           items.push(h(selector, {
@@ -68,8 +65,8 @@ class QuickInsert extends BaseScrollFloat {
             on: {
               click: () => {
                 this.selectItem(item)
-              },
-            },
+              }
+            }
           }, [iconVnode, description, shortCutVnode]))
         }
 
@@ -89,7 +86,7 @@ class QuickInsert extends BaseScrollFloat {
     this.oldVnode = vnode
   }
 
-  listen() {
+  listen () {
     super.listen()
     const { eventCenter } = this.muya
     eventCenter.subscribe('muya-quick-insert', (reference, block, status) => {
@@ -103,7 +100,7 @@ class QuickInsert extends BaseScrollFloat {
     })
   }
 
-  search(text) {
+  search (text) {
     const { contentState } = this.muya
     const canInserFrontMatter = contentState.canInserFrontMatter(this.block)
     const obj = deepCopy(quicInsertObj)
@@ -113,7 +110,7 @@ class QuickInsert extends BaseScrollFloat {
     let result = obj
     if (text !== '') {
       result = {}
-      Object.keys(obj).forEach((key) => {
+      Object.keys(obj).forEach(key => {
         result[key] = filter(obj[key], text, { key: 'title' })
       })
     }
@@ -121,14 +118,14 @@ class QuickInsert extends BaseScrollFloat {
     this.render()
   }
 
-  selectItem(item) {
+  selectItem (item) {
     const { contentState } = this.muya
     this.block.text = ''
-    const { key } = this.block
-    const offset = 0
+    let { key } = this.block
+    let offset = 0
     contentState.cursor = {
       start: { key, offset },
-      end: { key, offset },
+      end: { key, offset }
     }
     switch (item.label) {
       case 'paragraph':
@@ -142,7 +139,7 @@ class QuickInsert extends BaseScrollFloat {
     setTimeout(this.hide.bind(this))
   }
 
-  getItemElement(item) {
+  getItemElement (item) {
     const { label } = item
     return this.scrollElement.querySelector(`[data-label="${label}"]`)
   }

@@ -1,9 +1,9 @@
 import selection from '../selection'
 import { findNearestParagraph, findOutMostParagraph } from '../selection/dom'
-import { tokenizer, generator } from '../parser'
+import { tokenizer, generator } from '../parser/'
 import { getImageInfo } from '../utils/getImageInfo'
 
-const backspaceCtrl = (ContentState) => {
+const backspaceCtrl = ContentState => {
   ContentState.prototype.checkBackspaceCase = function () {
     const node = selection.getSelectionStart()
     const paragraph = findNearestParagraph(node)
@@ -23,8 +23,8 @@ const backspaceCtrl = (ContentState) => {
     const { left: inLeft } = selection.getCaretOffsets(paragraph)
 
     if (
-      (parent && parent.type === 'li' && inLeft === 0 && this.isFirstChild(block))
-      || (parent && parent.type === 'li' && inLeft === 0 && parent.listItemType === 'task' && preBlock.type === 'input') // handle task item
+      (parent && parent.type === 'li' && inLeft === 0 && this.isFirstChild(block)) ||
+      (parent && parent.type === 'li' && inLeft === 0 && parent.listItemType === 'task' && preBlock.type === 'input') // handle task item
     ) {
       if (this.isOnlyChild(parent)) {
         /**
@@ -39,7 +39,7 @@ const backspaceCtrl = (ContentState) => {
          * <p>maybe has other paragraph</p>
          */
         return { type: 'LI', info: 'REPLACEMENT' }
-      } if (this.isFirstChild(parent)) {
+      } else if (this.isFirstChild(parent)) {
         /**
          * <ul>
          *   <li>
@@ -60,8 +60,8 @@ const backspaceCtrl = (ContentState) => {
          * <ul>
          */
         return { type: 'LI', info: 'REMOVE_INSERT_BEFORE' }
-      }
-      /**
+      } else {
+        /**
          * <ul>
          *   <li>
          *     <p>other list item</p>
@@ -86,12 +86,13 @@ const backspaceCtrl = (ContentState) => {
          *   </li>
          * <ul>
          */
-      return { type: 'LI', info: 'INSERT_PRE_LIST_ITEM' }
+        return { type: 'LI', info: 'INSERT_PRE_LIST_ITEM' }
+      }
     }
     if (parent && parent.type === 'blockquote' && inLeft === 0) {
       if (this.isOnlyChild(block)) {
         return { type: 'BLOCKQUOTE', info: 'REPLACEMENT' }
-      } if (this.isFirstChild(block)) {
+      } else if (this.isFirstChild(block)) {
         return { type: 'BLOCKQUOTE', info: 'INSERT_BEFORE' }
       }
     }
@@ -122,19 +123,19 @@ const backspaceCtrl = (ContentState) => {
     const endOutmostBlock = this.findOutMostBlock(endBlock)
     // Just for fix delete the last `#` or all the atx heading cause error @fixme
     if (
-      start.key === end.key
-      && startBlock.type === 'span'
-      && startBlock.functionType === 'atxLine'
+      start.key === end.key &&
+      startBlock.type === 'span' &&
+      startBlock.functionType === 'atxLine'
     ) {
       if (
-        start.offset === 0 && end.offset === startBlock.text.length
-        || start.offset === end.offset && start.offset === 1 && startBlock.text === '#'
+        start.offset === 0 && end.offset === startBlock.text.length ||
+        start.offset === end.offset && start.offset === 1 && startBlock.text === '#'
       ) {
         event.preventDefault()
         startBlock.text = ''
         this.cursor = {
           start: { key: start.key, offset: 0 },
-          end: { key: end.key, offset: 0 },
+          end: { key: end.key, offset: 0 }
         }
         this.updateToParagraph(this.getParent(startBlock), startBlock)
         return this.partialRender()
@@ -148,8 +149,8 @@ const backspaceCtrl = (ContentState) => {
     for (const token of tokens) {
       // handle delete the second $ in inline_math.
       if (
-        token.range.end === start.offset
-        && token.type === 'inline_math'
+        token.range.end === start.offset &&
+        token.type === 'inline_math'
       ) {
         needRender = true
         token.raw = token.raw.substr(0, token.raw.length - 1)
@@ -157,10 +158,10 @@ const backspaceCtrl = (ContentState) => {
       }
       // handle pre token is a <ruby> html tag, need preventdefault.
       if (
-        token.range.start + 1 === start.offset
-        && preToken
-        && preToken.type === 'html_tag'
-        && preToken.tag === 'ruby'
+        token.range.start + 1 === start.offset &&
+        preToken &&
+        preToken.type === 'html_tag' &&
+        preToken.tag === 'ruby'
       ) {
         needRender = true
         token.raw = token.raw.substr(1)
@@ -175,7 +176,7 @@ const backspaceCtrl = (ContentState) => {
       end.offset--
       this.cursor = {
         start,
-        end,
+        end
       }
       return this.partialRender()
     }
@@ -185,10 +186,10 @@ const backspaceCtrl = (ContentState) => {
     // 2. select table from the first cell to the last cell, press backsapce.
     if (/th/.test(startBlock.type) && start.offset === 0 && !startBlock.preSibling) {
       if (
-        end.offset === endBlock.text.length
-        && startOutmostBlock === endOutmostBlock
-        && !endBlock.nextSibling && !maybeLastRow.nextSibling
-        || startOutmostBlock !== endOutmostBlock
+        end.offset === endBlock.text.length &&
+        startOutmostBlock === endOutmostBlock &&
+        !endBlock.nextSibling && !maybeLastRow.nextSibling ||
+        startOutmostBlock !== endOutmostBlock
       ) {
         event.preventDefault()
         // need remove the figure block.
@@ -206,7 +207,7 @@ const backspaceCtrl = (ContentState) => {
         const offset = 0
         this.cursor = {
           start: { key, offset },
-          end: { key, offset },
+          end: { key, offset }
         }
         return this.render()
       }
@@ -221,7 +222,7 @@ const backspaceCtrl = (ContentState) => {
     const node = selection.getSelectionStart()
     const preEleSibling = node && node.nodeType === 1 ? node.previousElementSibling : null
     const paragraph = findNearestParagraph(node)
-    const { id } = paragraph
+    const id = paragraph.id
     let block = this.getBlock(id)
     let parent = this.getBlock(block.parent)
     const preBlock = this.findPreBlockInLocation(block)
@@ -239,14 +240,14 @@ const backspaceCtrl = (ContentState) => {
       if (selection.getCaretOffsets(node).left === 1 && right === 0) {
         event.stopPropagation()
         event.preventDefault()
-        const { key } = startBlock
-        const { text } = startBlock
+        const key = startBlock.key
+        const text = startBlock.text
 
         startBlock.text = text.substring(0, start.offset - 1) + text.substring(start.offset)
         const offset = start.offset - 1
         this.cursor = {
           start: { key, offset },
-          end: { key, offset },
+          end: { key, offset }
         }
         return this.singleRender(startBlock)
       }
@@ -263,7 +264,7 @@ const backspaceCtrl = (ContentState) => {
       }
     }
 
-    const tableHasContent = (table) => {
+    const tableHasContent = table => {
       const tHead = table.children[0]
       const tBody = table.children[1]
       const tHeadHasContent = tHead.children[0].children.some(th => th.text.trim())
@@ -272,10 +273,10 @@ const backspaceCtrl = (ContentState) => {
     }
 
     if (
-      block.type === 'span'
-      && block.functionType === 'codeLine'
-      && left === 0
-      && !block.preSibling
+      block.type === 'span' &&
+      block.functionType === 'codeLine' &&
+      left === 0 &&
+      !block.preSibling
     ) {
       event.preventDefault()
       event.stopPropagation()
@@ -285,7 +286,7 @@ const backspaceCtrl = (ContentState) => {
         const preBlock = this.getParent(parent)
         const pBlock = this.createBlock('p')
         const lineBlock = this.createBlock('span', { text: block.text })
-        const { key } = lineBlock
+        const key = lineBlock.key
         const offset = 0
         this.appendChild(pBlock, lineBlock)
         let referenceBlock = null
@@ -309,7 +310,7 @@ const backspaceCtrl = (ContentState) => {
 
         this.cursor = {
           start: { key, offset },
-          end: { key, offset },
+          end: { key, offset }
         }
         this.partialRender()
       }
@@ -340,7 +341,7 @@ const backspaceCtrl = (ContentState) => {
       if (key !== undefined && offset !== undefined) {
         this.cursor = {
           start: { key, offset },
-          end: { key, offset },
+          end: { key, offset }
         }
 
         this.partialRender()
@@ -357,32 +358,32 @@ const backspaceCtrl = (ContentState) => {
           break
         case 'LI': {
           if (inlineDegrade.info === 'REPLACEMENT') {
-            const { children } = parent
+            const children = parent.children
             const grandpa = this.getBlock(parent.parent)
             if (children[0].type === 'input') {
               this.removeBlock(children[0])
             }
-            children.forEach((child) => {
+            children.forEach(child => {
               this.insertBefore(child, grandpa)
             })
             this.removeBlock(grandpa)
           } else if (inlineDegrade.info === 'REMOVE_INSERT_BEFORE') {
-            const { children } = parent
+            const children = parent.children
             const grandpa = this.getBlock(parent.parent)
             if (children[0].type === 'input') {
               this.removeBlock(children[0])
             }
-            children.forEach((child) => {
+            children.forEach(child => {
               this.insertBefore(child, grandpa)
             })
             this.removeBlock(parent)
           } else if (inlineDegrade.info === 'INSERT_PRE_LIST_ITEM') {
             const parPre = this.getBlock(parent.preSibling)
-            const { children } = parent
+            const children = parent.children
             if (children[0].type === 'input') {
               this.removeBlock(children[0])
             }
-            children.forEach((child) => {
+            children.forEach(child => {
               this.appendChild(parPre, child)
             })
             this.removeBlock(parent)
@@ -404,7 +405,7 @@ const backspaceCtrl = (ContentState) => {
       const offset = 0
       this.cursor = {
         start: { key, offset },
-        end: { key, offset },
+        end: { key, offset }
       }
 
       if (inlineDegrade.type !== 'STOP') {
@@ -413,7 +414,7 @@ const backspaceCtrl = (ContentState) => {
     } else if (left === 0 && preBlock) {
       event.preventDefault()
       const { text } = block
-      const { key } = preBlock
+      const key = preBlock.key
       const offset = preBlock.text.length
       preBlock.text += text
       // If block is a line block and its parent paragraph only has one text line,
@@ -426,7 +427,7 @@ const backspaceCtrl = (ContentState) => {
 
       this.cursor = {
         start: { key, offset },
-        end: { key, offset },
+        end: { key, offset }
       }
       this.partialRender()
     }

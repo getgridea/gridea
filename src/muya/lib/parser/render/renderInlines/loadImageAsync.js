@@ -2,7 +2,7 @@ import { getUniqueId, loadImage } from '../../../utils'
 import { insertAfter, operateClassName } from '../../../utils/domManipulate'
 import { CLASS_OR_ID } from '../../../config'
 
-export default function loadImageAsync(imageInfo, alt, className, imageClass) {
+export default function loadImageAsync (imageInfo, alt, className, imageClass) {
   const { src, isUnknownType } = imageInfo
   let id
   let isSuccess
@@ -10,7 +10,7 @@ export default function loadImageAsync(imageInfo, alt, className, imageClass) {
   if (!this.loadImageMap.has(src)) {
     id = getUniqueId()
     loadImage(src, isUnknownType)
-      .then((url) => {
+      .then(url => {
         const imageText = document.querySelector(`#${id}`)
         const img = document.createElement('img')
         img.src = url
@@ -39,14 +39,14 @@ export default function loadImageAsync(imageInfo, alt, className, imageClass) {
         }
         this.loadImageMap.set(src, {
           id,
-          isSuccess: true,
+          isSuccess: true
         })
       })
       .catch(() => {
         const imageText = document.querySelector(`#${id}`)
         if (imageText) {
-          operateClassName(imageText, 'remove', CLASS_OR_ID.AG_IMAGE_LOADING)
-          operateClassName(imageText, 'add', CLASS_OR_ID.AG_IMAGE_FAIL)
+          operateClassName(imageText, 'remove', CLASS_OR_ID['AG_IMAGE_LOADING'])
+          operateClassName(imageText, 'add', CLASS_OR_ID['AG_IMAGE_FAIL'])
           const image = imageText.querySelector('img')
           if (image) {
             image.remove()
@@ -57,7 +57,7 @@ export default function loadImageAsync(imageInfo, alt, className, imageClass) {
         }
         this.loadImageMap.set(src, {
           id,
-          isSuccess: false,
+          isSuccess: false
         })
       })
   } else {

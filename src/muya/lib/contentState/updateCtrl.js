@@ -1,4 +1,4 @@
-import { tokenizer } from '../parser'
+import { tokenizer } from '../parser/'
 import { conflict } from '../utils'
 import { CLASS_OR_ID } from '../config'
 
@@ -10,18 +10,18 @@ const INLINE_UPDATE_FRAGMENTS = [
   '^(?:[\\s\\S]+?)\\n {0,3}(\\={3,}|\\-{3,})(?= {1,}|$)', // Setext headings **match from beginning**
   '(?:^|\n) {0,3}(>).+', // Block quote
   '^( {4,})', // Indent code **match from beginning**
-  '(?:^|\n) {0,3}((?:\\* *\\* *\\*|- *- *-|_ *_ *_)[ \\*\\-\\_]*)$', // Thematic break
+  '(?:^|\n) {0,3}((?:\\* *\\* *\\*|- *- *-|_ *_ *_)[ \\*\\-\\_]*)$' // Thematic break
 ]
 
 const INLINE_UPDATE_REG = new RegExp(INLINE_UPDATE_FRAGMENTS.join('|'), 'i')
 
-const updateCtrl = (ContentState) => {
+const updateCtrl = ContentState => {
   // handle task list item checkbox click
   ContentState.prototype.listItemCheckBoxClick = function (checkbox) {
     const { checked, id } = checkbox
     const block = this.getBlock(id)
     block.checked = checked
-    checkbox.classList.toggle(CLASS_OR_ID.AG_CHECKBOX_CHECKED)
+    checkbox.classList.toggle(CLASS_OR_ID['AG_CHECKBOX_CHECKED'])
   }
 
   ContentState.prototype.checkSameMarkerOrDelimiter = function (list, markerOrDelimiter) {
@@ -31,9 +31,7 @@ const updateCtrl = (ContentState) => {
 
   ContentState.prototype.checkNeedRender = function (cursor = this.cursor) {
     const { labels } = this.stateRender
-    const {
-      start: cStart, end: cEnd, anchor, focus,
-    } = cursor
+    const { start: cStart, end: cEnd, anchor, focus } = cursor
     const startBlock = this.getBlock(cStart ? cStart.key : anchor.key)
     const endBlock = this.getBlock(cEnd ? cEnd.key : focus.key)
     const startOffset = cStart ? cStart.offset : anchor.offset
@@ -81,7 +79,7 @@ const updateCtrl = (ContentState) => {
     const listItem = this.getParent(block)
     const [
       match, bullet, tasklist, order, atxHeader,
-      setextHeader, blockquote, indentCode, hr,
+      setextHeader, blockquote, indentCode, hr
     ] = text.match(INLINE_UPDATE_REG) || []
 
     switch (true) {
@@ -120,7 +118,7 @@ const updateCtrl = (ContentState) => {
   ContentState.prototype.updateHr = function (block, marker, line) {
     // If the block is already thematic break, no need to update.
     if (block.type === 'hr') return null
-    const { text } = line
+    const text = line.text
     const lines = text.split('\n')
     const preParagraphLines = []
     let thematicLine = ''
@@ -141,7 +139,7 @@ const updateCtrl = (ContentState) => {
     const thematicBlock = this.createBlock('hr')
     const thematicLineBlock = this.createBlock('span', {
       text: thematicLine,
-      functionType: 'thematicBreakLine',
+      functionType: 'thematicBreakLine'
     })
     this.appendChild(thematicBlock, thematicLineBlock)
     this.insertBefore(thematicBlock, block)
@@ -156,10 +154,10 @@ const updateCtrl = (ContentState) => {
 
     this.removeBlock(block)
     const { start, end } = this.cursor
-    const { key } = thematicBlock.children[0]
+    const key = thematicBlock.children[0].key
     this.cursor = {
       start: { key, offset: start.offset },
-      end: { key, offset: end.offset },
+      end: { key, offset: end.offset }
     }
     return thematicBlock
   }
@@ -173,7 +171,7 @@ const updateCtrl = (ContentState) => {
     const endOffset = end.offset
     const newListItemBlock = this.createBlock('li')
     const LIST_ITEM_REG = /^ {0,3}(?:[*+-]|\d{1,9}(?:\.|\))) {0,4}/
-    const { text } = line
+    const text = line.text
     const lines = text.split('\n')
 
     const preParagraphLines = []
@@ -225,10 +223,10 @@ const updateCtrl = (ContentState) => {
     // Special cases for CommonMark 264 and 265: Changing the bullet or ordered list delimiter starts a new list.
     // Same list type or new list
     if (
-      preSibling
-      && this.checkSameMarkerOrDelimiter(preSibling, bulletMarkerOrDelimiter)
-      && nextSibling
-      && this.checkSameMarkerOrDelimiter(nextSibling, bulletMarkerOrDelimiter)
+      preSibling &&
+      this.checkSameMarkerOrDelimiter(preSibling, bulletMarkerOrDelimiter) &&
+      nextSibling &&
+      this.checkSameMarkerOrDelimiter(nextSibling, bulletMarkerOrDelimiter)
     ) {
       this.appendChild(preSibling, newListItemBlock)
       const partChildren = nextSibling.children.splice(0)
@@ -238,16 +236,16 @@ const updateCtrl = (ContentState) => {
       const isLooseListItem = preSibling.children.some(c => c.isLooseListItem)
       preSibling.children.forEach(c => c.isLooseListItem = isLooseListItem)
     } else if (
-      preSibling
-      && this.checkSameMarkerOrDelimiter(preSibling, bulletMarkerOrDelimiter)
+      preSibling &&
+      this.checkSameMarkerOrDelimiter(preSibling, bulletMarkerOrDelimiter)
     ) {
       this.appendChild(preSibling, newListItemBlock)
       this.removeBlock(block)
       const isLooseListItem = preSibling.children.some(c => c.isLooseListItem)
       preSibling.children.forEach(c => c.isLooseListItem = isLooseListItem)
     } else if (
-      nextSibling
-      && this.checkSameMarkerOrDelimiter(nextSibling, bulletMarkerOrDelimiter)
+      nextSibling &&
+      this.checkSameMarkerOrDelimiter(nextSibling, bulletMarkerOrDelimiter)
     ) {
       this.insertBefore(newListItemBlock, nextSibling.children[0])
       this.removeBlock(block)
@@ -256,7 +254,7 @@ const updateCtrl = (ContentState) => {
     } else {
       // Create a new list when changing list type, bullet or list delimiter
       const listBlock = this.createBlock(wrapperTag, {
-        listType: type,
+        listType: type
       })
 
       if (wrapperTag === 'ol') {
@@ -278,18 +276,19 @@ const updateCtrl = (ContentState) => {
     this.cursor = {
       start: {
         key,
-        offset: Math.max(0, startOffset - delta),
+        offset: Math.max(0, startOffset - delta)
       },
       end: {
         key,
-        offset: Math.max(0, endOffset - delta),
-      },
+        offset: Math.max(0, endOffset - delta)
+      }
     }
     if (TASK_LIST_REG.test(listItemText)) {
-      const [,, tasklist,,,, ] = listItemText.match(INLINE_UPDATE_REG) || []
+      const [,,tasklist,,,,] = listItemText.match(INLINE_UPDATE_REG) || []
       return this.updateTaskListItem(block, 'tasklist', tasklist)
+    } else {
+      return block
     }
-    return block
   }
 
   ContentState.prototype.updateTaskListItem = function (block, type, marker = '') {
@@ -298,7 +297,7 @@ const updateCtrl = (ContentState) => {
     const grandpa = this.getParent(parent)
     const checked = /\[x\]\s/i.test(marker) // use `i` flag to ignore upper case or lower case
     const checkbox = this.createBlock('input', {
-      checked,
+      checked
     })
     const { start, end } = this.cursor
 
@@ -312,7 +311,7 @@ const updateCtrl = (ContentState) => {
       grandpa.listType = 'task'
     } else if (this.isFirstChild(parent) || this.isLastChild(parent)) {
       taskListWrapper = this.createBlock('ul', {
-        listType: 'task',
+        listType: 'task'
       })
 
       this.isFirstChild(parent) ? this.insertBefore(taskListWrapper, grandpa) : this.insertAfter(taskListWrapper, grandpa)
@@ -320,11 +319,11 @@ const updateCtrl = (ContentState) => {
       this.appendChild(taskListWrapper, parent)
     } else {
       taskListWrapper = this.createBlock('ul', {
-        listType: 'task',
+        listType: 'task'
       })
 
       const bulletListWrapper = this.createBlock('ul', {
-        listType: 'bullet',
+        listType: 'bullet'
       })
 
       let preSibling = this.getPreSibling(parent)
@@ -348,12 +347,12 @@ const updateCtrl = (ContentState) => {
     this.cursor = {
       start: {
         key: start.key,
-        offset: Math.max(0, start.offset - marker.length),
+        offset: Math.max(0, start.offset - marker.length)
       },
       end: {
         key: end.key,
-        offset: Math.max(0, end.offset - marker.length),
-      },
+        offset: Math.max(0, end.offset - marker.length)
+      }
     }
     return taskListWrapper || grandpa
   }
@@ -365,7 +364,7 @@ const updateCtrl = (ContentState) => {
     if (block.type === newType && block.headingStyle === headingStyle) {
       return null
     }
-    const { text } = line
+    const text = line.text
     const lines = text.split('\n')
     const preParagraphLines = []
     let atxLine = ''
@@ -384,11 +383,11 @@ const updateCtrl = (ContentState) => {
     }
 
     const atxBlock = this.createBlock(newType, {
-      headingStyle,
+      headingStyle
     })
     const atxLineBlock = this.createBlock('span', {
       text: atxLine,
-      functionType: 'atxLine',
+      functionType: 'atxLine'
     })
     this.appendChild(atxBlock, atxLineBlock)
     this.insertBefore(atxBlock, block)
@@ -404,10 +403,10 @@ const updateCtrl = (ContentState) => {
     this.removeBlock(block)
 
     const { start, end } = this.cursor
-    const { key } = atxBlock.children[0]
+    const key = atxBlock.children[0].key
     this.cursor = {
       start: { key, offset: start.offset },
-      end: { key, offset: end.offset },
+      end: { key, offset: end.offset }
     }
     return atxBlock
   }
@@ -419,9 +418,9 @@ const updateCtrl = (ContentState) => {
       return null
     }
 
-    const { text } = line
+    const text = line.text
     const lines = text.split('\n')
-    const setextLines = []
+    let setextLines = []
     const postParagraphLines = []
     let setextLineHasPushed = false
 
@@ -437,11 +436,11 @@ const updateCtrl = (ContentState) => {
 
     const setextBlock = this.createBlock(newType, {
       headingStyle,
-      marker,
+      marker
     })
     const setextLineBlock = this.createBlock('span', {
       text: setextLines.join('\n'),
-      functionType: 'paragraphContent',
+      functionType: 'paragraphContent'
     })
     this.appendChild(setextBlock, setextLineBlock)
     this.insertBefore(setextBlock, block)
@@ -453,22 +452,22 @@ const updateCtrl = (ContentState) => {
 
     this.removeBlock(block)
 
-    const { key } = setextBlock.children[0]
+    const key = setextBlock.children[0].key
     const offset = setextBlock.children[0].text.length
 
     this.cursor = {
       start: { key, offset },
-      end: { key, offset },
+      end: { key, offset }
     }
 
     return setextBlock
   }
 
   ContentState.prototype.updateBlockQuote = function (block, line) {
-    const { text } = line
+    const text = line.text
     const lines = text.split('\n')
     const preParagraphLines = []
-    const quoteLines = []
+    let quoteLines = []
     let quoteLinesHasPushed = false
 
     for (const l of lines) {
@@ -484,14 +483,14 @@ const updateCtrl = (ContentState) => {
     let quoteParagraphBlock
     if (/^h\d/.test(block.type)) {
       quoteParagraphBlock = this.createBlock(block.type, {
-        headingStyle: block.headingStyle,
+        headingStyle: block.headingStyle
       })
       if (block.headingStyle === 'setext') {
         quoteParagraphBlock.marker = block.marker
       }
       const headerContent = this.createBlock('span', {
         text: quoteLines.join('\n'),
-        functionType: block.headingStyle === 'setext' ? 'paragraphContent' : 'atxLine',
+        functionType: block.headingStyle === 'setext'? 'paragraphContent' : 'atxLine'
       })
       this.appendChild(quoteParagraphBlock, headerContent)
     } else {
@@ -509,11 +508,11 @@ const updateCtrl = (ContentState) => {
 
     this.removeBlock(block)
 
-    const { key } = quoteParagraphBlock.children[0]
+    const key = quoteParagraphBlock.children[0].key
     const { start, end } = this.cursor
     this.cursor = {
       start: { key, offset: start.offset - 1 },
-      end: { key, offset: end.offset - 1 },
+      end: { key, offset: end.offset - 1 }
     }
 
     return quoteBlock
@@ -521,14 +520,14 @@ const updateCtrl = (ContentState) => {
 
   ContentState.prototype.updateIndentCode = function (block, line) {
     const codeBlock = this.createBlock('code', {
-      lang: '',
+      lang: ''
     })
     const inputBlock = this.createBlock('span', {
-      functionType: 'languageInput',
+      functionType: 'languageInput'
     })
     const preBlock = this.createBlock('pre', {
       functionType: 'indentcode',
-      lang: '',
+      lang: ''
     })
 
     const text = line ? line.text : block.text
@@ -546,11 +545,11 @@ const updateCtrl = (ContentState) => {
         paragraphLines.push(l)
       }
     }
-    codeLines.forEach((text) => {
+    codeLines.forEach(text => {
       const codeLine = this.createBlock('span', {
         text,
         functionType: 'codeLine',
-        lang: '',
+        lang: ''
       })
       this.appendChild(codeBlock, codeLine)
     })
@@ -561,7 +560,7 @@ const updateCtrl = (ContentState) => {
 
     if (paragraphLines.length > 0 && line) {
       const newLine = this.createBlock('span', {
-        text: paragraphLines.join('\n'),
+        text: paragraphLines.join('\n')
       })
       this.insertBefore(newLine, line)
       this.removeBlock(line)
@@ -569,11 +568,11 @@ const updateCtrl = (ContentState) => {
       this.removeBlock(block)
     }
 
-    const { key } = codeBlock.children[0]
+    const key = codeBlock.children[0].key
     const { start, end } = this.cursor
     this.cursor = {
       start: { key, offset: start.offset - 4 },
-      end: { key, offset: end.offset - 4 },
+      end: { key, offset: end.offset - 4 }
     }
     return preBlock
   }
@@ -589,10 +588,10 @@ const updateCtrl = (ContentState) => {
       this.insertBefore(newBlock, block)
       this.removeBlock(block)
       const { start, end } = this.cursor
-      const { key } = newBlock.children[0]
+      const key = newBlock.children[0].key
       this.cursor = {
         start: { key, offset: start.offset },
-        end: { key, offset: end.offset },
+        end: { key, offset: end.offset }
       }
       return block
     }

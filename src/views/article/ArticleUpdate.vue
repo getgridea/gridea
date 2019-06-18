@@ -2,6 +2,7 @@
   <div class="article-update-page" v-if="visible">
     <div class="page-title">
       <a-row type="flex" justify="end">
+        <a-button class="btn" @click="showPostSettings">Post Settings</a-button>
         <a-button class="btn" @click="close">{{ $t('cancel') }}</a-button>
         <a-button class="btn" :disabled="!canSubmit" @click="saveDraft">{{ $t('saveDraft') }}</a-button>
         <a-button class="btn" type="primary" :disabled="!canSubmit" @click="savePost">{{ $t('save') }}</a-button>
@@ -9,7 +10,7 @@
     </div>
     <div class="page-content">
       <a-row :gutter="16">
-        <a-col :span="16">
+        <a-col :span="16" :offset="4">
           <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
           <div class="tip-text">{{ $t('editorTip') }}</div>
           <!-- <markdown-editor
@@ -23,64 +24,72 @@
           ></markdown-editor> -->
           <muya-editor ref="muyaEditor" @updateContent="updateContent"></muya-editor>
         </a-col>
-        <a-col :span="8" class="right-container">
-          <a-collapse v-model="activeKey">
-            <a-collapse-panel header="URL" key="1">
-              <a-input v-model="form.fileName" @change="handleFileNameChange"></a-input>
-            </a-collapse-panel>
-            <a-collapse-panel :header="$t('tag')" key="2">
-              <div>
-                <a-select mode="multiple" style="width: 100%" v-model="form.tags">
-                  <a-select-option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</a-select-option>
-                </a-select>
-              </div>
-            </a-collapse-panel>
-            <a-collapse-panel :header="$t('createAt')" key="3">
-              <a-date-picker
-                showTime
-                format="YYYY-MM-DD HH:mm:ss"
-                v-model="form.date"
-                style="width: 100%"
-              />
-            </a-collapse-panel>
-
-            <a-collapse-panel :header="$t('featureImage')" key="4">
-              <a-radio-group style="margin-bottom: 16px;" defaultValue="a" buttonStyle="solid" v-model="featureType" size="small">
-                <a-radio-button value="DEFAULT">默认</a-radio-button>
-                <a-radio-button value="EXTERNAL">外链</a-radio-button>
-              </a-radio-group>
-              <div v-if="featureType === 'DEFAULT'">
-                <a-upload
-                  action=""
-                  listType="picture-card"
-                  class="feature-uploader"
-                  :showUploadList="false"
-                  :beforeUpload="beforeFeatureUpload"
-                >
-                  <div v-if="form.featureImage.path">
-                    <img class="feature-image" :src="`file://${form.featureImage.path}`" height="150" />
-                  </div>
-                  <div v-else>
-                    <a-icon type="plus" />
-                    <div class="ant-upload-text">Upload</div>
-                  </div>
-                </a-upload>
-                <a-button v-if="form.featureImage.path" type="danger" block icon="delete" @click="form.featureImage = {}" />
-              </div>
-              <div v-if="featureType === 'EXTERNAL'">
-                <a-input v-model="form.featureImagePath"></a-input>
-                <div class="tip-text">路径必须包含 http 或 https</div>
-                <div class="feature-image-container" v-if="form.featureImagePath">
-                  <img class="feature-image" :src="form.featureImagePath" height="150">
-                </div>
-              </div>
-            </a-collapse-panel>
-            <a-collapse-panel :header="$t('hideInList')" key="5">
-              <a-switch v-model="form.hideInList"></a-switch>
-            </a-collapse-panel>
-          </a-collapse>
-        </a-col>
       </a-row>
+
+      <a-drawer
+        title="Post Settings"
+        placement="right"
+        :visible="postSettingVisible"
+        @close="postSettingVisible = false"
+        width="400"
+        :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px', zIndex: 3000}"
+      >
+        <a-collapse v-model="activeKey">
+          <a-collapse-panel header="URL" key="1">
+            <a-input v-model="form.fileName" @change="handleFileNameChange"></a-input>
+          </a-collapse-panel>
+          <a-collapse-panel :header="$t('tag')" key="2">
+            <div>
+              <a-select mode="multiple" style="width: 100%" v-model="form.tags">
+                <a-select-option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</a-select-option>
+              </a-select>
+            </div>
+          </a-collapse-panel>
+          <a-collapse-panel :header="$t('createAt')" key="3">
+            <a-date-picker
+              showTime
+              format="YYYY-MM-DD HH:mm:ss"
+              v-model="form.date"
+              style="width: 100%"
+            />
+          </a-collapse-panel>
+
+          <a-collapse-panel :header="$t('featureImage')" key="4">
+            <a-radio-group style="margin-bottom: 16px;" defaultValue="a" buttonStyle="solid" v-model="featureType" size="small">
+              <a-radio-button value="DEFAULT">默认</a-radio-button>
+              <a-radio-button value="EXTERNAL">外链</a-radio-button>
+            </a-radio-group>
+            <div v-if="featureType === 'DEFAULT'">
+              <a-upload
+                action=""
+                listType="picture-card"
+                class="feature-uploader"
+                :showUploadList="false"
+                :beforeUpload="beforeFeatureUpload"
+              >
+                <div v-if="form.featureImage.path">
+                  <img class="feature-image" :src="`file://${form.featureImage.path}`" height="150" />
+                </div>
+                <div v-else>
+                  <a-icon type="plus" />
+                  <div class="ant-upload-text">Upload</div>
+                </div>
+              </a-upload>
+              <a-button v-if="form.featureImage.path" type="danger" block icon="delete" @click="form.featureImage = {}" />
+            </div>
+            <div v-if="featureType === 'EXTERNAL'">
+              <a-input v-model="form.featureImagePath"></a-input>
+              <div class="tip-text">路径必须包含 http 或 https</div>
+              <div class="feature-image-container" v-if="form.featureImagePath">
+                <img class="feature-image" :src="form.featureImagePath" height="150">
+              </div>
+            </div>
+          </a-collapse-panel>
+          <a-collapse-panel :header="$t('hideInList')" key="5">
+            <a-switch v-model="form.hideInList"></a-switch>
+          </a-collapse-panel>
+        </a-collapse>
+      </a-drawer>
 
       <!-- 编辑器点击图片上传用 -->
       <input ref="uploadInput" class="upload-input" type="file" accept="image/*" @change="fileChangeHandler">
@@ -111,6 +120,8 @@ export default class ArticleUpdate extends Vue {
   @Prop(Boolean) visible!: boolean
 
   @Prop(String) articleFileName!: string
+
+  postSettingVisible = false
 
   $refs!: {
     editor: any,
@@ -193,6 +204,11 @@ export default class ArticleUpdate extends Vue {
   mounted() {
     this.buildCurrentForm()
     // this.initEditor()
+  }
+
+  showPostSettings() {
+    console.log('clicked')
+    this.postSettingVisible = true
   }
 
   updateContent(content: any) {

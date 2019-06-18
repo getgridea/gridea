@@ -1,6 +1,6 @@
 import selection from '../selection'
 
-const deleteCtrl = (ContentState) => {
+const deleteCtrl = ContentState => {
   ContentState.prototype.deleteHandler = function (event) {
     const { start, end } = selection.getCursorRange()
     if (!start || !end) {
@@ -19,8 +19,8 @@ const deleteCtrl = (ContentState) => {
     // Only handle h1~h6 span block
     const { type, text, key } = startBlock
     if (
-      /h\d|span/.test(type)
-      && start.offset === text.length
+      /h\d|span/.test(type) &&
+      start.offset === text.length
     ) {
       event.preventDefault()
       if (nextBlock && /h\d|span/.test(nextBlock.type)) {
@@ -30,7 +30,7 @@ const deleteCtrl = (ContentState) => {
         }
         startBlock.text += nextBlock.text
 
-        const toBeRemoved = [nextBlock]
+        const toBeRemoved = [ nextBlock ]
 
         let parent = this.getParent(nextBlock)
         let target = nextBlock
@@ -43,10 +43,10 @@ const deleteCtrl = (ContentState) => {
 
         toBeRemoved.forEach(b => this.removeBlock(b))
 
-        const { offset } = start
+        const offset = start.offset
         this.cursor = {
           start: { key, offset },
-          end: { key, offset },
+          end: { key, offset }
         }
         this.render()
       }

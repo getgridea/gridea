@@ -5,12 +5,12 @@ const checkAutoIndent = (text, offset) => {
   const pairStr = text.substring(offset - 1, offset + 1)
   return /^(\{\}|\[\]|\(\)|><)$/.test(pairStr)
 }
-const getIndentSpace = (text) => {
+const getIndentSpace = text => {
   const match = /^(\s*)\S/.exec(text)
   return match ? match[1] : ''
 }
 
-const enterCtrl = (ContentState) => {
+const enterCtrl = ContentState => {
   // TODO@jocs this function need opti.
   ContentState.prototype.chopBlockByCursor = function (block, key, offset) {
     const newBlock = this.createBlock('p')
@@ -37,12 +37,12 @@ const enterCtrl = (ContentState) => {
 
   ContentState.prototype.chopBlock = function (block) {
     const parent = this.getParent(block)
-    const { type } = parent
+    const type = parent.type
     const container = this.createBlock(type)
     const index = this.findIndex(parent.children, block)
     const partChildren = parent.children.splice(index + 1)
     block.nextSibling = null
-    partChildren.forEach((b) => {
+    partChildren.forEach(b => {
       this.appendChild(container, b)
     })
     this.insertAfter(container, parent)
@@ -139,7 +139,7 @@ const enterCtrl = (ContentState) => {
     const offset = 0
     this.cursor = {
       start: { key, offset },
-      end: { key, offset },
+      end: { key, offset }
     }
     return this.partialRender()
   }
@@ -155,18 +155,19 @@ const enterCtrl = (ContentState) => {
       const imageWrapper = document.querySelector(`#${imageId}`)
       const rect = imageWrapper.getBoundingClientRect()
       const reference = {
-        getBoundingClientRect() {
+        getBoundingClientRect () {
           rect.height = 0 // Put image selector bellow the top border of image.
           return rect
-        },
+        }
       }
 
       eventCenter.dispatch('muya-image-selector', {
         reference,
         imageInfo,
-        cb: () => {},
+        cb: () => {}
       })
       this.selectedImage = null
+      return
     }
   }
 
@@ -191,8 +192,8 @@ const enterCtrl = (ContentState) => {
     }
     // handle select multiple blocks
     if (start.key !== end.key) {
-      const { key } = start
-      const { offset } = start
+      const key = start.key
+      const offset = start.offset
 
       const startRemainText = block.text.substring(0, start.offset)
 
@@ -203,7 +204,7 @@ const enterCtrl = (ContentState) => {
       this.removeBlocks(block, endBlock)
       this.cursor = {
         start: { key, offset },
-        end: { key, offset },
+        end: { key, offset }
       }
       this.partialRender()
       return this.enterHandler(event)
@@ -211,12 +212,12 @@ const enterCtrl = (ContentState) => {
 
     // handle select multiple charactors
     if (start.key === end.key && start.offset !== end.offset) {
-      const { key } = start
-      const { offset } = start
+      const key = start.key
+      const offset = start.offset
       block.text = block.text.substring(0, start.offset) + block.text.substring(end.offset)
       this.cursor = {
         start: { key, offset },
-        end: { key, offset },
+        end: { key, offset }
       }
       this.partialRender()
       return this.enterHandler(event)
@@ -229,15 +230,15 @@ const enterCtrl = (ContentState) => {
       let { offset } = start
       const { text, key } = block
       const indent = getIndentSpace(text)
-      block.text = `${text.substring(0, offset)}\n${indent}${text.substring(offset)}`
+      block.text = text.substring(0, offset) + '\n' + indent + text.substring(offset)
 
       offset += 1 + indent.length
       this.cursor = {
         start: { key, offset },
-        end: { key, offset },
+        end: { key, offset }
       }
       return this.partialRender()
-    } if (
+    } else if (
       block.type === 'span' && block.functionType === 'codeLine'
     ) {
       const { text } = block
@@ -248,7 +249,7 @@ const enterCtrl = (ContentState) => {
       const newLine = this.createBlock('span', {
         text: `${indent}${newLineText}`,
         functionType: block.functionType,
-        lang: block.lang,
+        lang: block.lang
       })
 
       this.insertAfter(newLine, block)
@@ -256,7 +257,7 @@ const enterCtrl = (ContentState) => {
       let offset = indent.length
       if (autoIndent) {
         const emptyLine = this.createBlock('span', {
-          text: indent + ' '.repeat(this.tabSize),
+          text: indent + ' '.repeat(this.tabSize)
         })
         emptyLine.functionType = block.functionType
         emptyLine.lang = block.lang
@@ -267,7 +268,7 @@ const enterCtrl = (ContentState) => {
 
       this.cursor = {
         start: { key, offset },
-        end: { key, offset },
+        end: { key, offset }
       }
       return this.partialRender()
     }
@@ -282,12 +283,12 @@ const enterCtrl = (ContentState) => {
       const offset = start.offset + brTag.length
       this.cursor = {
         start: { key, offset },
-        end: { key, offset },
+        end: { key, offset }
       }
-      return this.partialRender([block])
+      return this.partialRender([ block ])
     }
 
-    const getFirstBlockInNextRow = (row) => {
+    const getFirstBlockInNextRow = row => {
       let nextSibling = this.getBlock(row.nextSibling)
       if (!nextSibling) {
         const rowContainer = this.getBlock(row.parent)
@@ -312,8 +313,8 @@ const enterCtrl = (ContentState) => {
       const table = this.getBlock(rowContainer.parent)
 
       if (
-        (isOsx && event.metaKey)
-        || (!isOsx && event.ctrlKey)
+        (isOsx && event.metaKey) ||
+        (!isOsx && event.ctrlKey)
       ) {
         const nextRow = this.createRow(row)
         if (rowContainer.type === 'thead') {
@@ -330,7 +331,7 @@ const enterCtrl = (ContentState) => {
 
       this.cursor = {
         start: { key, offset },
-        end: { key, offset },
+        end: { key, offset }
       }
       return this.partialRender()
     }
@@ -341,15 +342,15 @@ const enterCtrl = (ContentState) => {
     }
     const paragraph = document.querySelector(`#${block.key}`)
     if (
-      (parent && parent.type === 'li' && this.isOnlyChild(block))
-      || (parent && parent.type === 'li' && parent.listItemType === 'task' && parent.children.length === 2) // one `input` and one `p`
+      (parent && parent.type === 'li' && this.isOnlyChild(block)) ||
+      (parent && parent.type === 'li' && parent.listItemType === 'task' && parent.children.length === 2) // one `input` and one `p`
     ) {
       block = parent
       parent = this.getParent(block)
     }
     const left = start.offset
     const right = text.length - left
-    const { type } = block
+    const type = block.type
     let newBlock
 
     switch (true) {
@@ -364,11 +365,11 @@ const enterCtrl = (ContentState) => {
           }
           block.text = pre
           newBlock = this.createBlock(type, {
-            headingStyle: block.headingStyle,
+            headingStyle: block.headingStyle
           })
           const headerContent = this.createBlock('span', {
             text: post,
-            functionType: block.headingStyle === 'atx' ? 'atxLine' : 'paragraphContent',
+            functionType: block.headingStyle === 'atx'? 'atxLine' : 'paragraphContent'
           })
           this.appendChild(newBlock, headerContent)
           if (block.marker) {
@@ -394,10 +395,10 @@ const enterCtrl = (ContentState) => {
         break
       }
       case left === 0 && right === 0: {
-        // paragraph is empty
-        return this.enterInEmptyParagraph(block)
+         // paragraph is empty
+         return this.enterInEmptyParagraph(block)
       }
-      case left !== 0 && right === 0:
+      case left !== 0 && right === 0: 
       case left === 0 && right !== 0: {
         // cursor at end of paragraph or at begin of paragraph
         if (type === 'li') {
@@ -435,20 +436,21 @@ const enterCtrl = (ContentState) => {
       }
     }
 
-    const getParagraphBlock = (block) => {
+    const getParagraphBlock = block => {
       if (block.type === 'li') {
         return block.listItemType === 'task' ? block.children[1] : block.children[0]
+      } else {
+        return block
       }
-      return block
     }
 
     this.codeBlockUpdate(getParagraphBlock(newBlock))
     // If block is pre block when updated, need to focus it.
     const preParagraphBlock = getParagraphBlock(block)
     const blockNeedFocus = this.codeBlockUpdate(preParagraphBlock)
-    const tableNeedFocus = this.tableBlockUpdate(preParagraphBlock)
-    const htmlNeedFocus = this.updateHtmlBlock(preParagraphBlock)
-    const mathNeedFocus = this.updateMathBlock(preParagraphBlock)
+    let tableNeedFocus = this.tableBlockUpdate(preParagraphBlock)
+    let htmlNeedFocus = this.updateHtmlBlock(preParagraphBlock)
+    let mathNeedFocus = this.updateMathBlock(preParagraphBlock)
     let cursorBlock
 
     switch (true) {
@@ -474,7 +476,7 @@ const enterCtrl = (ContentState) => {
     const offset = 0
     this.cursor = {
       start: { key, offset },
-      end: { key, offset },
+      end: { key, offset }
     }
     this.partialRender()
   }

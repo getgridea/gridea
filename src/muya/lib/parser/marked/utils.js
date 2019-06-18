@@ -2,13 +2,15 @@
  * Helpers
  */
 
-export const escape = function escape(html, encode) {
+export const escape = function escape (html, encode) {
   if (encode) {
     if (escape.escapeTest.test(html)) {
-      return html.replace(escape.escapeReplace, (ch) => { return escape.replacements[ch] })
+      return html.replace(escape.escapeReplace, function (ch) { return escape.replacements[ch] })
     }
-  } else if (escape.escapeTestNoEncode.test(html)) {
-    return html.replace(escape.escapeReplaceNoEncode, (ch) => { return escape.replacements[ch] })
+  } else {
+    if (escape.escapeTestNoEncode.test(html)) {
+      return html.replace(escape.escapeReplaceNoEncode, function (ch) { return escape.replacements[ch] })
+    }
   }
 
   return html
@@ -21,15 +23,15 @@ escape.replacements = {
   '<': '&lt;',
   '>': '&gt;',
   '"': '&quot;',
-  '\'': '&#39;',
+  "'": '&#39;'
 }
 
 escape.escapeTestNoEncode = /[<>"']|&(?!#?\w+;)/
 escape.escapeReplaceNoEncode = /[<>"']|&(?!#?\w+;)/g
 
-export const unescape = function unescape(html) {
+export const unescape = function unescape (html) {
   // explicitly match decimal, hex, and named HTML entities
-  return html.replace(/&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/ig, (_, n) => {
+  return html.replace(/&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/ig, function(_, n) {
     n = n.toLowerCase()
     if (n === 'colon') return ':'
     if (n.charAt(0) === '#') {
@@ -41,19 +43,19 @@ export const unescape = function unescape(html) {
   })
 }
 
-export const edit = function edit(regex, opt) {
+export const edit = function edit (regex, opt) {
   regex = regex.source || regex
   opt = opt || ''
   return {
-    replace: function (name, val) {
+    replace: function(name, val) {
       val = val.source || val
       val = val.replace(/(^|[^\[])\^/g, '$1') // eslint-disable-line no-useless-escape
       regex = regex.replace(name, val)
       return this
     },
-    getRegex: function () {
+    getRegex: function() {
       return new RegExp(regex, opt)
-    },
+    }
   }
 }
 
@@ -83,48 +85,50 @@ export const cleanUrl = function cleanUrl(sanitize, base, href) {
 }
 
 const resolveUrl = function resolveUrl(base, href) {
-  if (!baseUrls[` ${base}`]) {
+  if (!baseUrls[' ' + base]) {
     // we can ignore everything in base after the last slash of its path component,
     // but we might need to add _that_
     // https://tools.ietf.org/html/rfc3986#section-3
     if (/^[^:]+:\/*[^/]*$/.test(base)) {
-      baseUrls[` ${base}`] = `${base}/`
+      baseUrls[' ' + base] = base + '/'
     } else {
-      baseUrls[` ${base}`] = rtrim(base, '/', true)
+      baseUrls[' ' + base] = rtrim(base, '/', true)
     }
   }
-  base = baseUrls[` ${base}`]
+  base = baseUrls[' ' + base]
 
   if (href.slice(0, 2) === '//') {
     return base.replace(/:[\s\S]*/, ':') + href
-  } if (href.charAt(0) === '/') {
+  } else if (href.charAt(0) === '/') {
     return base.replace(/(:\/*[^/]*)[\s\S]*/, '$1') + href
+  } else {
+    return base + href
   }
-  return base + href
 }
 let baseUrls = {}
 let originIndependentUrl = /^$|^[a-z][a-z0-9+.-]*:|^[?#]/i
 
-export const noop = function noop() {}
+export const noop = function noop () {}
 noop.exec = noop
 
 export const splitCells = function splitCells(tableRow, count) {
   // ensure that every cell-delimiting pipe has a space
   // before it to distinguish it from an escaped pipe
-  const row = tableRow.replace(/\|/g, (match, offset, str) => {
-    let escaped = false
-    let curr = offset
+  let row = tableRow.replace(/\|/g, function (match, offset, str) {
+    let escaped = false,
+    curr = offset
     while (--curr >= 0 && str[curr] === '\\') escaped = !escaped
     if (escaped) {
       // odd number of slashes means | is escaped
       // so we leave it alone
       return '|'
+    } else {
+      // add space before unescaped |
+      return ' |'
     }
-    // add space before unescaped |
-    return ' |'
-  })
-  const cells = row.split(/ \|/)
-  let i = 0
+  }),
+  cells = row.split(/ \|/),
+  i = 0
 
   if (cells.length > count) {
     cells.splice(count)
@@ -152,7 +156,7 @@ export const rtrim = function rtrim(str, c, invert) {
 
   // Step left until we fail to match the invert condition.
   while (suffLen < str.length) {
-    const currChar = str.charAt(str.length - suffLen - 1)
+    let currChar = str.charAt(str.length - suffLen - 1)
     if (currChar === c && !invert) {
       suffLen++
     } else if (currChar !== c && invert) {
@@ -184,3 +188,4 @@ export const findClosingBracket = function findClosingBracket(str, b) {
   }
   return -1
 }
+

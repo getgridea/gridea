@@ -3,6 +3,7 @@
 </template>
 
 <script lang="ts">
+import { ipcRenderer } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import Muya from '../muya/lib'
 import TablePicker from '../muya/lib/ui/tablePicker'
@@ -13,6 +14,7 @@ import ImagePathPicker from '../muya/lib/ui/imagePicker'
 import ImageSelector from '../muya/lib/ui/imageSelector'
 import FormatPicker from '../muya/lib/ui/formatPicker'
 import FrontMenu from '../muya/lib/ui/frontMenu'
+import bus from '../helpers/bus'
 
 
 @Component
@@ -22,6 +24,14 @@ export default class ArticleUpdate extends Vue {
   content: string = ''
 
   created() {
+    ipcRenderer.on('editor-undo', () => {
+      this.editor && this.editor.undo()
+    })
+
+    ipcRenderer.on('editor-redo', () => {
+      this.editor && this.editor.redo()
+    })
+    
     this.$nextTick(() => {
       const ele = this.$refs.editor
 
@@ -47,5 +57,4 @@ export default class ArticleUpdate extends Vue {
 </script>
 
 <style lang="less" scoped>
-@import '../muya/themes/default.css';
 </style>

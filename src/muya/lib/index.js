@@ -13,12 +13,10 @@ import './assets/styles/index.css'
 
 class Muya {
   static plugins = []
-
-  static use(plugin) {
+  static use (plugin) {
     this.plugins.push(plugin)
   }
-
-  constructor(container, options) {
+  constructor (container, options) {
     this.options = Object.assign({}, MUYA_DEFAULT_OPTION, options)
     const { markdown } = this.options
     this.markdown = markdown
@@ -40,7 +38,7 @@ class Muya {
     this.init()
   }
 
-  init() {
+  init () {
     const { container, contentState, eventCenter } = this
     contentState.stateRender.setContainer(container.children[0])
     eventCenter.subscribe('stateChange', this.dispatchChange)
@@ -57,7 +55,7 @@ class Muya {
     })
   }
 
-  mutationObserver() {
+  mutationObserver () {
     // Select the node that will be observed for mutations
     const { container } = this
 
@@ -65,8 +63,8 @@ class Muya {
     const config = { childList: true, subtree: true }
 
     // Callback function to execute when mutations are observed
-    const callback = function (mutationsList, observer) {
-      for (const mutation of mutationsList) {
+    const callback = function(mutationsList, observer) {
+      for(const mutation of mutationsList) {
         if (mutation.type === 'childList') {
           const { removedNodes, target } = mutation
           // If the code executes any of the following `if` statements, the editor has gone wrong.
@@ -100,52 +98,50 @@ class Muya {
     const cursor = this.getCursor()
     const history = this.getHistory()
     const toc = this.getTOC()
-    eventCenter.dispatch('change', {
-      markdown, wordCount, cursor, history, toc,
-    })
+    eventCenter.dispatch('change', { markdown, wordCount, cursor, history, toc })
   }
 
-  getMarkdown() {
+  getMarkdown () {
     const blocks = this.contentState.getBlocks()
-    const { listIndentation } = this.contentState
+    const listIndentation = this.contentState.listIndentation
     return new ExportMarkdown(blocks, listIndentation).generate()
   }
 
-  getHistory() {
+  getHistory () {
     return this.contentState.getHistory()
   }
 
-  getTOC() {
+  getTOC () {
     return this.contentState.getTOC()
   }
 
-  setHistory(history) {
+  setHistory (history) {
     return this.contentState.setHistory(history)
   }
 
-  clearHistory() {
+  clearHistory () {
     return this.contentState.history.clearHistory()
   }
 
-  exportStyledHTML(title = '', printOptimization = false) {
+  exportStyledHTML (title = '', printOptimization = false) {
     const { markdown } = this
     return new ExportHtml(markdown, this).generate(title, printOptimization)
   }
 
-  exportHtml() {
+  exportHtml () {
     const { markdown } = this
     return new ExportHtml(markdown, this).renderHtml()
   }
 
-  getWordCount(markdown) {
+  getWordCount (markdown) {
     return wordCount(markdown)
   }
 
-  getCursor() {
+  getCursor () {
     return this.contentState.getCodeMirrorCursor()
   }
 
-  setMarkdown(markdown, cursor, isRenderCursor = true) {
+  setMarkdown (markdown, cursor, isRenderCursor = true) {
     let newMarkdown = markdown
     if (cursor) {
       newMarkdown = this.contentState.addCursorToMarkdown(markdown, cursor)
@@ -158,31 +154,31 @@ class Muya {
     }, 0)
   }
 
-  createTable(tableChecker) {
+  createTable (tableChecker) {
     return this.contentState.createTable(tableChecker)
   }
 
-  getSelection() {
+  getSelection () {
     return this.contentState.selectionChange()
   }
 
-  setFocusMode(bool) {
+  setFocusMode (bool) {
     const { container } = this
     const { focusMode } = this.options
     if (bool && !focusMode) {
-      container.classList.add(CLASS_OR_ID.AG_FOCUS_MODE)
+      container.classList.add(CLASS_OR_ID['AG_FOCUS_MODE'])
     } else {
-      container.classList.remove(CLASS_OR_ID.AG_FOCUS_MODE)
+      container.classList.remove(CLASS_OR_ID['AG_FOCUS_MODE'])
     }
     this.options.focusMode = bool
   }
 
-  setFont({ fontSize, lineHeight }) {
+  setFont ({ fontSize, lineHeight }) {
     if (fontSize) this.contentState.fontSize = parseInt(fontSize, 10)
     if (lineHeight) this.contentState.lineHeight = lineHeight
   }
 
-  setTabSize(tabSize) {
+  setTabSize (tabSize) {
     if (!tabSize || typeof tabSize !== 'number') {
       tabSize = 4
     } else if (tabSize < 1) {
@@ -193,7 +189,7 @@ class Muya {
     this.contentState.tabSize = tabSize
   }
 
-  setListIndentation(listIndentation) {
+  setListIndentation (listIndentation) {
     if (typeof listIndentation === 'number') {
       if (listIndentation < 1 || listIndentation > 4) {
         listIndentation = 1
@@ -204,119 +200,120 @@ class Muya {
     this.contentState.listIndentation = listIndentation
   }
 
-  updateParagraph(type) {
+  updateParagraph (type) {
     this.contentState.updateParagraph(type)
   }
 
-  duplicate() {
+  duplicate () {
     this.contentState.duplicate()
   }
 
-  deleteParagraph() {
+  deleteParagraph () {
     this.contentState.deleteParagraph()
   }
 
-  insertParagraph(location/* before or after */, text = '', outMost = false) {
+  insertParagraph (location/* before or after */, text = '', outMost = false) {
     this.contentState.insertParagraph(location, text, outMost)
   }
 
-  editTable(data) {
+  editTable (data) {
     this.contentState.editTable(data)
   }
 
-  hasFocus() {
+  hasFocus () {
     return document.activeElement === this.container
   }
 
-  focus() {
+  focus () {
     this.contentState.setCursor()
     this.container.focus()
   }
 
-  blur() {
+  blur () {
     this.container.blur()
   }
 
-  format(type) {
+  format (type) {
     this.contentState.format(type)
   }
 
-  insertImage(imageInfo) {
+  insertImage (imageInfo) {
     this.contentState.insertImage(imageInfo)
   }
 
-  search(value, opt) {
+  search (value, opt) {
     const { selectHighlight } = opt
     this.contentState.search(value, opt)
     this.contentState.render(!!selectHighlight)
     return this.contentState.searchMatches
   }
 
-  replace(value, opt) {
+  replace (value, opt) {
     this.contentState.replace(value, opt)
     this.contentState.render(false)
     return this.contentState.searchMatches
   }
 
-  find(action/* pre or next */) {
+  find (action/* pre or next */) {
     this.contentState.find(action)
     this.contentState.render(false)
     return this.contentState.searchMatches
   }
 
-  on(event, listener) {
+  on (event, listener) {
     this.eventCenter.subscribe(event, listener)
   }
 
-  off(event, listener) {
+  off (event, listener) {
     this.eventCenter.unsubscribe(event, listener)
   }
 
-  once(event, listener) {
+  once (event, listener) {
     this.eventCenter.subscribeOnce(event, listener)
   }
 
-  undo() {
+  undo () {
     this.contentState.history.undo()
   }
 
-  redo() {
+  redo () {
     this.contentState.history.redo()
   }
 
-  selectAll() {
+  selectAll () {
     if (this.hasFocus()) {
       this.contentState.selectAll()
     }
-    const { activeElement } = document
+    const activeElement = document.activeElement
     if (activeElement.nodeName === 'INPUT') {
       activeElement.select()
     }
   }
 
-  copyAsMarkdown() {
+  copyAsMarkdown () {
     this.clipboard.copyAsMarkdown()
   }
 
-  copyAsHtml() {
+  copyAsHtml () {
     this.clipboard.copyAsHtml()
   }
 
-  pasteAsPlainText() {
+  pasteAsPlainText () {
     this.clipboard.pasteAsPlainText()
   }
 
-  copy(name) {
+  copy (name) {
     this.clipboard.copy(name)
   }
 
-  setOptions(options, needRender = false) {
+  setOptions (options, needRender = false) {
     Object.assign(this.options, options)
     if (needRender) {
       this.contentState.render()
     }
+
     // Set quick insert hint visibility
-    const { hideQuickInsertHint } = options
+    const hideQuickInsertHint = options['hideQuickInsertHint']
     if (typeof hideQuickInsertHint !== 'undefined') {
       const hasClass = this.container.classList.contains('ag-show-quick-insert-hint')
       if (hideQuickInsertHint && hasClass) {
@@ -325,16 +322,17 @@ class Muya {
         this.container.classList.add('ag-show-quick-insert-hint')
       }
     }
+
     if (options.bulletListMarker) {
       this.contentState.turndownConfig.bulletListMarker = options.bulletListMarker
     }
   }
 
-  hideAllFloatTools() {
+  hideAllFloatTools () {
     return this.keyboard.hideAllFloatTools()
   }
 
-  destroy() {
+  destroy () {
     this.contentState.clear()
     this.quickInsert.destroy()
     this.codePicker.destroy()
@@ -348,13 +346,13 @@ class Muya {
 /**
   * [ensureContainerDiv ensure container element is div]
   */
-function getContainer(originContainer, options) {
+function getContainer (originContainer, options) {
   const { hideQuickInsertHint } = options
   const container = document.createElement('div')
   const rootDom = document.createElement('div')
   const attrs = originContainer.attributes
   // copy attrs from origin container to new div element
-  Array.from(attrs).forEach((attr) => {
+  Array.from(attrs).forEach(attr => {
     container.setAttribute(attr.name, attr.value)
   })
 

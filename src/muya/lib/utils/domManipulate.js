@@ -7,13 +7,13 @@ export const operateClassName = (element, ctrl, className) => {
 }
 
 export const insertBefore = (newNode, originNode) => {
-  const { parentNode } = originNode
+  const parentNode = originNode.parentNode
   parentNode.insertBefore(newNode, originNode)
 }
 
 // DOM operations
 export const insertAfter = (newNode, originNode) => {
-  const { parentNode } = originNode
+  const parentNode = originNode.parentNode
 
   if (originNode.nextSibling) {
     parentNode.insertBefore(newNode, originNode.nextSibling)

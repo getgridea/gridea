@@ -1,6 +1,4 @@
-import {
-  normal, gfm, tables, pedantic,
-} from './blockRules'
+import { normal, gfm, tables, pedantic } from './blockRules'
 import options from './options'
 import { splitCells, rtrim } from './utils'
 
@@ -8,7 +6,7 @@ import { splitCells, rtrim } from './utils'
  * Block Lexer
  */
 
-function Lexer(opts) {
+function Lexer (opts) {
   this.tokens = []
   this.tokens.links = Object.create(null)
   this.options = Object.assign({}, options, opts)
@@ -67,7 +65,7 @@ Lexer.prototype.token = function (src, top) {
       src = src.substring(cap[0].length)
       this.tokens.push({
         type: 'frontmatter',
-        text: cap[1],
+        text: cap[1]
       })
     }
     this.checkFrontmatter = false
@@ -80,7 +78,7 @@ Lexer.prototype.token = function (src, top) {
       src = src.substring(cap[0].length)
       if (cap[0].length > 1) {
         this.tokens.push({
-          type: 'space',
+          type: 'space'
         })
       }
     }
@@ -100,7 +98,7 @@ Lexer.prototype.token = function (src, top) {
           codeBlockStyle: 'indented',
           text: !this.options.pedantic
             ? rtrim(cap, '\n')
-            : cap,
+            : cap
         })
       }
       continue
@@ -113,7 +111,7 @@ Lexer.prototype.token = function (src, top) {
         src = src.substring(cap[0].length)
         this.tokens.push({
           type: 'multiplemath',
-          text: cap[1],
+          text: cap[1]
         })
         continue
       }
@@ -127,7 +125,7 @@ Lexer.prototype.token = function (src, top) {
         type: 'code',
         codeBlockStyle: 'fenced',
         lang: cap[2] ? cap[2].trim() : cap[2],
-        text: cap[3] || '',
+        text: cap[3] || ''
       })
       continue
     }
@@ -144,7 +142,7 @@ Lexer.prototype.token = function (src, top) {
         type: 'heading',
         headingStyle: 'atx',
         depth: cap[1].length,
-        text,
+        text
       })
       continue
     }
@@ -156,7 +154,7 @@ Lexer.prototype.token = function (src, top) {
         type: 'table',
         header: splitCells(cap[1].replace(/^ *| *\| *$/g, '')),
         align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
-        cells: cap[3] ? cap[3].replace(/\n$/, '').split('\n') : [],
+        cells: cap[3] ? cap[3].replace(/\n$/, '').split('\n') : []
       }
 
       if (item.header.length === item.align.length) {
@@ -191,7 +189,7 @@ Lexer.prototype.token = function (src, top) {
       src = src.substring(cap[0].length)
       this.tokens.push({
         type: 'hr',
-        marker,
+        marker
       })
       continue
     }
@@ -202,7 +200,7 @@ Lexer.prototype.token = function (src, top) {
       src = src.substring(cap[0].length)
 
       this.tokens.push({
-        type: 'blockquote_start',
+        type: 'blockquote_start'
       })
 
       cap = cap[0].replace(/^ *> ?/gm, '')
@@ -213,7 +211,7 @@ Lexer.prototype.token = function (src, top) {
       this.token(cap, top)
 
       this.tokens.push({
-        type: 'blockquote_end',
+        type: 'blockquote_end'
       })
 
       continue
@@ -231,7 +229,7 @@ Lexer.prototype.token = function (src, top) {
         type: 'list_start',
         ordered: isOrdered,
         listType: bull.length > 1 ? 'order' : (/^( {0,3})([-*+]) \[[xX ]\]/.test(cap[0]) ? 'task' : 'bullet'),
-        start: isOrdered ? +(bull.slice(0, -1)) : '',
+        start: isOrdered ? +(bull.slice(0, -1)) : ''
       })
 
       let next = false
@@ -252,7 +250,7 @@ Lexer.prototype.token = function (src, top) {
         // so it is seen as the next token.
         space = item.length
         let newBull
-        item = item.replace(/^ *([*+-]|\d+(?:\.|\))) {0,4}/, (m, p1) => {
+        item = item.replace(/^ *([*+-]|\d+(?:\.|\))) {0,4}/, function (m, p1) {
           // Get and remove list item bullet
           newBull = p1 || bull
           return ''
@@ -278,20 +276,20 @@ Lexer.prototype.token = function (src, top) {
           //   - unordered, unordered --> bull !== newBull --> new list (e.g "-" --> "*")
           //   - ordered, ordered --> lastChar !== lastChar --> new list (e.g "." --> ")")
           //   - else --> new list (e.g. ordered --> unordered)
-          i !== 0
-          && (
-            (!isOrdered && !newIsOrdered && bull !== newBull)
-            || (isOrdered && newIsOrdered && bull.slice(-1) !== newBull.slice(-1))
-            || (isOrdered !== newIsOrdered)
+          i !== 0 &&
+          (
+            (!isOrdered && !newIsOrdered && bull !== newBull) ||
+            (isOrdered && newIsOrdered && bull.slice(-1) !== newBull.slice(-1)) ||
+            (isOrdered !== newIsOrdered) ||
             // Changing to/from task list item from/to bullet, starts a new list(work for marktext issue #870)
             // Because we distinguish between task list and bullet list in Mark Text,
             // the parsing here is somewhat different from the commonmark Spec,
             // and the task list needs to be a separate list.
-            || (isTaskList !== newIsTaskListItem)
+            (isTaskList !== newIsTaskListItem)
           )
         ) {
           this.tokens.push({
-            type: 'list_end',
+            type: 'list_end'
           })
 
           // Start a new list
@@ -302,7 +300,7 @@ Lexer.prototype.token = function (src, top) {
             type: 'list_start',
             ordered: isOrdered,
             listType: bull.length > 1 ? 'order' : (/^( {0,3})([-*+]) \[[xX ]\]/.test(itemWithBullet) ? 'task' : 'bullet'),
-            start: isOrdered ? +(bull.slice(0, -1)) : '',
+            start: isOrdered ? +(bull.slice(0, -1)) : ''
           })
         }
 
@@ -311,7 +309,7 @@ Lexer.prototype.token = function (src, top) {
         if (~item.indexOf('\n ')) {
           space -= item.length
           item = !this.options.pedantic
-            ? item.replace(new RegExp(`^ {1,${space}}`, 'gm'), '')
+            ? item.replace(new RegExp('^ {1,' + space + '}', 'gm'), '')
             : item.replace(/^ {1,4}/gm, '')
         }
 
@@ -335,7 +333,7 @@ Lexer.prototype.token = function (src, top) {
         // Determine whether item is loose or not. If previous item is loose
         // this item is also loose.
         // A list is loose if any of its constituent list items are separated by blank lines,
-        // or if any of its constituent list items directly contain two block-level elements with a blank line between them.
+        // or if any of its constituent list items directly contain two block-level elements with a blank line between them. 
         // loose = next = next || /^ *([*+-]|\d{1,9}(?:\.|\)))( +\S+\n\n(?!\s*$)|\n\n(?!\s*$))/.test(itemWithBullet)
         loose = next = next || /\n\n(?!\s*$)/.test(item)
         // Check if previous line ends with a new line.
@@ -361,13 +359,13 @@ Lexer.prototype.token = function (src, top) {
           checked: checked,
           listItemType: bull.length > 1 ? 'order' : (isTaskList ? 'task' : 'bullet'),
           bulletMarkerOrDelimiter: isOrderedListItem ? bull.slice(-1) : bull.charAt(0),
-          type: loose ? 'loose_item_start' : 'list_item_start',
+          type: loose ? 'loose_item_start' : 'list_item_start'
         })
 
         if (/^\s*$/.test(item)) {
           this.tokens.push({
             type: 'text',
-            text: '',
+            text: ''
           })
         } else {
           // Recurse.
@@ -375,12 +373,12 @@ Lexer.prototype.token = function (src, top) {
         }
 
         this.tokens.push({
-          type: 'list_item_end',
+          type: 'list_item_end'
         })
       }
 
       this.tokens.push({
-        type: 'list_end',
+        type: 'list_end'
       })
 
       continue
@@ -396,7 +394,7 @@ Lexer.prototype.token = function (src, top) {
           : 'html',
         pre: !this.options.sanitizer
           && (cap[1] === 'pre' || cap[1] === 'script' || cap[1] === 'style'),
-        text: cap[0],
+        text: cap[0]
       })
       continue
     }
@@ -412,7 +410,7 @@ Lexer.prototype.token = function (src, top) {
         if (!this.tokens.links[tag]) {
           this.tokens.links[tag] = {
             href: cap[2],
-            title: cap[3],
+            title: cap[3]
           }
         }
 
@@ -424,7 +422,7 @@ Lexer.prototype.token = function (src, top) {
       if (this.options.disableInline) {
         this.tokens.push({
           type: 'paragraph',
-          text: text.replace(/\n*$/, ''),
+          text: text.replace(/\n*$/, '')
         })
       }
       continue
@@ -437,7 +435,7 @@ Lexer.prototype.token = function (src, top) {
         type: 'table',
         header: splitCells(cap[1].replace(/^ *| *\| *$/g, '')),
         align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
-        cells: cap[3] ? cap[3].replace(/\n$/, '').split('\n') : [],
+        cells: cap[3] ? cap[3].replace(/\n$/, '').split('\n') : []
       }
 
       if (item.header.length === item.align.length) {
@@ -458,8 +456,7 @@ Lexer.prototype.token = function (src, top) {
         for (i = 0; i < item.cells.length; i++) {
           item.cells[i] = splitCells(
             item.cells[i].replace(/^ *\| *| *\| *$/g, ''),
-            item.header.length,
-          )
+            item.header.length)
         }
 
         this.tokens.push(item)
@@ -482,8 +479,8 @@ Lexer.prototype.token = function (src, top) {
           type: 'heading',
           headingStyle: 'setext',
           depth: cap[2] === '=' ? 1 : 2,
-          text: `${precededToken.text}\n${cap[1]}`,
-          marker,
+          text: precededToken.text + '\n' + cap[1],
+          marker
         })
       } else {
         this.tokens.push({
@@ -491,7 +488,7 @@ Lexer.prototype.token = function (src, top) {
           headingStyle: 'setext',
           depth: cap[2] === '=' ? 1 : 2,
           text: cap[1],
-          marker,
+          marker
         })
       }
       continue
@@ -505,7 +502,7 @@ Lexer.prototype.token = function (src, top) {
         type: 'paragraph',
         text: cap[1].charAt(cap[1].length - 1) === '\n'
           ? cap[1].slice(0, -1)
-          : cap[1],
+          : cap[1]
       })
       continue
     }
@@ -517,13 +514,13 @@ Lexer.prototype.token = function (src, top) {
       src = src.substring(cap[0].length)
       this.tokens.push({
         type: 'text',
-        text: cap[0],
+        text: cap[0]
       })
       continue
     }
 
     if (src) {
-      throw new Error(`Infinite loop on byte: ${src.charCodeAt(0)}`)
+      throw new Error('Infinite loop on byte: ' + src.charCodeAt(0))
     }
   }
 

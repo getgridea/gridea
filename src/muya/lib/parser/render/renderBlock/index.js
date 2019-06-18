@@ -7,5 +7,5 @@ export default {
   renderBlock,
   renderLeafBlock,
   renderContainerBlock,
-  renderIcon,
+  renderIcon
 }

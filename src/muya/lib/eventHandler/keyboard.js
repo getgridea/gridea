@@ -5,7 +5,7 @@ import { getParagraphReference, getImageInfo } from '../utils'
 import { checkEditEmoji } from '../ui/emojis'
 
 class Keyboard {
-  constructor(muya) {
+  constructor (muya) {
     this.muya = muya
     this.isComposed = false
     this.shownFloat = new Set()
@@ -17,7 +17,7 @@ class Keyboard {
     this.listen()
   }
 
-  listen() {
+  listen () {
     // cache shown float box
     this.muya.eventCenter.subscribe('muya-float', (tool, status) => {
       status ? this.shownFloat.add(tool) : this.shownFloat.delete(tool)
@@ -32,15 +32,15 @@ class Keyboard {
     })
   }
 
-  hideAllFloatTools() {
+  hideAllFloatTools () {
     for (const tool of this.shownFloat) {
       tool.hide()
     }
   }
 
-  recordIsComposed() {
+  recordIsComposed () {
     const { container, eventCenter, contentState } = this.muya
-    const handler = (event) => {
+    const handler = event => {
       if (event.type === 'compositionstart') {
         this.isComposed = true
       } else if (event.type === 'compositionend') {
@@ -55,15 +55,15 @@ class Keyboard {
     eventCenter.attachDOMEvent(container, 'compositionstart', handler)
   }
 
-  dispatchEditorState() {
+  dispatchEditorState () {
     const { container, eventCenter, contentState } = this.muya
 
     let timer = null
-    const changeHandler = (event) => {
+    const changeHandler = event => {
       if (
-        event.type === 'keyup'
-        && (event.key === EVENT_KEYS.ArrowUp || event.key === EVENT_KEYS.ArrowDown)
-        && this.shownFloat.size > 0
+        event.type === 'keyup' &&
+        (event.key === EVENT_KEYS.ArrowUp || event.key === EVENT_KEYS.ArrowDown) &&
+        this.shownFloat.size > 0
       ) {
         return
       }
@@ -94,9 +94,9 @@ class Keyboard {
     eventCenter.attachDOMEvent(container, 'keyup', changeHandler)
   }
 
-  keydownBinding() {
+  keydownBinding () {
     const { container, eventCenter, contentState } = this.muya
-    const docHandler = (event) => {
+    const docHandler = event => {
       switch (event.code) {
         case EVENT_KEYS.Enter:
           return contentState.docEnterHandler(event)
@@ -105,7 +105,7 @@ class Keyboard {
             const { src } = getImageInfo(contentState.selectedImage.token.src)
             if (src) {
               eventCenter.dispatch('preview-image', {
-                data: src,
+                data: src
               })
             }
           }
@@ -122,18 +122,18 @@ class Keyboard {
       }
     }
 
-    const handler = (event) => {
+    const handler = event => {
       if (event.metaKey || event.ctrlKey) {
         container.classList.add('ag-meta-or-ctrl')
       }
       if (
-        this.shownFloat.size > 0
-        && (
-          event.key === EVENT_KEYS.Enter
-          || event.key === EVENT_KEYS.Escape
-          || event.key === EVENT_KEYS.Tab
-          || event.key === EVENT_KEYS.ArrowUp
-          || event.key === EVENT_KEYS.ArrowDown
+        this.shownFloat.size > 0 &&
+        (
+          event.key === EVENT_KEYS.Enter ||
+          event.key === EVENT_KEYS.Escape ||
+          event.key === EVENT_KEYS.Tab ||
+          event.key === EVENT_KEYS.ArrowUp ||
+          event.key === EVENT_KEYS.ArrowDown
         )
       ) {
         let needPreventDefault = false
@@ -187,9 +187,9 @@ class Keyboard {
     eventCenter.attachDOMEvent(document, 'keydown', docHandler)
   }
 
-  inputBinding() {
+  inputBinding () {
     const { container, eventCenter, contentState } = this.muya
-    const inputHandler = (event) => {
+    const inputHandler = event => {
       if (!this.isComposed) {
         contentState.inputHandler(event)
       }
@@ -199,9 +199,9 @@ class Keyboard {
         eventCenter.dispatch('muya-code-picker', {
           reference: getParagraphReference(paragraph, paragraph.id),
           lang,
-          cb: (item) => {
+          cb: item => {
             contentState.selectLanguage(paragraph, item.name)
-          },
+          }
         })
       } else {
         // hide code picker float box
@@ -212,9 +212,9 @@ class Keyboard {
     eventCenter.attachDOMEvent(container, 'input', inputHandler)
   }
 
-  keyupBinding() {
+  keyupBinding () {
     const { container, eventCenter, contentState } = this.muya
-    const handler = (event) => {
+    const handler = event => {
       container.classList.remove('ag-meta-or-ctrl')
       // check if edit emoji
       const node = selection.getSelectionStart()
@@ -222,29 +222,27 @@ class Keyboard {
       const emojiNode = checkEditEmoji(node)
       contentState.selectedImage = null
       if (
-        paragraph
-        && emojiNode
-        && event.key !== EVENT_KEYS.Enter
-        && event.key !== EVENT_KEYS.ArrowDown
-        && event.key !== EVENT_KEYS.ArrowUp
-        && event.key !== EVENT_KEYS.Tab
-        && event.key !== EVENT_KEYS.Escape
+        paragraph &&
+        emojiNode &&
+        event.key !== EVENT_KEYS.Enter &&
+        event.key !== EVENT_KEYS.ArrowDown &&
+        event.key !== EVENT_KEYS.ArrowUp &&
+        event.key !== EVENT_KEYS.Tab &&
+        event.key !== EVENT_KEYS.Escape
       ) {
         const reference = getParagraphReference(emojiNode, paragraph.id)
         eventCenter.dispatch('muya-emoji-picker', {
           reference,
-          emojiNode,
+          emojiNode
         })
       }
       if (!emojiNode) {
         eventCenter.dispatch('muya-emoji-picker', {
-          emojiNode,
+          emojiNode
         })
       }
 
-      const {
-        anchor, focus, start, end,
-      } = selection.getCursorRange()
+      const { anchor, focus, start, end } = selection.getCursorRange()
       if (!anchor || !focus) {
         return
       }
@@ -253,10 +251,10 @@ class Keyboard {
       ) {
         const { anchor: oldAnchor, focus: oldFocus } = contentState.cursor
         if (
-          anchor.key !== oldAnchor.key
-          || anchor.offset !== oldAnchor.offset
-          || focus.key !== oldFocus.key
-          || focus.offset !== oldFocus.offset
+          anchor.key !== oldAnchor.key ||
+          anchor.offset !== oldAnchor.offset ||
+          focus.key !== oldFocus.key ||
+          focus.offset !== oldFocus.offset
         ) {
           const needRender = contentState.checkNeedRender(contentState.cursor) || contentState.checkNeedRender({ start, end })
           contentState.cursor = { anchor, focus }

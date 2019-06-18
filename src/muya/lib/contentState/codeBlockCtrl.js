@@ -3,7 +3,7 @@ import selection from '../selection'
 
 const CODE_UPDATE_REP = /^`{3,}(.*)/
 
-const codeBlockCtrl = (ContentState) => {
+const codeBlockCtrl = ContentState => {
   /**
   * check edit language
   */
@@ -63,7 +63,7 @@ const codeBlockCtrl = (ContentState) => {
       const offset = 0
       this.cursor = {
         start: { key, offset },
-        end: { key, offset },
+        end: { key, offset }
       }
     } else {
       block.text = block.text.replace(/^(`+)([^`]+$)/g, `$1${lang}`)
@@ -108,7 +108,7 @@ const codeBlockCtrl = (ContentState) => {
       const offset = code.length
       this.cursor = {
         start: { key, offset },
-        end: { key, offset },
+        end: { key, offset }
       }
       return true
     }

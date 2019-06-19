@@ -11,7 +11,7 @@ import VueBus from './vue-bus'
 
 Vue.use(VueI18n)
 const i18n = new VueI18n({
-  locale: localStorage.getItem('language') || 'zh_CN',
+  locale: localStorage.getItem('language') || 'zhHans',
   messages: locale as any,
   silentTranslationWarn: true,
 })

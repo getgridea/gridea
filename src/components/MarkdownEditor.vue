@@ -151,19 +151,22 @@ export default {
 }
 
 /deep/ .editor-preview pre, .editor-preview-side pre {
-  background: #f7f3ec;
-  padding: 8px;
-  border: 1px solid #e0dacd;
+  background: #f7f6f3;
+  padding: 16px;
+  border-radius: 2px;
+  code {
+    color: #434343;
+  }
 }
 /deep/ .editor-preview {
   ul {
     padding-left: 20px;
   }
   code {
-    background: #e6e0d2;
-    padding: 2px;
-    border: 1px solid #cac3b5;
+    background: #ededeb;
+    padding: 0px 4px;
     border-radius: 2px;
+    color: #db615d;
   }
   pre code {
     background: none;

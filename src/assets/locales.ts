@@ -1,5 +1,5 @@
 const message = {
-  zh_CN: {
+  zhHans: {
     preview: '预 览',
     syncSite: '同 步',
     newVersion: '有新版本',

@@ -3,7 +3,7 @@
     <a-form>
       <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-radio-group name="currentLanguage" v-model="currentLanguage">
-          <a-radio value="zh_CN">简体中文</a-radio>
+          <a-radio value="zhHans">简体中文</a-radio>
           <a-radio value="en">English</a-radio>
           <a-radio value="zh_TW">繁體中文</a-radio>
         </a-radio-group>
@@ -25,11 +25,11 @@ export default class System extends Vue {
     wrapper: { span: 12 },
   }
 
-  currentLanguage = 'zh_CN'
+  currentLanguage = 'zhHans'
 
   mounted() {
     console.log(this.$root)
-    this.currentLanguage = localStorage.getItem('language') || 'zh_CN'
+    this.currentLanguage = localStorage.getItem('language') || 'zhHans'
   }
 
   saveLanguage() {

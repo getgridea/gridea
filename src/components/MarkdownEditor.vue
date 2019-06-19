@@ -155,13 +155,10 @@ export default {
   padding: 16px;
   border-radius: 2px;
   code {
-    color: #434343;
+    color: #000;
   }
 }
 /deep/ .editor-preview {
-  ul {
-    padding-left: 20px;
-  }
   code {
     background: #ededeb;
     padding: 0px 4px;
@@ -253,11 +250,12 @@ export default {
 .CodeMirror {
   border-radius: 2px;
   transition: all 0.3s;
-  color: #434343;
+  color: #000;
   border: none;
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 0.05em;
   padding: 16px 0;
+  line-height: 24px;
 }
 
 .editor-toolbar {
@@ -282,9 +280,7 @@ export default {
   z-index: 1025;
 }
 .CodeMirror .editor-preview.markdown-body.editor-preview-active {
-  line-height: 1.618;
   background: #fff;
-  padding: 16px;
 }
 .CodeMirror .editor-preview.markdown-body.editor-preview-active img {
   max-width: 100%;
@@ -303,9 +299,15 @@ export default {
   .cm-formatting-header,
   .cm-formatting-strong,
   .cm-formatting-link {
-    color: rgba(0,0,0,.28);
+    // color: rgba(0,0,0,.28);
+    color: #efb73f;
     font-weight: normal;
     padding: 0 2px;
+  }
+
+  .cm-formatting-list-ol,
+  .cm-formatting-list-ul {
+    padding-left: 24px;
   }
   .cm-header-1 {
     font-size: 28px;
@@ -345,7 +347,7 @@ export default {
     color: rgba(0,0,0,.48);
   }
   .cm-link:not(.cm-formatting-link):not(.cm-formatting-image) {
-    color: #434343;
+    color: #000;
   }
 
   .cm-url:not(.cm-formatting-link-string) {

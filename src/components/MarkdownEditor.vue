@@ -294,4 +294,70 @@ export default {
 .CodeMirror-line {
   margin: .5em 0;
 }
+.CodeMirror-cursor {
+  border-left: 2px solid #efb73f;
+}
+
+.cm-s-easymde {
+  .cm-formatting,
+  .cm-formatting-header,
+  .cm-formatting-strong,
+  .cm-formatting-link {
+    color: rgba(0,0,0,.28);
+    font-weight: normal;
+    padding: 0 2px;
+  }
+  .cm-header-1 {
+    font-size: 28px;
+    line-height: 36px;
+    padding: 7px 0;
+    position: relative;
+  }
+  .cm-header-2 {
+    font-size: 24px;
+    line-height: 32px;
+    padding: 7px 0;
+  }
+  .cm-header-3 {
+    font-size: 20px;
+    line-height: 28px;
+    padding: 7px 0;
+  }
+  .cm-header-4 {
+    font-size: 16px;
+    line-height: 24px;
+    padding: 7px 0;
+  }
+  .cm-header-5 {
+    font-size: 14px;
+    line-height: 24px;
+    padding: 7px 0;
+  }
+  .cm-header-6 {
+    font-size: 14px;
+    line-height: 24px;
+    padding: 7px 0;
+    font-weight: normal;
+  }
+  
+  .cm-quote {
+    font-style: normal;
+    color: rgba(0,0,0,.48);
+  }
+  .cm-link:not(.cm-formatting-link):not(.cm-formatting-image) {
+    color: #434343;
+  }
+
+  .cm-url:not(.cm-formatting-link-string) {
+    color: #1971c2;
+    letter-spacing: normal;
+  }
+  .cm-comment:not(.cm-formatting-code) {
+    box-shadow: 0 0 0 2px rgba(0,0,0,.05);
+  }
+
+  .cm-comment.cm-formatting-code {
+    background: none;
+  }
+}
 </style>

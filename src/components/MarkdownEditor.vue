@@ -233,6 +233,21 @@ export default {
       transition: all .2s ease;
     }
   }
+
+  blockquote {
+    border-left: .25em solid #dfe2e5;
+    color: #6a737d;
+    padding: 0 1em;
+  }
+
+  hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #dee2e6;
+    margin: 1em 0;
+    padding: 0;
+  }
 }
 </style>
 
@@ -281,6 +296,7 @@ export default {
 }
 .CodeMirror .editor-preview.markdown-body.editor-preview-active {
   background: #fff;
+  padding: 16px 0;
 }
 .CodeMirror .editor-preview.markdown-body.editor-preview-active img {
   max-width: 100%;
@@ -307,7 +323,7 @@ export default {
 
   .cm-formatting-list-ol,
   .cm-formatting-list-ul {
-    padding-left: 24px;
+    padding-left: 16px;
   }
   .cm-header-1 {
     font-size: 28px;

@@ -23,13 +23,12 @@
 
 <div align="center">
   <img src="gridea-app.png">
-
 </div>
 
 ## 依赖
 **⚠️需要安装 [git](https://git-scm.com/downloads) 并且可以使用命令 `git` 调用它。**
 
-[English](https://github.com/getgridea/gridea/blob/master/README.md) | 简体中文  
+[English](https://github.com/getgridea/gridea/blob/master/README.md) | 简体中文 | [繁體中文](https://github.com/getgridea/gridea/blob/master/README-zh_TW.md)
 
 **[更新日志](https://github.com/getgridea/gridea/blob/master/CHANGELOG.md)**  
 
@@ -52,7 +51,7 @@
 
 💬  你可以进行简单的配置，接入 [Gitalk](https://github.com/gitalk/gitalk) 或 [DisqusJS](https://github.com/SukkaW/DisqusJS) 评论系统  
 
-🇬🇧  你可以使用**中文简体**或**英语**  
+🇬🇧  你可以使用**中文简体**、**中文繁体**、**英语**  
 
 🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力  
 

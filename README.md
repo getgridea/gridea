@@ -29,7 +29,7 @@
 ## Dependencies
 ⚠️Requires [git](https://git-scm.com/downloads) to be installed and that it can be called using the command git.
 
-English | [简体中文](https://github.com/getgridea/gridea/blob/master/README-zh_CN.md)  
+English | [简体中文](https://github.com/getgridea/gridea/blob/master/README-zh_CN.md)  | [繁體中文](https://github.com/getgridea/gridea/blob/master/README-zh_TW.md)
 
 **[CHANGELOG](https://github.com/getgridea/gridea/blob/master/CHANGELOG.md)**  
 
@@ -52,7 +52,7 @@ English | [简体中文](https://github.com/getgridea/gridea/blob/master/README-
 
 💬  You can simply configure and access the [Gitalk](https://github.com/gitalk/gitalk) or [DisqusJS](https://github.com/SukkaW/DisqusJS) comment system  
 
-🇬🇧  You can use **simplified Chinese** or **English**  
+🇬🇧  You can use **simplified Chinese**、**traditional Chinese**、 **English**
 
 🌁  You can use any default theme within the application or any third-party theme, free theme customization  
 

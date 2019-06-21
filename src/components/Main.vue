@@ -130,6 +130,10 @@ export default class App extends Vue {
       }
       this.publishLoading = false
     })
+    ipcRenderer.once('site-publish-fail', (event: Event, error: any) => {
+      this.$message.error(error)
+      this.publishLoading = false
+    })
   }
 
   openInBrowser(url: string) {

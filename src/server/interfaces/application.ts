@@ -3,7 +3,7 @@ import { IPostDb } from './post'
 import { ITag } from './tag'
 import { ITheme } from './theme'
 import { IMenu } from './menu'
-import { ISetting, ICommentSetting } from './setting'
+import { ISetting, ICommentSetting, ICdnSetting } from './setting'
 
 export interface IApplicationSetting {
   mainWindow: BrowserWindow
@@ -19,6 +19,7 @@ export interface IApplicationDb {
   themeCustomConfig: any
   themes: any[]
   setting: ISetting
+  cdnSetting: ICdnSetting
   commentSetting: ICommentSetting
 }
 

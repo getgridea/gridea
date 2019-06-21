@@ -90,6 +90,10 @@ const message = {
     noCustomConfigTip: '当前主题暂无自定义配置',
     customConfig: '自定义配置',
     moreThemes: '更多主题',
+    cdnSetting: 'CDN 配置',
+    cdnSettingSuccess: 'CDN 配置已保存',
+    testUpload: '测试 CDN 上传',
+    testUploadSuccess: '测试 CDN 上传成功',
   },
   zh_TW: {
     preview: '預 覽',
@@ -274,6 +278,10 @@ const message = {
     noCustomConfigTip: 'there is no custom configuration for the theme',
     customConfig: 'Custom configuration',
     moreThemes: 'More Themes',
+    cdnSetting: 'CDN setting',
+    cdnSettingSuccess: 'CDN setting succeeded',
+    testUpload: 'Test CDN upload',
+    testUploadSuccess: 'Test CDN upload succeeded',
   },
 }
 

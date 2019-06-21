@@ -14,6 +14,7 @@ import { ITag } from './interfaces/tag'
 import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE } from '../helpers/constants'
 import markdown from './plugins/markdown'
 import { IMenu } from './interfaces/menu'
+import qiNiuUpload from './upload/qiniu'
 
 Bluebird.promisifyAll(fs)
 const helper = new ContentHelper()
@@ -61,6 +62,10 @@ export default class Renderer extends Model {
   }
 
   async publish() {
+    if (this.db.cdnSetting.domain) {
+      await this.cdnUpload()
+    }
+    
     this.db.themeConfig.domain = this.db.setting.domain
     console.log('domain', this.db.themeConfig.domain)
     await this.renderAll('publish')
@@ -256,7 +261,7 @@ export default class Renderer extends Model {
         const currentTags = item.data.tags || []
         let toc = ''
         const result: IPostRenderData = {
-          content: markdown.render(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain), {
+          content: markdown.render(helper.changeImageUrlLocalToDomain(item.content, this.db.cdnSetting.domain || this.db.themeConfig.domain), {
             tocCallback(tocMarkdown: any, tocArray: any, tocHtml: any) {
               toc = tocHtml
             },
@@ -270,7 +275,7 @@ export default class Renderer extends Model {
           date: item.data.date,
           dateFormat: (themeConfig.dateFormat && moment(item.data.date).format(themeConfig.dateFormat)) || item.data.date,
           feature: item.data.feature && !item.data.feature.includes('http')
-            ? `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain, mode)}`
+            ? `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.cdnSetting.domain || this.db.themeConfig.domain, mode)}`
             : item.data.feature || '',
           link: `${this.db.themeConfig.domain}/post/${item.fileName}${mode === 'preview' ? '/index.html' : ''}`,
           hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
@@ -650,6 +655,10 @@ export default class Renderer extends Model {
     })
 
     await fs.writeFileSync(`${this.outputDir}/atom.xml`, feed.atom1())
+  }
+
+  public cdnUpload() {
+    return qiNiuUpload(this.db.cdnSetting, `${this.outputDir}`)
   }
 
   /**

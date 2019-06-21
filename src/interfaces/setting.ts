@@ -27,3 +27,11 @@ export interface ICommentSetting {
   disqusSetting: IDisqusSetting
   gitalkSetting: IGitalkSetting
 }
+
+export interface ICdnSetting {
+  platform: string
+  domain: string
+  accessKey: string
+  secretKey: string
+  bucket: string
+}

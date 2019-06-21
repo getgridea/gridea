@@ -1,7 +1,7 @@
 import * as fse from 'fs-extra'
 import * as path from 'path'
 import Model from './model'
-import { ISetting, ICommentSetting } from './interfaces/setting'
+import { ISetting, ICommentSetting, ICdnSetting } from './interfaces/setting'
 
 export default class Setting extends Model {
   getSetting() {
@@ -16,6 +16,11 @@ export default class Setting extends Model {
 
   getCommentSetting() {
     const setting = this.$setting.get('comment').value()
+    return setting
+  }
+
+  getCdnSetting() {
+    const setting = this.$setting.get('cdnSetting').value()
     return setting
   }
 
@@ -37,5 +42,9 @@ export default class Setting extends Model {
   async uploadAvatar(filePath: string) {
     const avatarPath = path.join(this.appDir, 'images/avatar.png')
     await fse.copySync(filePath, avatarPath)
+  }
+
+  async saveCdnSetting(setting: ICdnSetting) {
+    return this.$setting.set('cdnSetting', setting).write()
   }
 }

@@ -61,6 +61,13 @@ export default class App {
         token: '',
         cname: '',
       },
+      cdnSetting: {
+        platform: '',
+        domain: '',
+        accessKey: '',
+        secretKey: '',
+        bucket: '',
+      },
       commentSetting: {
         showComment: false,
         commentPlatform: 'gitalk',
@@ -103,6 +110,7 @@ export default class App {
     const settingInstance = new Setting(this)
     const setting = await settingInstance.getSetting()
     const commentSetting = await settingInstance.getCommentSetting()
+    const cdnSetting = await settingInstance.getCdnSetting()
 
     this.db = {
       posts,
@@ -112,6 +120,7 @@ export default class App {
       themeCustomConfig,
       themes,
       setting,
+      cdnSetting: cdnSetting || this.db.cdnSetting,
       commentSetting: commentSetting || this.db.commentSetting,
     }
 

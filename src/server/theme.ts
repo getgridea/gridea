@@ -1,5 +1,6 @@
 import * as path from 'path'
 import * as fse from 'fs-extra'
+import simpleGit, { SimpleGit } from 'simple-git/promise'
 import Model from './model'
 import { ITheme } from './interfaces/theme'
 // tslint:disable-next-line
@@ -40,7 +41,7 @@ export default class Theme extends Model {
         const config = await fse.readJSONSync(themeConfigPath)
         data.name = config.name
         data.version = config.version
-        data.author = config.repository
+        data.author = config.author
         data.repository = config.repository
       }
       return data
@@ -56,6 +57,25 @@ export default class Theme extends Model {
     this.themeConfig = await this.$theme.get('config').value()
     this.currentThemePath = path.join(this.appDir, 'themes', this.themeConfig.themeName)
     return this.themeConfig
+  }
+
+  public async loadTheme(remote: string) {
+    const gitCmd = simpleGit().silent(true)
+    const localPath = `${this.appDir}/themes/${remote.split('-').slice(-1).toString().replace('.git', '')}`
+    
+    return gitCmd.clone(remote, localPath)
+  }
+
+
+  public async updateTheme(folder: string) {
+    const basePath = `${this.appDir}/themes/${folder}`
+    const gitCmd = simpleGit(basePath).silent(true)
+    return gitCmd.pull()
+  }
+
+  public async deleteTheme(folder: string) {
+    const basePath = `${this.appDir}/themes/${folder}`
+    return fse.removeSync(basePath)
   }
 
   /**

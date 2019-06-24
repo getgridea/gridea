@@ -254,6 +254,8 @@ export default {
 
 <style lang="less">
 @import '~easymde/dist/easymde.min.css';
+@import '~markdown-it-highlight/dist/index.css';
+
 .markdown-editor .markdown-body {
   padding: 0.5em
 }

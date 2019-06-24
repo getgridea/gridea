@@ -4703,6 +4703,11 @@ hex-color-regex@^1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/hex-color-regex/download/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
 
+highlight.js@^9.12.0:
+  version "9.15.8"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.15.8.tgz#f344fda123f36f1a65490e932cf90569e4999971"
+  integrity sha512-RrapkKQWwE+wKdF73VsOa2RQdIoO3mxwJ4P8mhbI6KYJUraUHRKM5w5zQQKXNk0xNL4UVRdulV9SBJcmzJNzVA==
+
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/hmac-drbg/download/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -5948,6 +5953,13 @@ markdown-it-footnote@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/markdown-it-footnote/-/markdown-it-footnote-3.0.1.tgz#7f3730747cacc86e2fe0bf8a17a710f34791517a"
   integrity sha1-fzcwdHysyG4v4L+KF6cQ80eRUXo=
+
+markdown-it-highlight@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/markdown-it-highlight/-/markdown-it-highlight-0.2.0.tgz#6955a438eefed1cde54edd5ea6b9f6b186846fb1"
+  integrity sha512-VpJBiZSa3beosuxpynyKY1y1Nd/axF95UdSyiPjGtI1IKa+WK46M1GvN5R3Tcf4ZQjCmrGdGls6UBP8P0MMuwg==
+  dependencies:
+    highlight.js "^9.12.0"
 
 markdown-it-mark@^2.0.0:
   version "2.0.0"

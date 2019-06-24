@@ -37,6 +37,7 @@
     "markdown-it": "^8.4.2",
     "markdown-it-abbr": "^1.0.4",
     "markdown-it-footnote": "^3.0.1",
+    "markdown-it-highlight": "^0.2.0",
     "markdown-it-mark": "^2.0.0",
     "markdown-it-sanitizer": "^0.4.3",
     "markdown-it-sub": "^1.0.0",

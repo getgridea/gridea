@@ -15,6 +15,15 @@ const markdownIt = new MarkdownIt({
   breaks: true,
 })
 
+const BAD_PROTO_RE = /^(vbscript|javascript|data):/
+const GOOD_DATA_RE = /^data:image\/(gif|png|jpeg|webp);/
+
+markdownIt.validateLink = function (url) {
+  url = url.trim().toLowerCase()
+
+  return BAD_PROTO_RE.test(url) ? (!!GOOD_DATA_RE.test(url)) : true
+}
+
 markdownIt.use(MarkdownItKatex)
 markdownIt.use(markdownItTocAndAnchor, {
   anchorLink: false,

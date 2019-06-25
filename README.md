@@ -1,9 +1,13 @@
-# Gridea
-
-**Rename from Hve Notes**  
-
 <div align="center">
-  <img src="public/app-icons/gridea.png"  width="80px" height="80px">
+  <a href="https://gridea.dev">
+    <img src="public/app-icons/gridea.png"  width="80px" height="80px">
+  </a>
+  <h1 align="center">
+    Gridea
+  </h1>
+  <h3 align="center">
+    A static blog writing client
+  </h3>
 
   [Download](https://github.com/getgridea/gridea/releases) | [Homepage](http://hvenotes.fehey.com/)
 

@@ -1,9 +1,13 @@
-# Gridea
-
-**旧称 Hve Notes**
-
 <div align="center">
-  <img src="public/app-icons/gridea.png"  width="80px" height="80px">
+  <a href="https://gridea.dev">
+    <img src="public/app-icons/gridea.png"  width="80px" height="80px">
+  </a>
+  <h1 align="center">
+    Gridea
+  </h1>
+  <h3 align="center">
+    一个静态博客写作客户端
+  </h3>
 
   [下 载](https://github.com/getgridea/gridea/releases) | [主 页](http://hvenotes.fehey.com/)
 

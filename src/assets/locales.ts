@@ -90,6 +90,7 @@ const message = {
     noCustomConfigTip: '当前主题暂无自定义配置',
     customConfig: '自定义配置',
     moreThemes: '更多主题',
+    postSettings: '文章设置',
   },
   en: {
     preview: 'Preview',
@@ -182,6 +183,7 @@ const message = {
     noCustomConfigTip: 'there is no custom configuration for the theme',
     customConfig: 'Custom configuration',
     moreThemes: 'More Themes',
+    postSettings: 'Post Settings',
   },
 }
 

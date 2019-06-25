@@ -2,7 +2,7 @@
   <div class="article-update-page" v-if="visible">
     <div class="page-title">
       <a-row type="flex" justify="end">
-        <a-button class="btn" @click="postSettingsVisible = true">Post Settings</a-button>
+        <a-button class="btn" @click="postSettingsVisible = true">{{ $t('postSettings') }}</a-button>
         <a-button class="btn" @click="close">{{ $t('cancel') }}</a-button>
         <a-button class="btn" :disabled="!canSubmit" @click="saveDraft">{{ $t('saveDraft') }}</a-button>
         <a-button class="btn" type="primary" :disabled="!canSubmit" @click="savePost">{{ $t('save') }}</a-button>

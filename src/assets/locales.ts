@@ -183,6 +183,7 @@ const message = {
     noCustomConfigTip: '當前主題暫無自定義配置',
     customConfig: '自定義配置',
     moreThemes: '更多主題',
+    postSettings: '文章設置',
   },
   en: {
     preview: 'Preview',

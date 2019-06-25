@@ -6,7 +6,7 @@
 
 <script>
 import EasyMDE from 'easymde'
-import marked from 'marked'
+import Prism from 'prismjs'
 import markdown from '../server/plugins/markdown'
 
 export default {
@@ -55,8 +55,12 @@ export default {
         element: this.$el.firstElementChild,
         initialValue: this.value,
         renderingConfig: {},
-        previewRender: function (text) {
-          return markdown.render(text)
+        previewRender: function (plainText, preview) {
+          setTimeout(() => {
+            preview.innerHTML = markdown.render(plainText)
+            Prism.highlightAll()
+          }, 1)
+          return 'Loading...'
         },
       }, this.configs)
       // 同步 value 和 initialValue 的值 \ Synchronize the values of value and initialValue
@@ -68,7 +72,7 @@ export default {
         configs.renderingConfig.codeSyntaxHighlighting = true
       }
       // 设置是否渲染输入的html \ Set whether to render the input html
-      marked.setOptions({ sanitize: this.sanitize })
+      // marked.setOptions({ sanitize: this.sanitize })
       // 实例化编辑器 \ Instantiated editor
       this.easymde = new EasyMDE(configs)
       // 添加自定义 previewClass \ Add a custom previewClass
@@ -252,13 +256,17 @@ export default {
   table {
     margin-bottom: 16px;
   }
+
+  pre[class*="language-"] {
+    box-shadow: none;
+    text-shadow: none;
+  }
 }
 </style>
 
 
 <style lang="less">
 @import '~easymde/dist/easymde.min.css';
-@import '~markdown-it-highlight/dist/index.css';
 
 .markdown-editor .markdown-body {
   padding: 0.5em

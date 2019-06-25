@@ -7,8 +7,6 @@ import MarkdownItSup from 'markdown-it-sup'
 import MarkdownItSub from 'markdown-it-sub'
 import MarkdownItAbbr from 'markdown-it-abbr'
 import MarkdownItFootnote from 'markdown-it-footnote'
-import MarkdownItHighlight from 'markdown-it-highlight'
-// import MakrdownItSanitizer from 'markdown-it-sanitizer'
 
 const markdownIt = new MarkdownIt({
   html: true,
@@ -37,7 +35,5 @@ markdownIt.use(MarkdownItSup)
 markdownIt.use(MarkdownItSub)
 markdownIt.use(MarkdownItAbbr)
 markdownIt.use(MarkdownItFootnote)
-markdownIt.use(MarkdownItHighlight)
-// markdownIt.use(MakrdownItSanitizer)
 
 export default markdownIt

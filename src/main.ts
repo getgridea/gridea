@@ -3,6 +3,7 @@ import moment from 'moment'
 import Antd from 'ant-design-vue'
 import '@/assets/styles/main.less'
 import VueI18n from 'vue-i18n'
+import Prism from 'prismjs'
 import locale from './assets/locales'
 import App from './App.vue'
 import router from './router'
@@ -16,7 +17,7 @@ const i18n = new VueI18n({
   silentTranslationWarn: true,
 })
 
-console.log('messages', locale)
+Prism.highlightAll()
 
 Vue.use(Antd)
 Vue.use(VueBus)

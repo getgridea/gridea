@@ -11,6 +11,10 @@ module.exports = {
         import: [
           resolve('src/assets/styles/var.less'),
         ],
+        modifyVars: {
+          'btn-height-base': '30px',
+          'input-height-base': '30px',
+        },
         javascriptEnabled: true,
       },
     },

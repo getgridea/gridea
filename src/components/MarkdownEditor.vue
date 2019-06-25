@@ -228,8 +228,8 @@ export default {
       border-right: none;
       position: absolute;
       display: inline-block;
-      top: 3px;
-      left: 3px;
+      top: 4px;
+      left: 4px;
       transition: all .2s ease;
     }
   }
@@ -247,6 +247,10 @@ export default {
     border-top: 1px solid #dee2e6;
     margin: 1em 0;
     padding: 0;
+  }
+
+  table {
+    margin-bottom: 16px;
   }
 }
 </style>

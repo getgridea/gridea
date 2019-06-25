@@ -56,6 +56,10 @@
   background: #f7f7f7;
 }
 
+.ant-btn {
+  font-size: 13px;
+}
+
 .ant-btn-primary {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
 }
@@ -87,19 +91,20 @@
 .ant-checkbox-inner:after {
   left: 3.571429px;
 }
-.ant-tabs-nav .ant-tabs-tab-active {
-  position: relative;
-  &:after {
-    content: '';
-    display: block;
-    width: 4px;
-    height: 4px;
-    background: #fcc514;
+
+.ant-tabs-nav {
+  .ant-tabs-tab {
+    padding: 4px 8px;
+    margin-bottom: 8px;
+    color: #b1b1b1;
     border-radius: 2px;
-    position: absolute;
-    top: 50%;
-    left: 4px;
-    transform: translateY(-50%);
+    transition: all 0.3s;
+    &:hover {
+      background: #efefef;
+    }
+  }
+  .ant-tabs-tab-active {
+    color: #434343;
   }
 }
 
@@ -116,8 +121,7 @@
 }
 
 .ant-tabs-ink-bar {
-  background: #434343;
-  border-radius: 2px;
+  height: 0;
 }
 
 .ant-message {
@@ -145,5 +149,20 @@
   width: 100%;
   &:hover {
     background: #efebe385;
+  }
+}
+
+.menu-tab {
+  .ant-tabs-top-bar {
+    position: fixed;
+    top: 8px;
+    left: 200px;
+    right: 0;
+    background: #fff;
+    z-index: 100;
+    padding-left: 24px;
+  }
+  .ant-tabs-content {
+    padding-top: 44px;
   }
 }

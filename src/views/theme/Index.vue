@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <a-tabs defaultActiveKey="basic" v-model="currentTab" forceRender>
+    <a-tabs class="menu-tab" defaultActiveKey="basic" v-model="currentTab" forceRender>
       <a-tab-pane :tab="$t('basicSetting')" key="basic">
         <basic-setting></basic-setting>
       </a-tab-pane>

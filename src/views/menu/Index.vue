@@ -19,7 +19,7 @@
         ><i class="zwicon-hamburger-menu menu-icon"></i> {{ text }}</a>
         <a-tag slot="openType" slot-scope="text" :color="text === 'Internal' ? 'purple' : 'blue' ">{{ text }}</a-tag>
         <span slot="action" slot-scope="record">
-          <a-button size="small" shape="circle" type="danger" icon="delete" @click="deleteMenu(record.name)"></a-button>
+          <i class="zwicon-trash delete-icon" @click="deleteMenu(record.name)"></i>
         </span>
       </a-table>
     </div>
@@ -212,6 +212,13 @@ export default class Menu extends Vue {
   color: #373530;
   &:hover {
     color: #3687eb;
+  }
+}
+.delete-icon {
+  padding: 4px 8px;
+  &:hover {
+    color: #fa5252;
+    cursor: pointer;
   }
 }
 </style>

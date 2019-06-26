@@ -21,6 +21,8 @@ function createWindow() {
   const winOption: any = {
     width: 1200,
     height: 800,
+    minHeight: 642,
+    minWidth: 1000,
     webPreferences: {
       webSecurity: false, // FIXED: Not allowed to load local resource
     },

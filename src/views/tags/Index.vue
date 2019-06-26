@@ -5,12 +5,8 @@
     </a-row>
     <div class="content-container">
       <div v-for="(tag, index) in site.tags" :key="tag.name" class="tag-wrapper">
-        <a-tag
-          class="tag"
-          color="#434343"
-          @click="tag.used ? null : updateTag(tag, index)"
-        >{{ tag.name }}</a-tag>
-        <a-button type="danger" v-if="!tag.used" icon="delete" @click="handleDelete(tag.name)"></a-button>
+        <div class="tag" @click="tag.used ? null : updateTag(tag, index)">{{ tag.name }}</div>
+        <i class="zwicon-trash delete-icon" v-if="!tag.used" @click="handleDelete(tag.name)"></i>
       </div>
     </div>
     <a-drawer
@@ -195,19 +191,28 @@ export default class Tags extends Vue {
   margin-right: 32px;
   margin-bottom: 8px;
   align-items: center;
-  box-shadow: 0 0 17px #d6d3cd;
+  border: 1px solid #e8e8e8;
+  border-radius: 20px;
+  transition: all 0.3s;
+  &:hover {
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06)!important;
+  }
   .tag {
     font-size: 12px;
-    height: 32px;
-    line-height: 32px;
     margin-right: 0px;
     border-radius: 0;
+    padding: 4px 8px;
+    &:not(:last-child) {
+      cursor: pointer;
+      border-right: 1px solid #e8e8e8;
+    }
   }
-  /deep/ .ant-btn {
-    border-left: 0;
-    padding: 0 6px;
-    border-radius: 0px;
-    font-size: 12px;
+}
+.delete-icon {
+  padding: 4px 8px;
+  &:hover {
+    color: #fa5252;
+    cursor: pointer;
   }
 }
 </style>

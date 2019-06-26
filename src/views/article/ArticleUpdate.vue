@@ -28,13 +28,13 @@
       </a-row>
 
       <a-drawer
-        title="Post Settings"
+        :title="$t('postSettings')"
         :visible="postSettingsVisible"
         @close="postSettingsVisible = false"
         width="400"
         :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px', zIndex: 1025}"
       >
-        <a-collapse v-model="activeKey">
+        <a-collapse v-model="activeKey" class="post-settings" :bordered="false">
           <a-collapse-panel header="URL" key="1">
             <a-input v-model="form.fileName" @change="handleFileNameChange"></a-input>
           </a-collapse-panel>
@@ -71,8 +71,8 @@
                   <img class="feature-image" :src="`file://${form.featureImage.path}`" height="150" />
                 </div>
                 <div v-else>
-                  <a-icon type="plus" />
-                  <div class="ant-upload-text">Upload</div>
+                  <img src="@/assets/images/image_upload.svg" class="upload-img">
+                  <i class="zwicon-upload upload-icon"></i>
                 </div>
               </a-upload>
               <a-button v-if="form.featureImage.path" type="danger" block icon="delete" @click="form.featureImage = {}" />
@@ -515,8 +515,8 @@ export default class ArticleUpdate extends Vue {
   display: flex;
   flex-direction: column;
   .page-title {
-    padding: 16px 32px;
-    border-bottom: 1px solid #e4e2dd;
+    padding: 8px 16px;
+    border-bottom: 1px solid #e8e8e88a;
     box-shadow: 0 3px 20px #4343430d;
     z-index: 1026;
     background: #fff;
@@ -559,8 +559,11 @@ export default class ArticleUpdate extends Vue {
 #markdown-editor {
   /deep/ .editor-toolbar {
     position: fixed;
-    top: 16px;
+    top: 0px;
     z-index: 3000;
+    &:before {
+      margin-bottom: 7px;
+    }
   }
 }
 .editor-container {
@@ -572,17 +575,33 @@ export default class ArticleUpdate extends Vue {
 .ant-drawer {
   z-index: 1025;
 }
-</style>
 
-<style>
-
-.ant-upload-select-picture-card i {
-  font-size: 32px;
-  color: #999;
+.upload-img {
+  width: 80px;
 }
-
-.ant-upload-select-picture-card .ant-upload-text {
+.upload-icon {
+  font-size: 18px;
   margin-top: 8px;
-  color: #666;
+  display: block;
 }
+
+.post-settings {
+  /deep/ .ant-collapse-item {
+    border-bottom: 1px solid #e8e8e88a;
+    > .ant-collapse-header {
+      padding-left: 16px;
+      background: #fbfbfb;
+      .arrow {
+        left: auto;
+        right: 16px;
+      }
+    }
+    &.ant-collapse-item-active {
+      > .ant-collapse-header {
+        background: #fff;
+      }
+    }
+  }
+}
+
 </style>

@@ -14,10 +14,32 @@
         right: 0;
         bottom: 0;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: #F7F6F3;
+        background: #fff;
       }
+      .box {
+        perspective: 120px;
+      }
+
+      .plane {
+        width: 2em;
+        height: 2em;
+        background-color: #fad849;
+        transform: rotate(0);
+        animation: flip 1s infinite;
+      }
+
+      @keyframes flip {
+        50% {
+          transform: rotateY(180deg);
+        }
+        100% {
+          transform: rotateY(180deg) rotateX(180deg);
+        }
+      }
+
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
@@ -28,7 +50,9 @@
     </noscript>
     <div id="app">
       <div id="landing" class="landing">
-        <img src="/app-icons/gridea.png" alt="" width="120px" height="120px">
+        <div class="box">
+          <div class="plane"></div>
+        </div>
       </div>
     </div>
     <!-- built files will be auto injected -->

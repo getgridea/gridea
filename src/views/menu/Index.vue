@@ -11,12 +11,12 @@
         :pagination="{ size: 'small' }"
       >
         <a
-          class="table-cell-link"
+          class="menu-title"
           href="javascript:;"
           slot="name"
           slot-scope="text, record, index"
           @click="editMenu(record, index)"
-        >{{ text }}</a>
+        ><i class="zwicon-hamburger-menu menu-icon"></i> {{ text }}</a>
         <a-tag slot="openType" slot-scope="text" :color="text === 'Internal' ? 'purple' : 'blue' ">{{ text }}</a-tag>
         <span slot="action" slot-scope="record">
           <a-button size="small" shape="circle" type="danger" icon="delete" @click="deleteMenu(record.name)"></a-button>
@@ -204,5 +204,14 @@ export default class Menu extends Vue {
 <style lang="less" scoped>
 .link-input {
   margin-bottom: 8px;
+}
+.menu-icon {
+  font-size: 18px;
+}
+.menu-title {
+  color: #373530;
+  &:hover {
+    color: #3687eb;
+  }
 }
 </style>

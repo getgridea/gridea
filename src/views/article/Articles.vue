@@ -20,12 +20,12 @@
         :pagination="{ size: 'small' }"
       >
         <a
-          class="table-cell-link"
+          class="post-title"
           href="javascript:;"
           slot="name"
           slot-scope="text, record"
           @click="editPost(record)"
-        >{{ text }} <a-tag v-if="record.data.hideInList" color="orange">Hide</a-tag> </a>
+        ><i class="zwicon-document post-icon"></i> {{ text }} <a-tag v-if="record.data.hideInList" color="orange">Hide</a-tag> </a>
         <a-tag :class="{'tag-success': text, 'tag-draft': !text }" slot="status" :color="text ? '#d8f5ea': '#e8e8e8'" slot-scope="text">{{ text ? $t('published') : $t('draft') }}</a-tag>
         <span slot="date" slot-scope="text" class="post-date">{{ text }}</span>
       </a-table>
@@ -193,5 +193,15 @@ export default class Articles extends Vue {
 }
 .tag-draft {
   color: #4c4c4c;
+}
+
+.post-title {
+  color: #373530;
+  &:hover {
+    color: #3687eb;
+  }
+}
+.post-icon {
+  font-size: 18px;
 }
 </style>

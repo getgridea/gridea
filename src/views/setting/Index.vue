@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <a-tabs class="menu-tab" defaultActiveKey="1">
+    <a-tabs class="menu-tab" defaultActiveKey="1" :animated="false">
       <a-tab-pane :tab="$t('basicSetting')" key="1">
         <basic-setting></basic-setting>
       </a-tab-pane>

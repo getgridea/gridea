@@ -547,11 +547,13 @@ export default class ArticleUpdate extends Vue {
   font-weight: bold;
   background: #fff;
   padding: 24px 0;
-  font-size: 24px;
+  font-size: 28px;
+  color: #000;
+  border: none;
+  border-bottom: 1px solid #e8e8e8;
   &:focus {
     box-shadow: none;
   }
-  border-bottom: 1px solid #e8e8e8;
 }
 
 #markdown-editor {

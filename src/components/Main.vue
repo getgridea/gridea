@@ -11,27 +11,27 @@
         </div>
         <a-menu mode="inline" :defaultSelectedKeys="['articles']" @click="clickMenu">
           <a-menu-item key="articles">
-            <a-icon type="file-text" />
+            <i class="zwicon-document menu-icon"></i>
             <span class="nav-text">{{ $t('article') }}</span>
           </a-menu-item>
           <a-menu-item key="menu">
-            <a-icon type="bars" />
+            <i class="zwicon-grid menu-icon"></i>
             <span class="nav-text">{{ $t('menu') }}</span>
           </a-menu-item>
           <a-menu-item key="tags">
-            <a-icon type="tags" />
+            <i class="zwicon-price-tag menu-icon"></i>
             <span class="nav-text">{{ $t('tag') }}</span>
           </a-menu-item>
           <a-menu-item key="theme">
-            <a-icon type="picture" />
+            <i class="zwicon-image-wide menu-icon"></i>
             <span class="nav-text">{{ $t('theme') }}</span>
           </a-menu-item>
           <a-menu-item key="setting">
-            <a-icon type="setting" />
+            <i class="zwicon-cog menu-icon"></i>
             <span class="nav-text">{{ $t('setting') }}</span>
           </a-menu-item>
           <a-menu-item key="system">
-            <a-icon type="desktop" />
+            <i class="zwicon-desktop menu-icon"></i>
             <span class="nav-text">{{ $t('system') }}</span>
           </a-menu-item>
         </a-menu>
@@ -287,5 +287,11 @@ export default class App extends Vue {
   &:hover {
     color: @link-color;
   }
+}
+
+.menu-icon {
+  font-size: 17px;
+  margin-right: 8px;
+  font-weight: 400;
 }
 </style>

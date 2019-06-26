@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-tabs class="menu-tab" defaultActiveKey="1">
+    <a-tabs class="menu-tab" defaultActiveKey="1" :animated="false">
       <a-tab-pane :tab="$t('language')" key="1">
         <language-setting></language-setting>
       </a-tab-pane>

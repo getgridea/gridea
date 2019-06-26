@@ -14,6 +14,7 @@
 .ant-table-thead > tr > th {
   background: #f9f7f352;
   color: #434343b0;
+  font-weight: normal;
 }
 
 .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td, .ant-table-thead > tr:hover:not(.ant-table-expanded-row) > td, .ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td {
@@ -28,15 +29,15 @@
   background: transparent;
 }
 .tool-container {
-  padding: 8px 0 16px;
+  padding: 0px 16px 7px;
   margin-bottom: 16px;
   position: fixed;
   top: 8px;
-  left: 216px;
-  right: 16px;
+  left: 200px;
+  right: 0px;
   z-index: 1;
   background: #fff;
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e8e8e88a;
   -webkit-app-region: drag;
   .btn {
     margin-left: 16px;
@@ -48,8 +49,11 @@
 }
 
 .ant-input, .ant-input-group-addon, .ant-select-selection {
-  border: none;
-  background: @primary-bg;
+  background: #f7f7f5;
+  border-color: #e8e8e88a;
+  &:focus {
+    box-shadow: none;
+  }
 }
 
 .ant-select-dropdown-menu-item-active, .ant-select-dropdown-menu-item:hover {
@@ -58,10 +62,11 @@
 
 .ant-btn {
   font-size: 13px;
+  box-shadow: none;
 }
 
 .ant-btn-primary {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  box-shadow: none;
 }
 
 .ant-pagination-item-active {
@@ -71,21 +76,13 @@
   background: #f9f7f3;
   border-radius: 50%;
 }
+.ant-menu-inline > .ant-menu-item {
+  height: 36px;
+  line-height: 36px;
+}
 
 .ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
   position: relative;
-  &:after {
-    content: '';
-    display: block;
-    width: 4px;
-    height: 4px;
-    background: #fcc514;
-    border-radius: 2px;
-    position: absolute;
-    top: 50%;
-    right: 24px;
-    transform: translateY(-50%);
-  }
 }
 
 .ant-checkbox-inner:after {
@@ -146,7 +143,9 @@
 }
 
 .ant-menu-inline .ant-menu-item, .ant-menu-inline .ant-menu-submenu-title {
-  width: 100%;
+  width: 90%;
+  margin-left: 5%;
+  border-radius: 2px;
   &:hover {
     background: #efebe385;
   }
@@ -165,4 +164,8 @@
   .ant-tabs-content {
     padding-top: 44px;
   }
+}
+
+.ant-tabs-bar {
+  border-bottom: 1px solid #e8e8e88a;
 }

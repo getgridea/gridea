@@ -50,7 +50,9 @@
     </a-layout-sider>
     <a-layout class="right-container">
       <div class="content">
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </div>
     </a-layout>
   </a-layout>

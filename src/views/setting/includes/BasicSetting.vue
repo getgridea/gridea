@@ -8,7 +8,7 @@
         </a-radio-group>
       </a-form-item>
       <a-form-item :label="$t('domain')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-input v-model="form.domain" />
+        <a-input v-model="form.domain" placeholder="http(s)://" />
       </a-form-item>
       <a-form-item :label="$t('repository')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-input v-model="form.repository" />

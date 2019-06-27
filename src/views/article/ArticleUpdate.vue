@@ -24,6 +24,9 @@
               @click.native.capture="preventDefault($event)"
             ></markdown-editor>
           </div>
+          <div class="footer-info">
+            写作于 <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
+          </div>
         </a-col>
       </a-row>
 
@@ -474,6 +477,10 @@ export default class ArticleUpdate extends Vue {
       ])
     }
   }
+
+  openPage(url: string) {
+    shell.openExternal(url)
+  }
 }
 </script>
 
@@ -557,7 +564,7 @@ export default class ArticleUpdate extends Vue {
   }
 }
 .editor-container {
-  padding: 32px;
+  padding: 32px 32px 16px;
   border: 1px solid #e8e8e8;
   background: #ffffff;
   box-shadow: 0 2px 8px rgba(115, 115, 115, 0.08);
@@ -590,6 +597,21 @@ export default class ArticleUpdate extends Vue {
       > .ant-collapse-header {
         background: #fff;
       }
+    }
+  }
+}
+.footer-info {
+  text-align: center;
+  color: #a5a5a5;
+  font-size: 12px;
+  font-weight: lighter;
+  font-family: -apple-system, 'BlinkMacSystemFont',"PingFang SC",Helvetica,Tahoma,Arial,"Microsoft YaHei",'微软雅黑','黑体','Heiti',sans-serif,'SimSun','宋体',serif;
+  -webkit-font-smoothing: antialiased;
+  margin-top: 16px;
+  .link {
+    color: #a5a5a5;
+    &:hover {
+      color: #101010;
     }
   }
 }

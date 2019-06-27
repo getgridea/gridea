@@ -37,8 +37,8 @@
         </a-menu>
       </div>
       <div class="bottom-container">
-        <a-button class="preview-btn" icon="eye" block @click="preview">{{ $t('preview') }}</a-button>
-        <a-button class="publish-btn" icon="sync" block type="primary" :loading="publishLoading" @click="publish">{{ $t('syncSite') }}</a-button>
+        <a-button icon="eye" block @click="preview">{{ $t('preview') }}</a-button>
+        <a-button icon="sync" block type="primary" :loading="publishLoading" @click="publish">{{ $t('syncSite') }}</a-button>
         <div class="version-container" :class="{ 'version-dot': hasUpdate }">
           <span>v {{ version }}</span>
           <i class="zwicon-web web-btn" @click="goWeb" v-if="site.setting.domain"></i>
@@ -268,7 +268,7 @@ export default class App extends Vue {
 
 .preview-btn {
   border-radius: 16px;
-  background: #e8e8e8;
+  background: #ffffff;
   &:hover {
     border: none;
     background: #c7c7c7;

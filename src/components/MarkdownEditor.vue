@@ -298,7 +298,7 @@ export default {
   background: #f9f7f3;
 }
 .editor-toolbar button {
-  color: #000 !important;
+  color: #41464b !important;
   width: 32px;
   height: 32px;
   border-radius: 2px;
@@ -391,5 +391,10 @@ export default {
   .cm-comment.cm-formatting-code {
     background: none;
   }
+}
+
+.editor-statusbar {
+  color: #6669;
+  font-weight: lighter;
 }
 </style>

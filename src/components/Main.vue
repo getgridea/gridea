@@ -198,6 +198,9 @@ export default class App extends Vue {
 .sider {
   background: @primary-bg;
   // background: linear-gradient(to bottom, #434343, #000000);
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 }
 
 /deep/ .ant-menu {
@@ -233,12 +236,12 @@ export default class App extends Vue {
 .right-container {
   background: #fff;
   margin-left: 8px 8px 8px 208px;
-  padding: 8px;
+  padding: 8px 16px 8px 8px;
   position: absolute;
   top: 8px;
   bottom: 8px;
   left: 208px;
-  right: 8px;
+  right: 0px;
 }
 .version-container {
   display: flex;

@@ -533,16 +533,6 @@ export default class ArticleUpdate extends Vue {
   margin: 8px 0;
 }
 
-.right-container {
-  position: fixed;
-  height: 100vh;
-  overflow: scroll;
-  right: 8px;
-  top: 0px;
-  padding: 89px 0 32px;
-  z-index: 999;
-}
-
 .post-title {
   font-weight: bold;
   background: #fff;

@@ -281,10 +281,14 @@ export default {
   transition: all 0.3s;
   color: #000;
   border: none;
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.05em;
   padding: 16px 0;
-  line-height: 24px;
+  line-height: 28px;
+}
+
+.CodeMirror pre {
+  line-height: 28px;
 }
 
 .editor-toolbar {
@@ -294,8 +298,9 @@ export default {
   padding: 0;
 }
 .editor-toolbar button.active, .editor-toolbar button:hover {
-  border-color: #d2c7b3;
-  background: #f9f7f3;
+  border-color: #41464b;
+  background: #f8d65f;
+  border-style: dashed;
 }
 .editor-toolbar button {
   color: #41464b !important;
@@ -328,7 +333,8 @@ export default {
   .cm-formatting,
   .cm-formatting-header,
   .cm-formatting-strong,
-  .cm-formatting-link {
+  .cm-formatting-link,
+  .cm-hr {
     // color: rgba(0,0,0,.28);
     color: #efb73f;
     font-weight: normal;
@@ -339,37 +345,16 @@ export default {
   .cm-formatting-list-ul {
     padding-left: 16px;
   }
-  .cm-header-1 {
-    font-size: 28px;
-    line-height: 36px;
-    padding: 7px 0;
-    position: relative;
-  }
-  .cm-header-2 {
-    font-size: 24px;
-    line-height: 32px;
-    padding: 7px 0;
-  }
-  .cm-header-3 {
-    font-size: 20px;
+  .cm-header-1,
+  .cm-header-2,
+  .cm-header-3,
+  .cm-header-4,
+  .cm-header-5,
+  .cm-header-6 {
+    font-size: 15px;
     line-height: 28px;
     padding: 7px 0;
-  }
-  .cm-header-4 {
-    font-size: 16px;
-    line-height: 24px;
-    padding: 7px 0;
-  }
-  .cm-header-5 {
-    font-size: 14px;
-    line-height: 24px;
-    padding: 7px 0;
-  }
-  .cm-header-6 {
-    font-size: 14px;
-    line-height: 24px;
-    padding: 7px 0;
-    font-weight: normal;
+    position: relative;
   }
   
   .cm-quote {

@@ -8,7 +8,6 @@
         @search="onSearch"
         v-model="keyword"
       />
-      <a-button class="btn" type="danger" v-if="selectedRowKeys.length > 0" @click="deleteSelectedPosts">{{ $t('deleteSelected') }}</a-button>
       <a-button class="btn" type="primary" @click="newArticle">{{ $t('newArticle') }}</a-button>
     </a-row>
     <div class="content-container">
@@ -19,6 +18,14 @@
         :dataSource="postList"
         :pagination="{ size: 'small' }"
       >
+        <span slot="customTitle">
+          <!-- <a-button class="btn" type="danger" >{{  }}</a-button> -->
+          <template v-if="selectedRowKeys.length > 0">
+            {{ $t('deleteSelected') }} {{ selectedRowKeys.length }}
+            <i class="zwicon-trash delete-btn" @click="deleteSelectedPosts"></i>
+          </template>
+          <template v-else>{{ $t('title') }}</template>
+        </span>
         <a
           class="post-title"
           href="javascript:;"
@@ -73,9 +80,10 @@ export default class Articles extends Vue {
   get columns() {
     return [
       {
-        title: this.$t('title'),
+        // title: this.$t('title'),
         key: 'data.title',
         dataIndex: 'data.title',
+        slots: { title: 'customTitle' },
         scopedSlots: { customRender: 'name' },
       },
       {
@@ -203,5 +211,13 @@ export default class Articles extends Vue {
 }
 .post-icon {
   font-size: 18px;
+}
+.delete-btn {
+  font-size: 18px;
+  font-weight: bold;
+  color: @primary-color;
+  &:hover {
+    color: #fa5252;
+  }
 }
 </style>

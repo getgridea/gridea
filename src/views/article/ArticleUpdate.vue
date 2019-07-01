@@ -9,26 +9,26 @@
       </a-row>
     </div>
     <div class="page-content">
-      <a-row :gutter="16">
-        <a-col :span="16" :offset="4">
-          <div class="tip-text">{{ $t('editorTip') }}</div>
-          <div class="editor-container">
+      <div class="editor-wrapper">
+        <div class="tip-text">{{ $t('editorTip') }}</div>
+        <div class="editor-container">
+          <div class="post-title-container">
             <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
-            <markdown-editor
-              id="markdown-editor"
-              ref="editor"
-              class="md-editor"
-              :configs="configs"
-              preview-class="markdown-body"
-              v-model="form.content"
-              @click.native.capture="preventDefault($event)"
-            ></markdown-editor>
           </div>
-          <div class="footer-info">
-            写作于 <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
-          </div>
-        </a-col>
-      </a-row>
+          <markdown-editor
+            id="markdown-editor"
+            ref="editor"
+            class="md-editor"
+            :configs="configs"
+            preview-class="markdown-body"
+            v-model="form.content"
+            @click.native.capture="preventDefault($event)"
+          ></markdown-editor>
+        </div>
+        <div class="footer-info">
+          写作于 <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
+        </div>
+      </div>
 
       <a-drawer
         :title="$t('postSettings')"
@@ -616,4 +616,12 @@ export default class ArticleUpdate extends Vue {
   }
 }
 
+.editor-wrapper {
+  width: 760px;
+  margin: 0 auto;
+}
+
+.post-title-container {
+  margin-left: 65px;
+}
 </style>

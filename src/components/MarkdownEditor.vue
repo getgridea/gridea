@@ -316,6 +316,7 @@ export default {
 .CodeMirror .editor-preview.markdown-body.editor-preview-active {
   background: #fff;
   padding: 16px 0;
+  padding-left: 65px;
 }
 .CodeMirror .editor-preview.markdown-body.editor-preview-active img {
   max-width: 100%;

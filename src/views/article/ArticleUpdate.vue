@@ -564,7 +564,7 @@ export default class ArticleUpdate extends Vue {
   }
 }
 .editor-container {
-  padding: 32px 32px 16px;
+  padding: 32px 89px 16px 24px;
   border: 1px solid #e8e8e8;
   background: #ffffff;
   box-shadow: 0 2px 8px rgba(115, 115, 115, 0.08);

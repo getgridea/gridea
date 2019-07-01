@@ -356,6 +356,24 @@ export default {
     padding: 7px 0;
     position: relative;
   }
+  .cm-formatting-header-1 {
+    margin-left: -14.75px;
+  }
+  .cm-formatting-header-2 {
+    margin-left: -24.75px;
+  }
+  .cm-formatting-header-3 {
+    margin-left: -34.75px;
+  }
+  .cm-formatting-header-4 {
+    margin-left: -44.75px;
+  }
+  .cm-formatting-header-5 {
+    margin-left: -54.75px;
+  }
+  .cm-formatting-header-6 {
+    margin-left: -64.75px;
+  }
   
   .cm-quote {
     font-style: normal;
@@ -381,5 +399,9 @@ export default {
 .editor-statusbar {
   color: #6669;
   font-weight: lighter;
+}
+
+.CodeMirror-sizer {
+  margin-left: 65px !important;
 }
 </style>

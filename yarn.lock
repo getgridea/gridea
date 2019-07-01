@@ -805,9 +805,10 @@
   version "10.12.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
 
-"@types/node@^8.0.24":
-  version "8.10.39"
-  resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-8.10.39.tgz#e7e87ad00364dd7bc485c940926345b8ec1a26ca"
+"@types/node@^10.12.18":
+  version "10.14.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.10.tgz#e491484c6060af8d461e12ec81c0da8a3282b8de"
+  integrity sha512-V8wj+w2YMNvGuhgl/MA5fmTxgjmVHVoasfIaxMMZJV6Y8Kk+Ydpi1z2whoShDCJ2BuNVoqH/h1hrygnBxkrw/Q==
 
 "@types/prismjs@^1.16.0":
   version "1.16.0"
@@ -3449,9 +3450,10 @@ electron-builder@^20.29.0:
     update-notifier "^2.5.0"
     yargs "^12.0.5"
 
-electron-chromedriver@~3.0.0:
-  version "3.0.0"
-  resolved "http://registry.npm.taobao.org/electron-chromedriver/download/electron-chromedriver-3.0.0.tgz#ec0a17badb6c3529813c660bf91a43fb91407674"
+electron-chromedriver@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/electron-chromedriver/-/electron-chromedriver-4.0.0.tgz#064fa2f0d5a97998eeff3258575b90bac8d436da"
+  integrity sha512-CeeAr4QVtsxkEpDWvFLzhdtgDVLQt32RBWjEJ4WxkIPNj0MX5D8gzli2djEPnnLUOX19vcBgs/CW7WBB/O3JIg==
   dependencies:
     electron-download "^4.1.0"
     extract-zip "^1.6.5"
@@ -3502,12 +3504,12 @@ electron-to-chromium@^1.3.92:
   version "1.3.96"
   resolved "http://registry.npm.taobao.org/electron-to-chromium/download/electron-to-chromium-1.3.96.tgz#25770ec99b8b07706dedf3a5f43fa50cb54c4f9a"
 
-electron@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-4.0.0.tgz#6ccb40cc8bf2d49954dcea73b97ae7ad12ee04b3"
-  integrity sha512-3XPG/3IXlvnT1oe1K6zEushoD0SKbP8xwdrL10EWGe6k2iOV4hSHqJ8vWnR8yZ7VbSXmBRfomEFDNAo/q/cwKw==
+electron@^5.0.0:
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-5.0.6.tgz#e3ca4a58b5716fceef3fb64e1fd2222dd9c51de0"
+  integrity sha512-0L53lv26eDhaaNxL6DqXGQrQOEAYbrQg40stRSb2pzrY06kwPbABzXEiaCvEsBuKUQ+9OQBbVyyvXRbLJlun/A==
   dependencies:
-    "@types/node" "^8.0.24"
+    "@types/node" "^10.12.18"
     electron-download "^4.1.0"
     extract-zip "^1.0.3"
 
@@ -8637,12 +8639,13 @@ spdy@^4.0.0:
     select-hose "^2.0.0"
     spdy-transport "^3.0.0"
 
-spectron@^5.0.0:
-  version "5.0.0"
-  resolved "http://registry.npm.taobao.org/spectron/download/spectron-5.0.0.tgz#602440da0c892f8d73471652ae68000b98d7769c"
+spectron@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/spectron/-/spectron-6.0.0.tgz#b6ead4735837f36b4be05afa29094460666e61d8"
+  integrity sha512-YQnQgdlpdPU572YhyX1hcDT40Q+5D0hkH4hM3jYy8HLHU1+6z4WTRQkjYdCBcYHE/3fHIQdPeaI+9DUzupQZtw==
   dependencies:
     dev-null "^0.1.1"
-    electron-chromedriver "~3.0.0"
+    electron-chromedriver "~4.0.0"
     request "^2.87.0"
     split "^1.0.0"
     webdriverio "^4.13.0"
@@ -9607,11 +9610,12 @@ vue-class-component@^6.0.0, vue-class-component@^6.2.0:
   version "6.3.2"
   resolved "http://registry.npm.taobao.org/vue-class-component/download/vue-class-component-6.3.2.tgz#e6037e84d1df2af3bde4f455e50ca1b9eec02be6"
 
-vue-cli-plugin-electron-builder@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/vue-cli-plugin-electron-builder/-/vue-cli-plugin-electron-builder-1.2.0.tgz#4bfb1eae446eee13d59010a7f7876a8051aa0201"
-  integrity sha512-gwoPk4qyACzhFYdmAHZM8/42IXVidGjF2/41SXnvEtokNmxdbBJ499zEZoeP/2sHVi7gnyxuq06Vml9C2MZrtw==
+vue-cli-plugin-electron-builder@^1.3.0:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/vue-cli-plugin-electron-builder/-/vue-cli-plugin-electron-builder-1.3.5.tgz#d3cc19f731e0ebb58c8ba2a7449e8d4d16ea9649"
+  integrity sha512-wVzwTInnfxI66TGLMZ4IKgJ5QJ/oqVdpdBpx+yvLTV5bPbKY+Czge/z5SsQBob0tDVWTC8rzwgPpu70WvNt+HQ==
   dependencies:
+    chokidar "^2.1.5"
     electron-builder "^20.29.0"
     execa "^1.0.0"
     friendly-errors-webpack-plugin "^1.7.0"
@@ -9619,8 +9623,9 @@ vue-cli-plugin-electron-builder@^1.2.0:
     lodash.merge "^4.6.1"
     portfinder "^1.0.16"
     pumpify "^1.5.1"
+    semver "^6.0.0"
     shebang-loader "^0.0.1"
-    spectron "^5.0.0"
+    spectron "^6.0.0"
     split2 "^3.0.0"
     terser-webpack-plugin "^1.1.0"
     through2-filter "^3.0.0"

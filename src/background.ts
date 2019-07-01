@@ -15,7 +15,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 let win: any
 
 // Standard scheme must be registered before the app is ready
-protocol.registerStandardSchemes(['app'], { secure: true })
+protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true } }])
 function createWindow() {
   // Create the browser window.
   const winOption: any = {
@@ -25,6 +25,7 @@ function createWindow() {
     minWidth: 1000,
     webPreferences: {
       webSecurity: false, // FIXED: Not allowed to load local resource
+      nodeIntegration: true,
     },
     // frame: false, // 去除默认窗口栏
     titleBarStyle: 'hidden' as ('hidden' | 'default' | 'hiddenInset' | 'customButtonsOnHover' | undefined),

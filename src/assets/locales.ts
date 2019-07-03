@@ -91,6 +91,8 @@ const message = {
     customConfig: '自定义配置',
     moreThemes: '更多主题',
     postSettings: '文章设置',
+    back: '返回',
+    savedIn: '保存于',
   },
   zh_TW: {
     preview: '預 覽',
@@ -184,6 +186,8 @@ const message = {
     customConfig: '自定義配置',
     moreThemes: '更多主題',
     postSettings: '文章設置',
+    back: '返回',
+    savedIn: '保存於',
   },
   en: {
     preview: 'Preview',
@@ -277,6 +281,8 @@ const message = {
     customConfig: 'Custom configuration',
     moreThemes: 'More Themes',
     postSettings: 'Post Settings',
+    back: 'Back',
+    savedIn: 'Saved in',
   },
 }
 

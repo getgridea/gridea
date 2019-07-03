@@ -3,7 +3,7 @@
     <div class="page-title">
       <a-row type="flex" justify="end">
         <a-button class="btn" @click="postSettingsVisible = true">{{ $t('postSettings') }}</a-button>
-        <a-button class="btn" @click="close">{{ $t('cancel') }}</a-button>
+        <a-button class="btn" @click="close">{{ $t('back') }}</a-button>
         <a-button class="btn" :disabled="!canSubmit" @click="saveDraft">{{ $t('saveDraft') }}</a-button>
         <a-button class="btn" type="primary" :disabled="!canSubmit" @click="savePost">{{ $t('save') }}</a-button>
       </a-row>
@@ -96,6 +96,8 @@
 
       <!-- 编辑器点击图片上传用 -->
       <input ref="uploadInput" class="upload-input" type="file" accept="image/*" @change="fileChangeHandler">
+
+      <span class="save-tip">{{ postStatusTip }}</span>
     </div>
   </div>
 </template>
@@ -104,7 +106,9 @@
 import {
   ipcRenderer, Event, shell, clipboard, remote,
 } from 'electron'
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import {
+  Vue, Component, Prop, Watch,
+} from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import shortid from 'shortid'
 import moment from 'moment'
@@ -183,6 +187,8 @@ export default class ArticleUpdate extends Vue {
 
   activeKey = ['1']
 
+  postStatusTip = ''
+
   get dateLocale() {
     return this.$root.$i18n.locale === 'zhHans' ? 'zh-cn' : 'en-us'
   }
@@ -205,6 +211,9 @@ export default class ArticleUpdate extends Vue {
   mounted() {
     this.buildCurrentForm()
     this.initEditor()
+    ipcRenderer.on('click-menu-save', (event: Event, data: any) => {
+      this.normalSavePost()
+    })
   }
 
   buildCurrentForm() {
@@ -256,12 +265,12 @@ export default class ArticleUpdate extends Vue {
     return false
   }
 
-  cancel() {
-    this.close()
-  }
-
   close() {
     this.$emit('close')
+  }
+
+  updatePostSavedStatus() {
+    this.postStatusTip = `${this.$t('savedIn')} ${moment().format('HH:mm:ss')}`
   }
 
   handleTitleChange(val: string) {
@@ -314,7 +323,7 @@ export default class ArticleUpdate extends Vue {
     return true
   }
 
-  formatForm(published: boolean) {
+  formatForm(published?: boolean) {
     this.buildFileName()
     const valid = this.checkArticleUrlValid()
     if (!valid) {
@@ -346,7 +355,7 @@ export default class ArticleUpdate extends Vue {
         type: '',
       }
     }
-    form.published = published
+    form.published = published || form.published
 
     return form
   }
@@ -356,8 +365,8 @@ export default class ArticleUpdate extends Vue {
 
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
+      this.updatePostSavedStatus()
       this.$message.success(`🎉  ${this.$t('draftSuccess')}`)
-      this.close()
       this.$emit('fetchData')
     })
   }
@@ -367,8 +376,19 @@ export default class ArticleUpdate extends Vue {
 
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
+      this.updatePostSavedStatus()
       this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
-      this.close()
+      this.$emit('fetchData')
+    })
+  }
+
+  normalSavePost() {
+    if (!this.canSubmit) return
+    const form = this.formatForm()
+
+    ipcRenderer.send('app-post-create', form)
+    ipcRenderer.once('app-post-created', (event: Event, data: any) => {
+      this.updatePostSavedStatus()
       this.$emit('fetchData')
     })
   }
@@ -623,5 +643,15 @@ export default class ArticleUpdate extends Vue {
 
 .post-title-container {
   margin-left: 65px;
+}
+
+.save-tip {
+  padding: 6px 10px;
+  line-height: 22px;
+  font-size: 12px;
+  color: #b7b7b7;
+  position: fixed;
+  left: 0;
+  bottom: 0;
 }
 </style>

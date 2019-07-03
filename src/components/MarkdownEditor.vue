@@ -163,6 +163,10 @@ export default {
   }
 }
 /deep/ .editor-preview {
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 3rem;
+    font-weight: 700;
+  }
   code {
     background: #ededeb;
     padding: 0px 4px;
@@ -189,7 +193,7 @@ export default {
     width: 16px;
     height: 16px;
     margin: 4px 0 0;
-    top: 0;
+    top: 3px;
     left: -22px;
     transform-origin: center;
     transform: rotate(-90deg);
@@ -198,13 +202,13 @@ export default {
       transform: rotate(0);
       &:before {
         border: transparent;
-        background-color: #66a80f;
+        background-color: #ef782f;
       }
       &:after {
         transform: rotate(-45deg) scale(1);
       }
       + .task-list-item-label {
-        color: #adb5bd;
+        color: #a0a0a0;
         text-decoration: line-through;
       }
     }
@@ -214,7 +218,7 @@ export default {
       height: 16px;
       box-sizing: border-box;
       display: inline-block;
-      border: 2px solid #ced4da;
+      border: 1px solid #d0d0d0;
       border-radius: 2px;
       background-color: #fff;
       position: absolute;
@@ -227,7 +231,7 @@ export default {
       transform: rotate(-45deg) scale(0);
       width: 9px;
       height: 5px;
-      border: 2px solid #fff;
+      border: 1px solid #fff;
       border-top: none;
       border-right: none;
       position: absolute;

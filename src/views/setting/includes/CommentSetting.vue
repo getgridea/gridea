@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-form :form="form">
-      <a-form-item label="Platform" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper">
+      <a-form-item label="Platform" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-radio-group name="commentPlatform" v-model="form.commentPlatform">
           <a-radio value="gitalk">Gitalk</a-radio>
           <a-radio value="disqus">Disqus</a-radio>

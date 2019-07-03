@@ -5,12 +5,20 @@
 </template>
 
 <script lang="ts">
+import { shell } from 'electron'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
 @Component
 export default class App extends Vue {
-
+  mounted() {
+    document.addEventListener('click', (event: any) => {
+      if (event.target.tagName === 'A' && event.target.href.startsWith('http')) {
+        event.preventDefault()
+        shell.openExternal(event.target.href)
+      }
+    })
+  }
 }
 </script>
 

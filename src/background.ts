@@ -16,7 +16,7 @@ let win: any
 let menu: Menu
 
 // Standard scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true } }])
+protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
 function createWindow() {
   // Create the browser window.
   const winOption: any = {

@@ -8,8 +8,10 @@
 <script>
 import { Vue, Component } from 'vue-property-decorator'
 
-@Component
-export default class Theme extends Vue {
+@Component({
+  name: 'Loading',
+})
+export default class Loading extends Vue {
   mounted() {
     setTimeout(() => {
       const { redirect } = this.$route.query

@@ -50,7 +50,7 @@
     </a-layout-sider>
     <a-layout class="right-container">
       <div class="content">
-        <keep-alive>
+        <keep-alive exclude="Loading">
           <router-view></router-view>
         </keep-alive>
       </div>

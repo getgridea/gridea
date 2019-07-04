@@ -56,11 +56,12 @@ import { Site } from '../../../store/modules/site'
 import ColorCard from '../../../components/ColorCard.vue'
 
 @Component({
+  name: 'ThemeCustomSetting',
   components: {
     ColorCard,
   },
 })
-export default class Theme extends Vue {
+export default class ThemeCustomSetting extends Vue {
   @State('site') site!: Site
 
   form: any = {}
@@ -81,12 +82,17 @@ export default class Theme extends Vue {
     this.loadCustomConfig()
   }
 
+  activated() {
+    this.loadCustomConfig()
+  }
+
   loadCustomConfig() {
     const keys = Object.keys(this.site.themeCustomConfig || {})
     keys.forEach((key: string) => {
       this.$set(this.form, key, this.site.themeCustomConfig[key])
     })
     this.currentThemeConfig.forEach((item: any) => {
+      console.log(item.name, this.form[item.name])
       if (!this.form[item.name]) {
         this.$set(this.form, item.name, item.value)
       }

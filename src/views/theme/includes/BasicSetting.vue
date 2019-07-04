@@ -79,6 +79,7 @@ import { Site } from '../../../store/modules/site'
 import { UrlFormats, DEFAULT_FEED_COUNT } from '../../../helpers/constants'
 
 @Component({
+  name: 'ThemeBasicSetting',
   components: {
     VNodes: {
       functional: true,
@@ -86,7 +87,7 @@ import { UrlFormats, DEFAULT_FEED_COUNT } from '../../../helpers/constants'
     },
   },
 })
-export default class Theme extends Vue {
+export default class ThemeBasicSetting extends Vue {
   @State('site') site!: Site
 
   formLayout = {

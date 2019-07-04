@@ -9,14 +9,14 @@
         </a-input>
       </a-form-item>
       <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-button type="primary" @click="saveLanguage">{{ $t('save') }}</a-button>
+        <a-button type="primary" @click="save">{{ $t('save') }}</a-button>
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, Event, webContents } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 
@@ -35,12 +35,13 @@ export default class System extends Vue {
     this.currentFolderPath = this.site.appDir
   }
 
-  saveLanguage() {
+  save() {
     ipcRenderer.send('app-source-folder-setting', this.currentFolderPath)
     ipcRenderer.once('app-source-folder-set', (event: Event, data: any) => {
       if (data) {
         this.$message.success(this.$t('saved'))
         this.$bus.$emit('site-reload')
+        window.location.reload()
       } else {
         this.$message.error(this.$t('saveError'))
       }

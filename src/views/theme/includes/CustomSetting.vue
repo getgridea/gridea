@@ -92,7 +92,6 @@ export default class ThemeCustomSetting extends Vue {
       this.$set(this.form, key, this.site.themeCustomConfig[key])
     })
     this.currentThemeConfig.forEach((item: any) => {
-      console.log(item.name, this.form[item.name])
       if (!this.form[item.name]) {
         this.$set(this.form, item.name, item.value)
       }

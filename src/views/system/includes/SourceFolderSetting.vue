@@ -2,7 +2,7 @@
   <div>
     <a-form>
       <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-input v-model="currentFolderPath" readonly>
+        <a-input v-model="currentFolderPath" read-only>
           <a-upload slot="addonAfter" action="" directory :beforeUpload="handleFolderChange" :showUploadList="false">
             <a-icon class="folder-btn" type="folder-open" />
           </a-upload>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event, webContents } from 'electron'
+import { ipcRenderer, Event, remote } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 
@@ -41,7 +41,7 @@ export default class System extends Vue {
       if (data) {
         this.$message.success(this.$t('saved'))
         this.$bus.$emit('site-reload')
-        window.location.reload()
+        remote.getCurrentWindow().reload()
       } else {
         this.$message.error(this.$t('saveError'))
       }

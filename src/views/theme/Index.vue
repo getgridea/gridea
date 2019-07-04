@@ -17,6 +17,7 @@ import BasicSetting from './includes/BasicSetting.vue'
 import CustomSetting from './includes/CustomSetting.vue'
 
 @Component({
+  name: 'Theme',
   components: {
     BasicSetting,
     CustomSetting,

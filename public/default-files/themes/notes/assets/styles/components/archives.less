@@ -2,18 +2,23 @@
   padding: 32px;
   flex: 1;
   .year {
-    font-size: 24px;
+    font-size: 1.375rem;
     font-weight: bold;
-    margin-top: 16px;
-    color: @dark-main-color;
+    margin: 24px 0 16px;
+    color: @oc-gray-6;
+    padding: 0 24px;
   }
   .post {
-    padding: 16px 0;
+    padding: 16px 24px;
+    display: block;
     .post-title {
       font-size: 16px;
-      small {
-        font-size: 80%;
-      }
+      font-weight: bold;
+    }
+    .time {
+      font-size: 0.75rem;
+      margin-top: 8px;
+      color: @oc-gray-4;
     }
   }
 }

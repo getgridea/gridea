@@ -6,7 +6,6 @@
     <div class="main">
       <div class="main-content">
         <%- include('./includes/header') %>
-
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
@@ -26,8 +25,13 @@
               <div class="post-feature-image" style="background-image: url('<%= post.feature %>')">
               </div>
             <% } %>
-            <div class="post-content">
-              <%- post.content %>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <%- post.content %>
+              </div>
+              <div class="toc-container">
+                <%- post.toc %>
+              </div>
             </div>
           </article>
         </div>

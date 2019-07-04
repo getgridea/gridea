@@ -5,14 +5,12 @@
     <h2 class="year"><%- year %></h2>
     <% posts.forEach(function(post) { %>
       <%if (post.date.indexOf(year) !== -1) { %>
-        <article class="post">
-          <a href="<%= post.link %>">
-            <h2 class="post-title">
-              <%= post.title %>
-              <small><%= post.dateFormat %></small>
-            </h2>
-          </a>
-        </article>
+        <a href="<%= post.link %>" class="post">
+          <h2 class="post-title">
+            <%= post.title %>
+          </h2>
+          <div class="time"><%= post.dateFormat %></div>
+        </a>
       <% } %>
     <% }); %>
   <% }); %>

@@ -1,10 +1,18 @@
 .tags-container {
   padding: 32px 32px;
   flex: 1;
+  text-align: center;
   .tag {
     display: inline-block;
-    padding: 4px 8px;
-    margin: 0 8px 8px 0;
-    background: #d1dbe0;
+    padding: 8px 16px;
+    margin: 8px;
+    background: @oc-gray-0;
+    color: @oc-gray-7;
+    border-radius: 2px;
+    font-size: 14px;
+    &:hover {
+      background: @oc-gray-2;
+      color: @oc-gray-9;
+    }
   }
 }

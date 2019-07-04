@@ -53,6 +53,7 @@ export default class Renderer extends Model {
     this.git = simpleGit(this.outputDir)
 
     this.utils.now = Date.now()
+    this.utils.moment = moment
   }
 
   async preview() {

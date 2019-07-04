@@ -6,7 +6,7 @@
       <a-tabs tabPosition="left" defaultActiveKey="1" v-model="activeKey">
         <a-tab-pane :tab="group" v-for="(group, index) in groups" :key="index + 1">
           <div v-for="(item, index1) in currentThemeConfig" :key="index1">
-            <a-form-item v-if="item.group === group" :label="item.label" :colon="false">
+            <a-form-item v-if="item.group === group" :label="item.label" :colon="false" :help="item.note">
 
               <!-- 普通输入 -->
               <a-input v-if="item.type === 'input' && !item.card" :placeholder="item.note" v-model="form[item.name]" />
@@ -25,6 +25,14 @@
               <a-select v-if="item.type === 'select'" v-model="form[item.name]" style="width: 100%;">
                 <a-select-option v-for="(option, index2) in item.options" :key="index2" :value="option.value">{{ option.label }}</a-select-option>
               </a-select>
+
+              <!-- 单选组合 -->
+              <a-radio-group v-if="item.type === 'radio'" v-model="form[item.name]">
+                <a-radio v-for="(option, index2) in item.options" :key="index2" :value="option.value">{{ option.label }}</a-radio>
+              </a-radio-group>
+
+              <!-- switch 类型 -->
+              <a-switch v-if="item.type === 'switch'" v-model="form[item.name]"/>
 
               <a-textarea v-if="item.type === 'textarea'" v-model="form[item.name]" :placeholder="item.note" :autosize="{ minRows: 2, maxRows: 32 }" />
 

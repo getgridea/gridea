@@ -41,6 +41,10 @@ export interface ITagRenderData extends ITag {
   link: string
 }
 
+export interface ISiteTagsData extends ITagRenderData {
+  count: number
+}
+
 export interface IPostRenderData {
   content: string
   fileName: string

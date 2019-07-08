@@ -9,7 +9,9 @@ import less from 'less'
 import { Feed } from 'feed'
 import Model from './model'
 import ContentHelper from '../helpers/content-helper'
-import { IPostDb, IPostRenderData, ITagRenderData } from './interfaces/post'
+import {
+  IPostDb, IPostRenderData, ITagRenderData, ISiteTagsData,
+} from './interfaces/post'
 import { ITag } from './interfaces/tag'
 import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE } from '../helpers/constants'
 import markdown from './plugins/markdown'
@@ -25,7 +27,7 @@ export default class Renderer extends Model {
 
   postsData: IPostRenderData[] = []
 
-  tagsData: ITagRenderData[] = []
+  tagsData: ISiteTagsData[] = []
 
   menuData: IMenu[] = []
 
@@ -286,8 +288,14 @@ export default class Renderer extends Model {
     this.postsData.forEach((item: IPostRenderData) => {
       if (!item.hideInList) {
         item.tags.forEach((tag: ITagRenderData) => {
-          if (!this.tagsData.find((t: ITagRenderData) => t.link === tag.link)) {
-            this.tagsData.push(tag)
+          const foundTag = this.tagsData.find((t: ITagRenderData) => t.link === tag.link)
+          if (!foundTag) {
+            this.tagsData.push({
+              ...tag,
+              count: 1,
+            })
+          } else {
+            foundTag.count += 1
           }
         })
       }

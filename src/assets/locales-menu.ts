@@ -1,0 +1,43 @@
+const messages: any = {
+  'zh-CN': {
+    save: '保存',
+    undo: '撤销',
+    redo: '重做',
+    cut: '剪切',
+    copy: '复制',
+    paste: '粘贴',
+    delete: '删除',
+    selectall: '全选',
+    toggledevtools: '开发者工具',
+    close: '关闭',
+    quit: '退出',
+  },
+  'zh-TW': {
+    save: '保存',
+    undo: '撤銷',
+    redo: '重做',
+    cut: '剪切',
+    copy: '複製',
+    paste: '粘貼',
+    delete: '刪除',
+    selectall: '全選',
+    toggledevtools: '開發者工具',
+    close: '關閉',
+    quit: '退出',
+  },
+  'en-US': {
+    save: 'Save',
+    undo: 'Undo',
+    redo: 'Redo',
+    cut: 'Cut',
+    copy: 'Copy',
+    paste: 'Paste',
+    delete: 'Delete',
+    selectall: 'Select All',
+    toggledevtools: 'Toogle Developer Tools',
+    close: 'Close Window',
+    quit: 'Quit',
+  },
+}
+
+export default messages

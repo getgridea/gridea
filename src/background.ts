@@ -7,6 +7,7 @@ import {
   createProtocol,
 } from 'vue-cli-plugin-electron-builder/lib'
 import App from './server/app'
+import messages from './assets/locales-menu'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -53,31 +54,33 @@ function createWindow() {
     win = null
   })
 
+  const locale: string = app.getLocale() || 'zh-CN'
+  const menuLabels = messages[locale] || messages['zh-CN']
   // menu
   const template: any = [
     {
       label: 'Edit',
       submenu: [
         {
-          label: 'Save',
+          label: menuLabels.save,
           accelerator: 'CmdOrCtrl+S',
           click: () => {
             win.webContents.send('click-menu-save')
           },
         },
         { type: 'separator' },
-        { role: 'undo' },
-        { role: 'redo' },
+        { role: 'undo', label: menuLabels.undo },
+        { role: 'redo', label: menuLabels.redo },
         { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        { role: 'pasteandmatchstyle' },
-        { role: 'delete' },
-        { role: 'selectall' },
-        { role: 'toggledevtools' },
+        { role: 'cut', label: menuLabels.cut },
+        { role: 'copy', label: menuLabels.copy },
+        { role: 'paste', label: menuLabels.paste },
+        { role: 'delete', label: menuLabels.delete },
+        { role: 'selectall', label: menuLabels.selectall },
+        { role: 'toggledevtools', label: menuLabels.toggledevtools },
         { type: 'separator' },
-        { role: 'quit', label: 'Quit Gridea' },
+        { role: 'close', label: menuLabels.close },
+        { role: 'quit', label: menuLabels.quit },
       ],
     },
     {

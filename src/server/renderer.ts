@@ -7,6 +7,7 @@ import simpleGit, { SimpleGit } from 'simple-git/promise'
 import moment from 'moment'
 import less from 'less'
 import { Feed } from 'feed'
+import readingTime from 'reading-time'
 import Model from './model'
 import ContentHelper from '../helpers/content-helper'
 import {
@@ -258,12 +259,14 @@ export default class Renderer extends Model {
       .map((item: IPostDb) => {
         const currentTags = item.data.tags || []
         let toc = ''
+        const content = markdown.render(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain), {
+          tocCallback(tocMarkdown: any, tocArray: any, tocHtml: any) {
+            toc = tocHtml
+          },
+        })
+
         const result: IPostRenderData = {
-          content: markdown.render(helper.changeImageUrlLocalToDomain(item.content, this.db.themeConfig.domain), {
-            tocCallback(tocMarkdown: any, tocArray: any, tocHtml: any) {
-              toc = tocHtml
-            },
-          }),
+          content,
           fileName: item.fileName,
           abstract: markdown.render(helper.changeImageUrlLocalToDomain(item.abstract, this.db.themeConfig.domain)),
           title: item.data.title,
@@ -277,7 +280,9 @@ export default class Renderer extends Model {
             : item.data.feature || '',
           link: `${this.db.themeConfig.domain}/post/${item.fileName}${mode === 'preview' ? '/index.html' : ''}`,
           hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
+          stats: readingTime(content),
         }
+
         result.toc = toc
         return result
       })

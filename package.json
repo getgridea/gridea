@@ -44,6 +44,7 @@
     "markdown-it-toc-and-anchor": "^4.2.0",
     "moment": "^2.24.0",
     "prismjs": "^1.16.0",
+    "reading-time": "^1.2.0",
     "shortid": "^2.2.14",
     "simple-git": "^1.107.0",
     "slug": "^0.9.3",

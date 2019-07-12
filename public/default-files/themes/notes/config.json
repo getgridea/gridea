@@ -2,6 +2,7 @@
   "name": "Notes",
   "version": "1.1.0",
   "author": "EryouHao",
+  "repository": "https://github.com/getgridea/gridea-theme-paper",
   "customConfig": [
     {
       "name": "contentMaxWidth",

@@ -43,7 +43,7 @@
           </a-collapse-panel>
           <a-collapse-panel :header="$t('tag')" key="2">
             <div>
-              <a-select mode="multiple" style="width: 100%" v-model="form.tags">
+              <a-select mode="tags" style="width: 100%" v-model="form.tags">
                 <a-select-option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</a-select-option>
               </a-select>
             </div>

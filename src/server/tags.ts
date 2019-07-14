@@ -15,7 +15,7 @@ export default class Tags extends Model {
     })
     list = Array.from(new Set([...list]))
 
-    const themeConfig = this.$theme.get('config')
+    const themeConfig = await this.$theme.get('config').value()
     const tagUrlFormat = themeConfig.tagUrlFormat || UrlFormats.Slug
 
     let existUsedTags = this.$posts.get('tags').filter({ used: true }).value()

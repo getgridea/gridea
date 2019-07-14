@@ -16,14 +16,12 @@ html {
   font-size: 58%;
 }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, opensans, Optima, 'Microsoft Yahei', sans-serif;
-  font-size: 16px;
-  color: #333;
-  // background: #f3f7f9;
+  color: rgba(0,0,0,.86);
+  font: 400 16px/1.42 -apple-system,BlinkMacSystemFont,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Droid Sans Fallback","Microsoft YaHei",sans-serif;
   letter-spacing: .05em;
 }
 a {
-  color: #333;
+  color: rgba(0,0,0,.98);
   text-decoration: none;
   transition: all 0.3s;
   &:hover {
@@ -31,7 +29,6 @@ a {
   }
 }
 body, div, a, p, ul, li, ol, h1, h2, h3, h4, h5, h6, table, tr, td {
-  font-weight: normal;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -47,6 +44,7 @@ body, div, a, p, ul, li, ol, h1, h2, h3, h4, h5, h6, table, tr, td {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    padding: 0 24px;
   }
 }
 

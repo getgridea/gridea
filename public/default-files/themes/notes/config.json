@@ -2,7 +2,7 @@
   "name": "Notes",
   "version": "1.1.0",
   "author": "EryouHao",
-  "repository": "https://github.com/getgridea/gridea-theme-paper",
+  "repository": "https://github.com/getgridea/gridea-theme-notes",
   "customConfig": [
     {
       "name": "contentMaxWidth",
@@ -46,12 +46,12 @@
       "name": "siteFont",
       "label": "网站字体",
       "group": "布局",
-      "value": "-apple-system, BlinkMacSystemFont, opensans, Optima, 'Microsoft Yahei', sans-serif",
+      "value": "-apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Hiragino Sans GB','Droid Sans Fallback','Microsoft YaHei',sans-serif",
       "type": "select",
       "options": [
         {
-          "label": "-apple-system, BlinkMacSystemFont, opensans, Optima, 'Microsoft Yahei', sans-serif",
-          "value": "-apple-system, BlinkMacSystemFont, opensans, Optima, 'Microsoft Yahei', sans-serif"
+          "label": "-apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Hiragino Sans GB','Droid Sans Fallback','Microsoft YaHei',sans-serif",
+          "value": "-apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Hiragino Sans GB','Droid Sans Fallback','Microsoft YaHei',sans-serif"
         },
         {
           "label": "Georgia, serif",
@@ -90,7 +90,7 @@
       "name": "textColor",
       "label": "文字颜色",
       "group": "颜色",
-      "value": "#333333",
+      "value": "rgba(0, 0, 0, 0.86)",
       "type": "input",
       "card": "color",
       "note": "颜色字符串:（如：#EEEEEE、rgba(255, 255, 255, 0.9)）"
@@ -99,7 +99,7 @@
       "name": "linkColor",
       "label": "链接颜色",
       "group": "颜色",
-      "value": "#333333",
+      "value": "rgba(0,0,0,.98)",
       "type": "input",
       "card": "color",
       "note": "颜色字符串:（如：#EEEEEE、rgba(255, 255, 255, 0.9)）"

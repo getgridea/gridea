@@ -7,15 +7,25 @@
       font-size: 28px;
       text-align: center;
       padding: 24px 0;
-      font-weight: 600;
+      font-weight: 900;
+      letter-spacing: .02em;
     }
 
     .post-info {
       text-align: center;
       font-size: 12px;
       padding-bottom: 24px;
-      .post-time {
+      > span {
         color: @dark-gray;
+
+        &:not(:first-child) {
+          &:before {
+            content: "/ ";
+            font-size: 10px;
+            color: rgba(0,0,0,.1);
+            margin: 0 4px;
+          }
+        }
       }
       .post-tag {
         padding: 8px 8px;

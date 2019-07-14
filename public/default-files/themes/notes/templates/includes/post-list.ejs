@@ -5,9 +5,12 @@
         <h2 class="post-title"><%= post.title %></h2>
       </a>
       <div class="post-info">
-        <time class="post-time">
-          · <%= post.dateFormat %> ·
-        </time>
+        <span>
+          <%= post.dateFormat %>
+        </span>
+        <span>
+          <%= post.stats.text %>
+        </span>
         <% post.tags.forEach(function(tag) { %>
           <a href="<%= tag.link %>" class="post-tag">
             # <%= tag.name %>

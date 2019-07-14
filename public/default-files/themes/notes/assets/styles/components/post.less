@@ -13,7 +13,8 @@
       font-size: 32px;
       text-align: center;
       padding: 24px 0;
-      font-weight: 600;
+      font-weight: 900;
+      letter-spacing: 0.02em;
     }
 
     .post-info {
@@ -21,8 +22,17 @@
       font-size: 12px;
       padding-bottom: 24px;
 
-      .post-time {
+      > span {
         color: @dark-gray;
+
+        &:not(:first-child) {
+          &:before {
+            content: "/ ";
+            font-size: 10px;
+            color: rgba(0,0,0,.1);
+            margin: 0 4px;
+          }
+        }
       }
 
       .post-tag {
@@ -37,13 +47,16 @@
     .post-content {
       width: 100%;
       flex-shrink: 0;
+      font-family: "Droid Serif","PingFang SC","Hiragino Sans GB","Droid Sans Fallback","Microsoft YaHei",sans-serif;
 
       a {
-        color: @main-color;
-        transition: all 0.3s;
+        color: rgba(0,0,0,.98);
+        word-wrap: break-word;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0,0,0,.26);
         &:hover {
           color: @dark-main-color;
-          border-bottom: 1px dotted @dark-main-color;
+          border-bottom: 1px solid @dark-main-color;
         }
       }
       img {
@@ -55,10 +68,11 @@
       }
 
       p {
-        line-height: 1.725;
-        margin-bottom: 24px;
+        line-height: 1.62;
+        margin-bottom: 1.12em;
         font-size: 16px;
         letter-spacing: .05em;
+        hyphens: auto;
       }
 
       p, li {
@@ -82,20 +96,27 @@
         padding: 0;
         position: relative;
         code {
-          white-space: pre;
-          font-family: SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, 'Courier New',monospace;
-          line-height: 1.75;
-          padding: 1em 1.5em;
-          -webkit-font-smoothing: subpixel-antialiased;
-          -moz-osx-font-smoothing: auto;
+          font-size: 0.86rem;
+          font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
+          padding: 1em;
+          border-radius: 5px;
+          line-height: 1.5;
         }
       }
 
       blockquote {
-        font-style: italic;
-        border-left: 2px solid #ccc;
-        margin-left: 0;
-        padding-left: 1.8em;
+        color: #9a9a9a;
+        position: relative;
+        padding: .4em 0 0 2.2em;
+        font-size: .96em;
+        &:before {
+          position: absolute;
+          top: -4px;
+          left: 0;
+          content: "\201c";
+          font: 700 62px/1 serif;
+          color: rgba(0,0,0,.1);
+        }
       }
 
       table {
@@ -118,32 +139,61 @@
         margin-bottom: 16px;
       }
 
+      ul {
+        list-style-type: square;
+      }
+
       h1, h2, h3, h4, h5, h6 {
         margin: 16px 0;
-        font-weight: bold;
+        font-weight: 700;
         padding-top: 16px;
       }
       h1 {
-        font-size: 28px;
+        font-size: 1.8em;
       }
       h2 {
-        font-size: 24px;
+        font-size: 1.42em;
       }
       h3 {
-        font-size: 20px;
+        font-size: 1.17em;
       }
       h4 {
-        font-size: 18px;
+        font-size: 1em;
       }
       h5 {
-        font-size: 16px;
+        font-size: 1em;
       }
       h6 {
-        font-size: 14px;
+        font-size: 1em;
+        font-weight: 500;
       }
       hr {
-        border-top: 1px solid #fafafa;
-        margin: 16px 0;
+        display: block;
+        border: 0;
+        margin: 2.24em auto 2.86em;
+        &:before {
+          color: rgba(0,0,0,.2);
+          font-size: 1.1em;
+          display: block;
+          content: "* * *";
+          text-align: center;
+        }
+      }
+
+      .footnotes {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 760px;
+        padding-left: 18px;
+        padding-right: 18px;
+        &:before {
+          content: "";
+          display: block;
+          border-top: 4px solid rgba(0,0,0,.1);
+          width: 50%;
+          max-width: 100px;
+          margin: 40px 0 20px;
+        }
       }
 
       .contains-task-list {
@@ -222,6 +272,7 @@
   .post-title {
     font-size: 20px;
     font-weight: bold;
+    letter-spacing: .02em;
   }
 }
 

@@ -74,7 +74,7 @@ const generateOverride = (params = {}) => {
   }
 
   // 文字颜色 - textColor
-  if (params.textColor && params.textColor !== '#333333') {
+  if (params.textColor && params.textColor !== 'rgba(0, 0, 0, 0.86)') {
     result += `
       body {
         color: ${params.textColor};
@@ -83,7 +83,7 @@ const generateOverride = (params = {}) => {
   }
   
   // 链接颜色 - linkColor
-  if (params.linkColor && params.linkColor !== '#333333') {
+  if (params.linkColor && params.linkColor !== 'rgba(0,0,0,.98)') {
     result += `
       a {
         color: ${params.linkColor};

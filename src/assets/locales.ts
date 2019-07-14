@@ -96,6 +96,8 @@ const message = {
     savedIn: '保存于',
     or: '或',
     starSupport: 'Star 支持作者！',
+    showAllPost: '显示全文',
+    showAbstract: '仅显示摘要',
   },
   zh_TW: {
     preview: '預 覽',
@@ -194,6 +196,8 @@ const message = {
     savedIn: '保存於',
     or: '或',
     starSupport: 'Star 支持作者！',
+    showAllPost: '顯示全文',
+    showAbstract: '僅顯示摘要',
   },
   en: {
     preview: 'Preview',
@@ -292,6 +296,8 @@ const message = {
     savedIn: 'Saved in',
     or: 'or',
     starSupport: 'Give us a star!',
+    showAllPost: 'Show full content',
+    showAbstract: 'Show abstract only',
   },
 }
 

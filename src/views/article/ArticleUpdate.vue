@@ -561,7 +561,7 @@ export default class ArticleUpdate extends Vue {
 }
 
 .post-title {
-  font-weight: bold;
+  font-weight: 900;
   background: #fff;
   padding: 24px 0;
   font-size: 28px;

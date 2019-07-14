@@ -163,6 +163,8 @@ export default {
   }
 }
 /deep/ .editor-preview {
+  font-family: "Droid Serif","PingFang SC","Hiragino Sans GB","Droid Sans Fallback","Microsoft YaHei",sans-serif;
+  
   h1, h2, h3, h4, h5, h6 {
     margin-top: 3rem;
     font-weight: 700;
@@ -174,10 +176,23 @@ export default {
     color: #db615d;
   }
   pre code {
+    font-size: 0.86rem;
+    font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
+    padding: 1em;
+    border-radius: 5px;
+    line-height: 1.5;
     background: none;
-    padding: 0;
-    border: none;
-    border-radius: none;
+  }
+
+  a {
+    color: rgba(0,0,0,.98);
+    word-wrap: break-word;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0,0,0,.26);
+  }
+  a:hover {
+    color: #1067de;
+    border-color: #1067de;
   }
 
   .contains-task-list {
@@ -243,18 +258,31 @@ export default {
   }
 
   blockquote {
-    border-left: .25em solid #dfe2e5;
-    color: #6a737d;
-    padding: 0 1em;
+    color: #9a9a9a;
+    position: relative;
+    padding: .4em 0 0 2.2em;
+    font-size: .96em;
+    &:before {
+      position: absolute;
+      top: -4px;
+      left: 0;
+      content: "\201c";
+      font: 700 62px/1 serif;
+      color: rgba(0,0,0,.1);
+    }
   }
 
   hr {
     display: block;
-    height: 1px;
     border: 0;
-    border-top: 1px solid #dee2e6;
-    margin: 1em 0;
-    padding: 0;
+    margin: 2.24em auto 2.86em;
+    &:before {
+      color: rgba(0,0,0,.2);
+      font-size: 1.1em;
+      display: block;
+      content: "* * *";
+      text-align: center;
+    }
   }
 
   table {
@@ -264,6 +292,24 @@ export default {
   pre[class*="language-"] {
     box-shadow: none;
     text-shadow: none;
+  }
+
+  .footnotes {
+    font-size: 80%;
+    line-height: 1.32;
+    opacity: .96;
+    &:before {
+      content: "";
+      display: block;
+      border-top: 4px solid rgba(0,0,0,.1);
+      width: 50%;
+      max-width: 100px;
+      margin: 40px 0 20px;
+    }
+    ol {
+      margin: 0 0 24px 6px;
+      padding-left: 16px;
+    }
   }
 }
 </style>

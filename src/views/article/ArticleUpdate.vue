@@ -355,7 +355,7 @@ export default class ArticleUpdate extends Vue {
         type: '',
       }
     }
-    form.published = published || form.published
+    form.published = typeof published === 'boolean' ? published : form.published
 
     return form
   }

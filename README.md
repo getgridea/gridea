@@ -26,7 +26,7 @@
 </div>
 
 <div align="center">
-  <img src="gridea-app.png">
+  <img src="gridea-app-en.png">
 
 </div>
 
@@ -42,25 +42,25 @@ English | [简体中文](https://github.com/getgridea/gridea/blob/master/README-
 ✍️  **Gridea** A static blog writing client. You can use it to record your life, mood, knowledge, notes and ideas...
 
 ## Features👇
-📝  You can use the coolest  **Markdown** grammar to create quickly  
+📝  Use the coolest  **Markdown** grammar to create quickly  
 
-🌉  You can insert pictures and article cover charts anywhere in the article  
+🌉  Insert pictures and article cover charts anywhere in the article  
 
-🏷️  You can label and group articles  
+🏷️  Label and group articles  
 
-📋  You can customize menus and even create external link menus  
+📋  Customize menus and even create external link menus  
 
-💻  You can use this client on **Windows** or **MacOS**  
+💻  Use this client on **Windows** or **MacOS**  or **Linux**
 
-🌎  You can use **Github Pages** or **Coding Pages** to show the world that more platforms will be supported in the future  
+🌎  Use **Github Pages** or **Coding Pages** to show the world that more platforms will be supported in the future  
 
-💬  You can simply configure and access the [Gitalk](https://github.com/gitalk/gitalk) or [DisqusJS](https://github.com/SukkaW/DisqusJS) comment system  
+💬  Simply configure and access the [Gitalk](https://github.com/gitalk/gitalk) or [DisqusJS](https://github.com/SukkaW/DisqusJS) comment system  
 
-🇬🇧  You can use **simplified Chinese**、**traditional Chinese**、 **English**
+🇬🇧  Use **simplified Chinese**、**traditional Chinese**、 **English**
 
-🌁  You can use any default theme within the application or any third-party theme, free theme customization  
+🌁  Use any default theme within the application or any third-party theme, free theme customization  
 
-🖥  You can customize the source folder and synchronize multiple devices using OneDrive, iCloud, Dropbox, etc.  
+🖥  Customize the source folder and synchronize multiple devices using OneDrive, iCloud, Dropbox, etc.  
 
 
 🌱  Of course **Gridea** is still very young and has many shortcomings, but please believe it will keep moving forward 🏃

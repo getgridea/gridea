@@ -12,7 +12,7 @@ feature: /post-images/hello-gridea.png
 <!-- more -->
 
 [Github](https://github.com/getgridea/gridea)  
-[Gridea 主页](http://hvenotes.fehey.com/)  
+[Gridea 主页](https://gridea.dev/)  
 [示例网站](http://fehey.com/)
 
 ## 特性👇

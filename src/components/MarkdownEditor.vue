@@ -178,7 +178,6 @@ export default {
   pre code {
     font-size: 0.86rem;
     font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
-    padding: 1em;
     border-radius: 5px;
     line-height: 1.5;
     background: none;

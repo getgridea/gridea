@@ -65,4 +65,6 @@ export interface IPostRenderData {
   hideInList: boolean
   toc?: any
   stats: IStats
+  nextPost?: IPostRenderData
+  prevPost?: IPostRenderData
 }

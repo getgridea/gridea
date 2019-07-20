@@ -431,7 +431,7 @@ export default class Renderer extends Model {
    */
   async renderPostDetail() {
     for (let i = 0; i < this.postsData.length; i += 1) {
-      const post: any = { ...this.postsData[i] }
+      const post: IPostRenderData = { ...this.postsData[i] }
       const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
 
       if (!post.hideInList) {

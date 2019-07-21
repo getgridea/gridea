@@ -8,6 +8,7 @@ import {
 } from 'vue-cli-plugin-electron-builder/lib'
 import App from './server/app'
 import messages from './assets/locales-menu'
+import createServer from './server'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -109,6 +110,7 @@ function createWindow() {
   // Init app
   const appInstance = new App(setting)
   console.log('Main process runing...', appInstance.appDir) // DELETE ME
+  createServer(`${appInstance.appDir}/output`)
 }
 
 // Quit when all windows are closed.

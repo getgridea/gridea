@@ -129,7 +129,7 @@ export default class App extends Vue {
     ipcRenderer.send('html-render')
     ipcRenderer.once('html-rendered', (event: Event, result: any) => {
       this.$message.success(`🎉  ${this.$t('renderSuccess')}`)
-      this.openInBrowser(`file://${this.site.appDir}/output/index.html`)
+      this.openInBrowser('http://localhost:9999')
     })
   }
 

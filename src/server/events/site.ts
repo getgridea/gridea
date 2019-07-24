@@ -19,5 +19,10 @@ export default class SiteEvents {
       const result = await appInstance.saveSourceFolderSetting(params)
       event.sender.send('app-source-folder-set', result)
     })
+
+    ipcMain.on('app-preview-server-port-get', async (event: Event, params: string) => {
+      const port = await appInstance.previewServer.get('port')
+      event.sender.send('app-preview-server-port-got', port)
+    })
   }
 }

@@ -129,7 +129,13 @@ export default class App extends Vue {
     ipcRenderer.send('html-render')
     ipcRenderer.once('html-rendered', (event: Event, result: any) => {
       this.$message.success(`🎉  ${this.$t('renderSuccess')}`)
-      this.openInBrowser('http://localhost:9999')
+      ipcRenderer.send('app-preview-server-port-get')
+      ipcRenderer.once(
+        'app-preview-server-port-got',
+        (portGotEvent: Event, port: any) => {
+          this.openInBrowser(`http://localhost:${port}`)
+        },
+      )
     })
   }
 

@@ -34,6 +34,8 @@ export default class Renderer extends Model {
 
   git: SimpleGit
 
+  previewPort: number
+
   platformAddress = ''
 
   remoteUrl = ''
@@ -42,7 +44,7 @@ export default class Renderer extends Model {
 
   constructor(appInstance: any) {
     super(appInstance)
-
+    this.previewPort = appInstance.previewServer.get('port')
     this.loadConfig()
 
     const { setting } = this.db
@@ -60,7 +62,7 @@ export default class Renderer extends Model {
   }
 
   async preview() {
-    this.db.themeConfig.domain = 'http://localhost:9999'
+    this.db.themeConfig.domain = `http://localhost:${this.previewPort}`
     await this.renderAll()
   }
 

@@ -1,6 +1,7 @@
 import { BrowserWindow, app } from 'electron'
 import * as fse from 'fs-extra'
 import * as path from 'path'
+import Antd from 'ant-design-vue'
 import EventClasses from './events/index'
 import Posts from './posts'
 import Tags from './tags'
@@ -22,6 +23,8 @@ export default class App {
 
   appDir: string
 
+  previewServer: any;
+
   db: IApplicationDb
 
   constructor(setting: IApplicationSetting) {
@@ -29,6 +32,7 @@ export default class App {
     this.app = setting.app
     this.baseDir = setting.baseDir
     this.appDir = path.join(this.app.getPath('documents'), 'gridea')
+    this.previewServer = setting.previewServer
 
     this.db = {
       posts: [],

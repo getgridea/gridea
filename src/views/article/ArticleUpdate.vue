@@ -211,6 +211,7 @@ export default class ArticleUpdate extends Vue {
   mounted() {
     this.buildCurrentForm()
     this.initEditor()
+    ipcRenderer.removeAllListeners('click-menu-save')
     ipcRenderer.on('click-menu-save', (event: Event, data: any) => {
       this.normalSavePost()
     })
@@ -218,7 +219,6 @@ export default class ArticleUpdate extends Vue {
 
   buildCurrentForm() {
     const { articleFileName } = this
-    console.log('articleFileName: ', articleFileName)
     if (articleFileName) {
       this.fileNameChanged = true // 编辑文章标题时 URL 不跟随其变化
       this.currentPostIndex = this.site.posts.findIndex((item: IPost) => item.fileName === articleFileName)
@@ -295,22 +295,22 @@ export default class ArticleUpdate extends Vue {
   }
 
   buildFileName() {
-    if (this.form.fileName === '') {
-      if (this.site.themeConfig.postUrlFormat === UrlFormats.Slug) {
-        this.form.fileName = slug(this.form.title)
-      }
-      if (this.site.themeConfig.postUrlFormat === UrlFormats.ShortId) {
-        this.form.fileName = shortid.generate()
-      }
+    if (this.form.fileName !== '') {
+      return
     }
+
+    this.form.fileName = this.site.themeConfig.postUrlFormat === UrlFormats.Slug
+      ? slug(this.form.title)
+      : shortid.generate()
   }
 
   checkArticleUrlValid() {
     const restPosts = JSON.parse(JSON.stringify(this.site.posts))
     const foundPostIndex = restPosts.findIndex((post: IPost) => post.fileName === this.form.fileName)
+
     if (foundPostIndex !== -1) {
-      // 新增
       if (this.currentPostIndex === -1) {
+        // 新增文章时文件名和其他文章文件名冲突
         return false
       }
       restPosts.splice(this.currentPostIndex, 1)
@@ -319,6 +319,8 @@ export default class ArticleUpdate extends Vue {
         return false
       }
     }
+
+    this.currentPostIndex = this.currentPostIndex === -1 ? 0 : this.currentPostIndex
 
     return true
   }

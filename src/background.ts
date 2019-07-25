@@ -101,18 +101,18 @@ function createWindow() {
   menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
 
+  const server = initServer()
+
   const setting = {
     mainWindow: win,
     app,
     baseDir: __dirname,
-    previewServer: null,
+    previewServer: server,
   }
 
   // Init app
   const appInstance = new App(setting)
   console.log('Main process runing...', appInstance.appDir) // DELETE ME
-  const server = initServer(`${appInstance.appDir}/output`)
-  appInstance.previewServer = server
 }
 
 // Quit when all windows are closed.

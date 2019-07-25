@@ -1,10 +1,7 @@
 import express from 'express'
-import http from 'http'
-import { AddressInfo } from 'net'
 
-export default function initServer(SitePath: string) {
+export default function initServer() {
   const server = express()
-  server.use(express.static(SitePath))
   function listen(port: number) {
     server.listen(port, 'localhost').on('error', (err: NodeJS.ErrnoException) => {
       if (err) {

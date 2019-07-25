@@ -2,6 +2,7 @@ import { BrowserWindow, app } from 'electron'
 import * as fse from 'fs-extra'
 import * as path from 'path'
 import Antd from 'ant-design-vue'
+import express from 'express'
 import EventClasses from './events/index'
 import Posts from './posts'
 import Tags from './tags'
@@ -118,7 +119,8 @@ export default class App {
       setting,
       commentSetting: commentSetting || this.db.commentSetting,
     }
-
+    
+    this.previewServer.use('/', express.static(`${this.appDir}/output`))
     this.initEvents()
     return {
       ...this.db,
@@ -142,6 +144,7 @@ export default class App {
       await fse.writeFileSync(appConfigPath, jsonString)
       const appConfig = await fse.readJsonSync(appConfigPath)
       this.appDir = appConfig.sourceFolder
+      this.previewServer.use('/', express.static(`${this.appDir}/output`))
 
       this.checkDir()
 

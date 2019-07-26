@@ -119,8 +119,7 @@ export default class App {
       setting,
       commentSetting: commentSetting || this.db.commentSetting,
     }
-    
-    this.previewServer.use('/', express.static(`${this.appDir}/output`))
+    this.updateStaticServer()
     this.initEvents()
     return {
       ...this.db,
@@ -144,7 +143,7 @@ export default class App {
       await fse.writeFileSync(appConfigPath, jsonString)
       const appConfig = await fse.readJsonSync(appConfigPath)
       this.appDir = appConfig.sourceFolder
-      this.previewServer.use('/', express.static(`${this.appDir}/output`))
+      this.updateStaticServer()
 
       this.checkDir()
 
@@ -236,6 +235,22 @@ export default class App {
         themePath,
       )
     }
+  }
+
+  private updateStaticServer(): void {
+    function removeMiddlewares(route: any, i: number, routes: any) {
+      if (route.handle.name === 'serveStatic') {
+        routes.splice(i, 1)
+        console.log('Preview server: Removed old staic route')
+      }
+    }
+    const routers = this.previewServer._router // eslint-disable-line no-underscore-dangle
+    if (routers) {
+      const routesStack = routers.stack
+      routesStack.forEach(removeMiddlewares)
+    }
+    this.previewServer.use(express.static(`${this.appDir}/output`))
+    console.log(`Preview server: Static dir change to ${this.appDir}/output`)
   }
 
   private initEvents(): void {

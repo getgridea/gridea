@@ -349,6 +349,7 @@ export default class Renderer extends Model {
           tags: this.tagsData,
           customConfig: this.db.themeCustomConfig,
           utils: this.utils,
+          isHomepage: !extraPath,
         },
       }
       let html = ''
@@ -382,6 +383,7 @@ export default class Renderer extends Model {
           tags: this.tagsData,
           customConfig: this.db.themeCustomConfig,
           utils: this.utils,
+          isHomepage: !extraPath && !i,
         },
       }
 
@@ -460,6 +462,7 @@ export default class Renderer extends Model {
           tags: this.tagsData,
           customConfig: this.db.themeCustomConfig,
           utils: this.utils,
+          isHomepage: false,
         },
       }
       let html = ''
@@ -494,6 +497,7 @@ export default class Renderer extends Model {
         tags: this.tagsData,
         customConfig: this.db.themeCustomConfig,
         utils: this.utils,
+        isHomepage: false,
       },
     }
 
@@ -549,6 +553,7 @@ export default class Renderer extends Model {
             tags: this.tagsData,
             customConfig: this.db.themeCustomConfig,
             utils: this.utils,
+            isHomepage: false,
           },
         }
 

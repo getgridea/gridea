@@ -9,6 +9,7 @@ export interface IApplicationSetting {
   mainWindow: BrowserWindow
   app: any
   baseDir: string
+  previewServer: any
 }
 
 export interface IApplicationDb {

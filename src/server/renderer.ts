@@ -34,6 +34,8 @@ export default class Renderer extends Model {
 
   git: SimpleGit
 
+  previewPort: number
+
   platformAddress = ''
 
   remoteUrl = ''
@@ -42,7 +44,7 @@ export default class Renderer extends Model {
 
   constructor(appInstance: any) {
     super(appInstance)
-
+    this.previewPort = appInstance.previewServer.get('port')
     this.loadConfig()
 
     const { setting } = this.db
@@ -60,14 +62,14 @@ export default class Renderer extends Model {
   }
 
   async preview() {
-    this.db.themeConfig.domain = this.outputDir
-    await this.renderAll('preview')
+    this.db.themeConfig.domain = `http://localhost:${this.previewPort}`
+    await this.renderAll()
   }
 
   async publish() {
     this.db.themeConfig.domain = this.db.setting.domain
     console.log('domain', this.db.themeConfig.domain)
-    await this.renderAll('publish')
+    await this.renderAll()
     console.log('渲染完毕')
     let result = {
       success: true,
@@ -219,20 +221,20 @@ export default class Renderer extends Model {
   }
 
 
-  async renderAll(mode: string) {
+  async renderAll() {
     await this.clearOutputFolder()
-    await this.formatDataForRender(mode)
+    await this.formatDataForRender()
     await this.buildCss()
 
     // Render post list page
-    await this.renderPostList('', mode)
+    await this.renderPostList('')
 
     // Render archives page
-    await this.renderPostList('/archives', mode)
+    await this.renderPostList('/archives')
     // Render tag list page
     await this.renderTags()
     await this.renderPostDetail()
-    await this.renderTagDetail(mode)
+    await this.renderTagDetail()
     await this.copyFiles()
     await this.buildCname()
 
@@ -252,7 +254,7 @@ export default class Renderer extends Model {
   /**
    * Format data for rendering pages
    */
-  public formatDataForRender(mode: string): any {
+  public formatDataForRender(): any {
     const { themeConfig } = this.db
 
     this.postsData = this.db.posts.filter((item: IPostDb) => item.data.published)
@@ -272,13 +274,13 @@ export default class Renderer extends Model {
           title: item.data.title,
           tags: this.db.tags
             .filter((tag: ITag) => currentTags.find(i => i === tag.name))
-            .map((tag: ITag) => ({ ...tag, link: `${this.db.themeConfig.domain}/tag/${tag.slug}${mode === 'preview' ? '/index.html' : ''}` })),
+            .map((tag: ITag) => ({ ...tag, link: `${this.db.themeConfig.domain}/tag/${tag.slug}` })),
           date: item.data.date,
           dateFormat: (themeConfig.dateFormat && moment(item.data.date).format(themeConfig.dateFormat)) || item.data.date,
           feature: item.data.feature && !item.data.feature.includes('http')
-            ? `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain, mode)}`
+            ? `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain)}`
             : item.data.feature || '',
-          link: `${this.db.themeConfig.domain}/post/${item.fileName}${mode === 'preview' ? '/index.html' : ''}`,
+          link: `${this.db.themeConfig.domain}/post/${item.fileName}`,
           hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
           stats: readingTime(content),
         }
@@ -311,12 +313,11 @@ export default class Renderer extends Model {
 
       const isSiteLink = menu.link.includes(this.db.setting.domain)
       if (isSiteLink) {
-        link = `${link}${mode === 'preview' ? '/index.html' : ''}`
+        link = `${link}`
       }
 
       return {
         ...menu,
-        link,
       }
     })
   }
@@ -324,7 +325,7 @@ export default class Renderer extends Model {
   /**
    * Render the article list, excluding hidden articles.
    */
-  public async renderPostList(extraPath?: string, mode?: string) {
+  public async renderPostList(extraPath?: string) {
     const { postPageSize, archivesPageSize } = this.db.themeConfig
 
     // Compatible: < v0.7.0
@@ -392,18 +393,18 @@ export default class Renderer extends Model {
       if (i === 0 && excludeHidePostsData.length > pageSize) {
         fse.ensureDir(`${this.outputDir}${extraPath}/page`)
 
-        renderData.pagination.next = `${this.db.themeConfig.domain}${extraPath}/page/2/${mode === 'preview' ? 'index.html' : ''}`
+        renderData.pagination.next = `${this.db.themeConfig.domain}${extraPath}/page/2/`
       } else if (i > 0 && excludeHidePostsData.length > pageSize) {
         fse.ensureDir(`${this.outputDir}${extraPath}/page/${i + 1}`)
 
         renderPath = `${this.outputDir}${extraPath}/page/${i + 1}/index.html`
 
         renderData.pagination.prev = i === 1
-          ? `${this.db.themeConfig.domain}${extraPath}/${mode === 'preview' ? 'index.html' : ''}`
-          : `${this.db.themeConfig.domain}${extraPath}/page/${i}/${mode === 'preview' ? 'index.html' : ''}`
+          ? `${this.db.themeConfig.domain}${extraPath}/`
+          : `${this.db.themeConfig.domain}${extraPath}/page/${i}/`
 
         renderData.pagination.next = (i + 1) * pageSize < excludeHidePostsData.length
-          ? `${this.db.themeConfig.domain}${extraPath}/page/${i + 2}/${mode === 'preview' ? 'index.html' : ''}`
+          ? `${this.db.themeConfig.domain}${extraPath}/page/${i + 2}/`
           : ''
       } else {
         fse.ensureDir(`${this.outputDir}${extraPath}`)
@@ -518,7 +519,7 @@ export default class Renderer extends Model {
   /**
    * Render tag detail page
    */
-  async renderTagDetail(mode?: string) {
+  async renderTagDetail() {
     const usedTags = this.db.tags.filter((tag: ITag) => tag.used)
     const { postPageSize } = this.db.themeConfig
     const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
@@ -563,18 +564,18 @@ export default class Renderer extends Model {
         if (i === 0 && posts.length > pageSize) {
           fse.ensureDirSync(`${tagFolderPath}/page`)
 
-          renderData.pagination.next = `${tagDomainPath}/page/2/${mode === 'preview' ? 'index.html' : ''}`
+          renderData.pagination.next = `${tagDomainPath}/page/2/`
         } else if (i > 0 && posts.length > pageSize) {
           fse.ensureDirSync(`${tagFolderPath}/page/${i + 1}`)
 
           renderPath = `${tagFolderPath}/page/${i + 1}/index.html`
 
           renderData.pagination.prev = i === 1
-            ? `${tagDomainPath}${mode === 'preview' ? '/index.html' : ''}`
-            : `${tagDomainPath}/page/${i}/${mode === 'preview' ? 'index.html' : ''}`
+            ? `${tagDomainPath}`
+            : `${tagDomainPath}/page/${i}/`
 
           renderData.pagination.next = (i + 1) * pageSize < posts.length
-            ? `${tagDomainPath}/page/${i + 2}/${mode === 'preview' ? 'index.html' : ''}`
+            ? `${tagDomainPath}/page/${i + 2}/`
             : ''
         }
 

@@ -8,6 +8,7 @@ import {
 } from 'vue-cli-plugin-electron-builder/lib'
 import App from './server/app'
 import messages from './assets/locales-menu'
+import initServer from './server'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -100,10 +101,13 @@ function createWindow() {
   menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
 
+  const server = initServer()
+
   const setting = {
     mainWindow: win,
     app,
     baseDir: __dirname,
+    previewServer: server,
   }
 
   // Init app

@@ -1,0 +1,54 @@
+---
+name: Bug Report
+about: 事情不像预期的那样工作吗？
+title: ''
+labels: 'bug'
+assignees: ''
+
+---
+
+<!--
+  你好！感谢你正在考虑为 Gridea 提交一个 bug。请花一点点时间尽量详细地回答以下基础问题。
+
+  如果你不确定这是一个 Gridea 的 bug，请加入我们的用户群去讨论。
+
+  谢谢！
+-->
+
+<!-- 
+  请确认你已经做了下面这些事情，若 bug 还是显而易见的，尽可详细地描述你的问题。
+
+  - 我已经安装了最新版的 Gridea
+  - 我已经搜索了已有的 Issues列表
+  - 我已经阅读了 Gridea 的 FAQ：https://gridea.dev/docs/faq.html
+  - 我已经查看了上手教程（视频或文字）：https://gridea.dev/docs
+-->
+
+## 我的环境
+
+<!--
+  Replace the values in the Version(s) column with the ones in your build. If you're not
+  using `github-pages`, just replace it with "No".
+-->
+
+| 名称     | 值   |
+| ------- | ---- |
+| 操作系统 |      |
+| 软件版本 |      |
+| 主题名称 |      |
+
+---
+
+## 期望行为
+
+<!--
+  你期望会发生什么？
+-->
+
+## 当前行为
+
+<!--
+  描述 bug 细节，确认出现此问题的复现步骤，例如点击了哪里，发生了什么情况？
+
+  你可以粘贴截图或附件。
+-->

@@ -26,11 +26,6 @@ assignees: ''
 
 ## 我的环境
 
-<!--
-  Replace the values in the Version(s) column with the ones in your build. If you're not
-  using `github-pages`, just replace it with "No".
--->
-
 | 名称     | 值   |
 | ------- | ---- |
 | 操作系统 |      |

@@ -8,6 +8,8 @@ import MarkdownItSub from 'markdown-it-sub'
 import MarkdownItAbbr from 'markdown-it-abbr'
 import MarkdownItFootnote from 'markdown-it-footnote'
 import MarkdownItImsize from 'markdown-it-imsize'
+import MarkdownItEmoji from 'markdown-it-emoji'
+import MarkdownItImplicitFigures from 'markdown-it-implicit-figures'
 
 const markdownIt = new MarkdownIt({
   html: true,
@@ -37,5 +39,12 @@ markdownIt.use(MarkdownItSub)
 markdownIt.use(MarkdownItAbbr)
 markdownIt.use(MarkdownItFootnote)
 markdownIt.use(MarkdownItImsize)
+markdownIt.use(MarkdownItEmoji)
+markdownIt.use(MarkdownItImplicitFigures, {
+  dataType: true, // <figure data-type="image">, default: false
+  figcaption: true, // <figcaption>alternative text</figcaption>, default: false
+  tabindex: true, // <figure tabindex="1+n">..., default: false
+  link: true, // <a href="img.png"><img src="img.png"></a>, default: false
+})
 
 export default markdownIt

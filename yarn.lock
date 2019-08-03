@@ -6031,9 +6031,19 @@ markdown-it-abbr@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/markdown-it-abbr/-/markdown-it-abbr-1.0.4.tgz#d66b5364521cbb3dd8aa59dadfba2fb6865c8fd8"
 
+markdown-it-emoji@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/markdown-it-emoji/-/markdown-it-emoji-1.4.0.tgz#9bee0e9a990a963ba96df6980c4fddb05dfb4dcc"
+  integrity sha1-m+4OmpkKljupbfaYDE/dsF37Tcw=
+
 markdown-it-footnote@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/markdown-it-footnote/-/markdown-it-footnote-3.0.1.tgz#7f3730747cacc86e2fe0bf8a17a710f34791517a"
+
+markdown-it-implicit-figures@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/markdown-it-implicit-figures/-/markdown-it-implicit-figures-0.9.0.tgz#21bf562ab4fd177828febb5e24eda571cf9d1a58"
+  integrity sha512-ykLQZmhy8QnNEm6NgImIrr+/QMe7gSnHgLhNAjz9GGCNdSLR7C/SLFNwGdUZq7vK3a0myWiOYE0tpaZuB0rWWw==
 
 markdown-it-imsize@^2.0.1:
   version "2.0.1"

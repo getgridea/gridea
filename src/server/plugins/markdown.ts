@@ -42,9 +42,9 @@ markdownIt.use(MarkdownItImsize)
 markdownIt.use(MarkdownItEmoji)
 markdownIt.use(MarkdownItImplicitFigures, {
   dataType: true, // <figure data-type="image">, default: false
-  figcaption: true, // <figcaption>alternative text</figcaption>, default: false
+  figcaption: false, // <figcaption>alternative text</figcaption>, default: false
   tabindex: true, // <figure tabindex="1+n">..., default: false
-  link: true, // <a href="img.png"><img src="img.png"></a>, default: false
+  link: false, // <a href="img.png"><img src="img.png"></a>, default: false
 })
 
 export default markdownIt

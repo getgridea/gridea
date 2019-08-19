@@ -3554,10 +3554,10 @@ electron-to-chromium@^1.3.92:
   version "1.3.96"
   resolved "http://registry.npm.taobao.org/electron-to-chromium/download/electron-to-chromium-1.3.96.tgz#25770ec99b8b07706dedf3a5f43fa50cb54c4f9a"
 
-electron@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.2.tgz#437f3ac2bcb42116d92a3f1084280e0b2cff1493"
-  integrity sha512-2SV10JlUsEGZ8CePeQIllFBwrOmm1EONne3Ev7Ro1F4tuS9sF184d3/3wZjEtwOs7hsM6elceYnNuZfx93++YA==
+electron@^5.0.0:
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-5.0.9.tgz#d7000dcb69b74a85b81cb168e7ffdcac254464e5"
+  integrity sha512-yCt+lnQr47OWB3Oei19odMVB8VKzecTwZLm75PB56f/keeJAM3UqV7+dtjKlPdKt0hJ4sWxe4vjxGPO/oZDv7A==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -6333,6 +6333,19 @@ moment@^2.21.0, moment@^2.24.0:
   resolved "http://registry.npm.taobao.org/moment/download/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha1-DQVdU/UFKqZTyfbraLtdEr9cK1s=
 
+monaco-editor@^0.17.1:
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.17.1.tgz#8fbe96ca54bfa75262706e044f8f780e904aa45c"
+  integrity sha512-JAc0mtW7NeO+0SwPRcdkfDbWLgkqL9WfP1NbpP9wNASsW6oWqgZqNIWt4teymGjZIXTElx3dnQmUYHmVrJ7HxA==
+
+monaco-markdown@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/monaco-markdown/-/monaco-markdown-0.0.5.tgz#9e4e54f1eace5b65adcca9118f922813d3049d13"
+  integrity sha512-6RllzH/gHucCFqkp2+4mcKqy0TWz71jDKelVbr8EmoqtiYlQxLg7ebwie8HxUp/hXnS+RluQLFJglcpRbdIm2Q==
+  dependencies:
+    monaco-editor "^0.17.1"
+    string-similarity "^3.0.0"
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/move-concurrently/download/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -8862,6 +8875,11 @@ string-convert@^0.2.0:
   version "0.2.1"
   resolved "http://registry.npm.taobao.org/string-convert/download/string-convert-0.2.1.tgz#6982cc3049fbb4cd85f8b24568b9d9bf39eeff97"
   integrity sha1-aYLMMEn7tM2F+LJFaLnZvznu/5c=
+
+string-similarity@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/string-similarity/-/string-similarity-3.0.0.tgz#07b0bc69fae200ad88ceef4983878d03793847c7"
+  integrity sha512-7kS7LyTp56OqOI2BDWQNVnLX/rCxIQn+/5M0op1WV6P8Xx6TZNdajpuqQdiJ7Xx+p1C5CsWMvdiBp9ApMhxzEQ==
 
 string-width@^1.0.1:
   version "1.0.2"

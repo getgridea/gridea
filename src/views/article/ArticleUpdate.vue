@@ -24,6 +24,7 @@
             v-model="form.content"
             @click.native.capture="preventDefault($event)"
           ></markdown-editor>
+          <monaco-markdown-editor></monaco-markdown-editor>
         </div>
         <div class="footer-info">
           写作于 <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
@@ -114,13 +115,17 @@ import shortid from 'shortid'
 import moment from 'moment'
 import * as fse from 'fs-extra'
 import MarkdownEditor from '../../components/MarkdownEditor.vue'
+import MonacoMarkdownEditor from '../../components/MonacoMarkdownEditor.vue'
 import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
 import { UrlFormats } from '../../helpers/enums'
 
 @Component({
-  components: { MarkdownEditor },
+  components: {
+    MarkdownEditor,
+    MonacoMarkdownEditor,
+  },
 })
 export default class ArticleUpdate extends Vue {
   @Prop(Boolean) visible!: boolean

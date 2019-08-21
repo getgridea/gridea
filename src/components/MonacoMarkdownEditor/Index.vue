@@ -1,5 +1,5 @@
 <template>
-  <div id="monaco-markdown-editor" style="width: 800px; height: 600px; border: 1px solid #ccc;">
+  <div id="monaco-markdown-editor" style="width: 100%; height:640px; border: 1px solid #ccc;">
   </div>
 </template>
 
@@ -34,6 +34,18 @@ export default class MonacoMarkdownEditor extends Vue {
         enabled: false,
       },
       wordWrap: 'on',
+      cursorWidth: 2,
+      cursorSmoothCaretAnimation: true,
+      cursorBlinking: 'smooth',
+      colorDecorators: true,
+      extraEditorClassName: 'gridea-editor',
+      folding: false,
+      highlightActiveIndentGuide: false,
+      renderIndentGuides: false,
+      renderLineHighlight: 'gutter',
+      scrollbar: {
+        verticalScrollbarSize: 4,
+      },
     })
 
     console.log('lalala', MonacoMarkdown)

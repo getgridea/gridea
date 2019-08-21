@@ -11,7 +11,7 @@
     <div class="page-content">
       <div class="editor-wrapper">
         <div class="tip-text">{{ $t('editorTip') }}</div>
-        <div class="editor-container">
+        <div class="editor-container" v-show="false">
           <div class="post-title-container">
             <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
           </div>
@@ -24,8 +24,8 @@
             v-model="form.content"
             @click.native.capture="preventDefault($event)"
           ></markdown-editor>
-          <monaco-markdown-editor></monaco-markdown-editor>
         </div>
+        <monaco-markdown-editor></monaco-markdown-editor>
         <div class="footer-info">
           写作于 <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
         </div>
@@ -115,7 +115,7 @@ import shortid from 'shortid'
 import moment from 'moment'
 import * as fse from 'fs-extra'
 import MarkdownEditor from '../../components/MarkdownEditor.vue'
-import MonacoMarkdownEditor from '../../components/MonacoMarkdownEditor.vue'
+import MonacoMarkdownEditor from '../../components/MonacoMarkdownEditor/Index.vue'
 import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
@@ -556,9 +556,9 @@ export default class ArticleUpdate extends Vue {
     background: #fff;
   }
   .page-content {
-    background: #f9f9f9;
+    background: #fff;
     flex: 1;
-    padding: 24px 16px;
+    display: flex;
     overflow: scroll;
   }
 }

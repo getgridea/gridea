@@ -1,5 +1,5 @@
 <template>
-  <div id="monaco-markdown-editor" style="width: 100%; height:640px; border: 1px solid #ccc;">
+  <div id="monaco-markdown-editor" style="width: 100%; height:640px; border: 1px solid #E2E8F0;">
   </div>
 </template>
 
@@ -42,10 +42,11 @@ export default class MonacoMarkdownEditor extends Vue {
       folding: false,
       highlightActiveIndentGuide: false,
       renderIndentGuides: false,
-      renderLineHighlight: 'gutter',
+      renderLineHighlight: 'none',
       scrollbar: {
         verticalScrollbarSize: 4,
       },
+      lineHeight: 15 * 1.5,
     })
 
     console.log('lalala', MonacoMarkdown)
@@ -57,5 +58,24 @@ export default class MonacoMarkdownEditor extends Vue {
 </script>
 
 <style lang="less" scoped>
+/deep/.context-view .monaco-scrollable-element {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06) !important;
+  border-radius: 4px;
+}
 
+/deep/ .monaco-menu .monaco-action-bar.vertical .action-item {
+  border: none;
+}
+
+/deep/ .action-menu-item {
+  color: #718096 !important;
+  &:hover {
+    color: #744210 !important;
+    background: #FFFFF0 !important;
+  }
+}
+
+/deep/ .monaco-menu .monaco-action-bar.vertical .action-label.separator {
+  border-bottom-color: #E2E8F0 !important;
+}
 </style>

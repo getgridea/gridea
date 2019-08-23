@@ -19,15 +19,15 @@ export default {
       'token': 'constant.language',
     },
     {
-      'foreground': 'af956f',
+      'foreground': 'b7791f',
       'token': 'keyword',
     },
     {
-      'foreground': 'af956f',
+      'foreground': 'b7791f',
       'token': 'support.constant.property-value',
     },
     {
-      'foreground': 'af956f',
+      'foreground': 'b7791f',
       'token': 'constant.other.color',
     },
     {

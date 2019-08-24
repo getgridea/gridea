@@ -128,6 +128,8 @@ export default class ArticleUpdate extends Vue {
   @Prop(String) articleFileName!: string
 
   postSettingsVisible = false
+  
+  changedAfterLastSave = false
 
   $refs!: {
     editor: any,
@@ -245,6 +247,7 @@ export default class ArticleUpdate extends Vue {
     } else if (this.site.themeConfig.postUrlFormat === UrlFormats.ShortId) {
       this.form.fileName = shortid.generate()
     }
+    this.changedAfterLastSave = false
   }
 
   beforeFeatureUpload(file: any) {
@@ -266,7 +269,21 @@ export default class ArticleUpdate extends Vue {
   }
 
   close() {
-    this.$emit('close')
+    if (this.changedAfterLastSave) {
+      this.$confirm({
+        title: `${this.$t('warning')}`,
+        content: `${this.$t('unsavedWarning')}`,
+        okText: `${this.$t('dontSaveAndBack')}`,
+        okType: 'danger',
+        cancelText: `${this.$t('cancel')}`,
+        zIndex: 2000,
+        onOk: () => {
+          this.$emit('close')
+        },
+      })
+    } else {
+      this.$emit('close')
+    }
   }
 
   updatePostSavedStatus() {
@@ -368,6 +385,7 @@ export default class ArticleUpdate extends Vue {
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
       this.updatePostSavedStatus()
+      this.changedAfterLastSave = false
       this.$message.success(`🎉  ${this.$t('draftSuccess')}`)
       this.$emit('fetchData')
     })
@@ -379,6 +397,7 @@ export default class ArticleUpdate extends Vue {
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
       this.updatePostSavedStatus()
+      this.changedAfterLastSave = false
       this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
       this.$emit('fetchData')
     })
@@ -390,6 +409,7 @@ export default class ArticleUpdate extends Vue {
 
     ipcRenderer.send('app-post-create', form)
     ipcRenderer.once('app-post-created', (event: Event, data: any) => {
+      this.changedAfterLastSave = false
       this.updatePostSavedStatus()
       this.$emit('fetchData')
     })
@@ -420,6 +440,11 @@ export default class ArticleUpdate extends Vue {
           console.log(imageFiles)
           this.uploadImageFiles(imageFiles)
           e.preventDefault()
+        }
+      })
+      codemirror.on(('change'), (editor: any, change: any) => {
+        if (change.origin !== 'setValue') {
+          this.changedAfterLastSave = true
         }
       })
       codemirror.on(('paste'), (editor: any, e: any) => {

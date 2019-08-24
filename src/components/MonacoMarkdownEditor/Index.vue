@@ -1,5 +1,5 @@
 <template>
-  <div id="monaco-markdown-editor" style="width: 728px; min-height: calc(100vh - 88px); margin: 0 auto;">
+  <div id="monaco-markdown-editor" style="width: 728px; min-height: calc(100vh - 176px); margin: 0 auto;">
   </div>
 </template>
 
@@ -49,10 +49,12 @@ export default class MonacoMarkdownEditor extends Vue {
         horizontal: 'hidden',
         verticalScrollbarSize: 0,
       },
-      lineHeight: 22.5,
+      lineHeight: 26.25,
       scrollBeyondLastLine: false,
       wordBasedSuggestions: false,
       snippetSuggestions: 'none',
+      lineDecorationsWidth: 0,
+      occurrencesHighlight: false,
     })
 
     const extension = new MonacoMarkdown.MonacoMarkdownExtension()
@@ -76,7 +78,7 @@ export default class MonacoMarkdownEditor extends Vue {
     const editorDomNode = editor.getDomNode()
     if (!editorDomNode) return
 
-    const LINE_HEIGHT = 22.5
+    const LINE_HEIGHT = 26.25
 
     const container = editorDomNode.getElementsByClassName('view-lines')[0] as HTMLElement
     const containerHeight = container.offsetHeight
@@ -100,6 +102,14 @@ export default class MonacoMarkdownEditor extends Vue {
       } else {
         this.prevLineCount = currLineCount
       }
+    }
+
+    const lines = document.querySelectorAll('.view-line') as any
+    console.log('lines', lines)
+    if (lines.length === 1 && !lines[0].innerText.trim()) {
+      lines[0].classList.add('input-holder')
+    } else if (lines[0].classList.contains('input-holder')) {
+      lines[0].classList.remove('input-holder')
     }
   }
 
@@ -132,5 +142,12 @@ export default class MonacoMarkdownEditor extends Vue {
 
 /deep/ .monaco-menu .monaco-action-bar.vertical .action-label.separator {
   border-bottom-color: #E2E8F0 !important;
+}
+/deep/ .input-holder {
+  &:before {
+    content: '开始写作...';
+    color: rgba(208, 211, 217, 0.6);
+    font-weight: 200;
+  }
 }
 </style>

@@ -12,27 +12,31 @@
       <div class="editor-wrapper">
         <!-- <div class="tip-text">{{ $t('editorTip') }}</div> -->
         <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
-        <div class="editor-container" v-show="false">
-          <div class="post-title-container">
-            <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
-          </div>
-          <markdown-editor
-            id="markdown-editor"
-            ref="editor"
-            class="md-editor"
-            :configs="configs"
-            preview-class="markdown-body"
-            v-model="form.content"
-            @click.native.capture="preventDefault($event)"
-          ></markdown-editor>
-        </div>
         <monaco-markdown-editor
+          ref="monacoMarkdownEditor"
           v-model="form.content"
         ></monaco-markdown-editor>
         <div class="footer-info">
           写作于 <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
         </div>
+
+        <div class="bottom-tool-container">
+          <span @click="insertImage">image</span>
+          <span @click="insertMore">more</span>
+          <span @click="previewPost">preview</span>
+        </div>
       </div>
+
+      <a-drawer
+        title="预览"
+        :visible="previewVisible"
+        @close="previewVisible = false"
+        width="800"
+        placement="left"
+        :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px', zIndex: 1025}"
+      >
+        <div class="preview-container" v-html="previewPostHTML"></div>
+      </a-drawer>
 
       <a-drawer
         :title="$t('postSettings')"
@@ -117,7 +121,9 @@ import { State } from 'vuex-class'
 import shortid from 'shortid'
 import moment from 'moment'
 import * as fse from 'fs-extra'
-import MarkdownEditor from '../../components/MarkdownEditor.vue'
+import * as monaco from 'monaco-editor'
+import Prism from 'prismjs'
+import markdown from '../../server/plugins/markdown'
 import MonacoMarkdownEditor from '../../components/MonacoMarkdownEditor/Index.vue'
 import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
@@ -126,7 +132,6 @@ import { UrlFormats } from '../../helpers/enums'
 
 @Component({
   components: {
-    MarkdownEditor,
     MonacoMarkdownEditor,
   },
 })
@@ -137,42 +142,18 @@ export default class ArticleUpdate extends Vue {
 
   postSettingsVisible = false
 
+  previewVisible = false
+
+  previewPostHTML = ''
+
   $refs!: {
-    editor: any,
     uploadInput: any,
     image: any,
     articlePage: HTMLElement,
+    monacoMarkdownEditor: any,
   }
 
   @State('site') site!: Site
-
-  configs = {
-    toolbar: ['bold', 'italic', 'heading', 'code', 'quote', 'unordered-list', 'ordered-list', {
-      name: 'image',
-      action: (editor: any) => {
-        this.$refs.uploadInput.click()
-      },
-      className: 'fa fa-picture-o',
-      title: 'Image',
-    }, {
-      name: 'more',
-      action: (editor: any) => {
-        this.insertMore()
-      },
-      className: 'fa fa-ellipsis-h',
-      title: 'More',
-    }, {
-      name: 'link',
-      action: (editor: any) => {
-        this.insertLink()
-      },
-      className: 'fa fa-link',
-      title: 'Link',
-    }, 'preview'],
-    promptURLs: true,
-    spellChecker: false,
-    placeholder: '输入内容...',
-  }
 
   form = {
     title: '',
@@ -218,7 +199,6 @@ export default class ArticleUpdate extends Vue {
 
   mounted() {
     this.buildCurrentForm()
-    this.initEditor()
     ipcRenderer.removeAllListeners('click-menu-save')
     ipcRenderer.on('click-menu-save', (event: Event, data: any) => {
       this.normalSavePost()
@@ -403,86 +383,38 @@ export default class ArticleUpdate extends Vue {
     })
   }
 
-  initEditor() {
-    console.log(this.$refs.editor)
-    if (this.$refs.editor !== null) {
-      const { codemirror } = this.$refs.editor.easymde
-
-      // 拖拽上传
-      codemirror.on(('drop'), (editor: any, e: DragEvent) => {
-        if (e && e.dataTransfer) {
-          const dataList = e.dataTransfer.files
-          const imageFiles = []
-
-          for (const data of dataList as any) {
-            if (data.type.indexOf('image') === -1) {
-              this.$message.error(this.$t('onlyPicDrag'))
-              return
-            }
-            imageFiles.push({
-              name: data.name,
-              path: data.path,
-              type: data.type,
-            })
-          }
-          console.log(imageFiles)
-          this.uploadImageFiles(imageFiles)
-          e.preventDefault()
-        }
-      })
-      codemirror.on(('paste'), (editor: any, e: any) => {
-        if (!(e.clipboardData && e.clipboardData.items)) {
-          return
-        }
-        try {
-          const file = e.clipboardData.files[0]
-          const data = e.clipboardData.items[0]
-          if (data.kind === 'file' && data.type.indexOf('image') !== -1 && file.type.indexOf('image') !== -1 && file.path === '') { // file.path === '' 说明是剪切板来的
-            const parseImg = clipboard.readImage()
-            const imgBuffer = parseImg.toPNG()
-            const tempImageFile = `${remote.app.getPath('temp')}gridea_temp.png`
-            fse.writeFileSync(tempImageFile, imgBuffer)
-
-            this.uploadImageFiles([{
-              name: 'gridea_post.png',
-              path: tempImageFile,
-              type: data.type,
-            }])
-          }
-        } catch (error) {
-          console.log(error)
-        }
-      })
-    }
+  insertImage() {
+    this.$refs.uploadInput.click()
   }
 
   uploadImageFiles(files: any[]) {
     ipcRenderer.send('image-upload', files)
     ipcRenderer.once('image-uploaded', (event: Event, data: any) => {
-      const editor = this.$refs.editor.easymde.codemirror
       for (const path of data) {
         let url = `![](file://${path})`
         url = url.replace(/\\/g, '/')
 
-        // 在光标处插入 https://codemirror.net/doc/manual.html#replaceSelection
-        editor.replaceSelection(url)
+        this.$refs.monacoMarkdownEditor.editor.getModel().applyEdits([{
+          range: monaco.Range.fromPositions(this.$refs.monacoMarkdownEditor.editor.getPosition()),
+          text: url,
+        }])
       }
-      editor.focus()
     })
   }
 
   insertMore() {
-    const editor = this.$refs.editor.easymde.codemirror
-
-    editor.replaceSelection('\n<!-- more -->\n')
-    editor.focus()
+    this.$refs.monacoMarkdownEditor.editor.getModel().applyEdits([{
+      range: monaco.Range.fromPositions(this.$refs.monacoMarkdownEditor.editor.getPosition()),
+      text: '\n<!-- more -->\n',
+    }])
   }
 
-  insertLink() {
-    const editor = this.$refs.editor.easymde.codemirror
-
-    editor.replaceSelection('[]()')
-    editor.focus()
+  previewPost() {
+    this.previewVisible = true
+    setTimeout(() => {
+      this.previewPostHTML = markdown.render(this.form.content)
+      Prism.highlightAll()
+    }, 1)
   }
 
   /**
@@ -571,13 +503,16 @@ export default class ArticleUpdate extends Vue {
 }
 
 .post-title {
-  font-weight: 900;
+  font-weight: 400;
   background: #fff;
-  padding: 24px 0;
-  font-size: 28px;
+  padding: 8px 0;
+  font-size: 24px;
   color: #000;
   border: none;
-  border-bottom: 1px solid #e8e8e8;
+  // border-bottom: 1px solid #e8e8e8;
+  display: block;
+  width: 728px;
+  margin: 24px auto;
   &:focus {
     box-shadow: none;
   }
@@ -649,6 +584,15 @@ export default class ArticleUpdate extends Vue {
 .editor-wrapper {
   width: 100%;
   margin: 0 auto;
+  position: relative;
+}
+
+.bottom-tool-container {
+  position: fixed;
+  left: 8px;
+  bottom: 8px;
+  display: flex;
+  flex-direction: column;
 }
 
 .post-title-container {
@@ -663,5 +607,220 @@ export default class ArticleUpdate extends Vue {
   position: fixed;
   left: 0;
   bottom: 0;
+}
+
+.preview-container {
+  width: 100%;
+  flex-shrink: 0;
+  font-family: "Droid Serif","PingFang SC","Hiragino Sans GB","Droid Sans Fallback","Microsoft YaHei",sans-serif;
+
+  /deep/ a {
+    color: rgba(0,0,0,.98);
+    word-wrap: break-word;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0,0,0,.26);
+    &:hover {
+      color: #000;
+      border-bottom: 1px solid #000;
+    }
+  }
+  /deep/ img {
+    display: block;
+    box-shadow: 0 0 30px #eee;
+    max-width: 100%;
+    border-radius: 2px;
+    margin: 24px auto;
+  }
+
+  /deep/ p {
+    line-height: 1.62;
+    margin-bottom: 1.12em;
+    font-size: 16px;
+    letter-spacing: .05em;
+    hyphens: auto;
+  }
+
+  /deep/ p, li {
+    code {
+      font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
+      line-height: initial;
+      word-wrap: break-word;
+      border-radius: 0;
+      background-color: #f1f1f1;
+      color: rgba(0,0,0,.8);
+      padding: .2em .33333333em;
+      font-size: .875rem;
+      margin-left: .125em;
+      margin-right: .125em;
+    }
+  }
+
+  /deep/ pre {
+    margin-bottom: 1.5rem;
+    font-size: 0.75rem;
+    padding: 0;
+    position: relative;
+    code {
+      font-size: 0.86rem;
+      font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
+      padding: 1em;
+      border-radius: 5px;
+      line-height: 1.5;
+    }
+  }
+
+  /deep/ blockquote {
+    color: #9a9a9a;
+    position: relative;
+    padding: .4em 0 0 2.2em;
+    font-size: .96em;
+    &:before {
+      position: absolute;
+      top: -4px;
+      left: 0;
+      content: "\201c";
+      font: 700 62px/1 serif;
+      color: rgba(0,0,0,.1);
+    }
+  }
+
+  /deep/ table {
+    border-collapse: collapse;
+    margin: 1rem 0;
+    display: block;
+    overflow-x: auto;
+  }
+  /deep/ tr {
+    border-top: 1px solid #dfe2e5;
+  }
+  /deep/ td, th {
+    border: 1px solid #dfe2e5;
+    padding: .6em 1em;
+  }
+
+  /deep/ ul, ol {
+    padding-left: 35px;
+    line-height: 1.725;
+    margin-bottom: 16px;
+  }
+
+  /deep/ ul {
+    list-style-type: square;
+  }
+
+  /deep/ h1, h2, h3, h4, h5, h6 {
+    margin: 16px 0;
+    font-weight: 700;
+    padding-top: 16px;
+  }
+  /deep/ h1 {
+    font-size: 1.8em;
+  }
+  /deep/ h2 {
+    font-size: 1.42em;
+  }
+  /deep/ h3 {
+    font-size: 1.17em;
+  }
+  /deep/ h4 {
+    font-size: 1em;
+  }
+  /deep/ h5 {
+    font-size: 1em;
+  }
+  /deep/ h6 {
+    font-size: 1em;
+    font-weight: 500;
+  }
+  /deep/ hr {
+    display: block;
+    border: 0;
+    margin: 2.24em auto 2.86em;
+    &:before {
+      color: rgba(0,0,0,.2);
+      font-size: 1.1em;
+      display: block;
+      content: "* * *";
+      text-align: center;
+    }
+  }
+
+  /deep/ .footnotes {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 760px;
+    padding-left: 18px;
+    padding-right: 18px;
+    &:before {
+      content: "";
+      display: block;
+      border-top: 4px solid rgba(0,0,0,.1);
+      width: 50%;
+      max-width: 100px;
+      margin: 40px 0 20px;
+    }
+  }
+
+  /deep/ .contains-task-list {
+    list-style-type: none;
+    padding-left: 30px;
+  }
+  /deep/ .task-list-item {
+    position: relative;
+  }
+  /deep/ .task-list-item-checkbox {
+    position: absolute;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    margin: 4px 0 0;
+    top: 3px;
+    left: -22px;
+    transform-origin: center;
+    transform: rotate(-90deg);
+    transition: all .2s ease;
+    &:checked {
+      transform: rotate(0);
+      &:before {
+        border: transparent;
+        background-color: #38a169;
+      }
+      &:after {
+        transform: rotate(-45deg) scale(1);
+      }
+      + .task-list-item-label {
+        color: #a0a0a0;
+        text-decoration: line-through;
+      }
+    }
+    &:before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      box-sizing: border-box;
+      display: inline-block;
+      border: 1px solid #d0d0d0;
+      border-radius: 2px;
+      background-color: #fff;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all .2s ease;
+    }
+    &:after {
+      content: "";
+      transform: rotate(-45deg) scale(0);
+      width: 9px;
+      height: 5px;
+      border: 1px solid #fff;
+      border-top: none;
+      border-right: none;
+      position: absolute;
+      display: inline-block;
+      top: 4px;
+      left: 4px;
+      transition: all .2s ease;
+    }
+  }
 }
 </style>

@@ -10,7 +10,8 @@
     </div>
     <div class="page-content">
       <div class="editor-wrapper">
-        <div class="tip-text">{{ $t('editorTip') }}</div>
+        <!-- <div class="tip-text">{{ $t('editorTip') }}</div> -->
+        <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
         <div class="editor-container" v-show="false">
           <div class="post-title-container">
             <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
@@ -25,7 +26,9 @@
             @click.native.capture="preventDefault($event)"
           ></markdown-editor>
         </div>
-        <monaco-markdown-editor></monaco-markdown-editor>
+        <monaco-markdown-editor
+          v-model="form.content"
+        ></monaco-markdown-editor>
         <div class="footer-info">
           写作于 <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
         </div>
@@ -644,7 +647,7 @@ export default class ArticleUpdate extends Vue {
 }
 
 .editor-wrapper {
-  width: 760px;
+  width: 100%;
   margin: 0 auto;
 }
 

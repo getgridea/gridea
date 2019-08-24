@@ -1,32 +1,33 @@
 <template>
-  <div id="monaco-markdown-editor" style="width: 100%; height:640px; border: 1px solid #E2E8F0;">
+  <div id="monaco-markdown-editor" style="width: 728px; min-height: calc(100vh - 88px); margin: 0 auto;">
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import {
+  Vue, Component, Prop, Watch, Model,
+} from 'vue-property-decorator'
 import * as monaco from 'monaco-editor'
 import * as MonacoMarkdown from 'monaco-markdown'
 import theme from './theme'
 
-// const MonacoMarkdown = require('../plugins/monaco/umd/monaco-markdown.js')
-const markdownContent = `今天我们切换了全新的编辑器，这是一款非常**优秀**的编辑器[Muya](https://gridea.dev/)非常感谢MarkText 团队作出的贡献
-
-- [x] 我就看看这个任务渲染怎么样
-
-ok，继续吧！
-
-爱上创作，爱上 Gridea ❤️
-`
-
 @Component
 export default class MonacoMarkdownEditor extends Vue {
+  // @Prop(String) value!: string
+
+  @Model('change', { type: String }) readonly value!: string
+
+
+  editor: any = null
+
+  prevLineCount: number = -1
+
   mounted() {
     monaco.editor.defineTheme('GrideaLight', theme as any)
 
-    const editor = monaco.editor.create(document.getElementById('monaco-markdown-editor') as any, {
+    this.editor = monaco.editor.create(document.getElementById('monaco-markdown-editor') as any, {
       language: 'markdown-math',
-      value: markdownContent,
+      value: this.value,
       fontSize: 15,
       theme: 'GrideaLight',
       lineNumbers: 'off',
@@ -44,15 +45,69 @@ export default class MonacoMarkdownEditor extends Vue {
       renderIndentGuides: false,
       renderLineHighlight: 'none',
       scrollbar: {
-        verticalScrollbarSize: 4,
+        vertical: 'hidden',
+        horizontal: 'hidden',
+        verticalScrollbarSize: 0,
       },
-      lineHeight: 15 * 1.5,
+      lineHeight: 22.5,
+      scrollBeyondLastLine: false,
+      wordBasedSuggestions: false,
+      snippetSuggestions: 'none',
     })
 
-    console.log('lalala', MonacoMarkdown)
-
     const extension = new MonacoMarkdown.MonacoMarkdownExtension()
-    extension.activate(editor)
+    extension.activate(this.editor)
+
+    setTimeout(this.setEditorHeight, 0)
+
+    this.editor.onDidChangeModelContent(() => {
+      setTimeout(this.setEditorHeight, 0)
+      const value = this.editor.getValue()
+      if (this.value !== value) {
+        this.$emit('change', value)
+      }
+    })
+  }
+
+  setEditorHeight() {
+    const { editor } = this
+    if (!editor) return
+
+    const editorDomNode = editor.getDomNode()
+    if (!editorDomNode) return
+
+    const LINE_HEIGHT = 22.5
+
+    const container = editorDomNode.getElementsByClassName('view-lines')[0] as HTMLElement
+    const containerHeight = container.offsetHeight
+    const lineHeight = container.firstChild
+      ? (container.firstChild as HTMLElement).offsetHeight
+      : LINE_HEIGHT
+    
+    if (!containerHeight) {
+      setTimeout(this.setEditorHeight, 0)
+    } else {
+      const currLineCount = container.childElementCount
+      const nextHeight = (this.prevLineCount > currLineCount)
+        ? currLineCount * lineHeight
+        : containerHeight
+      
+      editorDomNode.style.height = `${nextHeight}px`
+      editor.layout()
+
+      if (container.childElementCount !== currLineCount) {
+        this.setEditorHeight()
+      } else {
+        this.prevLineCount = currLineCount
+      }
+    }
+  }
+
+  @Watch('value')
+  onValueChanged(newValue: any) {
+    if (this.editor && newValue !== this.editor.getValue()) {
+      this.editor.setValue(newValue)
+    }
   }
 }
 </script>

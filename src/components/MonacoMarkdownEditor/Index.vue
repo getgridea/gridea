@@ -13,8 +13,6 @@ import theme from './theme'
 
 @Component
 export default class MonacoMarkdownEditor extends Vue {
-  // @Prop(String) value!: string
-
   @Model('change', { type: String }) readonly value!: string
 
 
@@ -148,7 +146,6 @@ export default class MonacoMarkdownEditor extends Vue {
   &:before {
     content: '开始写作...';
     color: rgba(208, 211, 217, 0.6);
-    font-weight: 200;
   }
 }
 </style>

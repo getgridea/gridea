@@ -2,9 +2,21 @@
   <div class="article-update-page" v-if="visible">
     <div class="page-title">
       <a-row type="flex" justify="end">
-        <a-button class="btn" @click="close">{{ $t('back') }}</a-button>
-        <a-button class="btn" :disabled="!canSubmit" @click="saveDraft">{{ $t('saveDraft') }}</a-button>
-        <a-button class="btn" type="primary" :disabled="!canSubmit" @click="savePost">{{ $t('save') }}</a-button>
+        <a-tooltip placement="bottom" :title="$t('back')">
+          <div class="op-btn" @click="close">
+            <i class="zwicon-arrow-left"></i>
+          </div>
+        </a-tooltip>
+        <a-tooltip placement="bottom" :title="$t('saveDraft')">
+          <div class="op-btn" :disabled="!canSubmit" @click="saveDraft">
+            <i class="zwicon-checkmark"></i>
+          </div>
+        </a-tooltip>
+        <a-tooltip placement="bottom" :title="$t('save')">
+          <div class="op-btn save-btn" :disabled="!canSubmit" @click="savePost">
+            <i class="zwicon-checkmark"></i>
+          </div>
+        </a-tooltip>
       </a-row>
     </div>
     <div class="page-content">
@@ -19,27 +31,51 @@
           写作于 <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
         </div>
 
-        <div class="bottom-tool-container">
-          <a-tooltip placement="right" title="插入图片">
+        <div class="right-tool-container">
+          <a-tooltip placement="left" title="插入图片">
             <div class="op-btn" @click="insertImage">
               <i class="zwicon-image"></i>
             </div>
           </a-tooltip>
-          <a-tooltip placement="right" title="插入摘要分隔符">
+          <a-tooltip placement="left" title="插入摘要分隔符">
             <div class="op-btn" @click="insertMore">
               <i class="zwicon-more-v"></i>
             </div>
           </a-tooltip>
-          <a-tooltip placement="right" :title="$t('postSettings')">
+          <a-tooltip placement="left" :title="$t('postSettings')">
             <div class="op-btn" @click="postSettingsVisible = true">
               <i class="zwicon-cog"></i>
             </div>
           </a-tooltip>
-          <a-tooltip placement="right" title="预览">
+          <a-tooltip placement="left" title="预览">
             <div class="op-btn" @click="previewPost">
               <i class="zwicon-eye"></i>
             </div>
           </a-tooltip>
+        </div>
+        <div class="right-bottom-tool-container">
+          <a-popover placement="leftBottom" trigger="click">
+            <template slot="content">
+              <div class="keyboard-container">
+                <div class="item" v-for="(item, index) in shortcutKeys" :key="index">
+                  <a-divider class="keyboard-group-title" orientation="left">{{ item.name }}</a-divider>
+                  <div class="list">
+                    <div class="list-item" v-for="(listItem, listIndex) in item.list" :key="listIndex">
+                      <div class="list-item-title">{{ listItem.title }}</div>
+                      <div>
+                        <span v-for="(keyCode, keyIndex) in listItem.keyboard" :key="keyIndex">
+                          <code>{{keyCode }}</code> <span v-if="keyIndex !== listItem.keyboard.length - 1"> + </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+            <div class="op-btn">
+              <i class="zwicon-keyboard"></i>
+            </div>
+          </a-popover>
         </div>
       </div>
 
@@ -158,6 +194,7 @@ import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
 import { UrlFormats } from '../../helpers/enums'
+import shortcutKeys from '../../helpers/shortcut-keys'
 
 @Component({
   components: {
@@ -174,6 +211,8 @@ export default class ArticleUpdate extends Vue {
   previewVisible = false
 
   previewPostHTML = ''
+
+  shortcutKeys = shortcutKeys
 
   $refs!: {
     uploadInput: any,
@@ -520,6 +559,29 @@ export default class ArticleUpdate extends Vue {
     box-shadow: 0 3px 20px #4343430d;
     z-index: 1026;
     background: #fff;
+
+    .op-btn {
+      height: 30px;
+      line-height: 30px;
+      padding: 0 16px;
+      font-size: 18px;
+      border-radius: 20px;
+      margin-left: 8px;
+      i {
+        font-weight: bold;
+      }
+      &:hover {
+        background: #FAF089;
+        color: #744210;
+      }
+      &.save-btn {
+        color: #38A169;
+        &:hover {
+          background: #9AE6B4;
+          color: #22543D;
+        }
+      }
+    }
   }
   .page-content {
     background: #fff;
@@ -617,11 +679,10 @@ export default class ArticleUpdate extends Vue {
   margin: 0 auto;
   position: relative;
 }
-
-.bottom-tool-container {
+.right-tool-container,
+.right-bottom-tool-container {
   position: fixed;
-  left: 8px;
-  bottom: 8px;
+  right: 12px;
   display: flex;
   flex-direction: column;
   color: #A0AEC0;
@@ -639,6 +700,15 @@ export default class ArticleUpdate extends Vue {
       color: #744210;
     }
   }
+}
+
+.right-tool-container {
+  bottom: 50%;
+  transform: translateY(50%);
+}
+
+.right-bottom-tool-container {
+  bottom: 12px;
 }
 
 .post-title-container {
@@ -916,5 +986,35 @@ export default class ArticleUpdate extends Vue {
   max-width: 100%;
   margin-bottom: 16px;
   border-radius: 2px;
+}
+
+.keyboard-container {
+  width: 200px;
+  .keyboard-group-title {
+    margin: 8px 0;
+    font-size: 12px;
+  }
+  .list {
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      padding: 4px;
+      border-radius: 2px;
+      &:not(:last-child) {
+        border-bottom: 1px solid #fafafa;
+      }
+      &:hover {
+        background: #FFFFF0;
+        color: #B7791F;
+      }
+
+      code {
+        padding: 0px 4px;
+        border-radius: 2px;
+        background: #EDF2F7;
+      }
+    }
+  }
 }
 </style>

@@ -105,11 +105,12 @@ export default class MonacoMarkdownEditor extends Vue {
     }
 
     const lines = document.querySelectorAll('.view-line') as any
-    console.log('lines', lines)
-    if (lines.length === 1 && !lines[0].innerText.trim()) {
-      lines[0].classList.add('input-holder')
-    } else if (lines[0].classList.contains('input-holder')) {
-      lines[0].classList.remove('input-holder')
+    if (lines) {
+      if (lines.length === 1 && !lines[0].innerText.trim()) {
+        lines[0].classList.add('input-holder')
+      } else if (lines[0].classList.contains('input-holder')) {
+        lines[0].classList.remove('input-holder')
+      }
     }
   }
 

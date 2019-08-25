@@ -2,7 +2,6 @@
   <div class="article-update-page" v-if="visible">
     <div class="page-title">
       <a-row type="flex" justify="end">
-        <a-button class="btn" @click="postSettingsVisible = true">{{ $t('postSettings') }}</a-button>
         <a-button class="btn" @click="close">{{ $t('back') }}</a-button>
         <a-button class="btn" :disabled="!canSubmit" @click="saveDraft">{{ $t('saveDraft') }}</a-button>
         <a-button class="btn" type="primary" :disabled="!canSubmit" @click="savePost">{{ $t('save') }}</a-button>
@@ -21,21 +20,51 @@
         </div>
 
         <div class="bottom-tool-container">
-          <span @click="insertImage">image</span>
-          <span @click="insertMore">more</span>
-          <span @click="previewPost">preview</span>
+          <a-tooltip placement="right" title="插入图片">
+            <div class="op-btn" @click="insertImage">
+              <i class="zwicon-image"></i>
+            </div>
+          </a-tooltip>
+          <a-tooltip placement="right" title="插入摘要分隔符">
+            <div class="op-btn" @click="insertMore">
+              <i class="zwicon-more-v"></i>
+            </div>
+          </a-tooltip>
+          <a-tooltip placement="right" :title="$t('postSettings')">
+            <div class="op-btn" @click="postSettingsVisible = true">
+              <i class="zwicon-cog"></i>
+            </div>
+          </a-tooltip>
+          <a-tooltip placement="right" title="预览">
+            <div class="op-btn" @click="previewPost">
+              <i class="zwicon-eye"></i>
+            </div>
+          </a-tooltip>
         </div>
       </div>
 
       <a-drawer
-        title="预览"
         :visible="previewVisible"
         @close="previewVisible = false"
         width="800"
-        placement="left"
-        :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px', zIndex: 1025}"
+        :wrapStyle="{
+          height: 'calc(100% - 108px)',
+          overflow: 'auto',
+          paddingBottom: '108px',
+          zIndex: 1025,
+        }"
+        title=" "
       >
-        <div class="preview-container" v-html="previewPostHTML"></div>
+        <img class="preview-feature-image" v-if="featureType === 'DEFAULT' && form.featureImage.path" :src="form.featureImage.path" alt="">
+        <img class="preview-feature-image" v-if="featureType === 'EXTERNAL' && form.featureImagePath" :src="form.featureImagePath" alt="">
+        <h1 class="preview-title">{{ form.title }}</h1>
+        <div class="preview-date">{{ form.date.format(site.themeConfig.dateFormat) }}</div>
+        <div class="preview-tags">
+          <span class="tag" v-for="(tag, index) in form.tags" :key="index">
+            {{ tag }}
+          </span>
+        </div>
+        <div class="preview-container" ref="previewContainer"></div>
       </a-drawer>
 
       <a-drawer
@@ -151,6 +180,7 @@ export default class ArticleUpdate extends Vue {
     image: any,
     articlePage: HTMLElement,
     monacoMarkdownEditor: any,
+    previewContainer: HTMLElement,
   }
 
   @State('site') site!: Site
@@ -412,7 +442,8 @@ export default class ArticleUpdate extends Vue {
   previewPost() {
     this.previewVisible = true
     setTimeout(() => {
-      this.previewPostHTML = markdown.render(this.form.content)
+      // this.previewPostHTML = markdown.render(this.form.content)
+      this.$refs.previewContainer.innerHTML = markdown.render(this.form.content)
       Prism.highlightAll()
     }, 1)
   }
@@ -593,6 +624,21 @@ export default class ArticleUpdate extends Vue {
   bottom: 8px;
   display: flex;
   flex-direction: column;
+  color: #A0AEC0;
+  &:hover {
+    color: #4A5568;
+  }
+  .op-btn {
+    font-size: 18px;
+    margin-top: 8px;
+    padding: 4px;
+    border-radius: 4px;
+    line-height: 1;
+    &:hover {
+      background: #FAF089;
+      color: #744210;
+    }
+  }
 }
 
 .post-title-container {
@@ -613,6 +659,7 @@ export default class ArticleUpdate extends Vue {
   width: 100%;
   flex-shrink: 0;
   font-family: "Droid Serif","PingFang SC","Hiragino Sans GB","Droid Sans Fallback","Microsoft YaHei",sans-serif;
+  font-size: 15px;
 
   /deep/ a {
     color: rgba(0,0,0,.98);
@@ -626,7 +673,6 @@ export default class ArticleUpdate extends Vue {
   }
   /deep/ img {
     display: block;
-    box-shadow: 0 0 30px #eee;
     max-width: 100%;
     border-radius: 2px;
     margin: 24px auto;
@@ -635,19 +681,20 @@ export default class ArticleUpdate extends Vue {
   /deep/ p {
     line-height: 1.62;
     margin-bottom: 1.12em;
-    font-size: 16px;
+    font-size: 15px;
     letter-spacing: .05em;
     hyphens: auto;
   }
 
-  /deep/ p, li {
+  /deep/ p, /deep/ li {
+    line-height: 1.62;
     code {
       font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
       line-height: initial;
       word-wrap: break-word;
       border-radius: 0;
-      background-color: #f1f1f1;
-      color: rgba(0,0,0,.8);
+      background-color: #FFF5F5;
+      color: #C53030;
       padding: .2em .33333333em;
       font-size: .875rem;
       margin-left: .125em;
@@ -656,16 +703,12 @@ export default class ArticleUpdate extends Vue {
   }
 
   /deep/ pre {
-    margin-bottom: 1.5rem;
-    font-size: 0.75rem;
-    padding: 0;
-    position: relative;
+    background: #f7f6f3;
+    padding: 16px;
+    border-radius: 2px;
     code {
-      font-size: 0.86rem;
+      color: #000;
       font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
-      padding: 1em;
-      border-radius: 5px;
-      line-height: 1.5;
     }
   }
 
@@ -687,20 +730,22 @@ export default class ArticleUpdate extends Vue {
   /deep/ table {
     border-collapse: collapse;
     margin: 1rem 0;
-    display: block;
-    overflow-x: auto;
-  }
-  /deep/ tr {
-    border-top: 1px solid #dfe2e5;
-  }
-  /deep/ td, th {
-    border: 1px solid #dfe2e5;
-    padding: .6em 1em;
+    width: 100%;
+    tr {
+      border-top: 1px solid #dfe2e5;
+      &:nth-child(2n) {
+        background-color: #f6f8fa;
+      }
+    }
+    td, th {
+      border: 1px solid #dfe2e5;
+      padding: .6em 1em;
+    }
   }
 
-  /deep/ ul, ol {
+  /deep/ ul, /deep/ ol {
     padding-left: 35px;
-    line-height: 1.725;
+    line-height: 1.62;
     margin-bottom: 16px;
   }
 
@@ -774,7 +819,7 @@ export default class ArticleUpdate extends Vue {
     width: 16px;
     height: 16px;
     margin: 4px 0 0;
-    top: 3px;
+    top: -1px;
     left: -22px;
     transform-origin: center;
     transform: rotate(-90deg);
@@ -783,13 +828,13 @@ export default class ArticleUpdate extends Vue {
       transform: rotate(0);
       &:before {
         border: transparent;
-        background-color: #38a169;
+        background-color: #9AE6B4;
       }
       &:after {
         transform: rotate(-45deg) scale(1);
       }
       + .task-list-item-label {
-        color: #a0a0a0;
+        color: #999;
         text-decoration: line-through;
       }
     }
@@ -799,7 +844,7 @@ export default class ArticleUpdate extends Vue {
       height: 16px;
       box-sizing: border-box;
       display: inline-block;
-      border: 1px solid #d0d0d0;
+      border: 1px solid #9AE6B4;
       border-radius: 2px;
       background-color: #fff;
       position: absolute;
@@ -812,7 +857,7 @@ export default class ArticleUpdate extends Vue {
       transform: rotate(-45deg) scale(0);
       width: 9px;
       height: 5px;
-      border: 1px solid #fff;
+      border: 1px solid #22543D;
       border-top: none;
       border-right: none;
       position: absolute;
@@ -822,5 +867,54 @@ export default class ArticleUpdate extends Vue {
       transition: all .2s ease;
     }
   }
+
+  /deep/ .markdownIt-TOC {
+    list-style: none;
+    background: #f7fafc;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    color: #4a5568;
+  }
+
+  /deep/ .markdownIt-TOC ul {
+    list-style: none;
+    padding-left: 16px;
+  }
+
+  /deep/ mark {
+    background: #FAF089;
+    color: #744210;
+  }
+}
+
+.preview-title {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: "Droid Serif","PingFang SC","Hiragino Sans GB","Droid Sans Fallback","Microsoft YaHei",sans-serif;
+}
+
+.preview-date {
+  font-size: 13px;
+  color: #718096;
+  margin-bottom: 16px;
+}
+
+.preview-tags {
+  font-size: 12px;
+  margin-bottom: 16px;
+  .tag {
+    display: inline-block;
+    margin: 0 8px 8px 0;
+    padding: 4px 8px;
+    background: #F7FAFC;
+    color: #4A5568;
+    border-radius: 20px;
+  }
+}
+
+.preview-feature-image {
+  max-width: 100%;
+  margin-bottom: 16px;
+  border-radius: 2px;
 }
 </style>

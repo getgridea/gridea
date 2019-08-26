@@ -102,13 +102,16 @@
   margin: 8px 0;
 }
 
-.ant-pagination-item-active {
-  background: #f9f7f3;
+.ant-pagination-item a {
+  color: #718096;
 }
-.ant-pagination-item {
-  background: #f9f7f3;
-  border-radius: 50%;
+
+.ant-pagination-item-active, .ant-pagination-item-active:focus, .ant-pagination-item-active:hover {
+  border-color: transparent;
+  color: #1A202C;
+  font-weight: bold;
 }
+
 .ant-menu-inline > .ant-menu-item {
   height: 36px;
   line-height: 36px;
@@ -157,6 +160,16 @@
 
 .ant-message {
   z-index: 3010;
+  top: 8px;
+  font-size: 12px;
+}
+
+.ant-message-notice-content {
+  padding: 8px 16px;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)!important;
+  background: #000;
+  color: #fafafa;
 }
 
 .ant-drawer-close-x {

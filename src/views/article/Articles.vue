@@ -30,7 +30,6 @@
         :pagination="{ size: 'small' }"
       >
         <span slot="customTitle">
-          <!-- <a-button class="btn" type="danger" >{{  }}</a-button> -->
           <template v-if="selectedRowKeys.length > 0">
             {{ $t('deleteSelected') }} {{ selectedRowKeys.length }}
             <i class="zwicon-trash delete-btn" @click="deleteSelectedPosts"></i>
@@ -44,7 +43,12 @@
           slot-scope="text, record"
           @click="editPost(record)"
         ><i class="zwicon-document post-icon"></i> {{ text }} <a-tag v-if="record.data.hideInList" color="orange">Hide</a-tag> </a>
-        <a-tag :class="{'tag-success': text, 'tag-draft': !text }" slot="status" :color="text ? '#d8f5ea': '#e8e8e8'" slot-scope="text">{{ text ? $t('published') : $t('draft') }}</a-tag>
+        <a-tag
+          :class="{'tag-success': text, 'tag-draft': !text }"
+          slot="status"
+          :color="text ? '#d8f5ea': '#e8e8e8'"
+          slot-scope="text"
+        >{{ text ? $t('published') : $t('draft') }}</a-tag>
         <span slot="date" slot-scope="text" class="post-date">{{ text }}</span>
       </a-table>
     </div>
@@ -99,8 +103,6 @@ export default class Articles extends Vue {
   get columns() {
     return [
       {
-        // title: this.$t('title'),
-        key: 'data.title',
         dataIndex: 'data.title',
         slots: { title: 'customTitle' },
         scopedSlots: { customRender: 'name' },

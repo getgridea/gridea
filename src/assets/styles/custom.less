@@ -43,6 +43,35 @@
     margin-left: 16px;
     -webkit-app-region: no-drag;
   }
+  .op-btn {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 16px;
+    font-size: 18px;
+    border-radius: 20px;
+    margin-left: 8px;
+    outline: none;
+    i {
+      font-weight: bold;
+    }
+    &:hover {
+      background: #FAF089;
+      color: #744210;
+    }
+    &:focus {
+      background: #F6E05E;
+    }
+    &.save-btn {
+      color: #38A169;
+      &:hover {
+        background: #9AE6B4;
+        color: #22543D;
+      }
+      &:focus {
+        background: #68D391;
+      }
+    }
+  }
 }
 .content-container {
   margin-top: 48px;

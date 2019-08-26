@@ -3,17 +3,17 @@
     <div class="page-title">
       <a-row type="flex" justify="end">
         <a-tooltip placement="bottom" :title="$t('back')">
-          <div class="op-btn" @click="close">
+          <div class="op-btn" tabindex="0" @click="close">
             <i class="zwicon-arrow-left"></i>
           </div>
         </a-tooltip>
         <a-tooltip placement="bottom" :title="$t('saveDraft')">
-          <div class="op-btn" :disabled="!canSubmit" @click="saveDraft">
+          <div class="op-btn" tabindex="0" :class="{ 'disabled': !canSubmit }" @click="saveDraft">
             <i class="zwicon-checkmark"></i>
           </div>
         </a-tooltip>
         <a-tooltip placement="bottom" :title="$t('save')">
-          <div class="op-btn save-btn" :disabled="!canSubmit" @click="savePost">
+          <div class="op-btn save-btn" tabindex="0" :class="{ 'disabled': !canSubmit }" @click="savePost">
             <i class="zwicon-checkmark"></i>
           </div>
         </a-tooltip>
@@ -420,6 +420,7 @@ export default class ArticleUpdate extends Vue {
   }
 
   saveDraft() {
+    if (!this.canSubmit) return
     const form = this.formatForm(false)
 
     ipcRenderer.send('app-post-create', form)
@@ -431,6 +432,7 @@ export default class ArticleUpdate extends Vue {
   }
 
   savePost() {
+    if (!this.canSubmit) return
     const form = this.formatForm(true)
 
     ipcRenderer.send('app-post-create', form)
@@ -567,6 +569,7 @@ export default class ArticleUpdate extends Vue {
       font-size: 18px;
       border-radius: 20px;
       margin-left: 8px;
+      outline: none;
       i {
         font-weight: bold;
       }
@@ -574,11 +577,26 @@ export default class ArticleUpdate extends Vue {
         background: #FAF089;
         color: #744210;
       }
-      &.save-btn {
+      &:focus {
+        background: #F6E05E;
+      }
+      &.save-btn:not(.disabled) {
         color: #38A169;
         &:hover {
           background: #9AE6B4;
           color: #22543D;
+        }
+        &:focus {
+          color: #22543D;
+          background: #68D391;
+        }
+      }
+      &.disabled {
+        cursor: default;
+        color: #ccc;
+        background: #fafafa;
+        &:hover {
+          background: #fafafa;
         }
       }
     }

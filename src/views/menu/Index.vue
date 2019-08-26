@@ -1,7 +1,11 @@
 <template>
   <div class="">
     <a-row type="flex" justify="end" class="tool-container">
-      <a-button class="btn" type="primary" @click="newMenu">{{ $t('newMenu') }}</a-button>
+      <a-tooltip placement="bottom" :title="$t('newMenu')">
+        <div class="op-btn" tabindex="0" @click="newMenu">
+          <i class="zwicon-plus"></i>
+        </div>
+      </a-tooltip>
     </a-row>
     <div class="content-container">
       <a-table

@@ -23,7 +23,7 @@
             <span class="nav-text">{{ $t('tag') }}</span>
           </a-menu-item>
           <a-menu-item key="theme">
-            <i class="zwicon-image-wide menu-icon"></i>
+            <i class="zwicon-palette menu-icon"></i>
             <span class="nav-text">{{ $t('theme') }}</span>
           </a-menu-item>
           <a-menu-item key="setting">

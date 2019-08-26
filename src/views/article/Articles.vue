@@ -7,8 +7,19 @@
         style="width: 200px"
         @search="onSearch"
         v-model="keyword"
+        @blur="handleSearchInputBlur"
+        v-if="searchInputVisible"
       />
-      <a-button class="btn" type="primary" @click="newArticle">{{ $t('newArticle') }}</a-button>
+      <a-tooltip placement="bottom" :title="$t('searchArticle')">
+        <div class="op-btn" @click="searchInputVisible = true" v-if="!keyword && !searchInputVisible">
+          <i class="zwicon-search"></i>
+        </div>
+      </a-tooltip>
+      <a-tooltip placement="bottom" :title="$t('newArticle')">
+        <div class="op-btn" tabindex="0" @click="newArticle">
+          <i class="zwicon-plus"></i>
+        </div>
+      </a-tooltip>
     </a-row>
     <div class="content-container">
       <a-table
@@ -76,6 +87,14 @@ export default class Articles extends Vue {
   selectedPost = []
 
   keyword = ''
+
+  searchInputVisible = false
+
+  handleSearchInputBlur() {
+    if (!this.keyword) {
+      this.searchInputVisible = false
+    }
+  }
 
   get columns() {
     return [

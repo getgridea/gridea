@@ -1,7 +1,11 @@
 <template>
   <div class="">
     <a-row type="flex" justify="end" class="tool-container">
-      <a-button class="btn" type="primary" @click="newTag">{{ $t('newTag') }}</a-button>
+      <a-tooltip placement="bottom" :title="$t('newTag')">
+        <div class="op-btn" tabindex="0" @click="newTag">
+          <i class="zwicon-plus"></i>
+        </div>
+      </a-tooltip>
     </a-row>
     <div class="content-container">
       <div v-for="(tag, index) in site.tags" :key="tag.name" class="tag-wrapper">

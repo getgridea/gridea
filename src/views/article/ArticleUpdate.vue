@@ -570,15 +570,16 @@ export default class ArticleUpdate extends Vue {
       border-radius: 20px;
       margin-left: 8px;
       outline: none;
+      transition: all 0.3s;
       i {
         font-weight: bold;
       }
       &:hover {
-        background: #FAF089;
-        color: #744210;
+        background: #efefef;
+        color: #515457;
       }
       &:focus {
-        background: #F6E05E;
+        background: #efefef;
       }
       &.save-btn:not(.disabled) {
         color: #38A169;
@@ -713,9 +714,10 @@ export default class ArticleUpdate extends Vue {
     padding: 4px;
     border-radius: 4px;
     line-height: 1;
+    transition: all 0.3s;
     &:hover {
-      background: #FAF089;
-      color: #744210;
+      background: #efefef;
+      color: #515457;
     }
   }
 }

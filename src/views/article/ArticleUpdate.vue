@@ -557,10 +557,15 @@ export default class ArticleUpdate extends Vue {
   flex-direction: column;
   .page-title {
     padding: 8px 16px;
-    border-bottom: 1px solid #e8e8e88a;
-    box-shadow: 0 3px 20px #4343430d;
+    // border-bottom: 1px solid #e8e8e88a;
+    // box-shadow: 0 3px 20px #4343430d;
     z-index: 1026;
     background: #fff;
+    &:hover {
+      .op-btn {
+        opacity: 1;
+      }
+    }
 
     .op-btn {
       height: 30px;
@@ -570,15 +575,16 @@ export default class ArticleUpdate extends Vue {
       border-radius: 20px;
       margin-left: 8px;
       outline: none;
+      transition: all 0.3s ease;
       i {
         font-weight: bold;
       }
       &:hover {
-        background: #FAF089;
-        color: #744210;
+        background: #efefef;
+        color: #515457;
       }
       &:focus {
-        background: #F6E05E;
+        background: #efefef;
       }
       &.save-btn:not(.disabled) {
         color: #38A169;
@@ -594,9 +600,9 @@ export default class ArticleUpdate extends Vue {
       &.disabled {
         cursor: default;
         color: #ccc;
-        background: #fafafa;
-        &:hover {
-          background: #fafafa;
+        // background: #fafafa;
+        &:hover, &:focus {
+          background: #fff;
         }
       }
     }
@@ -704,6 +710,7 @@ export default class ArticleUpdate extends Vue {
   display: flex;
   flex-direction: column;
   color: #A0AEC0;
+  transition: all 0.3s ease;
   &:hover {
     color: #4A5568;
   }
@@ -714,8 +721,8 @@ export default class ArticleUpdate extends Vue {
     border-radius: 4px;
     line-height: 1;
     &:hover {
-      background: #FAF089;
-      color: #744210;
+      background: #efefef;
+      color: #515457;
     }
   }
 }

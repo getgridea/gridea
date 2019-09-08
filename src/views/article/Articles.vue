@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer } from 'electron'
+import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { FadeTransition } from 'vue2-transitions'
@@ -168,7 +168,7 @@ export default class Articles extends Vue {
       cancelText: 'No',
       onOk: () => {
         ipcRenderer.send('app-post-delete', post)
-        ipcRenderer.once('app-post-deleted', (event: Event, data: any) => {
+        ipcRenderer.once('app-post-deleted', (event: IpcRendererEvent, data: any) => {
           if (data) {
             this.$message.success(this.$t('articleDelete'))
             this.$bus.$emit('site-reload')
@@ -187,7 +187,7 @@ export default class Articles extends Vue {
       cancelText: 'No',
       onOk: () => {
         ipcRenderer.send('app-post-list-delete', this.selectedPost)
-        ipcRenderer.once('app-post-list-deleted', (event: Event, data: any) => {
+        ipcRenderer.once('app-post-list-deleted', (event: IpcRendererEvent, data: any) => {
           console.log(data)
           if (data) {
             this.$bus.$emit('snackbar-display', this.$t('articleDelete'))

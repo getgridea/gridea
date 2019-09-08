@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import shortid from 'shortid'
@@ -158,7 +158,7 @@ export default class Tags extends Vue {
     }
 
     ipcRenderer.send('tag-save', { ...this.form, used: false })
-    ipcRenderer.once('tag-saved', (event: Event, result: any) => {
+    ipcRenderer.once('tag-saved', (event: IpcRendererEvent, result: any) => {
       this.$bus.$emit('site-reload')
       this.$message.success('标签已保存')
       this.visible = false
@@ -174,7 +174,7 @@ export default class Tags extends Vue {
       cancelText: 'No',
       onOk: () => {
         ipcRenderer.send('tag-delete', tagValue)
-        ipcRenderer.once('tag-deleted', (event: Event, result: any) => {
+        ipcRenderer.once('tag-deleted', (event: IpcRendererEvent, result: any) => {
           this.$bus.$emit('site-reload')
           this.$message.success('标签已删除')
           this.visible = false

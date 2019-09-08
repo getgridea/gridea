@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 
@@ -104,7 +104,7 @@ export default class BasicSetting extends Vue {
     if (!formValid) { return false }
 
     ipcRenderer.send('setting-save', this.form)
-    ipcRenderer.once('setting-saved', (event: Event, result: any) => {
+    ipcRenderer.once('setting-saved', (event: IpcRendererEvent, result: any) => {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('basicSettingSuccess'))
     })
@@ -117,7 +117,7 @@ export default class BasicSetting extends Vue {
       ipcRenderer.once('app-site-loaded', () => {
         this.detectLoading = true
         ipcRenderer.send('remote-detect')
-        ipcRenderer.once('remote-detected', (event: Event, result: any) => {
+        ipcRenderer.once('remote-detected', (event: IpcRendererEvent, result: any) => {
           console.log('检测结果', result)
           this.detectLoading = false
           if (result.success) {

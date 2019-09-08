@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event, remote } from 'electron'
+import { ipcRenderer, IpcRendererEvent, remote } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 
@@ -37,7 +37,7 @@ export default class System extends Vue {
 
   save() {
     ipcRenderer.send('app-source-folder-setting', this.currentFolderPath)
-    ipcRenderer.once('app-source-folder-set', (event: Event, data: any) => {
+    ipcRenderer.once('app-source-folder-set', (event: IpcRendererEvent, data: any) => {
       if (data) {
         this.$message.success(this.$t('saved'))
         this.$bus.$emit('site-reload')

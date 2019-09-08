@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event, shell } from 'electron'
+import { ipcRenderer, IpcRendererEvent, shell } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import axios from 'axios'
 import { State, Action } from 'vuex-class'
@@ -119,7 +119,7 @@ export default class App extends Vue {
     const siteFolder = localStorage.getItem('sourceFolder') || ''
 
     ipcRenderer.send('app-site-reload', { siteFolder })
-    ipcRenderer.once('app-site-loaded', (event: Event, result: Site) => {
+    ipcRenderer.once('app-site-loaded', (event: IpcRendererEvent, result: Site) => {
       console.log(result)
       this.updateSite(result)
     })
@@ -127,12 +127,12 @@ export default class App extends Vue {
 
   public preview() {
     ipcRenderer.send('html-render')
-    ipcRenderer.once('html-rendered', (event: Event, result: any) => {
+    ipcRenderer.once('html-rendered', (event: IpcRendererEvent, result: any) => {
       this.$message.success(`🎉  ${this.$t('renderSuccess')}`)
       ipcRenderer.send('app-preview-server-port-get')
       ipcRenderer.once(
         'app-preview-server-port-got',
-        (portGotEvent: Event, port: any) => {
+        (portGotEvent: IpcRendererEvent, port: any) => {
           this.openInBrowser(`http://localhost:${port}`)
         },
       )
@@ -148,7 +148,7 @@ export default class App extends Vue {
 
     ipcRenderer.send('site-publish')
     this.publishLoading = true
-    ipcRenderer.once('site-published', (event: Event, result: any) => {
+    ipcRenderer.once('site-published', (event: IpcRendererEvent, result: any) => {
       console.log(result)
       if (result.success) {
         this.$message.success(`🎉  ${this.$t('syncSuccess')}`)

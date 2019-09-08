@@ -177,7 +177,7 @@
 
 <script lang="ts">
 import {
-  ipcRenderer, Event, shell, clipboard, remote,
+  ipcRenderer, IpcRendererEvent, shell, clipboard, remote,
 } from 'electron'
 import {
   Vue, Component, Prop, Watch,
@@ -269,7 +269,7 @@ export default class ArticleUpdate extends Vue {
   mounted() {
     this.buildCurrentForm()
     ipcRenderer.removeAllListeners('click-menu-save')
-    ipcRenderer.on('click-menu-save', (event: Event, data: any) => {
+    ipcRenderer.on('click-menu-save', (event: IpcRendererEvent, data: any) => {
       this.normalSavePost()
     })
   }
@@ -424,7 +424,7 @@ export default class ArticleUpdate extends Vue {
     const form = this.formatForm(false)
 
     ipcRenderer.send('app-post-create', form)
-    ipcRenderer.once('app-post-created', (event: Event, data: any) => {
+    ipcRenderer.once('app-post-created', (event: IpcRendererEvent, data: any) => {
       this.updatePostSavedStatus()
       this.$message.success(`🎉  ${this.$t('draftSuccess')}`)
       this.$emit('fetchData')
@@ -436,7 +436,7 @@ export default class ArticleUpdate extends Vue {
     const form = this.formatForm(true)
 
     ipcRenderer.send('app-post-create', form)
-    ipcRenderer.once('app-post-created', (event: Event, data: any) => {
+    ipcRenderer.once('app-post-created', (event: IpcRendererEvent, data: any) => {
       this.updatePostSavedStatus()
       this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
       this.$emit('fetchData')
@@ -448,7 +448,7 @@ export default class ArticleUpdate extends Vue {
     const form = this.formatForm()
 
     ipcRenderer.send('app-post-create', form)
-    ipcRenderer.once('app-post-created', (event: Event, data: any) => {
+    ipcRenderer.once('app-post-created', (event: IpcRendererEvent, data: any) => {
       this.updatePostSavedStatus()
       this.$emit('fetchData')
     })
@@ -460,7 +460,7 @@ export default class ArticleUpdate extends Vue {
 
   uploadImageFiles(files: any[]) {
     ipcRenderer.send('image-upload', files)
-    ipcRenderer.once('image-uploaded', (event: Event, data: any) => {
+    ipcRenderer.once('image-uploaded', (event: IpcRendererEvent, data: any) => {
       for (const path of data) {
         let url = `![](file://${path})`
         url = url.replace(/\\/g, '/')

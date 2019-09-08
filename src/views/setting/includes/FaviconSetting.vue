@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import * as path from 'path'
@@ -58,7 +58,7 @@ export default class FaviconSetting extends Vue {
     }
     console.log('click favicon upload', this.file)
     ipcRenderer.send('favicon-upload', this.file.path)
-    ipcRenderer.once('favicon-uploaded', (event: Event, result: any) => {
+    ipcRenderer.once('favicon-uploaded', (event: IpcRendererEvent, result: any) => {
       this.file = null
       this.$bus.$emit('site-reload')
       this.faviconPath = path.join('file://', this.site.appDir, 'output', `favicon.ico?a=${Math.random()}`)

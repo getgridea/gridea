@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event, shell } from 'electron'
+import { ipcRenderer, IpcRendererEvent, shell } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { Site } from '../../../store/modules/site'
@@ -104,7 +104,7 @@ export default class ThemeCustomSetting extends Vue {
 
   saveThemeCustomConfig() {
     ipcRenderer.send('theme-custom-config-save', this.form)
-    ipcRenderer.once('theme-custom-config-saved', (event: Event, result: any) => {
+    ipcRenderer.once('theme-custom-config-saved', (event: IpcRendererEvent, result: any) => {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('saved'))
     })
@@ -112,7 +112,7 @@ export default class ThemeCustomSetting extends Vue {
 
   resetThemeCustomConfig() {
     ipcRenderer.send('theme-custom-config-save', {})
-    ipcRenderer.once('theme-custom-config-saved', async (event: Event, result: any) => {
+    ipcRenderer.once('theme-custom-config-saved', async (event: IpcRendererEvent, result: any) => {
       await this.$bus.$emit('site-reload')
       this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=custom' } })
       this.$message.success(this.$t('reseted'))

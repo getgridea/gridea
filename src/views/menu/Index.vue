@@ -74,7 +74,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { MenuTypes } from '../../helpers/enums'
@@ -178,7 +178,7 @@ export default class Menu extends Vue {
   saveMenu() {
     console.log('click save menu', this.form)
     ipcRenderer.send('menu-save', { ...this.form })
-    ipcRenderer.once('menu-saved', (event: Event, result: any) => {
+    ipcRenderer.once('menu-saved', (event: IpcRendererEvent, result: any) => {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('menuSuccess'))
       this.visible = false
@@ -194,7 +194,7 @@ export default class Menu extends Vue {
       cancelText: 'No',
       onOk: () => {
         ipcRenderer.send('menu-delete', menuValue)
-        ipcRenderer.once('menu-deleted', (event: Event, result: any) => {
+        ipcRenderer.once('menu-deleted', (event: IpcRendererEvent, result: any) => {
           this.$bus.$emit('site-reload')
           this.$message.success(this.$t('menuDelete'))
           this.visible = false

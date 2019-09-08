@@ -1,4 +1,4 @@
-import { ipcMain, Event } from 'electron'
+import { ipcMain, IpcMainEvent } from 'electron'
 import Renderer from '../renderer'
 
 export default class RendererEvents {
@@ -12,19 +12,19 @@ export default class RendererEvents {
     ipcMain.removeAllListeners('remote-detect')
     ipcMain.removeAllListeners('remote-detected')
 
-    ipcMain.on('html-render', async (event: Event, params: any) => {
+    ipcMain.on('html-render', async (event: IpcMainEvent, params: any) => {
       if (renderer.db.themeConfig.themeName) {
         await renderer.preview()
       }
       event.sender.send('html-rendered', null)
     })
 
-    ipcMain.on('site-publish', async (event: Event, params: any) => {
+    ipcMain.on('site-publish', async (event: IpcMainEvent, params: any) => {
       const result = await renderer.publish()
       event.sender.send('site-published', result)
     })
 
-    ipcMain.on('remote-detect', async (event: Event, params: any) => {
+    ipcMain.on('remote-detect', async (event: IpcMainEvent, params: any) => {
       const result = await renderer.remoteDetect()
       event.sender.send('remote-detected', result)
     })

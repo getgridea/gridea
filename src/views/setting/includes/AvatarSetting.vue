@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import * as path from 'path'
@@ -58,7 +58,7 @@ export default class AvatarSetting extends Vue {
     }
     console.log('click avatar upload', this.file)
     ipcRenderer.send('avatar-upload', this.file.path)
-    ipcRenderer.once('avatar-uploaded', (event: Event, result: any) => {
+    ipcRenderer.once('avatar-uploaded', (event: IpcRendererEvent, result: any) => {
       this.file = null
       this.$bus.$emit('site-reload')
       this.avatarPath = path.join('file://', this.site.appDir, 'images', `avatar.png?a=${Math.random()}`)

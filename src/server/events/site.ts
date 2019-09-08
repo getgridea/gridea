@@ -1,4 +1,4 @@
-import { ipcMain, Event } from 'electron'
+import { ipcMain, IpcMainEvent } from 'electron'
 
 export default class SiteEvents {
   constructor(appInstance: any) {
@@ -10,17 +10,17 @@ export default class SiteEvents {
     ipcMain.removeAllListeners('app-source-folder-setting')
     ipcMain.removeAllListeners('app-source-folder-set')
 
-    ipcMain.on('app-site-reload', async (event: Event, params: any) => {
+    ipcMain.on('app-site-reload', async (event: IpcMainEvent, params: any) => {
       const result = await appInstance.loadSite()
       event.sender.send('app-site-loaded', result)
     })
 
-    ipcMain.on('app-source-folder-setting', async (event: Event, params: string) => {
+    ipcMain.on('app-source-folder-setting', async (event: IpcMainEvent, params: string) => {
       const result = await appInstance.saveSourceFolderSetting(params)
       event.sender.send('app-source-folder-set', result)
     })
 
-    ipcMain.on('app-preview-server-port-get', async (event: Event, params: string) => {
+    ipcMain.on('app-preview-server-port-get', async (event: IpcMainEvent, params: string) => {
       const port = await appInstance.previewServer.get('port')
       event.sender.send('app-preview-server-port-got', port)
     })

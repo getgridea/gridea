@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, Event } from 'electron'
+import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import GitalkSetting from './GitalkSetting.vue'
@@ -64,7 +64,7 @@ export default class CommentSetting extends Vue {
     }
     console.log('click comment setting save', form)
     ipcRenderer.send('comment-setting-save', form)
-    ipcRenderer.once('comment-setting-saved', (event: Event, result: any) => {
+    ipcRenderer.once('comment-setting-saved', (event: IpcRendererEvent, result: any) => {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('commentSettingSuccess'))
     })

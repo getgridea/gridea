@@ -348,6 +348,7 @@ export default class ArticleUpdate extends Vue {
 
   updatePostSavedStatus() {
     this.postStatusTip = `${this.$t('savedIn')} ${moment().format('HH:mm:ss')}`
+    this.changedAfterLastSave = false
   }
 
   handleTitleChange(val: string) {

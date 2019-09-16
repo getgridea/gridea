@@ -247,6 +247,7 @@
 .ant-modal-content {
   border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0px 20px 100px 0px rgba(0,0,0,0.15);
 }
 
 .ant-modal-header {
@@ -271,11 +272,15 @@
   min-height: auto;
 }
 
-.ant-drawer-mask {
-  backdrop-filter: blur(8px);
-  background-color: rgba(255, 255, 255, 0.382);
+.ant-drawer-mask, .ant-modal-mask {
+  backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(242,242,242,0.5);
 }
 
 .ant-drawer.ant-drawer-open .ant-drawer-mask {
   opacity: 1;
+}
+
+.ant-drawer-right.ant-drawer-open .ant-drawer-content-wrapper {
+  box-shadow: 0px 20px 100px 0px rgba(0,0,0,0.15);
 }

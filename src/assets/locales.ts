@@ -98,6 +98,8 @@ const message = {
     starSupport: 'Star 支持作者！',
     showAllPost: '显示全文',
     showAbstract: '仅显示摘要',
+    unsavedWarning: '你将丢失所有的未保存的更改，是否继续？',
+    noSaveAndBack: '继续',
   },
   zh_TW: {
     preview: '預 覽',
@@ -198,6 +200,8 @@ const message = {
     starSupport: 'Star 支持作者！',
     showAllPost: '顯示全文',
     showAbstract: '僅顯示摘要',
+    unsavedWarning: '你將丟失所有的未保存的更改，是否繼續？',
+    noSaveAndBack: '繼續',
   },
   en: {
     preview: 'Preview',
@@ -298,6 +302,8 @@ const message = {
     starSupport: 'Give us a star!',
     showAllPost: 'Show full content',
     showAbstract: 'Show abstract only',
+    unsavedWarning: 'You will lose all unsaved changes, do you want to continue?',
+    noSaveAndBack: 'Continue',
   },
 }
 

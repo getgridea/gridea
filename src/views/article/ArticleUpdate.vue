@@ -212,6 +212,8 @@ export default class ArticleUpdate extends Vue {
 
   previewPostHTML = ''
 
+  changedAfterLastSave = false
+
   shortcutKeys = shortcutKeys
 
   $refs!: {
@@ -272,6 +274,10 @@ export default class ArticleUpdate extends Vue {
     ipcRenderer.on('click-menu-save', (event: IpcRendererEvent, data: any) => {
       this.normalSavePost()
     })
+    
+    this.$watch('form', () => {
+      this.changedAfterLastSave = true
+    }, { deep: true })
   }
 
   buildCurrentForm() {
@@ -323,6 +329,20 @@ export default class ArticleUpdate extends Vue {
   }
 
   close() {
+    if (this.changedAfterLastSave) {
+      this.$confirm({
+        title: `${this.$t('warning')}`,
+        content: `${this.$t('unsavedWarning')}`,
+        okText: `${this.$t('noSaveAndBack')}`,
+        okType: 'danger',
+        cancelText: `${this.$t('cancel')}`,
+        zIndex: 2000,
+        onOk: () => {
+          this.$emit('close')
+        },
+      })
+      return
+    }
     this.$emit('close')
   }
 

@@ -575,7 +575,7 @@ export default class ArticleUpdate extends Vue {
       border-radius: 20px;
       margin-left: 8px;
       outline: none;
-      transition: all 0.3s ease;
+      transition: all 0.3s;
       i {
         font-weight: bold;
       }
@@ -720,6 +720,7 @@ export default class ArticleUpdate extends Vue {
     padding: 4px;
     border-radius: 4px;
     line-height: 1;
+    transition: all 0.3s;
     &:hover {
       background: #efefef;
       color: #515457;

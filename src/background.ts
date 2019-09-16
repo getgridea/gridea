@@ -8,7 +8,7 @@ import {
 } from 'vue-cli-plugin-electron-builder/lib'
 import App from './server/app'
 import messages from './assets/locales-menu'
-import initServer from './server'
+import initServer, { previewServer } from './server'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -117,6 +117,7 @@ function createWindow() {
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
+  previewServer && previewServer.close()
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {

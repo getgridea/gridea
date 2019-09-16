@@ -318,6 +318,7 @@ export default class Renderer extends Model {
 
       return {
         ...menu,
+        link,
       }
     })
   }
@@ -613,15 +614,12 @@ export default class Renderer extends Model {
 
       const styleOverridePath = path.join(currentThemePath, 'style-override.js')
       const existOverrideFile = await fse.pathExists(styleOverridePath)
-
-      console.log('渲染 css 时', customConfig, currentThemePath, styleOverridePath, existOverrideFile)
       if (existOverrideFile) {
         // clean cache
         delete __non_webpack_require__.cache[__non_webpack_require__.resolve(styleOverridePath)]
 
         const generateOverride = __non_webpack_require__(styleOverridePath)
         const customCss = generateOverride(customConfig)
-        console.log('customCss', customCss)
         css += customCss
       }
 

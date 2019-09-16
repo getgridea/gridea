@@ -100,6 +100,9 @@ const message = {
     showAbstract: '仅显示摘要',
     unsavedWarning: '你将丢失所有的未保存的更改，是否继续？',
     noSaveAndBack: '继续',
+    insertImage: '插入图片',
+    insertMore: '插入摘要分隔符',
+    wrtingIn: '写作于',
   },
   zh_TW: {
     preview: '預 覽',
@@ -202,6 +205,9 @@ const message = {
     showAbstract: '僅顯示摘要',
     unsavedWarning: '你將丟失所有的未保存的更改，是否繼續？',
     noSaveAndBack: '繼續',
+    insertImage: '插入圖片',
+    insertMore: '插入摘要分隔符',
+    wrtingIn: '寫作於',
   },
   en: {
     preview: 'Preview',
@@ -304,6 +310,9 @@ const message = {
     showAbstract: 'Show abstract only',
     unsavedWarning: 'You will lose all unsaved changes, do you want to continue?',
     noSaveAndBack: 'Continue',
+    insertImage: 'Insert image',
+    insertMore: 'Insert summary separator',
+    wrtingIn: 'Wrting in',
   },
 }
 

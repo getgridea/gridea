@@ -28,16 +28,16 @@
           v-model="form.content"
         ></monaco-markdown-editor>
         <div class="footer-info">
-          写作于 <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
+          {{ $t('wrtingIn') }} <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
         </div>
 
         <div class="right-tool-container">
-          <a-tooltip placement="left" title="插入图片">
+          <a-tooltip placement="left" :title="$t('insertImage')">
             <div class="op-btn" @click="insertImage">
               <i class="zwicon-image"></i>
             </div>
           </a-tooltip>
-          <a-tooltip placement="left" title="插入摘要分隔符">
+          <a-tooltip placement="left" :title="$t('insertMore')">
             <div class="op-btn" @click="insertMore">
               <i class="zwicon-more-v"></i>
             </div>
@@ -47,7 +47,7 @@
               <i class="zwicon-cog"></i>
             </div>
           </a-tooltip>
-          <a-tooltip placement="left" title="预览">
+          <a-tooltip placement="left" :title="$t('preview')">
             <div class="op-btn" @click="previewPost">
               <i class="zwicon-eye"></i>
             </div>

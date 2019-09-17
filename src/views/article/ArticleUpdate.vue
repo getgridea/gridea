@@ -538,7 +538,6 @@ export default class ArticleUpdate extends Vue {
   previewPost() {
     this.previewVisible = true
     setTimeout(() => {
-      // this.previewPostHTML = markdown.render(this.form.content)
       this.$refs.previewContainer.innerHTML = markdown.render(this.form.content)
       Prism.highlightAll()
     }, 1)

@@ -133,7 +133,6 @@ ${postMatter.content}`
 
   async list() {
     await this.savePosts()
-    // await this.$posts.defaults({ posts: [] }).write()
     const posts = await this.$posts.get('posts').value()
     const helper = new ContentHelper()
 

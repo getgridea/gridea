@@ -238,16 +238,16 @@ export default class App {
   }
 
   private updateStaticServer(): void {
-    function removeMiddlewares(route: any, i: number, routes: any) {
+    function removeMiddleware(route: any, i: number, routes: any) {
       if (route.handle.name === 'serveStatic') {
         routes.splice(i, 1)
-        console.log('Preview server: Removed old staic route')
+        console.log('Preview server: Removed old static route')
       }
     }
     const routers = this.previewServer._router // eslint-disable-line no-underscore-dangle
     if (routers) {
       const routesStack = routers.stack
-      routesStack.forEach(removeMiddlewares)
+      routesStack.forEach(removeMiddleware)
     }
     this.previewServer.use(express.static(`${this.appDir}/output`))
     console.log(`Preview server: Static dir change to ${this.appDir}/output`)

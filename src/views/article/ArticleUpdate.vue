@@ -32,7 +32,24 @@
         </div>
 
         <div class="right-tool-container">
-          <a-tooltip placement="left" :title="$t('insertImage')">
+          <a-popover placement="left" trigger="click">
+            <template slot="content">
+              <div class="post-stats">
+                <div class="item">
+                  <h4>阅读时间</h4>
+                  <div class="number">{{ postStats.minutes }}</div>
+                </div>
+                <div class="item">
+                  <h4>字符数</h4>
+                  <div class="number">{{ postStats.words }}</div>
+                </div>
+              </div>
+            </template>
+            <div class="op-btn">
+              <i class="zwicon-info-circle"></i>
+            </div>
+          </a-popover>
+          <a-tooltip placement="left" title="插入图片">
             <div class="op-btn" @click="insertImage">
               <i class="zwicon-image"></i>
             </div>
@@ -188,6 +205,7 @@ import moment from 'moment'
 import * as fse from 'fs-extra'
 import * as monaco from 'monaco-editor'
 import Prism from 'prismjs'
+import readingTime from 'reading-time'
 import markdown from '../../server/plugins/markdown'
 import MonacoMarkdownEditor from '../../components/MonacoMarkdownEditor/Index.vue'
 import slug from '../../helpers/slug'
@@ -266,6 +284,10 @@ export default class ArticleUpdate extends Vue {
 
   get tags() {
     return this.site.tags.map((tag: any) => tag.name)
+  }
+
+  get postStats() {
+    return readingTime(this.form.content)
   }
 
   mounted() {

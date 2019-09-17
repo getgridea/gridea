@@ -15,7 +15,7 @@ export class Analytics {
   }
 
   public pageView(url: string, title?: string, clientId?: string) {
-    this.ga.pageview(hostname, url, title, this.clientId).then((res: any) => {
+    this.ga.pageview(hostname, url, title, undefined, clientId).then((res: any) => {
       console.log(res)
     }).catch((e: any) => {
       console.log(e)

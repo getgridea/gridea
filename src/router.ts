@@ -67,6 +67,7 @@ const router = new Router({
 })
 
 router.afterEach((to, from) => {
+  console.log(to, from)
   macaddress.one((err: any, mac: any) => {
     if (err) {
       console.log('err', err)

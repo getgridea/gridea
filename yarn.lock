@@ -10313,6 +10313,11 @@ widest-line@^2.0.0:
   dependencies:
     string-width "^2.1.1"
 
+words-count@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/words-count/-/words-count-1.0.7.tgz#4da6a4e0c4bf135744a63ee9ffe6aafd0555874c"
+  integrity sha512-EOAqAUDCRaEKvqzmrhtilVmXwAj1CkLIDifR7hCbWkfmbKo+UuEeI3sUVM0VnRI0eVDWgIGYHhYfG+hZNsu7ZQ==
+
 wordwrap@~0.0.2:
   version "0.0.3"
   resolved "http://registry.npm.taobao.org/wordwrap/download/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"

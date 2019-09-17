@@ -28,7 +28,7 @@
           v-model="form.content"
         ></monaco-markdown-editor>
         <div class="footer-info">
-          {{ $t('wrtingIn') }} <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
+          {{ $t('writingIn') }} <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
         </div>
 
         <div class="right-tool-container">
@@ -36,12 +36,12 @@
             <template slot="content">
               <div class="post-stats">
                 <div class="item">
-                  <h4>阅读时间</h4>
-                  <div class="number">{{ postStats.minutes }}</div>
+                  <h4>{{ $t('words') }}</h4>
+                  <div class="number">{{ postStats.wordsNumber }}</div>
                 </div>
                 <div class="item">
-                  <h4>字符数</h4>
-                  <div class="number">{{ postStats.words }}</div>
+                  <h4>{{ $t('readingTime') }}</h4>
+                  <div class="number">{{ postStats.formatTime }}</div>
                 </div>
               </div>
             </template>
@@ -49,7 +49,7 @@
               <i class="zwicon-info-circle"></i>
             </div>
           </a-popover>
-          <a-tooltip placement="left" title="插入图片">
+          <a-tooltip placement="left" :title="$t('insertImage')">
             <div class="op-btn" @click="insertImage">
               <i class="zwicon-image"></i>
             </div>
@@ -206,6 +206,7 @@ import * as fse from 'fs-extra'
 import * as monaco from 'monaco-editor'
 import Prism from 'prismjs'
 import readingTime from 'reading-time'
+import wordsCount from 'words-count'
 import markdown from '../../server/plugins/markdown'
 import MonacoMarkdownEditor from '../../components/MonacoMarkdownEditor/Index.vue'
 import slug from '../../helpers/slug'
@@ -287,7 +288,18 @@ export default class ArticleUpdate extends Vue {
   }
 
   get postStats() {
-    return readingTime(this.form.content)
+    const reading = readingTime(this.form.content)
+    const miniusTime = Number(reading.time / 1000 / 60)
+    const minius = Math.floor(miniusTime)
+    const second = Number((miniusTime - minius).toFixed(2)) * 100
+    const formatTime = `${minius || ''}${minius > 0 ? 'm' : ''} ${second}s`
+    const wordsNumber = wordsCount(this.form.content)
+
+    return {
+      ...reading,
+      formatTime,
+      wordsNumber: Array.isArray(wordsNumber) ? 0 : wordsNumber,
+    }
   }
 
   mounted() {
@@ -1083,6 +1095,23 @@ export default class ArticleUpdate extends Vue {
         border-radius: 2px;
         background: #EDF2F7;
       }
+    }
+  }
+}
+
+.post-stats {
+  display: flex;
+  .item {
+    width: 50%;
+    min-width: 80px;
+    h4 {
+      color: #718096;
+      font-size: 12px;
+      font-weight: normal;
+    }
+    .number {
+      font-size: 18px;
+      font-family: 'Droid Serif';
     }
   }
 }

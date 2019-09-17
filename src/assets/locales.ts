@@ -102,7 +102,9 @@ const message = {
     noSaveAndBack: '继续',
     insertImage: '插入图片',
     insertMore: '插入摘要分隔符',
-    wrtingIn: '写作于',
+    writingIn: '写作于',
+    words: '字 数',
+    readingTime: '阅读时间',
   },
   zh_TW: {
     preview: '預 覽',
@@ -207,7 +209,9 @@ const message = {
     noSaveAndBack: '繼續',
     insertImage: '插入圖片',
     insertMore: '插入摘要分隔符',
-    wrtingIn: '寫作於',
+    writingIn: '寫作於',
+    words: '字 數',
+    readingTime: '閱讀時間',
   },
   en: {
     preview: 'Preview',
@@ -312,7 +316,9 @@ const message = {
     noSaveAndBack: 'Continue',
     insertImage: 'Insert image',
     insertMore: 'Insert summary separator',
-    wrtingIn: 'Wrting in',
+    writingIn: 'Writing in',
+    words: 'Words',
+    readingTime: 'Reading time',
   },
 }
 

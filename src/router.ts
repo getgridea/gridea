@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import macaddress from 'macaddress'
 import Main from './components/Main.vue'
 // import ArticleUpdate from './views/article/ArticleUpdate.vue'
 import Articles from './views/article/Articles.vue'
@@ -9,10 +10,11 @@ import Theme from './views/theme/Index.vue'
 import Setting from './views/setting/Index.vue'
 import System from './views/system/Index.vue'
 import Loading from './views/loading/Index.vue'
+import { Analytics } from './helpers/analytics'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
@@ -63,3 +65,20 @@ export default new Router({
     },
   ],
 })
+
+router.afterEach((to, from) => {
+  macaddress.one((err: any, mac: any) => {
+    if (err) {
+      console.log('err', err)
+    }
+    console.log('mac', mac)
+    try {
+      const ga = new Analytics(mac)
+      ga.pageView(to.fullPath, to.name, mac)
+    } catch (e) {
+      console.log('ga error', e)
+    }
+  })
+})
+
+export default router

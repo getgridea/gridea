@@ -8,7 +8,7 @@ import {
 } from 'vue-cli-plugin-electron-builder/lib'
 import App from './server/app'
 import messages from './assets/locales-menu'
-import initServer, { previewServer } from './server'
+import initServer from './server'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -16,6 +16,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // be closed automatically when the JavaScript object is garbage collected.
 let win: any
 let menu: Menu
+let httpServer: any
 
 // Standard scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
@@ -101,13 +102,14 @@ function createWindow() {
   menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
 
-  const server = initServer()
+  const s = initServer()
+  httpServer = s.server
 
   const setting = {
     mainWindow: win,
     app,
     baseDir: __dirname,
-    previewServer: server,
+    previewServer: s.app,
   }
 
   // Init app
@@ -117,7 +119,7 @@ function createWindow() {
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  previewServer && previewServer.close()
+  httpServer && httpServer.close()
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {

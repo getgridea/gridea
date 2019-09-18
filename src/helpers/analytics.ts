@@ -2,6 +2,8 @@ import GA from 'electron-google-analytics'
 import macaddress from 'macaddress'
 import * as pkg from '../../package.json'
 
+const isDevelopment = process.env.NODE_ENV !== 'production'
+
 interface EvOptions {
   evLabel?: any
   evValue?: any
@@ -15,7 +17,7 @@ class Analytics {
   private clientId: any
 
   constructor() {
-    this.ga = new GA('UA-113307620-4', { debug: false })
+    this.ga = new GA('UA-113307620-4', { debug: isDevelopment })
     
     this.ga.set('version', (pkg as any).version)
   }

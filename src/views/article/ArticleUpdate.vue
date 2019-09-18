@@ -45,7 +45,7 @@
                 </div>
               </div>
             </template>
-            <div class="op-btn" @click="ga.event('Post', 'Post - click-post-info', {})">
+            <div class="op-btn" @click="handleInfoClick">
               <i class="zwicon-info-circle"></i>
             </div>
           </a-popover>
@@ -60,7 +60,7 @@
             </div>
           </a-tooltip>
           <a-tooltip placement="left" :title="$t('postSettings')">
-            <div class="op-btn" @click="handleClickPostSetting">
+            <div class="op-btn" @click="handlePostSettingClick">
               <i class="zwicon-cog"></i>
             </div>
           </a-tooltip>
@@ -521,10 +521,14 @@ export default class ArticleUpdate extends Vue {
     ga.event('Post', 'Post - click-insert-image', {})
   }
 
-  handleClickPostSetting() {
+  handlePostSettingClick() {
     this.postSettingsVisible = true
 
     ga.event('Post', 'Post - click-post-setting', {})
+  }
+
+  handleInfoClick() {
+    ga.event('Post', 'Post - click-post-info', {})
   }
 
   uploadImageFiles(files: any[]) {

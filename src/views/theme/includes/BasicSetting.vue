@@ -77,6 +77,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { Site } from '../../../store/modules/site'
 import { UrlFormats, DEFAULT_FEED_COUNT } from '../../../helpers/constants'
+import ga from '../../../helpers/analytics'
 
 @Component({
   name: 'ThemeBasicSetting',
@@ -122,6 +123,8 @@ export default class ThemeBasicSetting extends Vue {
       await this.$bus.$emit('site-reload')
       this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=basic' } })
       this.$message.success(this.$t('themeConfigSaved'))
+
+      ga.event('Theme', 'Theme - save', { evLabel: this.form.themeName })
     })
   }
 

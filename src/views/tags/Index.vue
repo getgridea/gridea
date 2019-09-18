@@ -60,6 +60,7 @@ import slug from '../../helpers/slug'
 import { Site } from '../../store/modules/site'
 import { UrlFormats } from '../../helpers/enums'
 import { ITag } from '../../interfaces/tag'
+import ga from '../../helpers/analytics'
 
 @Component
 export default class Tags extends Vue {
@@ -104,6 +105,8 @@ export default class Tags extends Vue {
     if (this.site.themeConfig.tagUrlFormat === UrlFormats.ShortId) {
       this.form.slug = shortid.generate()
     }
+
+    ga.event('Tags', 'Tags - new', { evLabel: this.site.setting.domain })
   }
 
   buildSlug() {
@@ -162,6 +165,8 @@ export default class Tags extends Vue {
       this.$bus.$emit('site-reload')
       this.$message.success('标签已保存')
       this.visible = false
+
+      ga.event('Tags', 'Tags - save', { evLabel: this.form.name })
     })
   }
 

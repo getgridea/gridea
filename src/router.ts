@@ -10,7 +10,7 @@ import Theme from './views/theme/Index.vue'
 import Setting from './views/setting/Index.vue'
 import System from './views/system/Index.vue'
 import Loading from './views/loading/Index.vue'
-import { Analytics } from './helpers/analytics'
+import ga from './helpers/analytics'
 
 Vue.use(Router)
 
@@ -67,19 +67,7 @@ const router = new Router({
 })
 
 router.afterEach((to, from) => {
-  console.log(to, from)
-  macaddress.one((err: any, mac: any) => {
-    if (err) {
-      console.log('err', err)
-    }
-    console.log('mac', mac)
-    try {
-      const ga = new Analytics(mac)
-      ga.pageView(to.fullPath, to.name, mac)
-    } catch (e) {
-      console.log('ga error', e)
-    }
-  })
+  ga.pageView(to.fullPath, to.name)
 })
 
 export default router

@@ -25,6 +25,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import GitalkSetting from './GitalkSetting.vue'
 import DisqusSetting from './DisqusSetting.vue'
+import ga from '../../../helpers/analytics'
 
 @Component({
   components: {
@@ -67,6 +68,8 @@ export default class CommentSetting extends Vue {
     ipcRenderer.once('comment-setting-saved', (event: IpcRendererEvent, result: any) => {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('commentSettingSuccess'))
+
+      ga.event('Setting', 'Setting - comment-save', { evLabel: this.form.commentPlatform })
     })
   }
 }

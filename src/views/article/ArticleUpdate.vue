@@ -45,7 +45,7 @@
                 </div>
               </div>
             </template>
-            <div class="op-btn">
+            <div class="op-btn" @click="ga.event('Post', 'Post - click-post-info', {})">
               <i class="zwicon-info-circle"></i>
             </div>
           </a-popover>
@@ -60,7 +60,7 @@
             </div>
           </a-tooltip>
           <a-tooltip placement="left" :title="$t('postSettings')">
-            <div class="op-btn" @click="postSettingsVisible = true">
+            <div class="op-btn" @click="handleClickPostSetting">
               <i class="zwicon-cog"></i>
             </div>
           </a-tooltip>
@@ -214,6 +214,7 @@ import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
 import { UrlFormats } from '../../helpers/enums'
 import shortcutKeys from '../../helpers/shortcut-keys'
+import ga from '../../helpers/analytics'
 
 @Component({
   components: {
@@ -359,6 +360,8 @@ export default class ArticleUpdate extends Vue {
         type: file.type,
       }
     }
+
+    ga.event('Post', 'Post - set-local-feature-image', {})
     return false
   }
 
@@ -484,6 +487,8 @@ export default class ArticleUpdate extends Vue {
       this.$message.success(`🎉  ${this.$t('draftSuccess')}`)
       this.$emit('fetchData')
     })
+
+    ga.event('Post', 'Post - click-save-draft', {})
   }
 
   savePost() {
@@ -496,6 +501,8 @@ export default class ArticleUpdate extends Vue {
       this.$message.success(`🎉  ${this.$t('saveSuccess')}`)
       this.$emit('fetchData')
     })
+
+    ga.event('Post', 'Post - click-save-post', {})
   }
 
   normalSavePost() {
@@ -511,6 +518,13 @@ export default class ArticleUpdate extends Vue {
 
   insertImage() {
     this.$refs.uploadInput.click()
+    ga.event('Post', 'Post - click-insert-image', {})
+  }
+
+  handleClickPostSetting() {
+    this.postSettingsVisible = true
+
+    ga.event('Post', 'Post - click-post-setting', {})
   }
 
   uploadImageFiles(files: any[]) {
@@ -533,6 +547,7 @@ export default class ArticleUpdate extends Vue {
       range: monaco.Range.fromPositions(this.$refs.monacoMarkdownEditor.editor.getPosition()),
       text: '\n<!-- more -->\n',
     }])
+    ga.event('Post', 'Post - click-add-more', {})
   }
 
   previewPost() {
@@ -541,6 +556,8 @@ export default class ArticleUpdate extends Vue {
       this.$refs.previewContainer.innerHTML = markdown.render(this.form.content)
       Prism.highlightAll()
     }, 1)
+
+    ga.event('Post', 'Post - click-preview-post', {})
   }
 
   /**

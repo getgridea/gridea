@@ -72,6 +72,7 @@ import { State } from 'vuex-class'
 import { FadeTransition } from 'vue2-transitions'
 import { IPost } from '../../interfaces/post'
 import ArticleUpdate from './ArticleUpdate.vue'
+import ga from '../../helpers/analytics'
 
 @Component({
   components: {
@@ -152,6 +153,8 @@ export default class Articles extends Vue {
   newArticle() {
     this.articleUpdateVisible = true
     this.currentArticleFileName = ''
+
+    ga.event('Post', 'Post - new', { evLabel: this.site.setting.domain })
   }
 
   editPost(post: IPost) {
@@ -192,6 +195,9 @@ export default class Articles extends Vue {
           if (data) {
             this.$bus.$emit('snackbar-display', this.$t('articleDelete'))
             this.$bus.$emit('site-reload')
+
+            ga.event('Post', 'Post - delete', { evLabel: this.site.setting.domain, evValue: this.selectedPost.length })
+
             this.selectedPost = []
             this.selectedRowKeys = []
           }

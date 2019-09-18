@@ -8,7 +8,6 @@ import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT 
 
 export interface Site {
   appDir: string
-  appUser: any
   config: any
   posts: IPost[]
   tags: ITag[]
@@ -22,7 +21,6 @@ export interface Site {
 }
 const siteState: Site = {
   appDir: '',
-  appUser: null,
   config: {},
   posts: [],
   tags: [],
@@ -75,7 +73,6 @@ const mutations: MutationTree<Site> = {
   updateSite(state, siteData: Site) {
     console.log('data', siteData)
     state.appDir = siteData.appDir
-    state.appUser = siteData.appUser
     state.posts = siteData.posts
     state.tags = siteData.tags
     state.menus = siteData.menus

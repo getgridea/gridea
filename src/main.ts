@@ -10,6 +10,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store/index'
 import VueBus from './vue-bus'
+import ga from './helpers/analytics'
+
+ga.event('Client', 'show', {
+  evLabel: 'startup',
+})
 
 const defaultLocale = ({
   'zh-CN': 'zhHans',

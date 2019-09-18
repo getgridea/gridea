@@ -1,7 +1,6 @@
 import { BrowserWindow, app } from 'electron'
 import * as fse from 'fs-extra'
 import * as path from 'path'
-import UUID from 'uuid'
 import express from 'express'
 import EventClasses from './events/index'
 import Posts from './posts'
@@ -10,7 +9,6 @@ import Menus from './menus'
 import Theme from './theme'
 import Renderer from './renderer'
 import Setting from './setting'
-import { Analytics } from '../helpers/analytics'
 
 import { IApplicationDb, IApplicationSetting } from './interfaces/application'
 // eslint-disable-next-line
@@ -25,8 +23,6 @@ export default class App {
 
   appDir: string
 
-  appUser: any
-
   previewServer: any
 
   db: IApplicationDb
@@ -36,7 +32,6 @@ export default class App {
     this.app = setting.app
     this.baseDir = setting.baseDir
     this.appDir = path.join(this.app.getPath('documents'), 'gridea')
-    this.appUser = null
     this.previewServer = setting.previewServer
 
     this.db = {
@@ -129,7 +124,6 @@ export default class App {
       ...this.db,
       currentThemeConfig,
       appDir: this.appDir,
-      appUser: this.appUser,
     }
   }
 
@@ -168,7 +162,6 @@ export default class App {
 
     const appConfigFolder = path.join(this.app.getPath('home'), '.gridea')
     const appConfigPath = path.join(appConfigFolder, 'config.json')
-    const appUserDataPath = path.join(appConfigFolder, 'user.json')
     let defaultAppDir = path.join(this.app.getPath('documents'), 'Gridea')
     defaultAppDir = defaultAppDir.replace(/\\/g, '/')
 
@@ -187,18 +180,9 @@ export default class App {
         const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
         await fse.writeFileSync(appConfigPath, jsonString)
       }
-      
-      if (!fse.pathExistsSync(appUserDataPath)) {
-        const jsonString = `{"id": "${UUID.v4()}"}`
-        await fse.writeFileSync(appUserDataPath, jsonString)
-      }
 
       const appConfig = await fse.readJsonSync(appConfigPath)
       this.appDir = appConfig.sourceFolder
-
-      // Client user info
-      this.appUser = await fse.readJsonSync(appUserDataPath)
-      this.initAnalytics()
 
       // Site folder exists
       if (fse.pathExistsSync(this.appDir)) {
@@ -286,10 +270,5 @@ export default class App {
     const theme = new ThemeEvents(this)
     const renderer = new RendererEvents(this)
     const setting = new SettingEvents(this)
-  }
-
-  public initAnalytics() {
-    const ga = new Analytics(this.appUser.id)
-    ga.startup()
   }
 }

@@ -714,6 +714,13 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
+"@jooger/word-counter@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@jooger/word-counter/-/word-counter-1.1.0.tgz#140ffce511748d3b9fe5024de9a601e40486b99e"
+  integrity sha512-omYCWVBpmIVkvxSIoPXIwOnvQj3S/M9H3sQZusaXLwGZx9FUIRHdd8Ac8G7xXH+YmqoZW6QhifMs9AQ+8fzAwg==
+  dependencies:
+    striptags "^3.1.1"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "http://registry.npm.taobao.org/@mrmlnc/readdir-enhanced/download/@mrmlnc/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -8108,6 +8115,11 @@ read-pkg@^5.0.0:
     normalize-package-data "^2.3.2"
     parse-json "^4.0.0"
 
+read-time-estimate@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/read-time-estimate/-/read-time-estimate-0.0.2.tgz#e58f5b2c2a0b21bf0da02cdc4343e4537340b0f3"
+  integrity sha512-0CG+Xmg7jafu078m5umjD7t7SpODuHwVKhGlXKHfQemEniWNDyouFAEYzMFUGilTr3fyvXB1ogNUKg0s8ybmlg==
+
 "readable-stream@1 || 2", readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.4, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.3.0, readable-stream@^2.3.3, readable-stream@^2.3.5, readable-stream@^2.3.6, readable-stream@~2.3.6:
   version "2.3.6"
   resolved "http://registry.npm.taobao.org/readable-stream/download/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf"
@@ -9233,6 +9245,11 @@ strip-json-comments@^2.0.1, strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/strip-json-comments/download/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
+striptags@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/striptags/-/striptags-3.1.1.tgz#c8c3e7fdd6fb4bb3a32a3b752e5b5e3e38093ebd"
+  integrity sha1-yMPn/db7S7OjKjt1LltePjgJPr0=
+
 stylehacks@^4.0.0:
   version "4.0.1"
   resolved "http://registry.npm.taobao.org/stylehacks/download/stylehacks-4.0.1.tgz#3186595d047ab0df813d213e51c8b94e0b9010f2"
@@ -10349,11 +10366,6 @@ widest-line@^2.0.0:
   resolved "http://registry.npm.taobao.org/widest-line/download/widest-line-2.0.1.tgz#7438764730ec7ef4381ce4df82fb98a53142a3fc"
   dependencies:
     string-width "^2.1.1"
-
-words-count@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/words-count/-/words-count-1.0.7.tgz#4da6a4e0c4bf135744a63ee9ffe6aafd0555874c"
-  integrity sha512-EOAqAUDCRaEKvqzmrhtilVmXwAj1CkLIDifR7hCbWkfmbKo+UuEeI3sUVM0VnRI0eVDWgIGYHhYfG+hZNsu7ZQ==
 
 wordwrap@~0.0.2:
   version "0.0.3"

@@ -50,7 +50,6 @@
     "moment": "^2.24.0",
     "monaco-markdown": "^0.0.5",
     "prismjs": "^1.16.0",
-    "reading-time": "^1.2.0",
     "shortid": "^2.2.14",
     "simple-git": "^1.107.0",
     "slug": "^0.9.3",
@@ -65,8 +64,7 @@
     "vue-simplemde": "^0.5.1",
     "vue2-transitions": "^0.2.3",
     "vuex": "^3.0.1",
-    "vuex-class": "^0.3.1",
-    "words-count": "^1.0.7"
+    "vuex-class": "^0.3.1"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.26",

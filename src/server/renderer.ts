@@ -7,7 +7,7 @@ import simpleGit, { SimpleGit } from 'simple-git/promise'
 import moment from 'moment'
 import less from 'less'
 import { Feed } from 'feed'
-import readingTime from 'reading-time'
+import { wordCount, timeCalc } from '../helpers/words-count'
 import Model from './model'
 import ContentHelper from '../helpers/content-helper'
 import {
@@ -267,6 +267,20 @@ export default class Renderer extends Model {
           },
         })
 
+        let words = 0
+        wordCount(content, (count: number) => {
+          words = count
+        })
+
+        const reading = timeCalc(content)
+
+        const stats = {
+          text: `${reading.minius} min read`,
+          time: reading.second * 1000, // ms
+          words,
+          minutes: reading.minius,
+        }
+
         const result: IPostRenderData = {
           content,
           fileName: item.fileName,
@@ -282,7 +296,7 @@ export default class Renderer extends Model {
             : item.data.feature || '',
           link: `${this.db.themeConfig.domain}/post/${item.fileName}`,
           hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
-          stats: readingTime(content),
+          stats,
         }
 
         result.toc = toc

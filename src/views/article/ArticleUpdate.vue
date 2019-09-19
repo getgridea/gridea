@@ -214,8 +214,7 @@ import moment from 'moment'
 import * as fse from 'fs-extra'
 import * as monaco from 'monaco-editor'
 import Prism from 'prismjs'
-import readingTime from 'reading-time'
-import wordsCount from 'words-count'
+import { wordCount, timeCalc } from '../../helpers/words-count'
 import markdown from '../../server/plugins/markdown'
 import MonacoMarkdownEditor from '../../components/MonacoMarkdownEditor/Index.vue'
 import EmojiCard from '../../components/EmojiCard/Index.vue'
@@ -303,16 +302,17 @@ export default class ArticleUpdate extends Vue {
   }
 
   get postStats() {
-    const reading = readingTime(this.form.content)
-    const miniusTime = Number(reading.time / 1000 / 60)
-    const minius = Math.floor(miniusTime)
-    const second = Number((miniusTime - minius).toFixed(2)) * 100
-    const formatTime = `${minius || ''}${minius > 0 ? 'm' : ''} ${second}s`
-    const wordsNumber = wordsCount(this.form.content)
+    const reading = timeCalc(this.form.content)
+    const second = Number((reading.second - (reading.minius - 1) * 60).toFixed(2))
+    const formatTime = `${Math.floor(reading.second / 60)}m ${second < 60 ? second : ''}${second < 60 ? 's' : ''}`
+
+    let wordsNumber = 0
+    wordCount(this.form.content, (count: number) => {
+      wordsNumber = count
+    })
 
     return {
-      ...reading,
-      formatTime,
+      formatTime: formatTime,
       wordsNumber: Array.isArray(wordsNumber) ? 0 : wordsNumber,
     }
   }

@@ -152,8 +152,7 @@ export default class ThemeCustomSetting extends Vue {
 }
 
 /deep/ .ant-tabs-nav .ant-tabs-tab-active {
-  background: #e8e1d3;
-  color: #6f6248;
+  color: #434343;
   border-radius: 4px 0 0 4px;
   &::after {
     display: none;

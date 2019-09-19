@@ -9923,6 +9923,13 @@ uuid@^3.2.1, uuid@^3.3.3:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
 
+v-emoji-picker@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/v-emoji-picker/-/v-emoji-picker-1.1.6.tgz#7b83bffbe56d9fb26b84d29355871e06033108b6"
+  integrity sha512-4UQlMeqEE2EGnqK654H5CeahEsgt3Y5iqmSbA8XTglAlx4a37LkJ0e3XN524KEEwQUV54dR3OdTkBi7l1BoVYw==
+  dependencies:
+    vue "^2.6.10"
+
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
   resolved "http://registry.npm.taobao.org/validate-npm-package-license/download/validate-npm-package-license-3.0.4.tgz#fc91f6b9c7ba15c857f4cb2c5defeec39d4f410a"
@@ -10075,6 +10082,11 @@ vue2-transitions@^0.2.3:
 vue@^2.5.17:
   version "2.5.21"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.5.21.tgz#3d33dcd03bb813912ce894a8303ab553699c4a85"
+
+vue@^2.6.10:
+  version "2.6.10"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
+  integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
 vuex-class@^0.3.1:
   version "0.3.1"

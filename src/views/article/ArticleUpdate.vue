@@ -49,6 +49,14 @@
               <i class="zwicon-info-circle"></i>
             </div>
           </a-popover>
+          <a-popover placement="left" trigger="click">
+            <template slot="content">
+              <EmojiCard @select="handleEmojiSelect" />
+            </template>
+            <div class="op-btn" @click="handleEmojiClick">
+              <i class="zwicon-smile"></i>
+            </div>
+          </a-popover>
           <a-tooltip placement="left" :title="$t('insertImage')">
             <div class="op-btn" @click="insertImage">
               <i class="zwicon-image"></i>
@@ -209,6 +217,7 @@ import readingTime from 'reading-time'
 import wordsCount from 'words-count'
 import markdown from '../../server/plugins/markdown'
 import MonacoMarkdownEditor from '../../components/MonacoMarkdownEditor/Index.vue'
+import EmojiCard from '../../components/EmojiCard/Index.vue'
 import slug from '../../helpers/slug'
 import { IPost } from '../../interfaces/post'
 import { Site } from '../../store/modules/site'
@@ -219,6 +228,7 @@ import ga from '../../helpers/analytics'
 @Component({
   components: {
     MonacoMarkdownEditor,
+    EmojiCard,
   },
 })
 export default class ArticleUpdate extends Vue {
@@ -531,6 +541,10 @@ export default class ArticleUpdate extends Vue {
     ga.event('Post', 'Post - click-post-info', {})
   }
 
+  handleEmojiClick() {
+    ga.event('Post', 'Post - click-emoji-card', {})
+  }
+
   uploadImageFiles(files: any[]) {
     ipcRenderer.send('image-upload', files)
     ipcRenderer.once('image-uploaded', (event: IpcRendererEvent, data: any) => {
@@ -551,7 +565,15 @@ export default class ArticleUpdate extends Vue {
       range: monaco.Range.fromPositions(this.$refs.monacoMarkdownEditor.editor.getPosition()),
       text: '\n<!-- more -->\n',
     }])
+
     ga.event('Post', 'Post - click-add-more', {})
+  }
+
+  handleEmojiSelect(emoji: any) {
+    this.$refs.monacoMarkdownEditor.editor.getModel().applyEdits([{
+      range: monaco.Range.fromPositions(this.$refs.monacoMarkdownEditor.editor.getPosition()),
+      text: emoji,
+    }])
   }
 
   previewPost() {

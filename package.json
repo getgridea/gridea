@@ -56,6 +56,7 @@
     "slug": "^0.9.3",
     "transliteration": "^1.6.6",
     "uuid": "^3.3.3",
+    "v-emoji-picker": "^1.1.6",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
     "vue-i18n": "^8.7.0",

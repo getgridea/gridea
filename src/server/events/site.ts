@@ -9,6 +9,8 @@ export default class SiteEvents {
     ipcMain.removeAllListeners('app-site-loaded')
     ipcMain.removeAllListeners('app-source-folder-setting')
     ipcMain.removeAllListeners('app-source-folder-set')
+    ipcMain.removeAllListeners('app-preview-server-port-get')
+    ipcMain.removeAllListeners('app-preview-server-port-got')
 
     ipcMain.on('app-site-reload', async (event: IpcMainEvent, params: any) => {
       const result = await appInstance.loadSite()

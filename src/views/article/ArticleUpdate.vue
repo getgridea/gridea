@@ -1,6 +1,6 @@
 <template>
-  <div class="article-update-page" v-if="visible">
-    <div class="page-title">
+  <div class="article-update-page" :class="{ 'is-entering': entering }" v-if="visible" @mousemove="handlePageMousemove">
+    <div class="page-title" ref="pageTitle">
       <a-row type="flex" justify="end">
         <a-tooltip placement="bottom" :title="$t('back')">
           <div class="op-btn" tabindex="0" @click="close">
@@ -22,10 +22,11 @@
     <div class="page-content">
       <div class="editor-wrapper">
         <!-- <div class="tip-text">{{ $t('editorTip') }}</div> -->
-        <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange"></a-input>
+        <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange" @keydown="handleInputKeydown"></a-input>
         <monaco-markdown-editor
           ref="monacoMarkdownEditor"
           v-model="form.content"
+          @keydown="handleInputKeydown"
         ></monaco-markdown-editor>
         <div class="footer-info">
           {{ $t('writingIn') }} <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
@@ -244,6 +245,8 @@ export default class ArticleUpdate extends Vue {
 
   changedAfterLastSave = false
 
+  entering = false
+
   shortcutKeys = shortcutKeys
 
   $refs!: {
@@ -252,6 +255,7 @@ export default class ArticleUpdate extends Vue {
     articlePage: HTMLElement,
     monacoMarkdownEditor: any,
     previewContainer: HTMLElement,
+    pageTitle: HTMLElement,
   }
 
   @State('site') site!: Site
@@ -609,6 +613,14 @@ export default class ArticleUpdate extends Vue {
     }
   }
 
+  handleInputKeydown() {
+    this.entering = true
+  }
+
+  handlePageMousemove() {
+    this.entering = false
+  }
+
   openPage(url: string) {
     shell.openExternal(url)
   }
@@ -658,11 +670,7 @@ export default class ArticleUpdate extends Vue {
     // box-shadow: 0 3px 20px #4343430d;
     z-index: 1026;
     background: #fff;
-    &:hover {
-      .op-btn {
-        opacity: 1;
-      }
-    }
+    transition: opacity 700ms ease;
 
     .op-btn {
       height: 30px;
@@ -709,6 +717,14 @@ export default class ArticleUpdate extends Vue {
     flex: 1;
     display: flex;
     overflow: scroll;
+  }
+
+  &.is-entering {
+    .page-title,
+    .right-tool-container,
+    .right-bottom-tool-container {
+      opacity: 0;
+    }
   }
 }
 
@@ -807,7 +823,8 @@ export default class ArticleUpdate extends Vue {
   display: flex;
   flex-direction: column;
   color: #A0AEC0;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
+  transition: opacity 700ms ease;
   &:hover {
     color: #4A5568;
   }

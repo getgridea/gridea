@@ -67,6 +67,9 @@ export default class MonacoMarkdownEditor extends Vue {
         this.$emit('change', value)
       }
     })
+    this.editor.onKeyDown(() => {
+      this.$emit('keydown')
+    })
   }
 
   setEditorHeight() {

@@ -714,13 +714,6 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@jooger/word-counter@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@jooger/word-counter/-/word-counter-1.1.0.tgz#140ffce511748d3b9fe5024de9a601e40486b99e"
-  integrity sha512-omYCWVBpmIVkvxSIoPXIwOnvQj3S/M9H3sQZusaXLwGZx9FUIRHdd8Ac8G7xXH+YmqoZW6QhifMs9AQ+8fzAwg==
-  dependencies:
-    striptags "^3.1.1"
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "http://registry.npm.taobao.org/@mrmlnc/readdir-enhanced/download/@mrmlnc/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -8115,11 +8108,6 @@ read-pkg@^5.0.0:
     normalize-package-data "^2.3.2"
     parse-json "^4.0.0"
 
-read-time-estimate@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/read-time-estimate/-/read-time-estimate-0.0.2.tgz#e58f5b2c2a0b21bf0da02cdc4343e4537340b0f3"
-  integrity sha512-0CG+Xmg7jafu078m5umjD7t7SpODuHwVKhGlXKHfQemEniWNDyouFAEYzMFUGilTr3fyvXB1ogNUKg0s8ybmlg==
-
 "readable-stream@1 || 2", readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.4, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.3.0, readable-stream@^2.3.3, readable-stream@^2.3.5, readable-stream@^2.3.6, readable-stream@~2.3.6:
   version "2.3.6"
   resolved "http://registry.npm.taobao.org/readable-stream/download/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf"
@@ -8183,11 +8171,6 @@ readdirp@^3.1.1:
   integrity sha512-8rhl0xs2cxfVsqzreYCvs8EwBfn/DhVdqtoLmw19uI3SC5avYX9teCurlErfpPXGmYtMHReGaP2RsLnFvz/lnw==
   dependencies:
     picomatch "^2.0.4"
-
-reading-time@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/reading-time/-/reading-time-1.2.0.tgz#ced71c06715762f805506328dcc1fd45d8249ac4"
-  integrity sha512-5b4XmKK4MEss63y0Lw0vn0Zn6G5kiHP88mUnD8UeEsyORj3sh1ghTH0/u6m1Ax9G2F4wUZrknlp6WlIsCvoXVA==
 
 redent@^1.0.0:
   version "1.0.0"

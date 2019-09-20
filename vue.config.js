@@ -40,6 +40,17 @@ module.exports = {
         },
         linux: {
           icon: './public/app-icons/gridea.png',
+          target: [
+            {
+              target: 'AppImage',
+            },
+            {
+              target: 'deb',
+            },
+            {
+              target: 'snap',
+            },
+          ],
         },
         asar: false,
         nsis: {

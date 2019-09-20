@@ -24,7 +24,7 @@ feature: /post-images/hello-gridea.png
 
 📋  你可以自定义菜单，甚至可以创建外部链接菜单  
 
-💻  你可以在 **𝖶𝗂𝗇𝖽𝗈𝗐𝗌** 或 **𝖬𝖺𝖼𝖮𝖲** 设备上使用此客户端  
+💻  你可以在 **Windows**，**MacOS** 或 **Linux** 设备上使用此客户端  
 
 🌎  你可以使用 **𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌** 或 **Coding Pages** 向世界展示，未来将支持更多平台  
 
@@ -36,7 +36,7 @@ feature: /post-images/hello-gridea.png
 
 🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步  
 
-🌱 当然 **Gridea** 还很年轻，有很多不足，但请相信，它会不停向前🏃
+🌱 当然 **Gridea** 还很年轻，有很多不足，但请相信，它会不停向前 🏃
 
 未来，它一定会成为你离不开的伙伴
 

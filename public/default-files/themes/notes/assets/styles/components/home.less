@@ -80,13 +80,22 @@
 
 
 .pagination-container {
-  padding: 24px 32px 32px;
+  padding: 32px 16px;
   overflow: hidden;
   .prev-page {
     float: left;
   }
   .next-page {
     float: right;
+  }
+  .prev-page,
+  .next-page {
+    padding: 6px 12px;
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+    &:hover {
+      border-bottom: 2px solid;
+    }
   }
 }
 

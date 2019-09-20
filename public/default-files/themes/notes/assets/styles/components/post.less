@@ -81,10 +81,9 @@
           line-height: initial;
           word-wrap: break-word;
           border-radius: 0;
-          background-color: #f1f1f1;
-          color: rgba(0,0,0,.8);
+          background-color: #fff5f5;
+          color: #c53030;
           padding: .2em .33333333em;
-          font-size: .875rem;
           margin-left: .125em;
           margin-right: .125em;
         }
@@ -92,11 +91,10 @@
 
       pre {
         margin-bottom: 1.5rem;
-        font-size: 0.75rem;
         padding: 0;
         position: relative;
         code {
-          font-size: 0.86rem;
+          font-size: 0.96em;
           font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
           padding: 1em;
           border-radius: 5px;
@@ -180,6 +178,12 @@
         }
       }
 
+      mark {
+        background: #faf089;
+        color: #744210;
+        padding: .2em;
+      }
+
       .footnotes {
         margin-left: auto;
         margin-right: auto;
@@ -209,7 +213,7 @@
         width: 16px;
         height: 16px;
         margin: 4px 0 0;
-        top: 3px;
+        top: -1px;
         left: -22px;
         transform-origin: center;
         transform: rotate(-90deg);
@@ -234,7 +238,7 @@
           height: 16px;
           box-sizing: border-box;
           display: inline-block;
-          border: 1px solid #d0d0d0;
+          border: 1px solid #9ae6b4;
           border-radius: 2px;
           background-color: #fff;
           position: absolute;
@@ -268,6 +272,7 @@
   .next {
     margin-bottom: 24px;
     color: @oc-gray-8;
+    font-weight: lighter;
   }
   .post-title {
     font-size: 20px;
@@ -286,6 +291,9 @@
     top: 32px;
     width: 200px;
     font-size: 12px;
+    list-style: none;
+    padding-left: 0;
+    padding: 16px 8px;
     &:before {
       content: "";
       position: absolute;

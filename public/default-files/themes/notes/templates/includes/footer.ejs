@@ -26,7 +26,6 @@
       if (mainNavLinks[index + 1]) {
         nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
       }
-      console.log('section.offsetHeight', section.offsetHeight);
       if (section.offsetTop <= fromTop) {
         if (nextSection) {
           if (nextSection.offsetTop > fromTop) {

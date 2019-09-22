@@ -35,8 +35,7 @@ class Analytics {
   public async pageView(url: string, title?: string) {
     this.getClientId(async (clientId: any) => {
       try {
-        const res = await this.ga.pageview(hostname, url, title, 1, clientId)
-        console.log(res)
+        await this.ga.pageview(hostname, url, title, 1, clientId)
       } catch (e) {
         console.error(e)
       }
@@ -46,11 +45,10 @@ class Analytics {
   public async event(evCategory: string, evAction: string, options: EvOptions) {
     this.getClientId(async (clientId: any) => {
       try {
-        const res = await this.ga.event(evCategory, evAction, {
+        await this.ga.event(evCategory, evAction, {
           ...options,
           clientID: clientId,
         })
-        console.log(res)
       } catch (e) {
         console.error(e)
       }
@@ -60,8 +58,7 @@ class Analytics {
   public async exception(exDesc: string, exFatal: any) {
     this.getClientId(async (clientId: any) => {
       try {
-        const res = await this.ga.exception(exDesc, exFatal)
-        console.log(res)
+        await this.ga.exception(exDesc, exFatal)
       } catch (e) {
         console.error(e)
       }

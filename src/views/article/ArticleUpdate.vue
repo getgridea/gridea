@@ -82,6 +82,9 @@
         <div class="right-bottom-tool-container">
           <a-popover placement="leftBottom" trigger="click">
             <template slot="content">
+              <div class="keyboard-tip">
+                💁‍♂️ 编辑区域右键能弹出快捷菜单哦
+              </div>
               <div class="keyboard-container">
                 <div class="item" v-for="(item, index) in shortcutKeys" :key="index">
                   <a-divider class="keyboard-group-title" orientation="left">{{ item.name }}</a-divider>
@@ -1173,5 +1176,10 @@ export default class ArticleUpdate extends Vue {
       font-family: 'Droid Serif';
     }
   }
+}
+
+.keyboard-tip {
+  font-size: 12px;
+  color: #909090;
 }
 </style>

@@ -41,7 +41,8 @@ export default class System extends Vue {
       if (data) {
         this.$message.success(this.$t('saved'))
         this.$bus.$emit('site-reload')
-        remote.getCurrentWindow().reload()
+        remote.app.relaunch()
+        remote.app.quit()
       } else {
         this.$message.error(this.$t('saveError'))
       }

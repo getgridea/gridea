@@ -326,7 +326,7 @@ export default class ArticleUpdate extends Vue {
     ipcRenderer.on('click-menu-save', (event: IpcRendererEvent, data: any) => {
       this.normalSavePost()
     })
-    
+
     this.$watch('form', () => {
       this.changedAfterLastSave = true
     }, { deep: true })
@@ -344,7 +344,7 @@ export default class ArticleUpdate extends Vue {
         this.form.title = currentPost.data.title
         this.form.fileName = currentPost.fileName
         this.form.tags = currentPost.data.tags || []
-        this.form.date = moment(currentPost.data.date)
+        this.form.date = moment(currentPost.data.date).isValid() ? moment(currentPost.data.date) : moment()
         this.form.content = currentPost.content
         this.form.published = currentPost.data.published
         this.form.hideInList = currentPost.data.hideInList

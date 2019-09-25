@@ -4,15 +4,15 @@ import FileSync from 'lowdb/adapters/FileSync'
 import { IApplicationDb, IApplication } from './interfaces/application'
 
 export default class Model {
-  appDir: string
+  appDir: string;
 
-  $setting: any
+  $setting: any;
 
-  $posts: any
+  $posts: any;
 
-  $theme: any
+  $theme: any;
 
-  db: IApplicationDb
+  db: IApplicationDb;
 
   constructor(appInstance: IApplication) {
     this.appDir = appInstance.appDir

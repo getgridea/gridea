@@ -2,48 +2,68 @@
 
 <script type="application/javascript">
 
-AOS.init();
+  AOS.init()
 
-hljs.initHighlightingOnLoad()
+  hljs.initHighlightingOnLoad()
 
 </script>
 
 <% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
 
-  <% if (commentSetting.commentPlatform === 'gitalk') { %>
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
+    <% if (commentSetting.commentPlatform === 'gitalk') { %>
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
 
-      var gitalk = new Gitalk({
-        clientID: '<%= commentSetting.gitalkSetting.clientId %>',
-        clientSecret: '<%= commentSetting.gitalkSetting.clientSecret %>',
-        repo: '<%= commentSetting.gitalkSetting.repository %>',
-        owner: '<%= commentSetting.gitalkSetting.owner %>',
-        admin: ['<%= commentSetting.gitalkSetting.owner %>'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
+          var gitalk = new Gitalk({
+            clientID: '<%= commentSetting.gitalkSetting.clientId %>',
+            clientSecret: '<%= commentSetting.gitalkSetting.clientSecret %>',
+            repo: '<%= commentSetting.gitalkSetting.repository %>',
+            owner: '<%= commentSetting.gitalkSetting.owner %>',
+            admin: ['<%= commentSetting.gitalkSetting.owner %>'],
+            id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+            distractionFreeMode: false  // Facebook-like distraction free mode
+          })
 
-      gitalk.render('gitalk-container')
+          gitalk.render('gitalk-container')
 
-    </script>
-  <% } %>
+        </script>
+    <% } %>
 
-  <% if (commentSetting.commentPlatform === 'disqus') { %>
-    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
-    <script>
+    <% if (commentSetting.commentPlatform === 'disqus') { %>
+        <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+        <script>
 
-    var options = {
-      shortname: '<%= commentSetting.disqusSetting.shortname %>',
-      apikey: '<%= commentSetting.disqusSetting.apikey %>',
-    }
-    if ('<%= commentSetting.disqusSetting.api %>') {
-      options.api = '<%= commentSetting.disqusSetting.api %>'
-    }
-    var dsqjs = new DisqusJS(options)
+          var options = {
+            shortname: '<%= commentSetting.disqusSetting.shortname %>',
+            apikey: '<%= commentSetting.disqusSetting.apikey %>',
+          }
+          if ('<%= commentSetting.disqusSetting.api %>') {
+            options.api = '<%= commentSetting.disqusSetting.api %>'
+          }
+          var dsqjs = new DisqusJS(options)
 
-    </script>
-  <% } %>
+        </script>
+    <% } %>
+
+    <% if (commentSetting.commentPlatform === 'valine') { %>
+        <script src="https://unpkg.com/valine"></script>
+        <script>
+          new Valine({
+            el: '#valine_thread',
+            appId: '<%= commentSetting.valineSetting.appId %>',
+            appKey: '<%= commentSetting.valineSetting.appKey %>',
+            pageSize: <%= commentSetting.valineSetting.pageSize %>,
+            notify: <%= commentSetting.valineSetting.notify %>,
+            avatar: '<%= commentSetting.valineSetting.avatar %>',
+            verify: <%= commentSetting.valineSetting.verify %>,
+            placeholder: '<%= commentSetting.valineSetting.placeholder %>',
+            visitor: <%= commentSetting.valineSetting.visitor %>,
+            highlight: <%= commentSetting.valineSetting.highlight %>,
+            recordIP: <%= commentSetting.valineSetting.recordIP %>,
+          })
+        </script>
+    <% } %>
+
 
 <% } %>
 

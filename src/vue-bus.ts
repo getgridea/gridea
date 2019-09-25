@@ -1,10 +1,11 @@
 import _Vue from 'vue'
 
 declare module 'vue/types/vue' {
-    interface Vue {
-        $bus: any
-    }
+  interface Vue {
+    $bus: any
+  }
 }
+
 class VueBus {
   static install(Vue: any, options: any) {
     const bus = new Vue()
@@ -12,6 +13,7 @@ class VueBus {
     Vue.prototype.$bus = bus
   }
 }
+
 // eslint-disable-next-line
 if ('Vue' in window) {
   _Vue.use(VueBus)

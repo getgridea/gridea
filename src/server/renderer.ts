@@ -22,25 +22,25 @@ Bluebird.promisifyAll(fs)
 const helper = new ContentHelper()
 
 export default class Renderer extends Model {
-  outputDir: string = `${this.appDir}/output`
+  outputDir: string = `${this.appDir}/output`;
 
-  themePath: string = ''
+  themePath: string = '';
 
-  postsData: IPostRenderData[] = []
+  postsData: IPostRenderData[] = [];
 
-  tagsData: ISiteTagsData[] = []
+  tagsData: ISiteTagsData[] = [];
 
-  menuData: IMenu[] = []
+  menuData: IMenu[] = [];
 
-  git: SimpleGit
+  git: SimpleGit;
 
-  previewPort: number
+  previewPort: number;
 
-  platformAddress = ''
+  platformAddress = '';
 
-  remoteUrl = ''
+  remoteUrl = '';
 
-  utils: any = {}
+  utils: any = {};
 
   constructor(appInstance: any) {
     super(appInstance)

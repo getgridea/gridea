@@ -19,6 +19,7 @@ export interface Site {
   setting: ISetting
   commentSetting: ICommentSetting
 }
+
 const siteState: Site = {
   appDir: '',
   config: {},
@@ -65,6 +66,18 @@ const siteState: Site = {
       api: '',
       apikey: '',
       shortname: '',
+    },
+    valineSetting: {
+      appId: '',
+      appKey: '',
+      placeholder: 'Just go go',
+      notify: false,
+      verify: false,
+      avatar: 'mp',
+      pageSize: 10,
+      visitor: false,
+      highlight: false,
+      recordIP: false,
     },
   },
 }

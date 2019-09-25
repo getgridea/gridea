@@ -1,0 +1,18 @@
+<div id="vlaine-comment"></div>
+<script src="https://unpkg.com/valine"></script>
+<script>
+  new Valine({
+    el: '#vlaine-comment',
+    appId: '<%= commentSetting.valineSetting.appId %>',
+    appKey: '<%= commentSetting.valineSetting.appKey %>',
+    pageSize: <%= commentSetting.valineSetting.pageSize %>,
+    notify: <%= commentSetting.valineSetting.notify %>,
+    avatar: '<%= commentSetting.valineSetting.avatar %>',
+    verify: <%= commentSetting.valineSetting.verify %>,
+    placeholder: '<%= commentSetting.valineSetting.placeholder %>',
+    visitor: <%= commentSetting.valineSetting.visitor %>,
+    highlight: <%= commentSetting.valineSetting.highlight %>,
+    recordIP: <%= commentSetting.valineSetting.recordIP %>,
+  })
+</script>
+

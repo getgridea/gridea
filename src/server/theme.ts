@@ -6,13 +6,13 @@ import { ITheme } from './interfaces/theme'
 const junk = require('junk')
 
 export default class Theme extends Model {
-  themeDir: string
+  themeDir: string;
 
-  themeList: string[]
+  themeList: string[];
 
-  themeConfig: any
+  themeConfig: any;
 
-  currentThemePath = ''
+  currentThemePath = '';
 
   constructor(appInstance: any) {
     super(appInstance)

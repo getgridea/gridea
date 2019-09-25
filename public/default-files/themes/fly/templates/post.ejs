@@ -55,6 +55,9 @@
         <% if (commentSetting.commentPlatform === 'disqus') { %>
           <div id="disqus_thread"></div>
         <% } %>
+          <% if (commentSetting.commentPlatform === 'valine') { %>
+            <%- include('./includes/valine') %>
+          <% } %>
       <% } %>
 
       <%- include('./includes/footer') %>

@@ -12,13 +12,13 @@ interface EvOptions {
 const hostname = 'http://client.gridea.dev'
 
 class Analytics {
-  private readonly ga: any
+  private readonly ga: any;
 
-  private clientId: any
+  private clientId: any;
 
   constructor() {
     this.ga = new GA('UA-113307620-4', { debug: isDevelopment })
-    
+
     this.ga.set('version', (pkg as any).version)
   }
 

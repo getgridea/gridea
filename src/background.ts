@@ -20,6 +20,7 @@ let httpServer: any
 
 // Standard scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
+
 function createWindow() {
   // Create the browser window.
   const winOption: any = {
@@ -38,14 +39,16 @@ function createWindow() {
   if (process.platform !== 'darwin') {
     winOption.icon = `${__dirname}/app-icons/gridea.png`
   }
-  
+
   win = new BrowserWindow(winOption)
   win.setTitle('Gridea')
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string)
-    if (!process.env.IS_TEST) { win.webContents.openDevTools() }
+    if (!process.env.IS_TEST) {
+      win.webContents.openDevTools()
+    }
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -93,7 +96,9 @@ function createWindow() {
       submenu: [
         {
           label: 'Learn More',
-          click() { shell.openExternal('https://github.com/getgridea/gridea') },
+          click() {
+            shell.openExternal('https://github.com/getgridea/gridea')
+          },
         },
       ],
     },

@@ -81,7 +81,7 @@ $ yarn electron:build
 ```
 
 ## 聯繫
-[Telegram 頻道](https://t.me/joinchat/AAAAAEj82_lma0Y1wmyqUQ) | [Telegram 群組](https://t.me/joinchat/IDY0ahRqb8NPodv95BNpBg)  | QQ 群: 970332209 | 作者推特: @EryouHao
+[Telegram 頻道](https://t.me/joinchat/AAAAAEj82_lma0Y1wmyqUQ) | [Telegram 群組](https://t.me/joinchat/IDY0ahRqb8NPodv95BNpBg)  | QQ 1 群: 970332209（已满）| QQ 2 群: 923131213 | 作者推特: @EryouHao
 
 ## 示例截圖
 <div align="center">

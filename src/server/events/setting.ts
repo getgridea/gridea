@@ -14,7 +14,8 @@ export default class SettingEvents {
     ipcMain.removeAllListeners('favicon-uploaded')
     ipcMain.removeAllListeners('avatar-upload')
     ipcMain.removeAllListeners('avatar-uploaded')
-
+    ipcMain.removeAllListeners('private-post-setting-save')
+    ipcMain.removeAllListeners('private-post-setting-saved')
     ipcMain.on('setting-save', async (event: IpcMainEvent, setting: ISetting) => {
       const data = await settingInstance.saveSetting(setting)
       event.sender.send('setting-saved', data)
@@ -35,6 +36,11 @@ export default class SettingEvents {
       console.log('执行了上传头像', filePath)
       const data = await settingInstance.uploadAvatar(filePath)
       event.sender.send('avatar-uploaded', data)
+    })
+    ipcMain.on('private-post-setting-save', async (event, form) => {
+      console.log(`private-post-setting-save:${JSON.stringify(form)}`)
+      const data = await settingInstance.savePrivatePostSetting(form)
+      event.sender.send('private-post-setting-saved', data)
     })
   }
 }

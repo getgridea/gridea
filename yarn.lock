@@ -773,6 +773,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/crypto-js@^3.1.43":
+  version "3.1.43"
+  resolved "https://registry.npm.taobao.org/@types/crypto-js/download/@types/crypto-js-3.1.43.tgz#b859347d6289ba13e347c335a4c9efa63337a748"
+  integrity sha1-uFk0fWKJuhPjR8M1pMnvpjM3p0g=
+
 "@types/debug@^4.1.4":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.5.tgz#b14efa8852b7768d898906613c23f688713e02cd"
@@ -2915,6 +2920,11 @@ crypto-browserify@^3.11.0:
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
     randomfill "^1.0.3"
+
+crypto-js@^3.1.9-1:
+  version "3.1.9-1"
+  resolved "https://registry.npm.taobao.org/crypto-js/download/crypto-js-3.1.9-1.tgz#fda19e761fc077e01ffbfdc6e9fdfc59e8806cd8"
+  integrity sha1-/aGedh/Ad+Af+/3G6f38WeiAbNg=
 
 crypto-random-string@^1.0.0:
   version "1.0.0"

@@ -61,6 +61,7 @@ export default class Posts extends Model {
           const mdStr = `---
 title: '${data.title}'
 date: ${data.date}
+private: ${data.private}
 tags: [${newTagString}]
 published: ${data.published || false}
 hideInList: ${data.hideInList || false}
@@ -163,6 +164,7 @@ ${postMatter.content}`
 title: '${post.title}'
 date: ${post.date}
 tags: [${post.tags.join(',')}]
+private: ${post.privatePost}
 published: ${post.published}
 hideInList: ${post.hideInList}
 feature: ${post.featureImage.name ? `/post-images/${post.fileName}.${extendName}` : post.featureImagePath}

@@ -1,68 +1,78 @@
-
 <!DOCTYPE html>
 <html>
-  <head>
-    <%- include('./includes/head', { siteTitle: `${post.title} | ${themeConfig.siteName}` }) %>
-  </head>
-  <body>
-    <div id="app" class="main">
-      <%- include('./includes/header') %>
 
-      <div class="content-container">
-        <div class="post-detail">
-          <% if (themeConfig.showFeatureImage && post.feature) { %>
-            <div class="feature-container" style="background-image: url('<%= post.feature %>')">
-            </div>
-          <% } %>
-          <h2 class="post-title"><%= post.title %></h2>
-          <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> <%= post.dateFormat %></span>
-            <% if (post.tags.length > 0) { %>
-              <span>
-                <i class="icon-pricetags-outline"></i>
-                <% post.tags.forEach(function(tag, index) { %>
-                  <a href="<%= tag.link %>">
-                    <%= tag.name %>
-                    <% if (index !== post.tags.length - 1) { %>
-                      ，
-                    <% } %>
-                  </a>
-                <% }); %>
-              </span>
-            <% } %>
-          </div>
-          <div class="post-content">
-            <%- post.content %>
-          </div>
+<head>
+  <%- include('./includes/head', { siteTitle: `${post.title} | ${themeConfig.siteName}` }) %>
+</head>
+
+<body>
+  <div id="app" class="main">
+    <%- include('./includes/header') %>
+
+    <div class="content-container">
+      <div class="post-detail">
+        <% if (themeConfig.showFeatureImage && post.feature) { %>
+        <div class="feature-container" style="background-image: url('<%= post.feature %>')">
         </div>
-
-        <% if (post.nextPost && !post.hideInList) { %>
-          <div class="next-post">
-            <a class="purple-link" href="<%= post.nextPost.link %>">
-              <h3 class="post-title">
-                下一篇：<%= post.nextPost.title %>
-              </h3>
+        <% } %>
+        <h2 class="post-title"><%= post.title %></h2>
+        <div class="post-info post-detail-info">
+          <span><i class="icon-calendar-outline"></i> <%= post.dateFormat %></span>
+          <% if (post.tags.length > 0) { %>
+          <span>
+            <i class="icon-pricetags-outline"></i>
+            <% post.tags.forEach(function(tag, index) { %>
+            <a href="<%= tag.link %>">
+              <%= tag.name %>
+              <% if (index !== post.tags.length - 1) { %>
+              ，
+              <% } %>
             </a>
-          </div>
+            <% }); %>
+          </span>
           <% } %>
+        </div>
+        <div class="post-content">
+          <% if(!post.privatePost){ %>
+          <%- post.content %>
+          <%}%>
+         <% if(post.privatePost){ %>
+          <div id="decrypted-content"></div>
+          <% } %>
+        </div>
       </div>
 
-      <% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
-        <% if (commentSetting.commentPlatform === 'gitalk') { %>
-          <div id="gitalk-container"></div>
-        <% } %>
-
-        <% if (commentSetting.commentPlatform === 'disqus') { %>
-          <div id="disqus_thread"></div>
-        <% } %>
-          <% if (commentSetting.commentPlatform === 'valine') { %>
-            <%- include('./includes/valine') %>
-          <% } %>
+      <% if (post.nextPost && !post.hideInList) { %>
+      <div class="next-post">
+        <a class="purple-link" href="<%= post.nextPost.link %>">
+          <h3 class="post-title">
+            下一篇：<%= post.nextPost.title %>
+          </h3>
+        </a>
+      </div>
       <% } %>
-
-      <%- include('./includes/footer') %>
-
     </div>
-    <%- include('./includes/scripts') %>
+
+    <% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
+    <% if (commentSetting.commentPlatform === 'gitalk') { %>
+    <div id="gitalk-container"></div>
+    <% } %>
+
+    <% if (commentSetting.commentPlatform === 'disqus') { %>
+    <div id="disqus_thread"></div>
+    <% } %>
+    <% if (commentSetting.commentPlatform === 'valine') { %>
+    <%- include('./includes/valine') %>
+    <% } %>
+    <% } %>
+
+    <%- include('./includes/footer') %>
+
+  </div>
+
+  <%- include('./includes/scripts') %>
+  <% if(post.privatePost) {%>
+  <%- include('./includes/cryptojs') %>
+  <%}%>
   </body>
 </html>

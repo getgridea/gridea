@@ -1,7 +1,7 @@
 import * as fse from 'fs-extra'
 import * as path from 'path'
 import Model from './model'
-import { ISetting, ICommentSetting } from './interfaces/setting'
+import { ISetting, ICommentSetting, IPrivatePostSetting } from './interfaces/setting'
 
 export default class Setting extends Model {
   getSetting() {
@@ -19,6 +19,11 @@ export default class Setting extends Model {
     return setting
   }
 
+  getPrivatePostSetting() {
+    const setting = this.$setting.get('privatePostSetting').value()
+    return setting
+  }
+
   public async saveSetting(setting: ISetting) {
     await this.$setting.set('config', setting).write()
     return true
@@ -26,6 +31,11 @@ export default class Setting extends Model {
 
   public async saveCommentSetting(setting: ICommentSetting) {
     await this.$setting.set('comment', setting).write()
+    return true
+  }
+
+  public async savePrivatePostSetting(setting: IPrivatePostSetting) {
+    await this.$setting.set('privatePostSetting', setting).write()
     return true
   }
 

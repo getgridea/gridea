@@ -44,6 +44,7 @@
                         @click="editPost(record)"
                 ><i class="zwicon-document post-icon"></i> {{ text }}
                     <a-tag v-if="record.data.hideInList" color="orange">Hide</a-tag>
+                    <a-tag v-if="record.data.private" color="orange">private</a-tag>
                 </a>
                 <a-tag
                         :class="{'tag-success': text, 'tag-draft': !text }"

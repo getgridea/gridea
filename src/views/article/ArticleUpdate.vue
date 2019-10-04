@@ -149,6 +149,10 @@
                     <a-collapse-panel header="URL" key="1">
                         <a-input v-model="form.fileName" @change="handleFileNameChange"></a-input>
                     </a-collapse-panel>
+                    <a-collapse-panel :header="$t('privatePost')" key="6">
+                        <a-switch v-model="form.privatePost" un-checked-children="OFF"
+                                  :checked="form.privatePost||false" checked-children="ON"></a-switch>
+                    </a-collapse-panel>
                     <a-collapse-panel :header="$t('tag')" key="2">
                         <div>
                             <a-select mode="tags" style="width: 100%" v-model="form.tags">
@@ -201,6 +205,7 @@
                     <a-collapse-panel :header="$t('hideInList')" key="5">
                         <a-switch v-model="form.hideInList"></a-switch>
                     </a-collapse-panel>
+
                 </a-collapse>
             </a-drawer>
 
@@ -278,6 +283,7 @@ export default class ArticleUpdate extends Vue {
           content: '',
           published: false,
           hideInList: false,
+          privatePost: false,
           featureImage: {
             path: '',
             name: '',
@@ -289,7 +295,7 @@ export default class ArticleUpdate extends Vue {
 
         featureType: 'DEFAULT' | 'EXTERNAL' = 'DEFAULT';
 
-        activeKey = ['1'];
+        activeKey = ['1', '6'];
 
         postStatusTip = '';
 
@@ -356,6 +362,7 @@ export default class ArticleUpdate extends Vue {
               this.form.content = currentPost.content
               this.form.published = currentPost.data.published
               this.form.hideInList = currentPost.data.hideInList
+              this.form.privatePost = currentPost.data.private
 
               if (currentPost.data.feature && currentPost.data.feature.includes('http')) {
                 this.form.featureImagePath = currentPost.data.feature

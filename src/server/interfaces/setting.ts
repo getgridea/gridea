@@ -42,3 +42,8 @@ export interface ICommentSetting {
   gitalkSetting: IGitalkSetting
   valineSetting: IValineSetting
 }
+
+export interface IPrivatePostSetting {
+  enable: boolean,
+  key: string
+}

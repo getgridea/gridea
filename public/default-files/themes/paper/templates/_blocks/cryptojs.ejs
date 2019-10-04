@@ -1,0 +1,42 @@
+<style>
+    #post-enc-content {
+        width: fit-content;
+        margin: 0 auto;
+    }
+
+    #submitBtn {
+        padding: 3px;
+    }
+
+    #submitBtn:hover {
+        background-color: #4a8d28;
+        cursor: pointer;
+    }
+
+    #submitBtn:active {
+        position: relative;
+        top: 1px;
+    }
+
+    #input-pwd {
+        padding: 3px;
+        margin-right: 5px;
+    }
+</style>
+<script src="https://cdn.bootcss.com/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+<script>
+    var postContent = '<div id="post-enc-content">' +
+        '<p>这是一篇私密文章，输入密码进行解密</p>' +
+        '<input type="password" id="input-pwd" placeholder="请输入密码" />' +
+        '<button type="button" id="submitBtn">解密</button>'
+        + '</div>';
+    document.getElementById('decrypted-content').innerHTML = postContent;
+    document.getElementById('submitBtn').addEventListener('click', function () {
+        var inputVal = document.getElementById('input-pwd').value;
+        var p = CryptoJS.AES.decrypt('<%= post.content %>', inputVal)
+        document.getElementById('decrypted-content').innerHTML = p.toString(CryptoJS.enc.Utf8);
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightBlock(block);
+        });
+    })
+</script>

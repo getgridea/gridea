@@ -105,6 +105,10 @@ const message = {
     writingIn: '写作于',
     words: '字 数',
     readingTime: '阅读时间',
+    privatePost: '私密文章',
+    privatePostTips: '你可以在这里设置加密文章，开启加密的文章需要在浏览时输入密码方可阅读。',
+    privatePostSwitch: '启用',
+    privatePostKey: '密码',
   },
   zh_TW: {
     preview: '預 覽',
@@ -212,6 +216,10 @@ const message = {
     writingIn: '寫作於',
     words: '字 數',
     readingTime: '閱讀時間',
+    privatePost: '私密文章',
+    privatePostTips: '你可以在這裡設置加密文章，開啟加密的文章需要在瀏覽時輸入密碼方可閱讀。',
+    privatePostSwitch: '開啟',
+    privatePostKey: '密碼',
   },
   en: {
     preview: 'Preview',
@@ -319,6 +327,10 @@ const message = {
     writingIn: 'Writing in',
     words: 'Words',
     readingTime: 'Reading time',
+    privatePost: 'Encryption post',
+    privatePostTips: 'You can set encrypted articles here. To enable encrypted articles, you need to enter a password to read them.',
+    privatePostSwitch: 'enable',
+    privatePostKey: 'encryption key',
   },
 }
 

@@ -13,6 +13,9 @@
             <a-tab-pane :tab="$t('avatarSetting')" key="4">
                 <avatar-setting></avatar-setting>
             </a-tab-pane>
+            <a-tab-pane :tab="$t('privatePost')" key="5">
+                <PrivatePostSetting></PrivatePostSetting>
+            </a-tab-pane>
         </a-tabs>
     </div>
 </template>
@@ -25,9 +28,11 @@ import BasicSetting from './includes/BasicSetting.vue'
 import CommentSetting from './includes/CommentSetting.vue'
 import FaviconSetting from './includes/FaviconSetting.vue'
 import AvatarSetting from './includes/AvatarSetting.vue'
+import PrivatePostSetting from './includes/PrivatePostSetting.vue'
 
     @Component({
       components: {
+        PrivatePostSetting,
         BasicSetting,
         CommentSetting,
         FaviconSetting,

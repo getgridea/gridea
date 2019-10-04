@@ -1,35 +1,42 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <%- include('./_blocks/head', { siteTitle: `${post.title} | ${themeConfig.siteName}` }) %>
 </head>
+
 <body>
 
-<%- include('./_blocks/header') %>
-<div id="top" class="row site">
-    <div class="sm-12 md-8 col">
-        <div class="paper">
-            <article class="article">
-                <h1><%= post.title %></h1>
-                <p class="article-meta">
-                    <%= post.dateFormat %>
-                    <% post.tags.forEach(function(tag, tagIndex) { %>
+    <%- include('./_blocks/header') %>
+    <div id="top" class="row site">
+        <div class="sm-12 md-8 col">
+            <div class="paper">
+                <article class="article">
+                    <h1><%= post.title %></h1>
+                    <p class="article-meta">
+                        <%= post.dateFormat %>
+                        <% post.tags.forEach(function(tag, tagIndex) { %>
                         <a href="<%= tag.link %>"
-                           class="badge <%= ['', 'secondary', 'success', 'warning', 'secondary'][Math.floor(Math.random() * 5)] %>">
+                            class="badge <%= ['', 'secondary', 'success', 'warning', 'secondary'][Math.floor(Math.random() * 5)] %>">
                             <%= tag.name %>
                         </a>
-                    <% }); %>
-                </p>
-                <% if (post.feature) { %>
+                        <% }); %>
+                    </p>
+                    <% if (post.feature) { %>
                     <img src="<%= post.feature %>" alt="<%= post.title %>">
-                <% } %>
-                <div class="post-content">
-                    <%- post.content %>
-                </div>
-            </article>
-        </div>
-        <div class="paper" data-aos="fade-in">
-            <% if (post.nextPost && !post.hideInList) { %>
+                    <% } %>
+                    <div class="post-content">
+                        <% if(!post.privatePost){ %>
+                        <%- post.content %>
+                        <%}%>
+                             <% if(post.privatePost){ %>
+                        <div id="decrypted-content"></div>
+                        <% } %>
+                    </div>
+                </article>
+            </div>
+            <div class="paper" data-aos="fade-in">
+                <% if (post.nextPost && !post.hideInList) { %>
                 <div class="next-post">
                     <div class="next">
                         <%= site.customConfig.nextArticleText || '下一篇' %>
@@ -40,32 +47,35 @@
                         </h3>
                     </a>
                 </div>
-            <% } %>
-        </div>
-        <% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
+                <% } %>
+            </div>
+            <% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
             <% if (commentSetting.commentPlatform === 'gitalk') { %>
-                <div class="paper" data-aos="fade-in">
-                    <div id="gitalk-container"></div>
-                </div>
+            <div class="paper" data-aos="fade-in">
+                <div id="gitalk-container"></div>
+            </div>
             <% } %>
 
             <% if (commentSetting.commentPlatform === 'disqus') { %>
-                <div class="paper" data-aos="fade-in">
-                    <div id="disqus_thread"></div>
-                </div>
+            <div class="paper" data-aos="fade-in">
+                <div id="disqus_thread"></div>
+            </div>
             <% } %>
             <% if (commentSetting.commentPlatform === 'valine') { %>
-                <div class="paper" data-aos="fade-in">
-                    <div id="valine_thread"></div>
-                </div>
+            <div class="paper" data-aos="fade-in">
+                <div id="valine_thread"></div>
+            </div>
             <% } %>
-        <% } %>
+            <% } %>
+        </div>
+
+        <%- include('./_blocks/sidebar') %>
+
     </div>
 
-    <%- include('./_blocks/sidebar') %>
-
-</div>
-
-<%- include('./_blocks/scripts') %>
+    <%- include('./_blocks/scripts') %>
+    <% if(post.privatePost) {%>
+    <%- include('./_blocks/cryptojs') %>
+    <%}%>
 </body>
 </html>

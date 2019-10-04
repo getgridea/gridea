@@ -1,11 +1,11 @@
 export default class ContentHelper {
-  localReg: RegExp
+  localReg: RegExp;
 
-  domainReg: RegExp
+  domainReg: RegExp;
 
-  featureDomainReg: RegExp
+  featureDomainReg: RegExp;
 
-  featureLocalReg: RegExp
+  featureLocalReg: RegExp;
 
   constructor() {
     this.localReg = /\(file.*\/post-images\//g

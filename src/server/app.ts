@@ -12,20 +12,20 @@ import Setting from './setting'
 
 import { IApplicationDb, IApplicationSetting } from './interfaces/application'
 // eslint-disable-next-line
-declare const __static: string
+declare const __static: string;
 
 export default class App {
-  mainWindow: BrowserWindow
+  mainWindow: BrowserWindow;
 
-  app: any
+  app: any;
 
-  baseDir: string
+  baseDir: string;
 
-  appDir: string
+  appDir: string;
 
-  previewServer: any
+  previewServer: any;
 
-  db: IApplicationDb
+  db: IApplicationDb;
 
   constructor(setting: IApplicationSetting) {
     this.mainWindow = setting.mainWindow
@@ -74,11 +74,27 @@ export default class App {
           repository: '',
           owner: '',
         },
+        valineSetting: {
+          appId: '',
+          appKey: '',
+          placeholder: 'just go go',
+          notify: false,
+          verify: true,
+          avatar: 'mp',
+          pageSize: 10,
+          visitor: false,
+          highlight: false,
+          recordIP: false,
+        },
         disqusSetting: {
           api: '',
           apikey: '',
           shortname: '',
         },
+      },
+      privatePostSetting: {
+        enable: false,
+        key: '',
       },
     }
 
@@ -107,6 +123,7 @@ export default class App {
     const settingInstance = new Setting(this)
     const setting = await settingInstance.getSetting()
     const commentSetting = await settingInstance.getCommentSetting()
+    const privatePostSetting = await settingInstance.getPrivatePostSetting()
 
     this.db = {
       posts,
@@ -116,6 +133,7 @@ export default class App {
       themeCustomConfig,
       themes,
       setting,
+      privatePostSetting,
       commentSetting: commentSetting || this.db.commentSetting,
     }
     this.updateStaticServer()
@@ -243,6 +261,7 @@ export default class App {
         console.log('Preview server: Removed old static route')
       }
     }
+
     const routers = this.previewServer._router // eslint-disable-line no-underscore-dangle
     if (routers) {
       const routesStack = routers.stack

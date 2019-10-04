@@ -15,6 +15,18 @@
       "apikey": "",
       "shortname": ""
     },
+    "valinSetting": {
+      "appId": "",
+      "appKey": "",
+      "placeholder": "Just go go",
+      "notify": false,
+      "verify": true,
+      "avatar": "mp",
+      "pageSize": 10,
+      "visitor": false,
+      "highlight": false,
+      "recordIP": false
+    },
     "gitalkSetting": {
       "clientId": "",
       "clientSecret": "",

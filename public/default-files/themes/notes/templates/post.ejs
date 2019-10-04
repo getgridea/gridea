@@ -1,66 +1,82 @@
 <html>
-  <head>
+
+<head>
     <%- include('./includes/head', { siteTitle: `${post.title} | ${themeConfig.siteName}` }) %>
-  </head>
-  <body>
-    <div class="main">
-      <div class="main-content">
-        <%- include('./includes/header') %>
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              <%= post.title %>
-            </h2>
-            <div class="post-info">
-              <span>
-                <%= post.dateFormat %>
-              </span>
-              <span>
-                <%= post.stats.text %>
-              </span>
-              <% post.tags.forEach(function(tag) { %>
-                <a href="<%= tag.link %>" class="post-tag">
-                  # <%= tag.name %>
-                </a>
-              <% }); %>
+</head>
+
+<body>
+
+    <body>
+        <div class="main">
+            <div class="main-content">
+                <%- include('./includes/header') %>
+                <div class="post-detail">
+                    <article class="post">
+
+                        <h2 class="post-title">
+                            <%= post.title %>
+                        </h2>
+                        <div class="post-info">
+                            <span>
+                                <%= post.dateFormat %>
+                            </span>
+                            <span>
+                                <%= post.stats.text %>
+                            </span>
+                            <% post.tags.forEach(function(tag) { %>
+                            <a href="<%= tag.link %>" class="post-tag">
+                                # <%= tag.name %>
+                            </a>
+                            <% }); %>
+                        </div>
+                        <% if (themeConfig.showFeatureImage && post.feature) { %>
+                        <img class="post-feature-image" src="<%= post.feature %>" alt="">
+                        <% } %>
+                        <div class="post-content-wrapper">
+                            <div class="post-content">
+                                <% if(!post.privatePost){ %>
+                                <%- post.content %>
+                                <%}%>
+                                <% if(post.privatePost){ %>
+                                <div id="decrypted-content"></div>
+                                <% } %>
+                            </div>
+                            <div class="toc-container">
+                                <%- post.toc %>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <% if (post.nextPost && !post.hideInList) { %>
+                <div class="next-post">
+                    <div class="next">下一篇</div>
+                    <a href="<%= post.nextPost.link %>">
+                        <h3 class="post-title">
+                            <%= post.nextPost.title %>
+                        </h3>
+                    </a>
+                </div>
+                <% } %>
+
+                <% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
+                <% if (commentSetting.commentPlatform === 'gitalk') { %>
+                <%- include('./includes/gitalk') %>
+                <% } %>
+
+                <% if (commentSetting.commentPlatform === 'disqus') { %>
+                <%- include('./includes/disqus') %>
+                <% } %>
+                <% if (commentSetting.commentPlatform === 'valine') { %>
+                <%- include('./includes/valine') %>
+                <% } %>
+                <% } %>
+                <%- include('./includes/footer') %>
+                <% if(post.privatePost) {%>
+                <%- include('./includes/cryptojs') %>
+                <%}%>
             </div>
-            <% if (themeConfig.showFeatureImage && post.feature) { %>
-              <img class="post-feature-image" src="<%= post.feature %>" alt="">
-            <% } %>
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <%- post.content %>
-              </div>
-              <div class="toc-container">
-                <%- post.toc %>
-              </div>
-            </div>
-          </article>
         </div>
+    </body>
 
-        <% if (post.nextPost && !post.hideInList) { %>
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="<%= post.nextPost.link %>">
-              <h3 class="post-title">
-                <%= post.nextPost.title %>
-              </h3>
-            </a>
-          </div>
-        <% } %>
-
-        <% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
-          <% if (commentSetting.commentPlatform === 'gitalk') { %>
-            <%- include('./includes/gitalk') %>
-          <% } %>
-
-          <% if (commentSetting.commentPlatform === 'disqus') { %>
-            <%- include('./includes/disqus') %>
-          <% } %>
-        <% } %>
-
-        <%- include('./includes/footer') %>
-      </div>
-    </div>
-  </body>
 </html>

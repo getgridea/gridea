@@ -14,9 +14,9 @@ const junk = require('junk')
 Bluebird.promisifyAll(fs)
 
 export default class Posts extends Model {
-  postDir: string
+  postDir: string;
 
-  postImageDir: string
+  postImageDir: string;
 
   constructor(appInstance: any) {
     super(appInstance)
@@ -61,6 +61,7 @@ export default class Posts extends Model {
           const mdStr = `---
 title: '${data.title}'
 date: ${data.date}
+private: ${data.private}
 tags: [${newTagString}]
 published: ${data.published || false}
 hideInList: ${data.hideInList || false}
@@ -83,7 +84,7 @@ ${postMatter.content}`
       if (data && data.title) {
         data.title = String(data.title).replace(/''/g, '\'')
       }
-      
+
       // Fix matter's formatted `date` problem
       if (data && data.date) {
         if (typeof data.date === 'string') {
@@ -163,6 +164,7 @@ ${postMatter.content}`
 title: '${post.title}'
 date: ${post.date}
 tags: [${post.tags.join(',')}]
+private: ${post.privatePost}
 published: ${post.published}
 hideInList: ${post.hideInList}
 feature: ${post.featureImage.name ? `/post-images/${post.fileName}.${extendName}` : post.featureImagePath}

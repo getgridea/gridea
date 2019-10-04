@@ -14,6 +14,7 @@ export interface IDisqusSetting {
   apikey: string
   shortname: string
 }
+
 export interface IGitalkSetting {
   clientId: string
   clientSecret: string
@@ -21,9 +22,23 @@ export interface IGitalkSetting {
   owner: string
 }
 
+export interface IValineSetting {
+  appId: string,
+  appKey: string
+  placeholder: string
+  notify: boolean
+  verify: boolean
+  avatar: '' | 'mp' | 'identicon' | 'monsterid' | 'wavatar' | 'retro' | 'robohash' | 'hide'
+  pageSize: number
+  visitor: boolean
+  highlight: boolean
+  recordIP: boolean
+}
+
 export interface ICommentSetting {
   commentPlatform: string
   showComment: boolean
   disqusSetting: IDisqusSetting
   gitalkSetting: IGitalkSetting
+  valineSetting: IValineSetting
 }

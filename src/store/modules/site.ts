@@ -5,6 +5,7 @@ import { ITheme } from '../../interfaces/theme'
 import { IMenu } from '../../interfaces/menu'
 import { ISetting, ICommentSetting } from '../../interfaces/setting'
 import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT } from '../../helpers/constants'
+import { IPrivatePostSetting } from '@/server/interfaces/setting'
 
 export interface Site {
   appDir: string
@@ -18,7 +19,9 @@ export interface Site {
   themes: string[]
   setting: ISetting
   commentSetting: ICommentSetting
+  privatePostSetting: IPrivatePostSetting
 }
+
 const siteState: Site = {
   appDir: '',
   config: {},
@@ -66,6 +69,22 @@ const siteState: Site = {
       apikey: '',
       shortname: '',
     },
+    valineSetting: {
+      appId: '',
+      appKey: '',
+      placeholder: 'Just go go',
+      notify: false,
+      verify: false,
+      avatar: 'mp',
+      pageSize: 10,
+      visitor: false,
+      highlight: false,
+      recordIP: false,
+    },
+  },
+  privatePostSetting: {
+    enable: false,
+    key: '',
   },
 }
 
@@ -90,6 +109,7 @@ const mutations: MutationTree<Site> = {
     state.commentSetting = siteData.commentSetting
     state.themeCustomConfig = siteData.themeCustomConfig
     state.currentThemeConfig = siteData.currentThemeConfig
+    state.privatePostSetting = siteData.privatePostSetting
   },
   updatePosts(state, posts: IPost[]) {
     state.posts = posts

@@ -9,6 +9,7 @@ import Menus from './menus'
 import Theme from './theme'
 import Renderer from './renderer'
 import Setting from './setting'
+import Deploy from './deploy'
 
 import { IApplicationDb, IApplicationSetting } from './interfaces/application'
 // eslint-disable-next-line
@@ -111,6 +112,8 @@ export default class App {
     const settingInstance = new Setting(this)
     const setting = await settingInstance.getSetting()
     const commentSetting = await settingInstance.getCommentSetting()
+
+    const deployInstance = new Deploy(this)
 
     this.db = {
       posts,
@@ -265,6 +268,7 @@ export default class App {
       ThemeEvents,
       RendererEvents,
       SettingEvents,
+      DeployEvents,
     } = EventClasses
 
     const site = new SiteEvents(this)
@@ -274,5 +278,6 @@ export default class App {
     const theme = new ThemeEvents(this)
     const renderer = new RendererEvents(this)
     const setting = new SettingEvents(this)
+    const deploy = new DeployEvents(this)
   }
 }

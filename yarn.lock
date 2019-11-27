@@ -873,6 +873,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.10.tgz#e491484c6060af8d461e12ec81c0da8a3282b8de"
   integrity sha512-V8wj+w2YMNvGuhgl/MA5fmTxgjmVHVoasfIaxMMZJV6Y8Kk+Ydpi1z2whoShDCJ2BuNVoqH/h1hrygnBxkrw/Q==
 
+"@types/normalize-path@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/normalize-path/-/normalize-path-3.0.0.tgz#bb5c46cab77b93350b4cf8d7ff1153f47189ae31"
+  integrity sha512-Nd8y/5t/7CRakPYiyPzr/IAfYusy1FkcZYFEAcoMZkwpJv2n4Wm+olW+e7xBdHEXhOnWdG9ddbar0gqZWS4x5Q==
+
 "@types/prismjs@^1.16.0":
   version "1.16.0"
   resolved "https://registry.yarnpkg.com/@types/prismjs/-/prismjs-1.16.0.tgz#4328c9f65698e59f4feade8f4e5d928c748fd643"
@@ -904,6 +909,29 @@
   version "0.9.1"
   resolved "http://registry.npm.taobao.org/@types/slug/download/@types/slug-0.9.1.tgz#16dbf8b77d73e0a09ce51a96400878f33806ab32"
   integrity sha1-Ftv4t31z4KCc5RqWQAh48zgGqzI=
+
+"@types/ssh2-sftp-client@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@types/ssh2-sftp-client/-/ssh2-sftp-client-4.1.1.tgz#c89cce3f6ce3484d606064ab5373cb8d23327ec7"
+  integrity sha512-TgQOQ9EbBBZ/elokheAE9V5qa00+Vsp3ndD9QfV5hycmwo1DoQwb3bTX9vXcnHaiA1/+Dqz+NOjH8RsZAbVtbA==
+  dependencies:
+    "@types/ssh2" "*"
+    "@types/ssh2-streams" "*"
+
+"@types/ssh2-streams@*":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@types/ssh2-streams/-/ssh2-streams-0.1.6.tgz#1ff5b1fe50c15f282efe9fd092c68494f8702bc2"
+  integrity sha512-NB+SYftagfHTDPdgVyvSZCeg5MURyHECd/PycGIW9hwhnEbTFxIdDbFtf3jxUO3rRnfr0lfdtkZFiv28T1cAsg==
+  dependencies:
+    "@types/node" "*"
+
+"@types/ssh2@*":
+  version "0.5.39"
+  resolved "https://registry.yarnpkg.com/@types/ssh2/-/ssh2-0.5.39.tgz#e39ab7e38fc01337f66237ed6c42237ef3e58e3b"
+  integrity sha512-MtX4tr6Jtdn/JPVsQytjB/NBeOd7JfCyf/l79KOdkUYL+r4GXUXcySX1n8W4O61fnQdljTBXEPJJ2dhnGhi2xg==
+  dependencies:
+    "@types/node" "*"
+    "@types/ssh2-streams" "*"
 
 "@types/uuid@^3.4.5":
   version "3.4.5"
@@ -6805,8 +6833,8 @@ normalize-path@^2.0.0, normalize-path@^2.1.1:
 
 normalize-path@^3.0.0:
   version "3.0.0"
-  resolved "http://registry.npm.taobao.org/normalize-path/download/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
-  integrity sha1-Dc1p/yOhybEf0JeDFmRKA4ghamU=
+  resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
+  integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
 normalize-range@^0.1.2:
   version "0.1.2"

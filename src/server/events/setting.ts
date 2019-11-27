@@ -1,6 +1,7 @@
 import { ipcMain, IpcMainEvent } from 'electron'
 import Setting from '../setting'
-import { ISetting, ICommentSetting } from '../interfaces/setting'
+import { ICommentSetting } from '../interfaces/setting'
+import { ISetting } from '../../interfaces/setting'
 
 export default class SettingEvents {
   constructor(appInstance: any) {

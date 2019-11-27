@@ -5,31 +5,53 @@
         <a-radio-group name="platform" v-model="form.platform">
           <a-radio value="github">Github Pages</a-radio>
           <a-radio value="coding">Coding Pages</a-radio>
+          <a-radio value="sftp">SFTP</a-radio>
         </a-radio-group>
       </a-form-item>
       <a-form-item :label="$t('domain')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-input v-model="form.domain" placeholder="http(s)://" />
       </a-form-item>
-      <a-form-item :label="$t('repository')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-input v-model="form.repository" />
-      </a-form-item>
-      <a-form-item :label="$t('branch')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-input v-model="form.branch" />
-      </a-form-item>
-      <a-form-item :label="$t('username')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-input v-model="form.username" />
-      </a-form-item>
-      <a-form-item :label="$t('email')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-input v-model="form.email" />
-      </a-form-item>
-      <a-form-item label="Token" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-input :type="showToken ? '' : 'password'" v-model="form.token">
-          <a-icon class="icon" slot="addonAfter" :type="showToken ? 'eye-invisible' : 'eye'" @click="showToken = !showToken" />
-        </a-input>
-      </a-form-item>
-      <a-form-item label="CNAME" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-input v-model="form.cname" />
-      </a-form-item>
+      <template v-if="['github', 'coding'].includes(form.platform)">
+        <a-form-item :label="$t('repository')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.repository" />
+        </a-form-item>
+        <a-form-item :label="$t('branch')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.branch" />
+        </a-form-item>
+        <a-form-item :label="$t('username')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.username" />
+        </a-form-item>
+        <a-form-item :label="$t('email')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.email" />
+        </a-form-item>
+        <a-form-item label="Token" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input :type="passVisible ? '' : 'password'" v-model="form.token">
+            <a-icon class="icon" slot="addonAfter" :type="passVisible ? 'eye-invisible' : 'eye'" @click="passVisible = !passVisible" />
+          </a-input>
+        </a-form-item>
+        <a-form-item label="CNAME" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.cname" />
+        </a-form-item>
+      </template>
+      <template v-if="['sftp'].includes(form.platform)">
+        <a-form-item label="Port" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input-number v-model="form.port" />
+        </a-form-item>
+        <a-form-item label="Server" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.server" />
+        </a-form-item>
+        <a-form-item label="Username" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.username" />
+        </a-form-item>
+        <a-form-item label="Password" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.password" :type="passVisible ? '' : 'password'">
+            <a-icon class="icon" slot="addonAfter" :type="passVisible ? 'eye-invisible' : 'eye'" @click="passVisible = !passVisible" />
+          </a-input>
+        </a-form-item>
+        <a-form-item label="Remote Path" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false" help="请填写绝对路径，例如：/home/username/www/">
+          <a-input v-model="form.remotePath" />
+        </a-form-item>
+      </template>
       <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-button :disabled="!canSubmit" :loading="detectLoading" @click="remoteDetect" style="margin-right: 16px;">{{ $t('testConnection') }}</a-button>
         <a-button :disabled="!canSubmit" @click="submit" type="primary">{{ $t('save') }}</a-button>
@@ -44,12 +66,13 @@ import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import ga from '../../../helpers/analytics'
+import { ISetting } from '../../../interfaces/setting'
 
 @Component
 export default class BasicSetting extends Vue {
   @State('site') site!: any
 
-  showToken = false
+  passVisible = false
 
   detectLoading = false
 
@@ -58,7 +81,7 @@ export default class BasicSetting extends Vue {
     wrapper: { span: 12 },
   }
 
-  form = {
+  form: ISetting = {
     platform: 'github',
     domain: '',
     repository: '',
@@ -67,25 +90,37 @@ export default class BasicSetting extends Vue {
     email: '',
     token: '',
     cname: '',
+    port: '22',
+    server: '',
+    password: '',
+    remotePath: '',
   }
 
   get canSubmit() {
-    return this.form.domain
-      && this.form.repository
-      && this.form.branch
-      && this.form.username
-      && this.form.token
+    const { form } = this
+    const pagesPlatfomValid = ['github', 'coding'].includes(form.platform)
+      && form.domain
+      && form.repository
+      && form.branch
+      && form.username
+      && form.token
+    
+    const sftpPlatformValid = ['sftp'].includes(form.platform)
+      && form.port
+      && form.server
+      && form.username
+      && form.password
+      && form.remotePath
+
+    return pagesPlatfomValid || sftpPlatformValid
   }
 
   mounted() {
-    this.form.platform = this.site.setting.platform || 'github'
-    this.form.domain = this.site.setting.domain
-    this.form.repository = this.site.setting.repository
-    this.form.branch = this.site.setting.branch
-    this.form.username = this.site.setting.username
-    this.form.email = this.site.setting.email
-    this.form.token = this.site.setting.token
-    this.form.cname = this.site.setting.cname
+    const { form, site: { setting } } = this
+    console.log('setting', setting)
+    Object.keys(form).forEach((key: string) => {
+      form[key] = setting[key]
+    })
   }
 
   /**

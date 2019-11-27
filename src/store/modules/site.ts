@@ -43,7 +43,7 @@ const siteState: Site = {
   currentThemeConfig: {},
   themes: [],
   setting: {
-    platform: '',
+    platform: 'github',
     domain: '',
     repository: '',
     branch: '',
@@ -51,6 +51,10 @@ const siteState: Site = {
     email: '',
     token: '',
     cname: '',
+    port: '22',
+    server: '',
+    password: '',
+    remotePath: '',
   },
   commentSetting: {
     showComment: false,

@@ -56,7 +56,7 @@ export default class App {
       themeCustomConfig: {},
       themes: [],
       setting: {
-        platform: '',
+        platform: 'github',
         domain: '',
         repository: '',
         branch: '',
@@ -64,6 +64,10 @@ export default class App {
         email: '',
         token: '',
         cname: '',
+        port: '22',
+        server: '',
+        password: '',
+        remotePath: '',
       },
       commentSetting: {
         showComment: false,

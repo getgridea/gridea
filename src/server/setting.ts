@@ -1,7 +1,8 @@
 import * as fse from 'fs-extra'
 import * as path from 'path'
 import Model from './model'
-import { ISetting, ICommentSetting } from './interfaces/setting'
+import { ICommentSetting } from './interfaces/setting'
+import { ISetting } from '../interfaces/setting'
 
 export default class Setting extends Model {
   getSetting() {

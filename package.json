@@ -27,6 +27,7 @@
     "ant-design-vue": "^1.3.5",
     "axios": "^0.18.1",
     "bluebird": "^3.5.3",
+    "easy-ftp": "^0.4.1",
     "easymde": "^2.6.1",
     "ejs": "^2.6.1",
     "electron-google-analytics": "^0.1.0",

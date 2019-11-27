@@ -23,3 +23,5 @@ declare module 'markdown-it-implicit-figures'
 declare module 'electron-google-analytics'
 declare module 'macaddress'
 declare module 'v-emoji-picker'
+
+declare module 'easy-ftp'

@@ -25,3 +25,4 @@ declare module 'macaddress'
 declare module 'v-emoji-picker'
 
 declare module 'easy-ftp'
+declare module 'node-ssh'

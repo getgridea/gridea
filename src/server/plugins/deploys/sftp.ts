@@ -1,7 +1,7 @@
 import * as fse from 'fs-extra'
 import path from 'path'
 import SftpClient from 'ssh2-sftp-client'
-import EasyFtp from 'easy-ftp'
+import NodeSsh from 'node-ssh'
 import normalizePath from 'normalize-path'
 import Model from '../../model'
 
@@ -68,7 +68,7 @@ export default class SftpDeploy extends Model {
       message: '',
     }
 
-    const client = new EasyFtp()
+    const client = new NodeSsh()
 
     const { setting } = this.db
     const connectConfig = {
@@ -85,10 +85,17 @@ export default class SftpDeploy extends Model {
     try {
       await client.connect(connectConfig)
       try {
-        const res = await client.upload(localPath, remotePath, (err: any) => {
-          console.log('upload error', err)
+        await client.exec(`rm -rf ${remotePath}`)
+        await client.mkdir(remotePath)
+        const res = await client.putDirectory(localPath, remotePath, {
+          recursive: true,
+          concurrency: 10,
+          validate: function (itemPath: string) {
+            const baseName = path.basename(itemPath)
+            return baseName.substr(0, 1) !== '.' // do not allow dot files
+                   && baseName !== 'node_modules' // do not allow node_modules
+          },
         })
-        console.log('upload res', res)
       } catch (e) {
         console.error('SFTP Publish Error: ', e.message)
         result.success = false
@@ -99,7 +106,7 @@ export default class SftpDeploy extends Model {
       result.success = false
       result.message = e.message
     } finally {
-      await client.close()
+      await client.dispose()
     }
 
     return result

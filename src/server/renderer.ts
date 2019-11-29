@@ -31,6 +31,8 @@ export default class Renderer extends Model {
 
   menuData: IMenu[] = []
 
+  siteData: any = {}
+
   previewPort: number
 
   utils: any = {}
@@ -163,6 +165,16 @@ export default class Renderer extends Model {
         link,
       }
     })
+
+    const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
+
+    this.siteData = {
+      posts: excludeHidePostsData,
+      tags: this.tagsData,
+      customConfig: this.db.themeCustomConfig,
+      utils: this.utils,
+      isHomepage: false,
+    }
   }
 
   /**
@@ -188,14 +200,11 @@ export default class Renderer extends Model {
           next: '',
         },
         themeConfig: this.db.themeConfig,
-        site: {
-          posts: excludeHidePostsData,
-          tags: this.tagsData,
-          customConfig: this.db.themeCustomConfig,
-          utils: this.utils,
-          isHomepage: !extraPath,
-        },
+        site: this.siteData,
       }
+
+      renderData.site.isHomepage = !extraPath
+
       let html = ''
       const renderTemplatePath = extraPath === '/archives'
         ? `${this.themePath}/templates/archives.ejs`
@@ -222,14 +231,10 @@ export default class Renderer extends Model {
           next: '',
         },
         themeConfig: this.db.themeConfig,
-        site: {
-          posts: excludeHidePostsData,
-          tags: this.tagsData,
-          customConfig: this.db.themeCustomConfig,
-          utils: this.utils,
-          isHomepage: !extraPath && !i,
-        },
+        site: this.siteData,
       }
+
+      renderData.site.isHomepage = !extraPath && !i
 
       let renderPath = `${this.outputDir}${extraPath}/index.html`
 
@@ -278,7 +283,6 @@ export default class Renderer extends Model {
   async renderPostDetail() {
     for (let i = 0; i < this.postsData.length; i += 1) {
       const post: IPostRenderData = { ...this.postsData[i] }
-      const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
 
       if (!post.hideInList) {
         if (i < this.postsData.length - 1) {
@@ -301,13 +305,7 @@ export default class Renderer extends Model {
         post,
         themeConfig: this.db.themeConfig,
         commentSetting: this.db.commentSetting,
-        site: {
-          posts: excludeHidePostsData,
-          tags: this.tagsData,
-          customConfig: this.db.themeCustomConfig,
-          utils: this.utils,
-          isHomepage: false,
-        },
+        site: this.siteData,
       }
       let html = ''
       ejs.renderFile(`${this.themePath}/templates/post.ejs`, renderData, {}, async (err: any, str) => {
@@ -330,19 +328,12 @@ export default class Renderer extends Model {
    */
   async renderTags() {
     await fse.ensureDir(`${this.outputDir}/tags`)
-    const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
 
     const renderData = {
       tags: this.tagsData,
       menus: this.menuData,
       themeConfig: this.db.themeConfig,
-      site: {
-        posts: excludeHidePostsData,
-        tags: this.tagsData,
-        customConfig: this.db.themeCustomConfig,
-        utils: this.utils,
-        isHomepage: false,
-      },
+      site: this.siteData,
     }
 
     const renderPath = `${this.outputDir}/tags/index.html`
@@ -365,7 +356,6 @@ export default class Renderer extends Model {
   async renderTagDetail() {
     const usedTags = this.db.tags.filter((tag: ITag) => tag.used)
     const { postPageSize } = this.db.themeConfig
-    const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
 
     // Compatible: < v0.7.0
     const pageSize = postPageSize || DEFAULT_POST_PAGE_SIZE
@@ -392,13 +382,7 @@ export default class Renderer extends Model {
             next: '',
           },
           themeConfig: this.db.themeConfig,
-          site: {
-            posts: excludeHidePostsData,
-            tags: this.tagsData,
-            customConfig: this.db.themeCustomConfig,
-            utils: this.utils,
-            isHomepage: false,
-          },
+          site: this.siteData,
         }
 
         // Paging

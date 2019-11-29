@@ -6,6 +6,7 @@ import ejs from 'ejs'
 import moment from 'moment'
 import less from 'less'
 import { Feed } from 'feed'
+import junk from 'junk'
 import { wordCount, timeCalc } from '../helpers/words-count'
 import Model from './model'
 import ContentHelper from '../helpers/content-helper'
@@ -65,6 +66,10 @@ export default class Renderer extends Model {
     await this.renderTags()
     await this.renderPostDetail()
     await this.renderTagDetail()
+
+    // Render custom page
+    await this.renderCustomPage()
+
     await this.copyFiles()
     await this.buildCname()
 
@@ -171,6 +176,8 @@ export default class Renderer extends Model {
     this.siteData = {
       posts: excludeHidePostsData,
       tags: this.tagsData,
+      menus: this.menuData,
+      themeConfig: this.db.themeConfig,
       customConfig: this.db.themeCustomConfig,
       utils: this.utils,
       isHomepage: false,
@@ -416,6 +423,53 @@ export default class Renderer extends Model {
         fs.writeFileSync(renderPath, html)
       }
     }
+  }
+
+  /**
+   * Render custom page, eg. friends.ejs, about.ejs, home.ejs, projects.ejs...
+   */
+  async renderCustomPage() {
+    const files = await fse.readdirSync(`${this.themePath}/templates`, { withFileTypes: true })
+    const customTemplates = files
+      .filter(item => !item.isDirectory())
+      .map(item => item.name)
+      .filter(junk.not)
+      .filter((name: string) => {
+        return ![
+          'index.ejs',
+          'post.ejs',
+          'tag.ejs',
+          'tags.ejs',
+          'archives.ejs',
+          // 👇 Gridea protected word, because these filename is gridea folder's name
+          'images.ejs',
+          'media.ejs',
+          'post-images.ejs',
+          'styles.ejs',
+          'tag.ejs',
+          'tags.ejs',
+        ].includes(name)
+      })
+    
+    const renderData = {
+      site: this.siteData,
+    }
+    let html = ''
+    customTemplates.forEach(async (name: string) => {
+      const renderFolder = `${this.outputDir}/${name.substring(0, name.length - 4)}`
+      const renderPath = `${renderFolder}/index.html`
+      await fse.ensureDirSync(renderFolder)
+      await ejs.renderFile(`${this.themePath}/templates/${name}`, renderData, async (err: any, str) => {
+        if (err) {
+          console.error('❌ Render custom page error', err)
+        }
+        if (str) {
+          html = str
+        }
+      })
+      await fse.writeFileSync(renderPath, html)
+      console.log('✅ Render custom page success', renderPath)
+    })
   }
 
   /**

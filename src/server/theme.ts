@@ -1,9 +1,8 @@
 import * as path from 'path'
 import * as fse from 'fs-extra'
+import junk from 'junk'
 import Model from './model'
 import { ITheme } from './interfaces/theme'
-// tslint:disable-next-line
-const junk = require('junk')
 
 export default class Theme extends Model {
   themeDir: string

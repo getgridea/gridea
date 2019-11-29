@@ -4,12 +4,11 @@ import * as path from 'path'
 import matter from 'gray-matter'
 import moment from 'moment'
 import Bluebird from 'bluebird'
+import junk from 'junk'
 import Model from './model'
 import { IPost, IPostDb } from './interfaces/post'
 import ContentHelper from '../helpers/content-helper'
 import { formatYamlString } from '../helpers/utils'
-// tslint:disable-next-line
-const junk = require('junk')
 
 Bluebird.promisifyAll(fs)
 

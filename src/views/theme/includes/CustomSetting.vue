@@ -1,8 +1,12 @@
 <template>
   <div>
     <a-card v-if="currentThemeConfig.length > 0" :bordered="false">
-      <a-button style="margin-right: 16px;" slot="extra" @click="resetThemeCustomConfig">{{ $t('reset') }}</a-button>
-      <a-button slot="extra" @click="saveThemeCustomConfig" type="primary">{{ $t('save') }}</a-button>
+      <div class="top-container">
+        <a-button style="margin-right: 16px;" slot="extra" @click="resetThemeCustomConfig">
+          <i class="zwicon-undo"></i>
+        </a-button>
+        <a-button slot="extra" @click="saveThemeCustomConfig" type="primary">{{ $t('save') }}</a-button>
+      </div>
       <a-tabs tabPosition="left" defaultActiveKey="1" v-model="activeKey">
         <a-tab-pane :tab="group" v-for="(group, index) in groups" :key="index + 1">
           <div v-for="(item, index1) in currentThemeConfig" :key="index1">
@@ -111,11 +115,19 @@ export default class ThemeCustomSetting extends Vue {
   }
 
   resetThemeCustomConfig() {
-    ipcRenderer.send('theme-custom-config-save', {})
-    ipcRenderer.once('theme-custom-config-saved', async (event: IpcRendererEvent, result: any) => {
-      await this.$bus.$emit('site-reload')
-      this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=custom' } })
-      this.$message.success(this.$t('reseted'))
+    this.$confirm({
+      title: '重置',
+      content: '此操作将会使该主题配置恢复到初始状态，确认重置吗？',
+      okText: '确认',
+      cancelText: '取消',
+      onOk: () => {
+        ipcRenderer.send('theme-custom-config-save', {})
+        ipcRenderer.once('theme-custom-config-saved', async (event: IpcRendererEvent, result: any) => {
+          await this.$bus.$emit('site-reload')
+          this.$router.push({ name: 'loading', query: { redirect: 'theme?tab=custom' } })
+          this.$message.success(this.$t('reseted'))
+        })
+      },
     })
   }
 
@@ -127,6 +139,11 @@ export default class ThemeCustomSetting extends Vue {
 </script>
 
 <style lang="less" scoped>
+.top-container {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 24px;
+}
 .empty-container {
   text-align: center;
   padding: 40px 0;

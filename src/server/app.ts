@@ -55,6 +55,7 @@ export default class App {
         feedCount: 10,
       },
       themeCustomConfig: {},
+      currentThemeConfig: [],
       themes: [],
       setting: {
         platform: 'github',
@@ -121,6 +122,7 @@ export default class App {
       menus,
       themeConfig,
       themeCustomConfig,
+      currentThemeConfig,
       themes,
       setting,
       commentSetting: commentSetting || this.db.commentSetting,

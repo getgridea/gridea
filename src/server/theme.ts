@@ -79,10 +79,29 @@ export default class Theme extends Model {
    * Save the theme custom configuration
    */
   public async saveThemeCustomConfig(config: any) {
+    // Save the picture type configuration
+    for (const item of this.db.currentThemeConfig) {
+      const value = config[item.name]
+      if (item.type === 'picture-upload') {
+        const toPath = path.join(this.appDir, 'themes', this.db.themeConfig.themeName, 'assets', 'media', 'images')
+        
+        if (typeof value === 'string' && value !== item.value && !value.startsWith('/media/')) {
+          const extendName = value.split('.').pop()
+          const fileName = `custom-${item.name}.${extendName}`
+          fse.ensureDirSync(toPath)
+          fse.copySync(value, path.join(toPath, fileName))
+          config[item.name] = path.join('/', 'media', 'images', fileName)
+        } else if (typeof value === 'undefined' || value === item.value) {
+          const extendName = this.db.themeCustomConfig[item.name].split('.').pop()
+          const fileName = `custom-${item.name}.${extendName}`
+          fse.removeSync(path.join(toPath, fileName))
+        }
+      }
+    }
+
     await this.$theme.set('customConfig', config).write()
 
     // Backup theme custom config
-    console.log(this.db.themeConfig.themeName)
     const themeConfigBackupPath = path.join(this.appDir, 'config', `theme.${this.db.themeConfig.themeName}.config.json`)
     await fse.writeJSONSync(themeConfigBackupPath, config)
     return config

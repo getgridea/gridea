@@ -22,6 +22,7 @@ export interface IApplicationDb {
   themes: any[]
   setting: ISetting
   commentSetting: ICommentSetting
+  currentThemeConfig: any[]
 }
 
 export interface IApplication {

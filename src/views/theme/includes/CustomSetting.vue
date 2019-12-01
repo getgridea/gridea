@@ -38,7 +38,35 @@
               <!-- switch 类型 -->
               <a-switch v-if="item.type === 'switch'" v-model="form[item.name]"/>
 
+              <!-- textarea 类型 -->
               <a-textarea v-if="item.type === 'textarea'" v-model="form[item.name]" :placeholder="item.note" :autosize="{ minRows: 2, maxRows: 32 }" />
+
+              <!-- picture-upload 类型 -->
+              <div v-if="item.type === 'picture-upload'" style="display: flex;">
+                <a-upload
+                  action=""
+                  listType="picture-card"
+                  class="feature-uploader"
+                  :showUploadList="false"
+                  :beforeUpload="file => beforeImageUpload(file, item.name)"
+                >
+                  <div v-if="form[item.name] && form[item.name].startsWith('/media/')">
+                    <img class="picture" :src="`file://${site.appDir}/themes/${site.themeConfig.themeName}/assets${form[item.name]}`" height="150" />
+                  </div>
+                  <div v-else-if="form[item.name] === ''">
+                    <img src="@/assets/images/image_upload.svg" class="picture">
+                    <i class="zwicon-upload upload-icon"></i>
+                  </div>
+                  <div v-else>
+                    <img class="picture" :src="`file://${form[item.name]}`" alt="">
+                  </div>
+                </a-upload>
+                <a-tooltip placement="left" title="Reset">
+                  <a-button style="margin-left: 8px;" v-if="form[item.name]" shape="circle" site="small" @click="resetFormItem(item.name)">
+                    <i class="zwicon-undo"></i>
+                  </a-button>
+                </a-tooltip>
+              </div>
 
             </a-form-item>
           </div>
@@ -135,6 +163,20 @@ export default class ThemeCustomSetting extends Vue {
     this.form[name] = color
     console.log(color)
   }
+
+  beforeImageUpload(file: any, formItem: string) {
+    if (!file) {
+      return
+    }
+    this.form[formItem] = file.path
+
+    return false
+  }
+
+  resetFormItem(formItem: string) {
+    const originalItem = this.currentThemeConfig.find((item: any) => item.name === formItem)
+    this.form[formItem] = originalItem.value
+  }
 }
 </script>
 
@@ -155,6 +197,10 @@ export default class ThemeCustomSetting extends Vue {
     padding: 24px;
     color: #8c8c8c;
   }
+}
+
+.picture {
+  height: 150px;
 }
 
 /deep/ .ant-slider-rail {

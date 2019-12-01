@@ -21,7 +21,7 @@
                 trigger="click"
                 placement="bottomLeft"
               >
-                <color-card slot="content" @change="handleColorChange($event, index1, item.name)"></color-card>
+                <color-card slot="content" @change="handleColorChange($event, item.name)"></color-card>
                 <a-input :ref="`color${index1}`" v-if="item.type === 'input' && item.card === 'color'" :placeholder="item.note" v-model="form[item.name]" />
               </a-popover>
 
@@ -67,6 +67,38 @@
                   </a-button>
                 </a-tooltip>
               </div>
+
+              <!-- array 类型 -->
+              <!-- <div v-if="item.type === 'array'">
+                <div v-for="(field, fieldIndex) in item.arrayItems" :key="fieldIndex">
+                  普通输入
+                  <a-input v-if="field.type === 'input' && !field.card" :placeholder="field.note" v-model="form[item.name][fieldIndex][field.name]" />
+                  带颜色卡片输入
+                  <a-popover
+                    title="Color"
+                    trigger="click"
+                    placement="bottomLeft"
+                  >
+                    <color-card slot="content" @change="handleColorChange($event, `form[${item.name}][${fieldIndex}][${field.name}]`)"></color-card>
+                    <a-input :ref="`color-array-field${fieldIndex}`" v-if="field.type === 'input' && field.card === 'color'" :placeholder="field.note" v-model="form[item.name][fieldIndex][field.name]" />
+                  </a-popover>
+                  下拉选择
+                  <a-select v-if="field.type === 'select'" v-model="form[item.name][fieldIndex][field.name]" style="width: 100%;">
+                    <a-select-option v-for="(option, index2) in field.options" :key="index2" :value="option.value">{{ option.label }}</a-select-option>
+                  </a-select>
+
+                  单选组合
+                  <a-radio-group v-if="field.type === 'radio'" v-model="form[item.name][fieldIndex][field.name]">
+                    <a-radio v-for="(option, index2) in field.options" :key="index2" :value="option.value">{{ option.label }}</a-radio>
+                  </a-radio-group>
+
+                  switch 类型
+                  <a-switch v-if="field.type === 'switch'" v-model="form[item.name][fieldIndex][field.name]"/>
+
+                  textarea 类型
+                  <a-textarea v-if="field.type === 'textarea'" v-model="form[item.name][fieldIndex][field.name]" :placeholder="field.note" :autosize="{ minRows: 2, maxRows: 32 }" />
+                </div>
+              </div> -->
 
             </a-form-item>
           </div>
@@ -159,9 +191,8 @@ export default class ThemeCustomSetting extends Vue {
     })
   }
 
-  handleColorChange(color: string, index: number, name: string) {
+  handleColorChange(color: string, name: string) {
     this.form[name] = color
-    console.log(color)
   }
 
   beforeImageUpload(file: any, formItem: string) {

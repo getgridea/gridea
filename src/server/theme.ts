@@ -97,6 +97,33 @@ export default class Theme extends Model {
           fse.removeSync(path.join(toPath, fileName))
         }
       }
+
+      if (item.type === 'array') {
+        for (let arrItemIndex = 0; arrItemIndex < value.length; arrItemIndex += 1) {
+          const foundConfigItem = this.db.currentThemeConfig.find((i: any) => i.name === item.name)
+          const arrayItemKeys = Object.keys(value[arrItemIndex])
+          for (let keyIndex = 0; keyIndex < arrayItemKeys.length; keyIndex += 1) {
+            const key = arrayItemKeys[keyIndex]
+            const foundPictureTypeField = foundConfigItem.arrayItems.find((i: any) => i.name === key && i.type === 'picture-upload')
+            if (foundPictureTypeField) {
+              const toPath = path.join(this.appDir, 'themes', this.db.themeConfig.themeName, 'assets', 'media', 'images')
+              const filedValue = value[arrItemIndex][key]
+
+              if (typeof filedValue === 'string' && filedValue !== foundPictureTypeField.value && !filedValue.startsWith('/media/')) {
+                const extendName = filedValue.split('.').pop()
+                const fileName = `custom-${item.name}-${arrItemIndex}-${key}.${extendName}`
+                fse.ensureDirSync(toPath)
+                fse.copySync(filedValue, path.join(toPath, fileName))
+                value[arrItemIndex][key] = path.join('/', 'media', 'images', fileName)
+              } else if (typeof filedValue === 'undefined' || filedValue === foundPictureTypeField.value) {
+                const extendName = this.db.themeCustomConfig[item.name][arrItemIndex][key].split('.').pop()
+                const fileName = `custom-${item.name}-${arrItemIndex}-${key}.${extendName}`
+                fse.removeSync(path.join(toPath, fileName))
+              }
+            }
+          }
+        }
+      }
     }
 
     await this.$theme.set('customConfig', config).write()

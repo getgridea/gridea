@@ -69,36 +69,62 @@
               </div>
 
               <!-- array 类型 -->
-              <!-- <div v-if="item.type === 'array'">
-                <div v-for="(field, fieldIndex) in item.arrayItems" :key="fieldIndex">
-                  普通输入
-                  <a-input v-if="field.type === 'input' && !field.card" :placeholder="field.note" v-model="form[item.name][fieldIndex][field.name]" />
-                  带颜色卡片输入
-                  <a-popover
-                    title="Color"
-                    trigger="click"
-                    placement="bottomLeft"
-                  >
-                    <color-card slot="content" @change="handleColorChange($event, `form[${item.name}][${fieldIndex}][${field.name}]`)"></color-card>
-                    <a-input :ref="`color-array-field${fieldIndex}`" v-if="field.type === 'input' && field.card === 'color'" :placeholder="field.note" v-model="form[item.name][fieldIndex][field.name]" />
-                  </a-popover>
-                  下拉选择
-                  <a-select v-if="field.type === 'select'" v-model="form[item.name][fieldIndex][field.name]" style="width: 100%;">
-                    <a-select-option v-for="(option, index2) in field.options" :key="index2" :value="option.value">{{ option.label }}</a-select-option>
-                  </a-select>
+              <div v-if="item.type === 'array'">
+                <div class="item-card" v-for="(configItem, configItemIndex) in form[item.name]" :key="configItemIndex">
+                  <div v-for="(field, fieldIndex) in item.arrayItems" :key="fieldIndex">
+                    <a-form-item :label="field.label" :colon="false" :help="field.note" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper">
+                      <!-- 普通输入 -->
+                      <a-input v-if="field.type === 'input' && !field.card" :placeholder="field.note" v-model="configItem[field.name]" />
 
-                  单选组合
-                  <a-radio-group v-if="field.type === 'radio'" v-model="form[item.name][fieldIndex][field.name]">
-                    <a-radio v-for="(option, index2) in field.options" :key="index2" :value="option.value">{{ option.label }}</a-radio>
-                  </a-radio-group>
+                      <!-- 下拉选择 -->
+                      <a-select v-if="field.type === 'select'" v-model="configItem[field.name]" style="width: 100%;">
+                        <a-select-option v-for="(option, index2) in field.options" :key="index2" :value="option.value">{{ option.label }}</a-select-option>
+                      </a-select>
 
-                  switch 类型
-                  <a-switch v-if="field.type === 'switch'" v-model="form[item.name][fieldIndex][field.name]"/>
+                      <!-- 单选组合 -->
+                      <a-radio-group v-if="field.type === 'radio'" v-model="configItem[field.name]">
+                        <a-radio v-for="(option, index2) in field.options" :key="index2" :value="option.value">{{ option.label }}</a-radio>
+                      </a-radio-group>
 
-                  textarea 类型
-                  <a-textarea v-if="field.type === 'textarea'" v-model="form[item.name][fieldIndex][field.name]" :placeholder="field.note" :autosize="{ minRows: 2, maxRows: 32 }" />
+                      <!-- switch 类型 -->
+                      <a-switch v-if="field.type === 'switch'" v-model="configItem[field.name]"/>
+
+                      <!-- textarea 类型 -->
+                      <a-textarea v-if="field.type === 'textarea'" v-model="configItem[field.name]" :placeholder="field.note" :autosize="{ minRows: 2, maxRows: 32 }" />
+
+                      <!-- picture-upload 类型 -->
+                      <div v-if="field.type === 'picture-upload'" style="display: flex;">
+                        <a-upload
+                          action=""
+                          listType="picture-card"
+                          class="feature-uploader"
+                          :showUploadList="false"
+                          :beforeUpload="file => beforeImageUpload(file, item.name, field.name, configItemIndex)"
+                        >
+                          <div v-if="configItem[field.name] && configItem[field.name].startsWith('/media/')">
+                            <img class="picture" :src="`file://${site.appDir}/themes/${site.themeConfig.themeName}/assets${configItem[field.name]}`" height="150" />
+                          </div>
+                          <div v-else-if="configItem[field.name] === ''">
+                            <img src="@/assets/images/image_upload.svg" class="picture">
+                            <i class="zwicon-upload upload-icon"></i>
+                          </div>
+                          <div v-else>
+                            <img class="picture" :src="`file://${configItem[field.name]}`" alt="">
+                          </div>
+                        </a-upload>
+                        <a-tooltip placement="left" title="Reset">
+                          <a-button style="margin-left: 8px;" v-if="configItem[field.name]" shape="circle" site="small" @click="resetFormItem(item.name, field.name, configItemIndex)">
+                            <i class="zwicon-undo"></i>
+                          </a-button>
+                        </a-tooltip>
+                      </div>
+                    </a-form-item>
+                  </div>
+
+                  <a-button v-if="configItemIndex === form[item.name].length - 1" shape="circle"><i class="zwicon-plus"></i></a-button>
+                  <a-button v-else shape="circle"><i class="zwicon-minus"></i></a-button>
                 </div>
-              </div> -->
+              </div>
 
             </a-form-item>
           </div>
@@ -127,6 +153,11 @@ import ColorCard from '../../../components/ColorCard.vue'
 })
 export default class ThemeCustomSetting extends Vue {
   @State('site') site!: Site
+
+  formLayout = {
+    label: { span: 6 },
+    wrapper: { span: 12 },
+  }
 
   form: any = {}
 
@@ -167,6 +198,7 @@ export default class ThemeCustomSetting extends Vue {
   }
 
   saveThemeCustomConfig() {
+    console.log('this.form', this.form)
     ipcRenderer.send('theme-custom-config-save', this.form)
     ipcRenderer.once('theme-custom-config-saved', (event: IpcRendererEvent, result: any) => {
       this.$bus.$emit('site-reload')
@@ -195,18 +227,28 @@ export default class ThemeCustomSetting extends Vue {
     this.form[name] = color
   }
 
-  beforeImageUpload(file: any, formItem: string) {
+  beforeImageUpload(file: any, formItemName: string, arrayFieldItemName?: string, configItemIndex?: number) {
     if (!file) {
       return
     }
-    this.form[formItem] = file.path
 
+    if (arrayFieldItemName && typeof configItemIndex === 'number') {
+      this.form[formItemName][configItemIndex][arrayFieldItemName] = file.path
+      return false
+    }
+
+    this.form[formItemName] = file.path
     return false
   }
 
-  resetFormItem(formItem: string) {
-    const originalItem = this.currentThemeConfig.find((item: any) => item.name === formItem)
-    this.form[formItem] = originalItem.value
+  resetFormItem(formItemName: string, arrayFieldItemName?: string, configItemIndex?: number) {
+    const originalItem = this.currentThemeConfig.find((item: any) => item.name === formItemName)
+    if (arrayFieldItemName && typeof configItemIndex === 'number') {
+      const foundItem = originalItem.arrayItems.find((item: any) => item.name === arrayFieldItemName)
+      this.form[formItemName][configItemIndex][arrayFieldItemName] = foundItem.value
+    } else {
+      this.form[formItemName] = originalItem.value
+    }
   }
 }
 </script>
@@ -232,6 +274,13 @@ export default class ThemeCustomSetting extends Vue {
 
 .picture {
   height: 150px;
+}
+
+.item-card {
+  margin-bottom: 24px;
+  padding: 24px;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06);
+  border-radius: 2px;
 }
 
 /deep/ .ant-slider-rail {

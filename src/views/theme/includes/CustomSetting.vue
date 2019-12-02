@@ -121,9 +121,11 @@
                     </a-form-item>
                   </div>
 
-                  <a-button v-if="configItemIndex === form[item.name].length - 1" shape="circle"><i class="zwicon-plus"></i></a-button>
-                  <a-button v-else shape="circle"><i class="zwicon-minus"></i></a-button>
+                  <a-button shape="circle" @click="addConfigItem(form[item.name], configItemIndex, item.arrayItems)" style="margin-right: 8px;"><i class="zwicon-plus"></i></a-button>
+                  <a-button shape="circle" @click="deleteConfigItem(form[item.name], configItemIndex)"><i class="zwicon-minus"></i></a-button>
                 </div>
+
+                <a-button v-if="form[item.name].length === 0" block @click="addConfigItem(form[item.name], 0, item.arrayItems)"><i class="zwicon-plus"></i></a-button>
               </div>
 
             </a-form-item>
@@ -249,6 +251,19 @@ export default class ThemeCustomSetting extends Vue {
     } else {
       this.form[formItemName] = originalItem.value
     }
+  }
+
+  deleteConfigItem(formItem: any[], index: number) {
+    console.log('run...', formItem, index)
+    formItem.splice(index, 1)
+  }
+
+  addConfigItem(formItem: any[], index: number, arrayItems: any) {
+    const newValue = arrayItems.reduce((o: any, c: any) => {
+      o[c.name] = c.value
+      return o
+    }, {})
+    formItem.splice(index + 1, 0, newValue)
   }
 }
 </script>

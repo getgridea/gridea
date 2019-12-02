@@ -81,6 +81,7 @@ export default class Theme extends Model {
   public async saveThemeCustomConfig(config: any) {
     // Save the picture type configuration
     const toPath = path.join(this.appDir, 'themes', this.db.themeConfig.themeName, 'assets', 'media', 'images')
+    const includedArrayTypeImages: string[] = []
 
     for (const configItem of this.db.currentThemeConfig) {
       const configValue = config[configItem.name]
@@ -127,24 +128,39 @@ export default class Theme extends Model {
                 && !fieldValue.startsWith('/media/')
               ) {
                 const extendName = fieldValue.split('.').pop()
-                const fileName = `custom-${configItem.name}-${arrItemIndex}-${key}.${extendName}`
+                const fileName = `custom-array-${configItem.name}-${new Date().getTime()}-${key}.${extendName}`
   
                 fse.ensureDirSync(toPath)
                 fse.copySync(fieldValue, path.join(toPath, fileName))
   
                 // Change value to finally value
                 configValue[arrItemIndex][key] = path.join('/', 'media', 'images', fileName)
+                includedArrayTypeImages.push(configValue[arrItemIndex][key])
               } else if (typeof fieldValue === 'undefined' || fieldValue === foundPictureTypeField.value) {
-                const extendName = this.db.themeCustomConfig[configItem.name][arrItemIndex][key].split('.').pop()
-                const fileName = `custom-${configItem.name}-${arrItemIndex}-${key}.${extendName}`
-  
-                fse.removeSync(path.join(toPath, fileName))
+                console.log('run...')
+              } else {
+                includedArrayTypeImages.push(fieldValue)
               }
             }
           }
         }
       }
     }
+
+    // Remove unused array type config images
+    const assetsFolderPath = path.join(this.appDir, 'themes', this.db.themeConfig.themeName, 'assets')
+    const files = await fse.readdirSync(path.join(assetsFolderPath, 'media', 'images'), { withFileTypes: true })
+    const arrayTypeImages = files
+      .filter(item => !item.isDirectory())
+      .map(item => path.join('/', 'media', 'images', item.name))
+      .filter(item => item.includes('custom-array'))
+
+    arrayTypeImages.forEach((name: string) => {
+      if (!includedArrayTypeImages.includes(name)) {
+        fse.removeSync(path.join(assetsFolderPath, name))
+      }
+    })
+
 
     await this.$theme.set('customConfig', config).write()
 

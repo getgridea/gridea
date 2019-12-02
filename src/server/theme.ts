@@ -80,44 +80,64 @@ export default class Theme extends Model {
    */
   public async saveThemeCustomConfig(config: any) {
     // Save the picture type configuration
-    for (const item of this.db.currentThemeConfig) {
-      const value = config[item.name]
-      if (item.type === 'picture-upload') {
-        const toPath = path.join(this.appDir, 'themes', this.db.themeConfig.themeName, 'assets', 'media', 'images')
-        
-        if (typeof value === 'string' && value !== item.value && !value.startsWith('/media/')) {
-          const extendName = value.split('.').pop()
-          const fileName = `custom-${item.name}.${extendName}`
+    const toPath = path.join(this.appDir, 'themes', this.db.themeConfig.themeName, 'assets', 'media', 'images')
+
+    for (const configItem of this.db.currentThemeConfig) {
+      const configValue = config[configItem.name]
+
+      // Picture upload config type data need to upload image to folder
+      if (configItem.type === 'picture-upload') {
+        if (
+          typeof configValue === 'string'
+          && configValue !== configItem.value
+          && !configValue.startsWith('/media/')
+        ) {
+          const extendName = configValue.split('.').pop()
+          const fileName = `custom-${configItem.name}.${extendName}`
+
           fse.ensureDirSync(toPath)
-          fse.copySync(value, path.join(toPath, fileName))
-          config[item.name] = path.join('/', 'media', 'images', fileName)
-        } else if (typeof value === 'undefined' || value === item.value) {
-          const extendName = this.db.themeCustomConfig[item.name].split('.').pop()
-          const fileName = `custom-${item.name}.${extendName}`
+          fse.copySync(configValue, path.join(toPath, fileName))
+
+          // Change value to finally value
+          config[configItem.name] = path.join('/', 'media', 'images', fileName)
+        } else if (typeof configValue === 'undefined' || configValue === configItem.value) {
+          const extendName = this.db.themeCustomConfig[configItem.name].split('.').pop()
+          const fileName = `custom-${configItem.name}.${extendName}`
+
           fse.removeSync(path.join(toPath, fileName))
         }
       }
 
-      if (item.type === 'array') {
-        for (let arrItemIndex = 0; arrItemIndex < value.length; arrItemIndex += 1) {
-          const foundConfigItem = this.db.currentThemeConfig.find((i: any) => i.name === item.name)
-          const arrayItemKeys = Object.keys(value[arrItemIndex])
+      // Array config type data need to find image config to upload folder
+      if (configItem.type === 'array') {
+        for (let arrItemIndex = 0; arrItemIndex < configValue.length; arrItemIndex += 1) {
+          const foundConfigItem = this.db.currentThemeConfig.find((i: any) => i.name === configItem.name)
+          const arrayItemKeys = Object.keys(configValue[arrItemIndex])
+
           for (let keyIndex = 0; keyIndex < arrayItemKeys.length; keyIndex += 1) {
             const key = arrayItemKeys[keyIndex]
             const foundPictureTypeField = foundConfigItem.arrayItems.find((i: any) => i.name === key && i.type === 'picture-upload')
-            if (foundPictureTypeField) {
-              const toPath = path.join(this.appDir, 'themes', this.db.themeConfig.themeName, 'assets', 'media', 'images')
-              const filedValue = value[arrItemIndex][key]
 
-              if (typeof filedValue === 'string' && filedValue !== foundPictureTypeField.value && !filedValue.startsWith('/media/')) {
-                const extendName = filedValue.split('.').pop()
-                const fileName = `custom-${item.name}-${arrItemIndex}-${key}.${extendName}`
+            if (foundPictureTypeField) {
+              const fieldValue = configValue[arrItemIndex][key]
+  
+              if (
+                typeof fieldValue === 'string'
+                && fieldValue !== foundPictureTypeField.value
+                && !fieldValue.startsWith('/media/')
+              ) {
+                const extendName = fieldValue.split('.').pop()
+                const fileName = `custom-${configItem.name}-${arrItemIndex}-${key}.${extendName}`
+  
                 fse.ensureDirSync(toPath)
-                fse.copySync(filedValue, path.join(toPath, fileName))
-                value[arrItemIndex][key] = path.join('/', 'media', 'images', fileName)
-              } else if (typeof filedValue === 'undefined' || filedValue === foundPictureTypeField.value) {
-                const extendName = this.db.themeCustomConfig[item.name][arrItemIndex][key].split('.').pop()
-                const fileName = `custom-${item.name}-${arrItemIndex}-${key}.${extendName}`
+                fse.copySync(fieldValue, path.join(toPath, fileName))
+  
+                // Change value to finally value
+                configValue[arrItemIndex][key] = path.join('/', 'media', 'images', fileName)
+              } else if (typeof fieldValue === 'undefined' || fieldValue === foundPictureTypeField.value) {
+                const extendName = this.db.themeCustomConfig[configItem.name][arrItemIndex][key].split('.').pop()
+                const fileName = `custom-${configItem.name}-${arrItemIndex}-${key}.${extendName}`
+  
                 fse.removeSync(path.join(toPath, fileName))
               }
             }

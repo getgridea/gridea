@@ -6580,10 +6580,10 @@ monaco-editor@^0.17.1:
   resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.17.1.tgz#8fbe96ca54bfa75262706e044f8f780e904aa45c"
   integrity sha512-JAc0mtW7NeO+0SwPRcdkfDbWLgkqL9WfP1NbpP9wNASsW6oWqgZqNIWt4teymGjZIXTElx3dnQmUYHmVrJ7HxA==
 
-monaco-markdown@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/monaco-markdown/-/monaco-markdown-0.0.5.tgz#9e4e54f1eace5b65adcca9118f922813d3049d13"
-  integrity sha512-6RllzH/gHucCFqkp2+4mcKqy0TWz71jDKelVbr8EmoqtiYlQxLg7ebwie8HxUp/hXnS+RluQLFJglcpRbdIm2Q==
+monaco-markdown@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/monaco-markdown/-/monaco-markdown-0.0.6.tgz#1da655869fc3deeb3336c3076864a20e613b146e"
+  integrity sha512-y5gXvnyGfry6e8RsHUtQBiYjvSM7wU55qa0wrwmL2A2QMZMtzNVdZ3kMxw9lYGRbpB9a1LtsUys7zooi2MoeqQ==
   dependencies:
     monaco-editor "^0.17.1"
     string-similarity "^3.0.0"

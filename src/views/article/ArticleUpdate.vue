@@ -193,6 +193,9 @@
           <a-collapse-panel :header="$t('hideInList')" key="5">
             <a-switch v-model="form.hideInList"></a-switch>
           </a-collapse-panel>
+          <a-collapse-panel header="置顶文章" key="6">
+            <a-switch v-model="form.isTop"></a-switch>
+          </a-collapse-panel>
         </a-collapse>
       </a-drawer>
 
@@ -270,6 +273,7 @@ export default class ArticleUpdate extends Vue {
     content: '',
     published: false,
     hideInList: false,
+    isTop: false,
     featureImage: {
       path: '',
       name: '',
@@ -348,6 +352,7 @@ export default class ArticleUpdate extends Vue {
         this.form.content = currentPost.content
         this.form.published = currentPost.data.published
         this.form.hideInList = currentPost.data.hideInList
+        this.form.isTop = currentPost.data.isTop
 
         if (currentPost.data.feature && currentPost.data.feature.includes('http')) {
           this.form.featureImagePath = currentPost.data.feature

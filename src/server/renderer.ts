@@ -130,7 +130,8 @@ export default class Renderer extends Model {
             ? `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, this.db.themeConfig.domain)}`
             : item.data.feature || '',
           link: `${this.db.themeConfig.domain}/post/${item.fileName}`,
-          hideInList: (item.data.hideInList === undefined && false) || item.data.hideInList,
+          hideInList: !!item.data.hideInList,
+          isTop: !!item.data.isTop,
           stats,
         }
 
@@ -195,7 +196,14 @@ export default class Renderer extends Model {
       ? archivesPageSize || DEFAULT_ARCHIVES_PAGE_SIZE
       : postPageSize || DEFAULT_POST_PAGE_SIZE
 
-    const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
+    let excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
+
+    // If it is not archives, sort by `isTop` then to render
+    if (extraPath !== '/archives') {
+      const isTopPosts = excludeHidePostsData.filter((item: IPostRenderData) => item.isTop)
+      const notTopPosts = excludeHidePostsData.filter((item: IPostRenderData) => !item.isTop)
+      excludeHidePostsData = isTopPosts.concat(notTopPosts)
+    }
 
     // If there is no article to render
     if (!excludeHidePostsData.length) {

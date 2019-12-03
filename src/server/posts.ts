@@ -64,6 +64,7 @@ tags: [${newTagString}]
 published: ${data.published || false}
 hideInList: ${data.hideInList || false}
 feature: ${data.feature || ''}
+isTop: ${data.isTop || false}
 ---
 ${postMatter.content}`
 
@@ -121,6 +122,11 @@ ${postMatter.content}`
         item.data.hideInList = false
       }
 
+      // Articles migrated from other platforms or old articles do not have `isTop` fields
+      if (item.data.isTop === undefined) {
+        item.data.isTop = false
+      }
+
       list.push(item)
     })
 
@@ -165,6 +171,7 @@ tags: [${post.tags.join(',')}]
 published: ${post.published}
 hideInList: ${post.hideInList}
 feature: ${post.featureImage.name ? `/post-images/${post.fileName}.${extendName}` : post.featureImagePath}
+isTop: ${post.isTop}
 ---
 ${content}`
 

@@ -10,6 +10,7 @@ import MarkdownItFootnote from 'markdown-it-footnote'
 import MarkdownItImsize from 'markdown-it-imsize'
 import MarkdownItEmoji from 'markdown-it-emoji'
 import MarkdownItImplicitFigures from 'markdown-it-implicit-figures'
+import MarkdownItImageLazyLoading from 'markdown-it-image-lazy-loading'
 
 const markdownIt = new MarkdownIt({
   html: true,
@@ -46,5 +47,6 @@ markdownIt.use(MarkdownItImplicitFigures, {
   tabindex: true, // <figure tabindex="1+n">..., default: false
   link: false, // <a href="img.png"><img src="img.png"></a>, default: false
 })
+markdownIt.use(MarkdownItImageLazyLoading)
 
 export default markdownIt

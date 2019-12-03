@@ -41,6 +41,7 @@
     "markdown-it-abbr": "^1.0.4",
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-footnote": "^3.0.1",
+    "markdown-it-image-lazy-loading": "^1.0.2",
     "markdown-it-implicit-figures": "^0.9.0",
     "markdown-it-imsize": "^2.0.1",
     "markdown-it-mark": "^2.0.0",

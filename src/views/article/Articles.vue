@@ -42,7 +42,12 @@
           slot="name"
           slot-scope="text, record"
           @click="editPost(record)"
-        ><i class="zwicon-document post-icon"></i> {{ text }} <a-tag v-if="record.data.hideInList" color="orange">Hide</a-tag> </a>
+        >
+          <i class="zwicon-document post-icon"></i>
+          {{ text }}
+          <a-tag v-if="record.data.hideInList" color="orange">HIDE</a-tag>
+          <a-tag v-if="record.data.isTop" color="orange">TOP</a-tag>
+        </a>
         <a-tag
           :class="{'tag-success': text, 'tag-draft': !text }"
           slot="status"

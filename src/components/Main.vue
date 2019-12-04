@@ -7,7 +7,6 @@
       <div class="top-container">
         <div class="logo">
           <img class="img" src="@/assets/logo-hey.png">
-          <h3>Gridea</h3>
         </div>
         <a-menu mode="inline" :defaultSelectedKeys="['articles']" @click="clickMenu">
           <a-menu-item key="articles">

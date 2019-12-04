@@ -13,4 +13,5 @@ export interface ITheme {
   feedFullText: boolean
   feedCount: number
   archivesPath: string
+  postPath: string
 }

@@ -57,6 +57,17 @@
           </a-radio-group>
         </a-form-item>
 
+        <a-form-item label="文章 URL 路径" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-radio-group name="tagUrlFormat" v-model="form.postPath">
+            <a-tooltip placement="bottom" title="example.com/post/xxx">
+              <a-radio value="post">默认</a-radio>
+            </a-tooltip>
+            <a-tooltip placement="bottom" title="example.com/xxx">
+              <a-radio value="">精简</a-radio>
+            </a-tooltip>
+          </a-radio-group>
+        </a-form-item>
+
         <ValidationProvider name="archivesPath" rules="required" v-slot="slotProps">
           <a-form-item
             label="归档路径前缀"
@@ -98,7 +109,12 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { State } from 'vuex-class'
 import { Site } from '../../../store/modules/site'
 import {
-  UrlFormats, DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT, DEFAULT_ARCHIVES_PATH,
+  UrlFormats,
+  DEFAULT_POST_PAGE_SIZE,
+  DEFAULT_ARCHIVES_PAGE_SIZE,
+  DEFAULT_FEED_COUNT,
+  DEFAULT_ARCHIVES_PATH,
+  DEFAULT_POST_PATH,
 } from '../../../helpers/constants'
 import ga from '../../../helpers/analytics'
 
@@ -135,6 +151,7 @@ export default class ThemeBasicSetting extends Vue {
     feedFullText: true,
     feedCount: DEFAULT_FEED_COUNT,
     archivesPath: DEFAULT_ARCHIVES_PATH,
+    postPath: DEFAULT_POST_PATH,
   }
 
   lCol = { span: 5 }
@@ -170,6 +187,7 @@ export default class ThemeBasicSetting extends Vue {
     this.form.feedFullText = config.feedFullText
     this.form.feedCount = config.feedCount
     this.form.archivesPath = config.archivesPath
+    this.form.postPath = config.postPath
   }
 
   openPage(url: string) {

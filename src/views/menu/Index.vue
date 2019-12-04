@@ -44,7 +44,7 @@
           </a-radio-group>
         </a-form-item>
         <a-form-item label="Link">
-          <a-input v-model="form.link" class="link-input"></a-input>
+          <a-input v-model="form.link" class="link-input" placeholder="输入或从下面选择"></a-input>
           <a-select v-model="form.link">
             <a-select-option v-for="item in menuLinks" :key="item.value" :value="item.value">{{ item.text }}</a-select-option>
           </a-select>
@@ -77,6 +77,7 @@
 import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
+import urlJoin from 'url-join'
 import { MenuTypes } from '../../helpers/enums'
 import { IMenu } from '../../interfaces/menu'
 import { IPost } from '../../interfaces/post'
@@ -129,24 +130,25 @@ export default class Menu extends Vue {
   }
 
   get menuLinks() {
+    const { setting, themeConfig } = this.site
     const posts = this.site.posts.map((item: IPost) => {
       return {
         text: `📄 ${item.data.title}`,
-        value: `${this.site.setting.domain}/post/${item.fileName}/`,
+        value: urlJoin(setting.domain, themeConfig.postPath, item.fileName),
       }
     })
     return [
       {
         text: '🏠 Homepage',
-        value: this.site.setting.domain,
+        value: setting.domain,
       },
       {
         text: '📚 Archives',
-        value: `${this.site.setting.domain}/archives`,
+        value: urlJoin(setting.domain, themeConfig.archivesPath),
       },
       {
         text: '🏷️ Tags',
-        value: `${this.site.setting.domain}/tags`,
+        value: urlJoin(setting.domain, 'tags'),
       },
       ...posts,
     ]

@@ -83,7 +83,6 @@ export default class Renderer extends Model {
     this.themePath = urlJoin(this.appDir, 'themes', this.db.themeConfig.themeName)
 
     await fse.ensureDir(urlJoin(this.appDir, 'output'))
-    await fse.ensureDir(urlJoin(this.appDir, 'output', 'post'))
   }
 
   /**
@@ -129,7 +128,7 @@ export default class Renderer extends Model {
           feature: item.data.feature && !item.data.feature.includes('http')
             ? `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, themeConfig.domain)}`
             : item.data.feature || '',
-          link: urlJoin(themeConfig.domain, 'post', item.fileName),
+          link: urlJoin(themeConfig.domain, themeConfig.postPath, item.fileName),
           hideInList: !!item.data.hideInList,
           isTop: !!item.data.isTop,
           stats,
@@ -313,7 +312,7 @@ export default class Renderer extends Model {
         }
       })
 
-      const renderFolerPath = urlJoin(this.outputDir, 'post', post.fileName)
+      const renderFolerPath = urlJoin(this.outputDir, `${this.db.themeConfig.postPath}`, post.fileName)
       fse.ensureDirSync(renderFolerPath)
       fs.writeFileSync(urlJoin(renderFolerPath, 'index.html'), html)
     }

@@ -14,4 +14,5 @@ export interface ITheme {
   feedCount: number
   archivesPath: string
   postPath: string
+  tagPath: string
 }

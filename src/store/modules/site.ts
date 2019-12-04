@@ -5,7 +5,7 @@ import { ITheme } from '../../interfaces/theme'
 import { IMenu } from '../../interfaces/menu'
 import { ISetting, ICommentSetting } from '../../interfaces/setting'
 import {
-  DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT, DEFAULT_ARCHIVES_PATH, DEFAULT_POST_PATH,
+  DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT, DEFAULT_ARCHIVES_PATH, DEFAULT_POST_PATH, DEFAULT_TAG_PATH,
 } from '../../helpers/constants'
 
 export interface Site {
@@ -42,6 +42,7 @@ const siteState: Site = {
     feedFullText: true,
     archivesPath: DEFAULT_ARCHIVES_PATH,
     postPath: DEFAULT_POST_PATH,
+    tagPath: DEFAULT_TAG_PATH,
   },
   themeCustomConfig: {},
   currentThemeConfig: {},

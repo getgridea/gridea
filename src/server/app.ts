@@ -13,7 +13,7 @@ import Deploy from './deploy'
 
 import { IApplicationDb, IApplicationSetting } from './interfaces/application'
 import {
-  DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT, DEFAULT_ARCHIVES_PATH, DEFAULT_POST_PATH,
+  DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT, DEFAULT_ARCHIVES_PATH, DEFAULT_POST_PATH, DEFAULT_TAG_PATH,
 } from '../helpers/constants'
 // eslint-disable-next-line
 declare const __static: string
@@ -58,6 +58,7 @@ export default class App {
         feedCount: DEFAULT_FEED_COUNT,
         archivesPath: DEFAULT_ARCHIVES_PATH,
         postPath: DEFAULT_POST_PATH,
+        tagPath: DEFAULT_TAG_PATH,
       },
       themeCustomConfig: {},
       currentThemeConfig: [],

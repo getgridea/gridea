@@ -122,7 +122,7 @@ export default class Renderer extends Model {
           title: item.data.title,
           tags: this.db.tags
             .filter((tag: ITag) => currentTags.find(i => i === tag.name))
-            .map((tag: ITag) => ({ ...tag, link: urlJoin(themeConfig.domain, 'tag', `${tag.slug}`) })),
+            .map((tag: ITag) => ({ ...tag, link: urlJoin(themeConfig.domain, themeConfig.tagPath, `${tag.slug}`) })),
           date: item.data.date,
           dateFormat: (themeConfig.dateFormat && moment(item.data.date).format(themeConfig.dateFormat)) || item.data.date,
           feature: item.data.feature && !item.data.feature.includes('http')
@@ -350,7 +350,7 @@ export default class Renderer extends Model {
    */
   async renderTagDetail() {
     const usedTags = this.db.tags.filter((tag: ITag) => tag.used)
-    const { postPageSize, domain } = this.db.themeConfig
+    const { postPageSize, domain, tagPath } = this.db.themeConfig
 
     // Compatible: < v0.7.0
     const pageSize = postPageSize || DEFAULT_POST_PAGE_SIZE
@@ -362,9 +362,8 @@ export default class Renderer extends Model {
 
       const currentTag = usedTag
 
-      const tagFolderPath = urlJoin(this.outputDir, 'tag', `${currentTag.slug}`)
-      const tagDomainPath = urlJoin(domain, 'tag', `${currentTag.slug}`)
-      fse.ensureDirSync(urlJoin(this.outputDir, 'tag'))
+      const tagFolderPath = urlJoin(this.outputDir, tagPath, `${currentTag.slug}`)
+      const tagDomainPath = urlJoin(domain, tagPath, `${currentTag.slug}`)
       fse.ensureDirSync(tagFolderPath)
 
       for (let i = 0; i * pageSize < posts.length; i += 1) {

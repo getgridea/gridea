@@ -199,8 +199,8 @@ export default class App {
 
       // Site folder exists
       if (fse.pathExistsSync(this.appDir)) {
-        // Check if the `images`, `config`, 'output', `post-images`, 'posts', 'themes' folder exists, if it does not exist, copy it from default-files
-        ['images', 'config', 'output', 'post-images', 'posts', 'themes'].forEach((folder: string) => {
+        // Check if the `images`, `config`, 'output', `post-images`, 'posts', 'themes', 'static' folder exists, if it does not exist, copy it from default-files
+        ['images', 'config', 'output', 'post-images', 'posts', 'themes', 'static'].forEach((folder: string) => {
           const folderPath = path.join(this.appDir, folder)
           if (!fse.pathExistsSync(folderPath)) {
             fse.copySync(
@@ -215,6 +215,15 @@ export default class App {
         this.checkTheme('fly')
         this.checkTheme('simple')
         this.checkTheme('paper')
+
+        // move output/favicon.ico to Gridea/favicon.ico
+        const outputFavicon = path.join(this.appDir, 'output', 'favicon.ico')
+        const sourceFavicon = path.join(this.appDir, 'favicon.ico')
+        const existFaviconOutput = fse.pathExistsSync(outputFavicon)
+        const existFaviconSource = fse.pathExistsSync(sourceFavicon)
+        if (existFaviconOutput && !existFaviconSource) {
+          fse.moveSync(outputFavicon, sourceFavicon)
+        }
 
         return
       }

@@ -573,17 +573,28 @@ export default class Renderer extends Model {
 
     await fse.ensureDir(mediaInputPath)
     await fse.copySync(mediaInputPath, mediaOutputPath)
+
+    // Copy /static
+    await fse.copySync(urlJoin(this.appDir, 'static'), this.outputDir)
+
+    // Copy favicon.ico
+    await fse.copyFileSync(urlJoin(this.appDir, 'favicon.ico'), urlJoin(this.outputDir, 'favicon.ico'))
   }
 
   async clearOutputFolder() {
     const { outputDir } = this
-
-    await fse.removeSync(urlJoin(outputDir, 'images'))
-    await fse.removeSync(urlJoin(outputDir, 'media'))
-    await fse.removeSync(urlJoin(outputDir, 'page'))
-    await fse.removeSync(urlJoin(outputDir, 'post'))
-    await fse.removeSync(urlJoin(outputDir, 'post-images'))
-    await fse.removeSync(urlJoin(outputDir, 'styles'))
-    await fse.removeSync(urlJoin(outputDir, 'tag'))
+    const files = await fse.readdirSync(outputDir, { withFileTypes: true })
+    const needClearPath = files
+      .map(item => item.name)
+      .filter(junk.not)
+      .filter((name: string) => name !== '.git')
+    
+    try {
+      needClearPath.forEach(async (name: string) => {
+        await fse.removeSync(urlJoin(outputDir, name))
+      })
+    } catch (e) {
+      console.log('Delete file error', e)
+    }
   }
 }

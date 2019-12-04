@@ -11,4 +11,5 @@ export interface ITheme {
   dateFormat: string
   feedFullText: boolean
   feedCount: number
+  archivesPath: string
 }

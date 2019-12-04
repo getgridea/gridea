@@ -12,6 +12,9 @@ import Setting from './setting'
 import Deploy from './deploy'
 
 import { IApplicationDb, IApplicationSetting } from './interfaces/application'
+import {
+  DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT, DEFAULT_ARCHIVES_PATH,
+} from '../helpers/constants'
 // eslint-disable-next-line
 declare const __static: string
 
@@ -41,8 +44,8 @@ export default class App {
       menus: [],
       themeConfig: {
         themeName: '',
-        postPageSize: 10,
-        archivesPageSize: 50,
+        postPageSize: DEFAULT_POST_PAGE_SIZE,
+        archivesPageSize: DEFAULT_ARCHIVES_PAGE_SIZE,
         siteName: '',
         siteDescription: '',
         footerInfo: 'Powered by Gridea',
@@ -52,7 +55,8 @@ export default class App {
         tagUrlFormat: 'SLUG',
         dateFormat: 'YYYY-MM-DD',
         feedFullText: true,
-        feedCount: 10,
+        feedCount: DEFAULT_FEED_COUNT,
+        archivesPath: DEFAULT_ARCHIVES_PATH,
       },
       themeCustomConfig: {},
       currentThemeConfig: [],
@@ -120,7 +124,7 @@ export default class App {
       posts,
       tags,
       menus,
-      themeConfig,
+      themeConfig: Object.assign(this.db.themeConfig, themeConfig),
       themeCustomConfig,
       currentThemeConfig,
       themes,

@@ -4,7 +4,9 @@ import { ITag } from '../../interfaces/tag'
 import { ITheme } from '../../interfaces/theme'
 import { IMenu } from '../../interfaces/menu'
 import { ISetting, ICommentSetting } from '../../interfaces/setting'
-import { DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT } from '../../helpers/constants'
+import {
+  DEFAULT_POST_PAGE_SIZE, DEFAULT_ARCHIVES_PAGE_SIZE, DEFAULT_FEED_COUNT, DEFAULT_ARCHIVES_PATH,
+} from '../../helpers/constants'
 
 export interface Site {
   appDir: string
@@ -38,6 +40,7 @@ const siteState: Site = {
     dateFormat: 'YYYY-MM-DD',
     feedCount: DEFAULT_FEED_COUNT,
     feedFullText: true,
+    archivesPath: DEFAULT_ARCHIVES_PATH,
   },
   themeCustomConfig: {},
   currentThemeConfig: {},

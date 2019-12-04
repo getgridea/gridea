@@ -11,6 +11,7 @@ import router from './router'
 import store from './store/index'
 import VueBus from './vue-bus'
 import ga from './helpers/analytics'
+import './helpers/vee-validate'
 
 ga.event('Client', 'show', {
   evLabel: 'startup',
@@ -43,6 +44,6 @@ new Vue({
   i18n,
   render: h => h(App),
   mounted() {
-    this.$router.push('/')
+    router.push('/')
   },
 }).$mount('#app')

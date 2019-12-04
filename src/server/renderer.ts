@@ -357,7 +357,7 @@ export default class Renderer extends Model {
 
     for (const usedTag of usedTags) {
       const posts = this.postsData.filter((post: IPostRenderData) => {
-        return post.tags.find((tag: ITagRenderData) => tag.slug === usedTag.slug) && !post.hideInList
+        return post.tags.find((tag: ITagRenderData) => tag.slug === usedTag.slug)
       })
 
       const currentTag = usedTag

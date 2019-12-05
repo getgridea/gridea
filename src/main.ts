@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import moment from 'moment'
 import Antd from 'ant-design-vue'
+import '@/assets/styles/tailwind.css'
 import '@/assets/styles/main.less'
 import VueI18n from 'vue-i18n'
 import Prism from 'prismjs'

@@ -347,12 +347,12 @@ export default {
   padding: 0;
 }
 .editor-toolbar button.active, .editor-toolbar button:hover {
-  border-color: #41464b;
+  border-color: #555;
   background: #f8d65f;
   border-style: dashed;
 }
 .editor-toolbar button {
-  color: #41464b !important;
+  color: #555 !important;
   width: 32px;
   height: 32px;
   border-radius: 2px;

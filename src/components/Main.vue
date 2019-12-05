@@ -6,20 +6,35 @@
     >
       <div class="top-container">
         <div class="logo">
-          <img class="img" src="@/assets/logo-hey.png">
+          <img class="img" src="@/assets/logo.png">
         </div>
         <a-menu mode="inline" :defaultSelectedKeys="['articles']" @click="clickMenu">
           <a-menu-item key="articles">
-            <i class="zwicon-document menu-icon"></i>
-            <span class="nav-text">{{ $t('article') }}</span>
+            <div class="menu-item">
+              <div>
+                <i class="zwicon-document menu-icon"></i>
+                <span class="nav-text">{{ $t('article') }}</span>
+              </div>
+              <span class="number">{{ site.posts.length }}</span>
+            </div>
           </a-menu-item>
           <a-menu-item key="menu">
-            <i class="zwicon-grid menu-icon"></i>
-            <span class="nav-text">{{ $t('menu') }}</span>
+            <div class="menu-item">
+              <div>
+                <i class="zwicon-grid menu-icon"></i>
+                <span class="nav-text">{{ $t('menu') }}</span>
+              </div>
+              <span class="number">{{ site.menus.length }}</span>
+            </div>
           </a-menu-item>
           <a-menu-item key="tags">
-            <i class="zwicon-price-tag menu-icon"></i>
-            <span class="nav-text">{{ $t('tag') }}</span>
+            <div class="menu-item">
+              <div>
+                <i class="zwicon-price-tag menu-icon"></i>
+                <span class="nav-text">{{ $t('tag') }}</span>
+              </div>
+              <span class="number">{{ site.tags.length }}</span>
+            </div>
           </a-menu-item>
           <a-menu-item key="theme">
             <i class="zwicon-palette menu-icon"></i>
@@ -253,7 +268,11 @@ export default class App extends Vue {
 
 /deep/ .ant-menu {
   background: @primary-bg;
-  color: @primary-color;
+  @apply text-gray-500;
+}
+
+/deep/ .ant-menu-item {
+  padding-left: 16px !important;
 }
 
 /deep/ .ant-menu-vertical .ant-menu-item:after, .ant-menu-vertical-left .ant-menu-item:after, .ant-menu-vertical-right .ant-menu-item:after, .ant-menu-inline .ant-menu-item:after {
@@ -341,6 +360,18 @@ export default class App extends Vue {
   cursor: pointer;
   &:hover {
     color: @link-color;
+  }
+}
+
+.nav-text {
+  font-weight: normal;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  .number {
+    font-weight: lighter;
   }
 }
 

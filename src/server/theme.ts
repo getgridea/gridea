@@ -149,17 +149,20 @@ export default class Theme extends Model {
 
     // Remove unused array type config images
     const assetsFolderPath = path.join(this.appDir, 'themes', this.db.themeConfig.themeName, 'assets')
-    const files = await fse.readdirSync(path.join(assetsFolderPath, 'media', 'images'), { withFileTypes: true })
-    const arrayTypeImages = files
-      .filter(item => !item.isDirectory())
-      .map(item => path.join('/', 'media', 'images', item.name))
-      .filter(item => item.includes('custom-array'))
-
-    arrayTypeImages.forEach((name: string) => {
-      if (!includedArrayTypeImages.includes(name)) {
-        fse.removeSync(path.join(assetsFolderPath, name))
-      }
-    })
+    const imagesFolderPath = path.join(assetsFolderPath, 'media', 'images')
+    if (fse.existsSync(imagesFolderPath)) {
+      const files = await fse.readdirSync(imagesFolderPath, { withFileTypes: true })
+      const arrayTypeImages = files
+        .filter(item => !item.isDirectory())
+        .map(item => path.join('/', 'media', 'images', item.name))
+        .filter(item => item.includes('custom-array'))
+  
+      arrayTypeImages.forEach((name: string) => {
+        if (!includedArrayTypeImages.includes(name)) {
+          fse.removeSync(path.join(assetsFolderPath, name))
+        }
+      })
+    }
 
 
     await this.$theme.set('customConfig', config).write()

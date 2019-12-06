@@ -155,7 +155,7 @@
                   <a-button shape="circle" @click="deleteConfigItem(form[item.name], configItemIndex)"><i class="zwicon-minus"></i></a-button>
                 </div>
 
-                <a-button v-if="form[item.name].length === 0" block @click="addConfigItem(form[item.name], 0, item.arrayItems)"><i class="zwicon-plus"></i></a-button>
+                <a-button v-if="!form[item.name] || form[item.name].length === 0" block @click="addConfigItem(form[item.name], 0, item.arrayItems)"><i class="zwicon-plus"></i></a-button>
               </div>
 
             </a-form-item>

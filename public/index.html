@@ -242,7 +242,6 @@
     </noscript>
     <div id="app">
       <div id="landing" class="landing">
-        <h1 style="color: #444;">🙋🏻‍♂️ <span id="greeting"></span>，Gridea 的朋友</h1>
         <div class="pulse-spinner">
           <div class="pulse-spinner__nib pulse-spinner__nib-0"></div>
           <div class="pulse-spinner__nib pulse-spinner__nib-1"></div>
@@ -259,27 +258,6 @@
         </div>
       </div>
     </div>
-    <script>
-        const now = new Date()
-        const hour = now.getHours()
-        const g = document.getElementById('greeting')
-        let text = ''
-
-        if (hour < 6) {
-            text = '凌晨好'
-        } else if (hour < 9) {
-            text = '上午好'
-        } else if (hour < 12) {
-            text = '中午好'
-        } else if (hour < 14) {
-            text = '下午好'
-        } else if (hour < 18) {
-            text = '傍晚好'
-        } else if (hour < 22) {
-            text = '晚上好'
-        }
-        g.innerHTML = text
-        </script>
     <!-- built files will be auto injected -->
   </body>
 </html>

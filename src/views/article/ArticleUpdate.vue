@@ -808,7 +808,7 @@ export default class ArticleUpdate extends Vue {
   color: #a5a5a5;
   font-size: 12px;
   font-weight: lighter;
-  font-family: -apple-system, 'BlinkMacSystemFont',"PingFang SC",Helvetica,Tahoma,Arial,"Microsoft YaHei",'微软雅黑','黑体','Heiti',sans-serif,'SimSun','宋体',serif;
+  font-family: PingFang SC,-apple-system,SF UI Text,Lucida Grande,STheiti,Microsoft YaHei,sans-serif !important;
   -webkit-font-smoothing: antialiased;
   margin-top: 16px;
   .link {

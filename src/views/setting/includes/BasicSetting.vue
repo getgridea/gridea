@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-form :form="form">
+    <a-form :form="form" style="padding-bottom: 48px;">
       <a-form-item label="Platform" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-radio-group name="platform" v-model="form.platform">
           <a-radio value="github">Github Pages</a-radio>
@@ -52,11 +52,12 @@
           <a-input v-model="form.remotePath" />
         </a-form-item>
       </template>
-      <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-button :disabled="!canSubmit" :loading="detectLoading" @click="remoteDetect" style="margin-right: 16px;">{{ $t('testConnection') }}</a-button>
-        <a-button :disabled="!canSubmit" @click="submit" type="primary">{{ $t('save') }}</a-button>
-      </a-form-item>
-      
+      <footer-box>
+        <div class="flex justify-between">
+          <a-button :disabled="!canSubmit" :loading="detectLoading" @click="remoteDetect" style="margin-right: 16px;">{{ $t('testConnection') }}</a-button>
+          <a-button :disabled="!canSubmit" @click="submit" type="primary">{{ $t('save') }}</a-button>
+        </div>
+      </footer-box>
     </a-form>
   </div>
 </template>
@@ -65,10 +66,15 @@
 import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
+import FooterBox from '../../../components/FooterBox/Index.vue'
 import ga from '../../../helpers/analytics'
 import { ISetting } from '../../../interfaces/setting'
 
-@Component
+@Component({
+  components: {
+    FooterBox,
+  },
+})
 export default class BasicSetting extends Vue {
   @State('site') site!: any
 

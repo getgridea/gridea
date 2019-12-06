@@ -1,7 +1,7 @@
 <template>
   <div>
     <ValidationObserver ref="observer" v-slot="{ invalid }">
-      <a-form :form="form">
+      <a-form :form="form" style="padding-bottom: 48px;">
         <a-form-item :label="$t('selectTheme')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-select v-model="form.themeName" optionLabelProp="name">
             <a-select-option v-for="item in site.themes" :key="item.folder" :name="item.name" :value="item.folder">
@@ -105,9 +105,11 @@
         <a-form-item label="RSS/Feed 文章数量" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input-number :min="0" :max="10000" v-model="form.feedCount" />
         </a-form-item>
-        <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-button class="btn" type="primary" :disabled="invalid" @click="saveTheme">{{ $t('save') }}</a-button>
-        </a-form-item>
+        <footer-box>
+          <div class="flex justify-end">
+            <a-button class="btn" type="primary" :disabled="invalid" @click="saveTheme">{{ $t('save') }}</a-button>
+          </div>
+        </footer-box>
       </a-form>
     </ValidationObserver>
   </div>
@@ -118,6 +120,7 @@ import { ipcRenderer, IpcRendererEvent, shell } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { State } from 'vuex-class'
+import FooterBox from '../../../components/FooterBox/Index.vue'
 import { Site } from '../../../store/modules/site'
 import {
   UrlFormats,
@@ -139,6 +142,7 @@ import ga from '../../../helpers/analytics'
     },
     ValidationProvider,
     ValidationObserver,
+    FooterBox,
   },
 })
 export default class ThemeBasicSetting extends Vue {

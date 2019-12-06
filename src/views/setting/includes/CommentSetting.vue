@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-form :form="form">
+    <a-form :form="form" style="padding-bottom: 48px;">
       <a-form-item label="Platform" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-radio-group name="commentPlatform" v-model="form.commentPlatform">
           <a-radio value="gitalk">Gitalk</a-radio>
@@ -12,9 +12,11 @@
       </a-form-item>
       <gitalk-setting ref="gitalkSetting" v-show="form.commentPlatform === 'gitalk'"></gitalk-setting>
       <disqus-setting ref="disqusSetting" v-show="form.commentPlatform === 'disqus'"></disqus-setting>
-      <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-button @click="submit" type="primary">{{ $t('save') }}</a-button>
-      </a-form-item>
+      <footer-box>
+        <div class="flex justify-end">
+          <a-button @click="submit" type="primary">{{ $t('save') }}</a-button>
+        </div>
+      </footer-box>
     </a-form>
   </div>
 </template>
@@ -25,12 +27,14 @@ import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import GitalkSetting from './GitalkSetting.vue'
 import DisqusSetting from './DisqusSetting.vue'
+import FooterBox from '../../../components/FooterBox/Index.vue'
 import ga from '../../../helpers/analytics'
 
 @Component({
   components: {
     GitalkSetting,
     DisqusSetting,
+    FooterBox,
   },
 })
 export default class CommentSetting extends Vue {

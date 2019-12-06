@@ -1,12 +1,6 @@
 <template>
   <div>
-    <a-card v-if="currentThemeConfig.length > 0" :bordered="false">
-      <div class="top-container">
-        <a-button style="margin-right: 16px;" slot="extra" @click="resetThemeCustomConfig">
-          <i class="zwicon-undo"></i>
-        </a-button>
-        <a-button slot="extra" @click="saveThemeCustomConfig" type="primary">{{ $t('save') }}</a-button>
-      </div>
+    <div v-if="currentThemeConfig.length > 0" style="padding-bottom: 48px;">
       <a-tabs tabPosition="left" defaultActiveKey="1" v-model="activeKey">
         <a-tab-pane :tab="group" v-for="(group, index) in groups" :key="index + 1">
           <div v-for="(item, index1) in currentThemeConfig" :key="index1">
@@ -132,7 +126,15 @@
           </div>
         </a-tab-pane>
       </a-tabs>
-    </a-card>
+      <footer-box>
+        <div class="flex justify-between">
+          <a-button @click="resetThemeCustomConfig">
+            <i class="zwicon-undo"></i>
+          </a-button>
+          <a-button @click="saveThemeCustomConfig" type="primary">{{ $t('save') }}</a-button>
+        </div>
+      </footer-box>
+    </div>
     <div class="empty-container" v-else>
       <img class="icon" src="@/assets/images/graphic-empty-box.svg" alt="">
       <div class="description">{{ $t('noCustomConfigTip') }}</div>
@@ -145,12 +147,14 @@ import { ipcRenderer, IpcRendererEvent, shell } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { Site } from '../../../store/modules/site'
+import FooterBox from '../../../components/FooterBox/Index.vue'
 import ColorCard from '../../../components/ColorCard.vue'
 
 @Component({
   name: 'ThemeCustomSetting',
   components: {
     ColorCard,
+    FooterBox,
   },
 })
 export default class ThemeCustomSetting extends Vue {

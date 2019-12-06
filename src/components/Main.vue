@@ -51,8 +51,14 @@
         </a-menu>
       </div>
       <div class="bottom-container">
-        <a-button class="preview-btn" icon="eye" block @click="preview">{{ $t('preview') }}</a-button>
-        <a-button class="sync-btn" icon="sync" block type="primary" :loading="publishLoading" @click="publish">{{ $t('syncSite') }}</a-button>
+        <a-button class="preview-btn" block @click="preview">
+          <i class="zwicon-eye"></i>
+          {{ $t('preview') }}
+        </a-button>
+        <a-button class="sync-btn" block type="primary" :loading="publishLoading" @click="publish">
+          <i class="zwicon-deploy"></i>
+          {{ $t('syncSite') }}
+        </a-button>
         <div class="version-container" :class="{ 'version-dot': hasUpdate }">
           <span>v {{ version }}</span>
           <i class="zwicon-web web-btn" @click="goWeb" v-if="site.setting.domain"></i>
@@ -296,7 +302,7 @@ export default class App extends Vue {
 .bottom-container {
   padding: 24px 32px 8px;
   button {
-    margin: 4px 0;
+    margin: 8px 0;
   }
 }
 
@@ -335,11 +341,10 @@ export default class App extends Vue {
 
 .preview-btn {
   border-radius: 20px;
-  background: rgb(249,247,243);
-  background: linear-gradient(180deg, rgba(249,247,243,1) 0%, rgba(255,255,255,1) 100%);
+  background: #fff;
   transition: all 0.3s;
   &:hover {
-    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%);;
+    background: #fafafa;
   }
 }
 

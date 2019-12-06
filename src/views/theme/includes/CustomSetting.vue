@@ -18,6 +18,16 @@
                 <color-card slot="content" @change="handleColorChange($event, item.name)"></color-card>
                 <a-input :ref="`color${index1}`" v-if="item.type === 'input' && item.card === 'color'" :placeholder="item.note" v-model="form[item.name]" />
               </a-popover>
+              
+              <!-- 带文章卡片输入 -->
+              <a-popover
+                title="文章"
+                trigger="click"
+                placement="bottomLeft"
+              >
+                <posts-card slot="content" @select="handlePostSelected($event, item.name)"></posts-card>
+                <a-input :ref="`color${index1}`" v-if="item.type === 'input' && item.card === 'post'" :placeholder="item.note" v-model="form[item.name]" />
+              </a-popover>
 
               <!-- 下拉选择 -->
               <a-select v-if="item.type === 'select'" v-model="form[item.name]" style="width: 100%;">
@@ -69,6 +79,26 @@
                     <a-form-item :label="field.label" :colon="false" :help="field.note" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper">
                       <!-- 普通输入 -->
                       <a-input v-if="field.type === 'input' && !field.card" :placeholder="field.note" v-model="configItem[field.name]" />
+
+                      <!-- 带颜色卡片输入 -->
+                      <a-popover
+                        title="Color"
+                        trigger="click"
+                        placement="bottomLeft"
+                      >
+                        <color-card slot="content" @change="handleColorChange($event, item.name, configItemIndex, field.name)"></color-card>
+                        <a-input :ref="`color-${configItemIndex}-${fieldIndex}`" v-if="field.type === 'input' && field.card === 'color'" :placeholder="field.note" v-model="configItem[field.name]" />
+                      </a-popover>
+
+                      <!-- 带文章卡片输入 -->
+                      <a-popover
+                        title="文章"
+                        trigger="click"
+                        placement="bottomLeft"
+                      >
+                        <posts-card slot="content" @select="handlePostSelected($event, item.name, configItemIndex, field.name)"></posts-card>
+                        <a-input :ref="`color-${configItemIndex}-${fieldIndex}`" v-if="field.type === 'input' && field.card === 'post'" :placeholder="field.note" v-model="configItem[field.name]" />
+                      </a-popover>
 
                       <!-- 下拉选择 -->
                       <a-select v-if="field.type === 'select'" v-model="configItem[field.name]" style="width: 100%;">
@@ -148,13 +178,15 @@ import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { Site } from '../../../store/modules/site'
 import FooterBox from '../../../components/FooterBox/Index.vue'
-import ColorCard from '../../../components/ColorCard.vue'
+import ColorCard from '../../../components/ColorCard/Index.vue'
+import PostsCard from '../../../components/PostsCard/Index.vue'
 
 @Component({
   name: 'ThemeCustomSetting',
   components: {
-    ColorCard,
     FooterBox,
+    ColorCard,
+    PostsCard,
   },
 })
 export default class ThemeCustomSetting extends Vue {
@@ -229,8 +261,16 @@ export default class ThemeCustomSetting extends Vue {
     })
   }
 
-  handleColorChange(color: string, name: string) {
-    this.form[name] = color
+  handleColorChange(color: string, name: string, arrayIndex?: number, fieldName?: string) {
+    if (arrayIndex === undefined) {
+      this.form[name] = color
+    } else if (arrayIndex !== undefined && fieldName !== undefined) {
+      this.form[name][arrayIndex][fieldName] = color
+    }
+  }
+
+  handlePostSelected(postUrl: string, name: string) {
+    this.form[name] = postUrl
   }
 
   beforeImageUpload(file: any, formItemName: string, arrayFieldItemName?: string, configItemIndex?: number) {

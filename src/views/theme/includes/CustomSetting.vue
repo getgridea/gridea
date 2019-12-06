@@ -16,7 +16,9 @@
                 placement="bottomLeft"
               >
                 <color-card slot="content" @change="handleColorChange($event, item.name)"></color-card>
-                <a-input :ref="`color${index1}`" v-if="item.type === 'input' && item.card === 'color'" :placeholder="item.note" v-model="form[item.name]" />
+                <a-input :ref="`color${index1}`" v-if="item.type === 'input' && item.card === 'color'" :placeholder="item.note" v-model="form[item.name]">
+                  <div class="w-4 h-4 rounded-full" slot="prefix" v-if="form[item.name]" :style="{ backgroundColor: form[item.name] }"></div>
+                </a-input>
               </a-popover>
               
               <!-- 带文章卡片输入 -->
@@ -25,9 +27,10 @@
                 trigger="click"
                 placement="bottomLeft"
               >
-                <posts-card slot="content" @select="handlePostSelected($event, item.name)"></posts-card>
+                <posts-card slot="content" :posts="postsWithLink" @select="handlePostSelected($event, item.name)"></posts-card>
                 <a-input :ref="`color${index1}`" v-if="item.type === 'input' && item.card === 'post'" :placeholder="item.note" v-model="form[item.name]" />
               </a-popover>
+              <div class="tip-text mb-1" v-if="item.type === 'input' && item.card === 'post' && form[item.name]">{{ getPostTitleByLink(form[item.name]) }}</div>
 
               <!-- 下拉选择 -->
               <a-select v-if="item.type === 'select'" v-model="form[item.name]" style="width: 100%;">
@@ -87,7 +90,9 @@
                         placement="bottomLeft"
                       >
                         <color-card slot="content" @change="handleColorChange($event, item.name, configItemIndex, field.name)"></color-card>
-                        <a-input :ref="`color-${configItemIndex}-${fieldIndex}`" v-if="field.type === 'input' && field.card === 'color'" :placeholder="field.note" v-model="configItem[field.name]" />
+                        <a-input :ref="`color-${configItemIndex}-${fieldIndex}`" v-if="field.type === 'input' && field.card === 'color'" :placeholder="field.note" v-model="configItem[field.name]">
+                          <div class="w-4 h-4 rounded-full" slot="prefix" v-if="configItem[field.name]" :style="{ backgroundColor: configItem[field.name] }"></div>
+                        </a-input>
                       </a-popover>
 
                       <!-- 带文章卡片输入 -->
@@ -99,6 +104,7 @@
                         <posts-card slot="content" @select="handlePostSelected($event, item.name, configItemIndex, field.name)"></posts-card>
                         <a-input :ref="`color-${configItemIndex}-${fieldIndex}`" v-if="field.type === 'input' && field.card === 'post'" :placeholder="field.note" v-model="configItem[field.name]" />
                       </a-popover>
+                      <div class="tip-text mb-1" v-if="field.type === 'input' && field.card === 'post' && configItem[field.name]">{{ getPostTitleByLink(configItem[field.name]) }}</div>
 
                       <!-- 下拉选择 -->
                       <a-select v-if="field.type === 'select'" v-model="configItem[field.name]" style="width: 100%;">
@@ -176,6 +182,7 @@
 import { ipcRenderer, IpcRendererEvent, shell } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
+import urlJoin from 'url-join'
 import { Site } from '../../../store/modules/site'
 import FooterBox from '../../../components/FooterBox/Index.vue'
 import ColorCard from '../../../components/ColorCard/Index.vue'
@@ -209,6 +216,15 @@ export default class ThemeCustomSetting extends Vue {
     return this.site.currentThemeConfig || []
   }
 
+  get postsWithLink() {
+    return this.site.posts.map((post: any) => {
+      return {
+        ...post,
+        link: urlJoin(this.site.setting.domain, this.site.themeConfig.postPath, post.fileName),
+      }
+    })
+  }
+
   activeKey = 1
 
   mounted() {
@@ -217,6 +233,11 @@ export default class ThemeCustomSetting extends Vue {
 
   activated() {
     this.loadCustomConfig()
+  }
+
+  getPostTitleByLink(link: string) {
+    const foundPost = this.postsWithLink.find((post: any) => post.link === link)
+    return (foundPost && foundPost.data.title) || ''
   }
 
   loadCustomConfig() {

@@ -21,5 +21,6 @@ export default class EmojiCard extends Vue {
   left: 200px;
   right: 0;
   bottom: 0;
+  z-index: 10;
 }
 </style>

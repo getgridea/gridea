@@ -1,36 +1,29 @@
 <template>
-  <div class="post-card">
-    <div class="item-container" v-for="(post, index) in site.posts" :key="index">
+  <div class="post-card" v-if="posts && posts.length > 0">
+    <div class="item-container" v-for="(post, index) in posts" :key="index">
       <div @click="handleClick(post)">{{ post.data.title }}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
-import { State } from 'vuex-class'
-import urlJoin from 'url-join'
-import { Site } from '../../store/modules/site'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component
 export default class PostsCard extends Vue {
-  @State('site') site!: Site
-
-  mounted() {
-    console.log(this.site)
-  }
+  @Prop(Array) posts!: any[]
 
   handleClick(post: any) {
-    const postUrl = urlJoin(this.site.setting.domain, this.site.themeConfig.postPath, post.fileName)
-    this.$emit('select', postUrl)
+    this.$emit('select', post.link)
   }
 }
 </script>
 
 <style lang="less" scoped>
-.color-card {
+.post-card {
   max-height: 480px;
   overflow: scroll;
+  margin: -15px;
 }
 .item-container {
   margin: 4px 0;

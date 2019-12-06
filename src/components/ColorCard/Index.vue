@@ -36,6 +36,7 @@ export default class ColorCard extends Vue {
 .color-card {
   max-height: 160px;
   overflow: scroll;
+  margin: -15px;
 }
 .item-container {
   display: flex;

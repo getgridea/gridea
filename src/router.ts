@@ -8,7 +8,6 @@ import Menu from './views/menu/Index.vue'
 import Tags from './views/tags/Index.vue'
 import Theme from './views/theme/Index.vue'
 import Setting from './views/setting/Index.vue'
-import System from './views/system/Index.vue'
 import Loading from './views/loading/Index.vue'
 import ga from './helpers/analytics'
 
@@ -46,11 +45,6 @@ const router = new Router({
           path: '/setting',
           name: 'setting',
           component: Setting,
-        },
-        {
-          path: '/system',
-          name: 'system',
-          component: System,
         },
         {
           path: '/loading',

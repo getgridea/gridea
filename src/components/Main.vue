@@ -41,12 +41,8 @@
             <span class="nav-text">{{ $t('theme') }}</span>
           </a-menu-item>
           <a-menu-item key="setting">
-            <i class="zwicon-cog menu-icon"></i>
-            <span class="nav-text">{{ $t('setting') }}</span>
-          </a-menu-item>
-          <a-menu-item key="system">
-            <i class="zwicon-desktop menu-icon"></i>
-            <span class="nav-text">{{ $t('system') }}</span>
+            <i class="zwicon-server-stack menu-icon"></i>
+            <span class="nav-text">{{ $t('remote') }}</span>
           </a-menu-item>
         </a-menu>
       </div>
@@ -60,7 +56,7 @@
           {{ $t('syncSite') }}
         </a-button>
         <div class="version-container" :class="{ 'version-dot': hasUpdate }">
-          <span>v {{ version }}</span>
+          <i class="zwicon-slider-circle-h text-lg cursor-pointer" @click="systemModalVisible = true"></i>
           <i class="zwicon-web web-btn" @click="goWeb" v-if="site.setting.domain"></i>
           <a-tooltip :title="`🌟 ${$t('starSupport')}`">
             <a-icon type="github" style="font-size: 14px; cursor: pointer;" @click="handleGithubClick" />
@@ -87,6 +83,10 @@
       <h2>{{ newVersion }}</h2>
       <div class="version-info" v-html="updateContent"></div>
     </a-modal>
+
+    <a-modal :width="900" :visible="systemModalVisible" :footer="null" @cancel="systemModalVisible = false" :maskClosable="false">
+      <app-system />
+    </a-modal>
   </a-layout>
 </template>
 
@@ -95,13 +95,18 @@ import { ipcRenderer, IpcRendererEvent, shell } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import axios from 'axios'
 import { State, Action } from 'vuex-class'
+import AppSystem from './AppSystem/Index.vue'
 import ISnackbar from '../interfaces/snackbar'
 import { Site } from '../store/modules/site'
 import * as pkg from '../../package.json'
 import markdown from '../server/plugins/markdown'
 import ga from '../helpers/analytics'
 
-@Component
+@Component({
+  components: {
+    AppSystem,
+  },
+})
 export default class App extends Vue {
   @State('site') site!: Site
 
@@ -122,6 +127,8 @@ export default class App extends Vue {
   syncErrorModalVisible = false
 
   updateModalVisible = false
+  
+  systemModalVisible = false
 
   updateContent = ''
 

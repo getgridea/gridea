@@ -9,7 +9,7 @@
     </a-row>
     <div class="content-container">
       <div v-for="(tag, index) in site.tags" :key="tag.name" class="tag-wrapper">
-        <div class="tag" @click="tag.used ? null : updateTag(tag, index)">{{ tag.name }}</div>
+        <div class="tag" @click="tag.used ? null : updateTag(tag, index)"><i class="zwicon-price-tag text-base mr-1"></i> {{ tag.name }}</div>
         <i class="zwicon-trash delete-icon" v-if="!tag.used" @click="handleDelete(tag.name)"></i>
       </div>
     </div>
@@ -197,20 +197,22 @@ export default class Tags extends Vue {
 
 .tag-wrapper {
   display: inline-flex;
-  margin-right: 32px;
-  margin-bottom: 8px;
+  margin-right: 24px;
+  margin-bottom: 16px;
   align-items: center;
   border: 1px solid #e8e8e8;
   border-radius: 20px;
   transition: all 0.3s;
   &:hover {
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06)!important;
+    // box-shadow: 0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06)!important;
+    @apply shadow-lg;
   }
   .tag {
     font-size: 12px;
     margin-right: 0px;
     border-radius: 0;
-    padding: 4px 8px;
+    padding: 6px 16px 6px 12px;
+    cursor: default;
     &:not(:last-child) {
       cursor: pointer;
       border-right: 1px solid #e8e8e8;

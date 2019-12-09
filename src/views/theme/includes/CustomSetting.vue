@@ -101,7 +101,7 @@
                         trigger="click"
                         placement="bottomLeft"
                       >
-                        <posts-card slot="content" @select="handlePostSelected($event, item.name, configItemIndex, field.name)"></posts-card>
+                        <posts-card slot="content" :posts="postsWithLink" @select="handlePostSelected($event, item.name, configItemIndex, field.name)"></posts-card>
                         <a-input :ref="`color-${configItemIndex}-${fieldIndex}`" v-if="field.type === 'input' && field.card === 'post'" :placeholder="field.note" v-model="configItem[field.name]" />
                       </a-popover>
                       <div class="tip-text mb-1" v-if="field.type === 'input' && field.card === 'post' && configItem[field.name]">{{ getPostTitleByLink(configItem[field.name]) }}</div>
@@ -217,12 +217,14 @@ export default class ThemeCustomSetting extends Vue {
   }
 
   get postsWithLink() {
-    return this.site.posts.map((post: any) => {
+    const list = this.site.posts.map((post: any) => {
       return {
         ...post,
         link: urlJoin(this.site.setting.domain, this.site.themeConfig.postPath, post.fileName),
       }
-    })
+    }).filter((post: any) => post.data.published)
+    
+    return list
   }
 
   activeKey = 1
@@ -290,8 +292,12 @@ export default class ThemeCustomSetting extends Vue {
     }
   }
 
-  handlePostSelected(postUrl: string, name: string) {
-    this.form[name] = postUrl
+  handlePostSelected(postUrl: string, name: string, arrayIndex?: number, fieldName?: string) {
+    if (arrayIndex === undefined) {
+      this.form[name] = postUrl
+    } else if (arrayIndex !== undefined && fieldName !== undefined) {
+      this.form[name][arrayIndex][fieldName] = postUrl
+    }
   }
 
   beforeImageUpload(file: any, formItemName: string, arrayFieldItemName?: string, configItemIndex?: number) {

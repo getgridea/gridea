@@ -66,6 +66,7 @@
     "vue-i18n": "^8.7.0",
     "vue-property-decorator": "^7.3.0",
     "vue-router": "^3.0.1",
+    "vue-shortkey": "^3.1.7",
     "vue2-transitions": "^0.2.3",
     "vuex": "^3.0.1",
     "vuex-class": "^0.3.1"

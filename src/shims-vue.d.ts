@@ -24,6 +24,7 @@ declare module 'markdown-it-image-lazy-loading'
 declare module 'electron-google-analytics'
 declare module 'macaddress'
 declare module 'v-emoji-picker'
+declare module 'vue-shortkey'
 
 declare module 'easy-ftp'
 declare module 'node-ssh'

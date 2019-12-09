@@ -5,6 +5,7 @@ import '@/assets/styles/tailwind.css'
 import '@/assets/styles/main.less'
 import VueI18n from 'vue-i18n'
 import Prism from 'prismjs'
+import VueShortkey from 'vue-shortkey'
 import { remote } from 'electron'
 import locale from './assets/locales'
 import App from './App.vue'
@@ -35,6 +36,7 @@ Prism.highlightAll()
 
 Vue.use(Antd)
 Vue.use(VueBus)
+Vue.use(VueShortkey)
 Vue.prototype.$moment = moment
 
 Vue.config.productionTip = false

@@ -73,8 +73,8 @@
               <i class="zwicon-cog"></i>
             </div>
           </a-tooltip>
-          <a-tooltip placement="left" :title="$t('preview')">
-            <div class="op-btn" @click="previewPost">
+          <a-tooltip placement="left" :title="`${$t('preview')} [Ctrl + P]`">
+            <div class="op-btn" v-shortkey="['ctrl', 'p']" @shortkey="shortPreviewPost" @click="previewPost">
               <i class="zwicon-eye"></i>
             </div>
           </a-tooltip>
@@ -596,6 +596,14 @@ export default class ArticleUpdate extends Vue {
     }, 1)
 
     ga.event('Post', 'Post - click-preview-post', {})
+  }
+
+  shortPreviewPost(event: any) {
+    if (this.previewVisible) {
+      this.previewVisible = false
+      return
+    }
+    this.previewPost()
   }
 
   /**

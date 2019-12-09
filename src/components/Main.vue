@@ -87,6 +87,14 @@
     <a-modal :width="900" :visible="systemModalVisible" :footer="null" @cancel="systemModalVisible = false" :maskClosable="false">
       <app-system />
     </a-modal>
+
+    <a-modal :width="900" :visible="logModalVisible" :footer="null" @cancel="logModalVisible = false">
+      <h2>{{ log.type }}</h2>
+      <pre>
+        {{ log.message }}
+      </pre>
+    </a-modal>
+
   </a-layout>
 </template>
 
@@ -132,11 +140,20 @@ export default class App extends Vue {
 
   updateContent = ''
 
+  logModalVisible = false
+
+  log: any = {}
+
   created() {
     this.$bus.$on('site-reload', () => {
       this.reloadSite()
     })
     this.checkUpdate()
+
+    ipcRenderer.on(('log-error'), (event: any, result: any) => {
+      this.log = result
+      this.logModalVisible = true
+    })
   }
 
   clickMenu(e: any) {

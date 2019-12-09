@@ -223,7 +223,11 @@ export default class Renderer extends Model {
     const renderFile = async (path: string, data: any) => {
       await ejs.renderFile(path, data, {}, async (err: any, str) => {
         if (err) {
-          console.log(err)
+          console.error('❌ Render post list error')
+          this.mainWindow.webContents.send('log-error', {
+            type: 'Render post list error',
+            message: err.message,
+          })
         }
         if (str) {
           html = str
@@ -305,7 +309,11 @@ export default class Renderer extends Model {
       let html = ''
       ejs.renderFile(urlJoin(this.themePath, 'templates', 'post.ejs'), renderData, {}, async (err: any, str) => {
         if (err) {
-          console.error('EJS Render Error', err)
+          console.error('❌ Render post detail error')
+          this.mainWindow.webContents.send('log-error', {
+            type: 'Render post detail error',
+            message: err.message,
+          })
         }
         if (str) {
           html = str
@@ -335,7 +343,11 @@ export default class Renderer extends Model {
     await fse.ensureDir(tagsFolder)
     await ejs.renderFile(urlJoin(this.themePath, 'templates', 'tags.ejs'), renderData, {}, async (err: any, str) => {
       if (err) {
-        console.log('❌', err)
+        console.log('❌ Render tags page error', err)
+        this.mainWindow.webContents.send('log-error', {
+          type: 'Render tags page error',
+          message: err.message,
+        })
       }
       if (str) {
         html = str
@@ -402,6 +414,13 @@ export default class Renderer extends Model {
 
         let html = ''
         ejs.renderFile(urlJoin(this.themePath, 'templates', 'tag.ejs'), renderData, {}, async (err: any, str) => {
+          if (err) {
+            console.log('❌ Render tag detail error', err)
+            this.mainWindow.webContents.send('log-error', {
+              type: 'Render tag detail error',
+              message: err.message,
+            })
+          }
           if (str) {
             html = str
           }
@@ -451,6 +470,10 @@ export default class Renderer extends Model {
       await ejs.renderFile(urlJoin(this.themePath, 'templates', name), renderData, async (err: any, str) => {
         if (err) {
           console.error('❌ Render custom page error', err)
+          this.mainWindow.webContents.send('log-error', {
+            type: 'Render custom page error',
+            message: err.message,
+          })
         }
         if (str) {
           html = str

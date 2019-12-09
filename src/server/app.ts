@@ -139,6 +139,7 @@ export default class App {
       ...this.db,
       currentThemeConfig,
       appDir: this.appDir,
+      mainWindow: this.mainWindow,
     }
   }
 

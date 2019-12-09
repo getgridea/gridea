@@ -1,6 +1,7 @@
 import path from 'path'
 import low from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
+import { BrowserWindow } from 'electron'
 import { IApplicationDb, IApplication } from './interfaces/application'
 
 export default class Model {
@@ -14,9 +15,12 @@ export default class Model {
 
   db: IApplicationDb
 
+  mainWindow: BrowserWindow
+
   constructor(appInstance: IApplication) {
     this.appDir = appInstance.appDir
     this.db = appInstance.db
+    this.mainWindow = appInstance.mainWindow
 
     this.initDataStore()
   }

@@ -975,8 +975,12 @@ export default class ArticleUpdate extends Vue {
     margin-bottom: 16px;
   }
 
+  /deep/ ol {
+    list-style: decimal !important;
+  }
+
   /deep/ ul {
-    list-style-type: square;
+    list-style-type: square !important;
   }
 
   /deep/ h1, h2, h3, h4, h5, h6 {

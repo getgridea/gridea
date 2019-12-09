@@ -171,10 +171,8 @@ export default class Renderer extends Model {
       }
     })
 
-    const excludeHidePostsData = this.postsData.filter((item: IPostRenderData) => !item.hideInList)
-
     this.siteData = {
-      posts: excludeHidePostsData,
+      posts: this.postsData,
       tags: this.tagsData,
       menus: this.menuData,
       themeConfig: this.db.themeConfig,
@@ -219,7 +217,8 @@ export default class Renderer extends Model {
     }
 
     let html = ''
-    let renderPath = urlJoin(this.outputDir, archivePath, 'index.html')
+    const outputFolder = urlJoin(this.outputDir, archivePath)
+    let renderPath = urlJoin(outputFolder, 'index.html')
 
     const renderFile = async (path: string, data: any) => {
       await ejs.renderFile(path, data, {}, async (err: any, str) => {
@@ -236,6 +235,7 @@ export default class Renderer extends Model {
     if (!excludeHidePostsData.length) {
       renderData.site.isHomepage = !archivePath
 
+      fse.ensureDirSync(outputFolder)
       renderFile(renderTemplatePath, renderData)
       await fs.writeFileSync(renderPath, html)
       return
@@ -441,6 +441,7 @@ export default class Renderer extends Model {
     const renderData = {
       site: this.siteData,
     }
+    console.log('site:::', renderData.site)
     customTemplates.forEach(async (name: string) => {
       const renderFolder = urlJoin(this.outputDir, name.substring(0, name.length - 4))
       const renderPath = urlJoin(renderFolder, 'index.html')

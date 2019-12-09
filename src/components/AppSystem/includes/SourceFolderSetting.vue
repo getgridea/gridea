@@ -51,7 +51,7 @@ export default class System extends Vue {
 
   async handleFolderSelect() {
     const res = await remote.dialog.showOpenDialog({
-      properties: ['openDirectory'],
+      properties: ['openDirectory', 'createDirectory'],
     })
     if (res.filePaths.length > 0) {
       this.currentFolderPath = res.filePaths[0].replace(/\\/g, '/')

@@ -41,10 +41,10 @@
           <a-switch v-model="form.showFeatureImage" />
         </a-form-item>
         <a-form-item :label="$t('articlesPerPage')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-slider v-model="form.postPageSize" :min="1" :max="50" />
+          <a-slider v-model="form.postPageSize" :min="0" :max="50" />
         </a-form-item>
         <a-form-item :label="$t('archivesPerPage')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-slider v-model="form.archivesPageSize" :min="1" :max="100" />
+          <a-slider v-model="form.archivesPageSize" :min="0" :max="100" />
         </a-form-item>
         <a-form-item :label="$t('articleDefault')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-radio-group name="postUrlFormat" v-model="form.postUrlFormat">

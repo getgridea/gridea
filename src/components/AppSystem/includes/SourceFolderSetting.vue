@@ -3,9 +3,7 @@
     <a-form>
       <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-input v-model="currentFolderPath" read-only>
-          <a-upload slot="addonAfter" action="" directory :beforeUpload="handleFolderChange" :showUploadList="false">
-            <a-icon class="folder-btn" type="folder-open" />
-          </a-upload>
+          <i slot="addonAfter" class="zwicon-folder-open px-2" @click="handleFolderSelect"></i>
         </a-input>
       </a-form-item>
       <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
@@ -16,7 +14,9 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer, IpcRendererEvent, remote } from 'electron'
+import {
+  ipcRenderer, IpcRendererEvent, remote,
+} from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 
@@ -49,9 +49,13 @@ export default class System extends Vue {
     })
   }
 
-  handleFolderChange(data: any) {
-    this.currentFolderPath = data.path.replace(/\\/g, '/')
-    return false
+  async handleFolderSelect() {
+    const res = await remote.dialog.showOpenDialog({
+      properties: ['openDirectory'],
+    })
+    if (res.filePaths.length > 0) {
+      this.currentFolderPath = res.filePaths[0].replace(/\\/g, '/')
+    }
   }
 }
 </script>

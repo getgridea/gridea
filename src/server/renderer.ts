@@ -10,6 +10,7 @@ import junk from 'junk'
 import { wordCount, timeCalc } from '../helpers/words-count'
 import Model from './model'
 import ContentHelper from '../helpers/content-helper'
+import { formatThemeCustomConfigToRender } from '../helpers/utils'
 import {
   IPostDb, IPostRenderData, ITagRenderData, ISiteTagsData,
 } from './interfaces/post'
@@ -176,7 +177,7 @@ export default class Renderer extends Model {
       tags: this.tagsData,
       menus: this.menuData,
       themeConfig: this.db.themeConfig,
-      customConfig: this.db.themeCustomConfig,
+      customConfig: formatThemeCustomConfigToRender(this.db.themeCustomConfig, this.db.currentThemeConfig),
       utils: this.utils,
       isHomepage: false,
     }

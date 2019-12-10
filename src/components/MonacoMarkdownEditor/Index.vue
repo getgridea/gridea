@@ -1,5 +1,5 @@
 <template>
-  <div id="monaco-markdown-editor" style="width: 728px; min-height: calc(100vh - 176px); margin: 0 auto;">
+  <div id="monaco-markdown-editor" style="max-width: 728px; min-height: calc(100vh - 176px); margin: 0 auto;">
   </div>
 </template>
 
@@ -53,6 +53,7 @@ export default class MonacoMarkdownEditor extends Vue {
       snippetSuggestions: 'none',
       lineDecorationsWidth: 0,
       occurrencesHighlight: false,
+      automaticLayout: true,
     })
 
     const extension = new MonacoMarkdown.MonacoMarkdownExtension()

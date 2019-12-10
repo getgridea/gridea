@@ -184,6 +184,7 @@ export default class Theme extends Model {
 
   public async getThemeCustomConfig() {
     const config = await this.$theme.get('customConfig').value()
+    // TODO: 解析 markdown 类型的自定义数据
     return config
   }
 

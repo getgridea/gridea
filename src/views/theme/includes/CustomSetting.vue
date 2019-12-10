@@ -75,6 +75,11 @@
                 </a-tooltip>
               </div>
 
+              <!-- Markdown 类型 -->
+              <div v-if="item.type === 'markdown'" class="shadow p-4">
+                <monaco-markdown-editor ref="monacoMarkdownEditor" v-model="form[item.name]"></monaco-markdown-editor>
+              </div>
+
               <!-- array 类型 -->
               <div v-if="item.type === 'array'">
                 <div class="item-card" v-for="(configItem, configItemIndex) in form[item.name]" :key="configItemIndex">
@@ -148,6 +153,11 @@
                           </a-button>
                         </a-tooltip>
                       </div>
+
+                      <!-- Markdown 类型 -->
+                      <div v-if="field.type === 'markdown'" class="shadow p-4">
+                        <monaco-markdown-editor ref="monacoMarkdownEditor" v-model="configItem[field.name]"></monaco-markdown-editor>
+                      </div>
                     </a-form-item>
                   </div>
 
@@ -184,6 +194,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import urlJoin from 'url-join'
 import { Site } from '../../../store/modules/site'
+import MonacoMarkdownEditor from '../../../components/MonacoMarkdownEditor/Index.vue'
 import FooterBox from '../../../components/FooterBox/Index.vue'
 import ColorCard from '../../../components/ColorCard/Index.vue'
 import PostsCard from '../../../components/PostsCard/Index.vue'
@@ -191,6 +202,7 @@ import PostsCard from '../../../components/PostsCard/Index.vue'
 @Component({
   name: 'ThemeCustomSetting',
   components: {
+    MonacoMarkdownEditor,
     FooterBox,
     ColorCard,
     PostsCard,

@@ -22,7 +22,7 @@
       </a-tooltip>
     </a-row>
     <div class="content-container">
-      <a-table
+      <!-- <a-table
         :rowSelection="rowSelection"
         :columns="columns"
         :rowKey="record => record.fileName"
@@ -55,7 +55,25 @@
           slot-scope="text"
         >{{ text ? $t('published') : $t('draft') }}</a-tag>
         <span slot="date" slot-scope="text" class="post-date">{{ text }}</span>
-      </a-table>
+      </a-table> -->
+      <div class="">
+        <div class="p-4 border-b border-gray-100 flex" v-for="post in postList" :key="post.fileName">
+          <div class="flex flex-shrink-0 items-center pr-4">
+            <a-checkbox></a-checkbox>
+          </div>
+          <div class="flex-1">
+            <a class="block text-base text-gray-700 mb-2">{{ post.data.title }}</a>
+            <div class="text-xs flex items-center">
+              <div class="flex items-center mr-2">
+                <i class="ri-calendar-line mr-1"></i> {{ $moment(post.data.date).format('YYYY-MM-DD') }}
+              </div>
+              <div class="text-xs flex items-center px-2 rounded-lg font-medium" :class="{ 'bg-green-100 text-green-400': post.data.published, 'bg-gray-200 text-gray-500': !post.data.published }">
+                {{ post.data.published ? $t('published') : $t('draft') }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <fade-transition :duration="100">

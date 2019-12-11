@@ -461,7 +461,7 @@ export default class Renderer extends Model {
     const renderData = {
       site: this.siteData,
     }
-    console.log('site:::', renderData.site)
+
     customTemplates.forEach(async (name: string) => {
       const renderFolder = urlJoin(this.outputDir, name.substring(0, name.length - 4))
       const renderPath = urlJoin(renderFolder, 'index.html')

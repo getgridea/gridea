@@ -36,8 +36,8 @@ export default class App extends Vue {
   }
 
   ::-webkit-scrollbar{
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
     border-radius: 4px;
     background-color: #fff;
 

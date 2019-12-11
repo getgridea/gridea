@@ -1,5 +1,7 @@
 <template>
-  <div id="monaco-markdown-editor" style="max-width: 728px; min-height: calc(100vh - 176px); margin: 0 auto;">
+  <div id="monaco-markdown-editor" style="max-width: 728px; min-height: calc(100vh - 176px); margin: 0 auto;" :style="{
+    width: isPostPage ? '728px' : 'auto'
+  }">
   </div>
 </template>
 
@@ -13,6 +15,8 @@ import theme from './theme'
 
 @Component
 export default class MonacoMarkdownEditor extends Vue {
+  @Prop({ type: Boolean }) readonly isPostPage!: boolean
+
   @Model('change', { type: String }) readonly value!: string
 
 
@@ -43,9 +47,9 @@ export default class MonacoMarkdownEditor extends Vue {
       renderIndentGuides: false,
       renderLineHighlight: 'none',
       scrollbar: {
-        vertical: 'hidden',
+        vertical: 'auto',
         horizontal: 'hidden',
-        verticalScrollbarSize: 0,
+        verticalScrollbarSize: 4,
       },
       lineHeight: 26.25,
       scrollBeyondLastLine: false,
@@ -74,37 +78,37 @@ export default class MonacoMarkdownEditor extends Vue {
   }
 
   setEditorHeight() {
-    const { editor } = this
-    if (!editor) return
+    // const { editor } = this
+    // if (!editor) return
 
-    const editorDomNode = editor.getDomNode()
-    if (!editorDomNode) return
+    // const editorDomNode = editor.getDomNode()
+    // if (!editorDomNode) return
 
-    const LINE_HEIGHT = 26.25
+    // const LINE_HEIGHT = 26.25
 
-    const container = editorDomNode.getElementsByClassName('view-lines')[0] as HTMLElement
-    const containerHeight = container.offsetHeight
-    const lineHeight = container.firstChild
-      ? (container.firstChild as HTMLElement).offsetHeight
-      : LINE_HEIGHT
+    // const container = editorDomNode.getElementsByClassName('view-lines')[0] as HTMLElement
+    // const containerHeight = container.offsetHeight
+    // const lineHeight = container.firstChild
+    //   ? (container.firstChild as HTMLElement).offsetHeight
+    //   : LINE_HEIGHT
     
-    if (!containerHeight) {
-      setTimeout(this.setEditorHeight, 0)
-    } else {
-      const currLineCount = container.childElementCount
-      const nextHeight = (this.prevLineCount > currLineCount)
-        ? currLineCount * lineHeight
-        : containerHeight
+    // if (!containerHeight) {
+    //   setTimeout(this.setEditorHeight, 0)
+    // } else {
+    //   const currLineCount = container.childElementCount
+    //   const nextHeight = (this.prevLineCount > currLineCount)
+    //     ? currLineCount * lineHeight
+    //     : containerHeight
       
-      editorDomNode.style.height = `${nextHeight}px`
-      editor.layout()
+    //   editorDomNode.style.height = `${nextHeight}px`
+    //   editor.layout()
 
-      if (container.childElementCount !== currLineCount) {
-        this.setEditorHeight()
-      } else {
-        this.prevLineCount = currLineCount
-      }
-    }
+    //   if (container.childElementCount !== currLineCount) {
+    //     this.setEditorHeight()
+    //   } else {
+    //     this.prevLineCount = currLineCount
+    //   }
+    // }
 
     const lines = document.querySelectorAll('.view-line') as any
     if (lines) {
@@ -143,6 +147,10 @@ export default class MonacoMarkdownEditor extends Vue {
   }
 }
 
+/deep/ .decorationsOverviewRuler {
+  display: none !important;
+}
+
 /deep/ .monaco-menu .monaco-action-bar.vertical .action-label.separator {
   border-bottom-color: #E2E8F0 !important;
 }
@@ -150,6 +158,17 @@ export default class MonacoMarkdownEditor extends Vue {
   &:before {
     content: '开始写作...';
     color: rgba(208, 211, 217, 0.6);
+  }
+}
+
+/deep/ .monaco-editor {
+  .scrollbar {
+    .slider {
+      background: #eee;
+    }
+  }
+  .scroll-decoration {
+    box-shadow: #efefef 0 2px 2px -2px inset;
   }
 }
 </style>

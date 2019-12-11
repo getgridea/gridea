@@ -21,12 +21,13 @@
     </div>
     <div class="page-content">
       <div class="editor-wrapper">
-        <!-- <div class="tip-text">{{ $t('editorTip') }}</div> -->
         <a-input class="post-title" size="large" :placeholder="$t('title')" v-model="form.title" @change="handleTitleChange" @keydown="handleInputKeydown"></a-input>
         <monaco-markdown-editor
           ref="monacoMarkdownEditor"
           v-model="form.content"
           @keydown="handleInputKeydown"
+          :isPostPage="true"
+          class="post-editor"
         ></monaco-markdown-editor>
         <div class="footer-info">
           {{ $t('writingIn') }} <a @click.prevent="openPage('https://gridea.dev')" class="link">Gridea</a>
@@ -687,6 +688,7 @@ export default class ArticleUpdate extends Vue {
     z-index: 1026;
     background: #fff;
     transition: opacity 700ms ease;
+    border-bottom: 1px solid #fafafa;
 
     .op-btn {
       height: 30px;
@@ -758,7 +760,7 @@ export default class ArticleUpdate extends Vue {
   // border-bottom: 1px solid #e8e8e8;
   display: block;
   width: 728px;
-  margin: 24px auto;
+  margin: 12px auto 12px;
   &:focus {
     box-shadow: none;
   }
@@ -818,7 +820,9 @@ export default class ArticleUpdate extends Vue {
   font-weight: lighter;
   font-family: PingFang SC,-apple-system,SF UI Text,Lucida Grande,STheiti,Microsoft YaHei,sans-serif !important;
   -webkit-font-smoothing: antialiased;
-  margin-top: 16px;
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid #fafafa;
   .link {
     color: #a5a5a5;
     &:hover {
@@ -831,6 +835,23 @@ export default class ArticleUpdate extends Vue {
   width: 100%;
   margin: 0 auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .post-editor {
+    flex: 1;
+
+    /deep/ .monaco-markdown-editor {
+      width: 728px;
+    }
+
+    /deep/ .monaco-editor {
+      .scrollbar {
+        position: fixed !important;
+        top: 110px !important;
+      }
+    }
+  }
 }
 .right-tool-container,
 .right-bottom-tool-container {
@@ -864,7 +885,7 @@ export default class ArticleUpdate extends Vue {
 }
 
 .right-bottom-tool-container {
-  bottom: 12px;
+  bottom: 2px;
 }
 
 .post-title-container {

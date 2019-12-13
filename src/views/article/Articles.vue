@@ -116,7 +116,7 @@ export default class Articles extends Vue {
 
   currentPage = 1
 
-  pageSize = 5
+  pageSize = 20
 
   handleSearchInputBlur() {
     if (!this.keyword) {

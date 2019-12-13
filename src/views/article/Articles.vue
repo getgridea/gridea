@@ -1,78 +1,77 @@
 <template>
   <div class="articles-page">
-    <a-row type="flex" justify="end" class="tool-container">
-      <a-input-search
-        class="search-input"
-        :placeholder="$t('searchArticle')"
-        style="width: 200px"
-        @search="onSearch"
-        v-model="keyword"
-        @blur="handleSearchInputBlur"
-        v-if="searchInputVisible"
-      />
-      <a-tooltip placement="bottom" :title="$t('searchArticle')">
-        <div class="op-btn" @click="searchInputVisible = true" v-if="!keyword && !searchInputVisible">
-          <i class="zwicon-search"></i>
+    <div class="flex justify-between tool-container">
+      <div class="flex items-center">
+        <div v-if="selectedPost.length > 0" @click="deleteSelectedPosts" class="flex items-center py-1 px-2 bg-gray-100 transition cursor-default hover:bg-gray-200 rounded-sm">
+          <i class="ri-delete-bin-3-line mr-2"></i><span class="text-sm">{{ $t('deleteSelected') }} {{ selectedPost.length }}</span>
         </div>
-      </a-tooltip>
-      <a-tooltip placement="bottom" :title="$t('newArticle')">
-        <div class="op-btn" tabindex="0" @click="newArticle">
-          <i class="zwicon-plus"></i>
-        </div>
-      </a-tooltip>
-    </a-row>
-    <div class="content-container">
-      <!-- <a-table
-        :rowSelection="rowSelection"
-        :columns="columns"
-        :rowKey="record => record.fileName"
-        :dataSource="postList"
-        :pagination="{ size: 'small' }"
-      >
-        <span slot="customTitle">
-          <template v-if="selectedRowKeys.length > 0">
-            {{ $t('deleteSelected') }} {{ selectedRowKeys.length }}
-            <i class="zwicon-trash delete-btn" @click="deleteSelectedPosts"></i>
-          </template>
-          <template v-else>{{ $t('title') }}</template>
-        </span>
-        <a
-          class="post-title"
-          href="javascript:;"
-          slot="name"
-          slot-scope="text, record"
-          @click="editPost(record)"
-        >
-          <i class="zwicon-document post-icon"></i>
-          {{ text }}
-          <a-tag v-if="record.data.hideInList" color="orange">HIDE</a-tag>
-          <a-tag v-if="record.data.isTop" color="orange">TOP</a-tag>
-        </a>
-        <a-tag
-          :class="{'tag-success': text, 'tag-draft': !text }"
-          slot="status"
-          :color="text ? '#d8f5ea': '#e8e8e8'"
-          slot-scope="text"
-        >{{ text ? $t('published') : $t('draft') }}</a-tag>
-        <span slot="date" slot-scope="text" class="post-date">{{ text }}</span>
-      </a-table> -->
-      <div class="">
-        <div class="p-4 border-b border-gray-100 flex" v-for="post in postList" :key="post.fileName">
-          <div class="flex flex-shrink-0 items-center pr-4">
-            <a-checkbox></a-checkbox>
+      </div>
+      <div class="flex">
+        {{ postList.length }} {{ currentPostList.length }}
+        <a-input-search
+          class="search-input"
+          :placeholder="$t('searchArticle')"
+          style="width: 200px"
+          @search="onSearch"
+          v-model="keyword"
+          @blur="handleSearchInputBlur"
+          v-if="searchInputVisible"
+        />
+        <a-tooltip placement="bottom" :title="$t('searchArticle')">
+          <div class="op-btn" @click="searchInputVisible = true" v-if="!keyword && !searchInputVisible">
+            <i class="zwicon-search"></i>
           </div>
-          <div class="flex-1">
-            <a class="block text-base text-gray-700 mb-2">{{ post.data.title }}</a>
-            <div class="text-xs flex items-center">
-              <div class="flex items-center mr-2">
-                <i class="ri-calendar-line mr-1"></i> {{ $moment(post.data.date).format('YYYY-MM-DD') }}
-              </div>
-              <div class="text-xs flex items-center px-2 rounded-lg font-medium" :class="{ 'bg-green-100 text-green-400': post.data.published, 'bg-gray-200 text-gray-500': !post.data.published }">
-                {{ post.data.published ? $t('published') : $t('draft') }}
+        </a-tooltip>
+        <a-tooltip placement="bottom" :title="$t('newArticle')">
+          <div class="op-btn" tabindex="0" @click="newArticle">
+            <i class="zwicon-plus"></i>
+          </div>
+        </a-tooltip>
+      </div>
+    </div>
+    <div class="content-container">
+      <div class="pb-12">
+        <div
+          class="post-container border border-gray-200 flex mb-4 rounded-sm relative cursor-pointer transition-fast hover:bg-gray-100"
+          v-for="post in currentPostList" :key="post.fileName"
+          @click="editPost(post)"
+        >
+          <div class="p-4 flex-1 flex">
+            <div class="flex flex-shrink-0 items-center pr-4">
+              <a-checkbox @click.stop="() => {}" :checked="selectedPost.includes(post)" @change="onSelectChange(post)"></a-checkbox>
+            </div>
+            <div class="flex-1">
+              <a class="post-title block text-base text-gray-700 mb-2">{{ post.data.title }}</a>
+              <div class="text-xs flex items-center">
+                <div class="flex items-center mr-2 text-gray-400">
+                  <i class="ri-calendar-line mr-1"></i> {{ $moment(post.data.date).format('YYYY-MM-DD') }}
+                </div>
+                <div class="text-xs flex items-center px-2 rounded border" :class="{ 'bg-green-100 border-green-200 text-green-400': post.data.published, 'bg-gray-100 border-gray-200 text-gray-500': !post.data.published }">
+                  {{ post.data.published ? $t('published') : $t('draft') }}
+                </div>
               </div>
             </div>
           </div>
+
+          <img v-if="post.data.feature" :src="post.data.feature" class="feature-img" />
+
+          <div class="absolute right-0 top-0 -mt-px -mr-px flex">
+            <div v-if="post.data.hideInList" class="text-xs flex items-center px-2 rounded-b rounded-br-none bg-gray-800 text-white">
+              HIDE
+            </div>
+            <div v-if="post.data.isTop" class="ml-2 text-xs flex items-center px-2 rounded-b rounded-br-none bg-yellow-400 text-gray-900">
+              TOP
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="pagination-container py-2" v-if="postList.length > pageSize">
+        <a-pagination
+          v-model="currentPage"
+          :pageSize="pageSize"
+          :total="postList.length"
+          @change="handlePageChanged"
+        />
       </div>
     </div>
 
@@ -110,13 +109,15 @@ export default class Articles extends Vue {
 
   currentArticleFileName = ''
 
-  selectedRowKeys = []
-
-  selectedPost = []
+  selectedPost: any = []
 
   keyword = ''
 
   searchInputVisible = false
+
+  currentPage = 1
+
+  pageSize = 5
 
   handleSearchInputBlur() {
     if (!this.keyword) {
@@ -124,44 +125,25 @@ export default class Articles extends Vue {
     }
   }
 
-  get columns() {
-    return [
-      {
-        dataIndex: 'data.title',
-        slots: { title: 'customTitle' },
-        scopedSlots: { customRender: 'name' },
-      },
-      {
-        title: this.$t('status'),
-        dataIndex: 'data.published',
-        scopedSlots: { customRender: 'status' },
-        width: 100,
-      },
-      {
-        title: this.$t('createAt'),
-        dataIndex: 'data.date',
-        scopedSlots: { customRender: 'date' },
-        width: 185,
-      },
-    ]
-  }
-
   get postList() {
     return this.site.posts.filter((item: IPost) => item.data.title.toLowerCase().includes(this.keyword.toLowerCase()))
   }
 
-  get rowSelection() {
-    return {
-      selectedRowKeys: this.selectedRowKeys,
-      onChange: this.onSelectChange,
+  get currentPostList() {
+    return this.postList.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+  }
+
+  onSelectChange(post: any) {
+    const foundIndex = this.selectedPost.findIndex((item: any) => item === post)
+    if (foundIndex !== -1) {
+      this.selectedPost.splice(foundIndex, 1)
+    } else {
+      this.selectedPost.push(post)
     }
   }
 
-  onSelectChange(selectedRowKeys: any, selectedRows: any) {
-    console.log(selectedRowKeys, selectedRows)
-
-    this.selectedRowKeys = selectedRowKeys
-    this.selectedPost = selectedRows
+  handlePageChanged(page: number) {
+    this.currentPage = page
   }
 
   mounted() {
@@ -222,15 +204,19 @@ export default class Articles extends Vue {
             ga.event('Post', 'Post - delete', { evLabel: this.site.setting.domain, evValue: this.selectedPost.length })
 
             this.selectedPost = []
-            this.selectedRowKeys = []
           }
         })
       },
     })
   }
 
-  onSearch(val: any) {
+  onSearch(val: string) {
     this.keyword = val
+  }
+
+  @Watch('keyword')
+  handleKeywordChange(val: string) {
+    this.currentPage = 1
   }
 }
 </script>
@@ -241,33 +227,30 @@ export default class Articles extends Vue {
 .articles-page {
   position: relative;
 }
-.post-date {
-  color: #989898;
-  font-size: 12px;
-}
 
-.tag-success {
-  color: #0e4933;
-}
-.tag-draft {
-  color: #4c4c4c;
-}
-
-.post-title {
-  color: #373530;
+.post-container {
   &:hover {
-    color: #3687eb;
+    .post-title {
+      color: @link-color;
+    }
   }
 }
-.post-icon {
-  font-size: 18px;
+
+.feature-img {
+  height: 88px;
+  width: 176px;
+  object-fit: cover;
+  margin-top: -1px;
 }
-.delete-btn {
-  font-size: 18px;
-  font-weight: bold;
-  color: @primary-color;
-  &:hover {
-    color: #fa5252;
-  }
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 200px;
+  background: #fff;
+  border-top: 1px solid #e8e8e88a;
 }
 </style>

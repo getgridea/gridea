@@ -1,5 +1,7 @@
 const messages: any = {
   'zh-CN': {
+    edit: '编辑',
+    help: '帮助',
     save: '保存',
     undo: '撤销',
     redo: '重做',
@@ -13,6 +15,8 @@ const messages: any = {
     quit: '退出',
   },
   'zh-TW': {
+    edit: '编辑',
+    help: '帮助',
     save: '保存',
     undo: '撤銷',
     redo: '重做',
@@ -26,6 +30,8 @@ const messages: any = {
     quit: '退出',
   },
   'en-US': {
+    edit: 'Edit',
+    help: 'Help',
     save: 'Save',
     undo: 'Undo',
     redo: 'Redo',

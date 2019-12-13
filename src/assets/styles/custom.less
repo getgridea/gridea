@@ -109,23 +109,23 @@
   box-shadow: none;
   text-shadow: none;
 }
-.ant-table-pagination.ant-pagination {
-  margin: 8px 0;
-}
-
-.ant-pagination-item a {
-  color: #718096;
-}
-
-.ant-pagination-item-active, .ant-pagination-item-active:focus, .ant-pagination-item-active:hover {
-  border-color: transparent;
-  color: #1A202C;
-  font-weight: bold;
-}
 
 .ant-menu-inline > .ant-menu-item {
   height: 36px;
   line-height: 36px;
+}
+
+.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link, .ant-pagination-item {
+  border: none;
+  &:hover {
+    background: #fafafa;
+  }
+}
+
+.ant-pagination-item-active {
+  &, &:hover {
+    background: #eaeaea;
+  }
 }
 
 .ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {

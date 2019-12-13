@@ -683,12 +683,10 @@ export default class ArticleUpdate extends Vue {
   flex-direction: column;
   .page-title {
     padding: 8px 16px;
-    // border-bottom: 1px solid #e8e8e88a;
-    // box-shadow: 0 3px 20px #4343430d;
     z-index: 1026;
     background: #fff;
     transition: opacity 700ms ease;
-    border-bottom: 1px solid #fafafa;
+    border-bottom: 1px solid #e8e8e88a;
 
     .op-btn {
       height: 30px;
@@ -815,16 +813,15 @@ export default class ArticleUpdate extends Vue {
 }
 .footer-info {
   text-align: center;
-  color: #a5a5a5;
+  color: #666;
   font-size: 12px;
   font-weight: lighter;
-  font-family: PingFang SC,-apple-system,SF UI Text,Lucida Grande,STheiti,Microsoft YaHei,sans-serif !important;
   -webkit-font-smoothing: antialiased;
-  padding-top: 8px;
+  padding-top: 6px;
   margin-top: 8px;
-  border-top: 1px solid #fafafa;
+  border-top: 1px solid #e8e8e88a;
   .link {
-    color: #a5a5a5;
+    color: #666;
     &:hover {
       color: #101010;
     }
@@ -893,7 +890,7 @@ export default class ArticleUpdate extends Vue {
 }
 
 .save-tip {
-  padding: 6px 10px;
+  padding: 4px 10px;
   line-height: 22px;
   font-size: 12px;
   color: #b7b7b7;

@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.transition {
+  transition: all .1s ease-in !important;
+}
+
+@variants responsive, hover {
+  .translate-r-2px {
+    transform: translateX(2px) !important;
+  }
+  .transition-fast {
+    transition: all .2s ease !important;
+  }
+}

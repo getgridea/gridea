@@ -12,7 +12,7 @@
         :columns="columns"
         :dataSource="site.menus"
         rowKey="name"
-        :pagination="{ size: 'small' }"
+        :pagination="false"
       >
         <a
           class="menu-title"

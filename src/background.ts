@@ -61,7 +61,7 @@ function createWindow() {
   // menu
   const template: any = [
     {
-      label: 'Edit',
+      label: menuLabels.edit,
       submenu: [
         {
           label: menuLabels.save,
@@ -89,7 +89,7 @@ function createWindow() {
       role: 'windowMenu',
     },
     {
-      role: 'help',
+      role: menuLabels.help,
       submenu: [
         {
           label: 'Learn More',

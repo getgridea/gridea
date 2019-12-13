@@ -7,7 +7,6 @@
         </div>
       </div>
       <div class="flex">
-        {{ postList.length }} {{ currentPostList.length }}
         <a-input-search
           class="search-input"
           :placeholder="$t('searchArticle')"

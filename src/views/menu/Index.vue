@@ -8,33 +8,35 @@
       </a-tooltip>
     </a-row>
     <div class="content-container">
-      <div
-        class="border border-gray-200 flex mb-4 rounded-sm relative cursor-pointer transition-fast hover:bg-gray-100"
-        v-for="(menu, index) in site.menus"
-        :key="index"
-        @click="editMenu(menu, index)"
-      >
-        <div class="flex items-center px-4">
-          <i class="ri-drag-move-line"></i>
-        </div>
-        <div class="p-4 flex-1">
-          <div class="text-base text-gray-700 mb-2">
-            {{ menu.name }}
+      <draggable v-model="menuList" handle=".handle" @change="handleMenuSort">
+        <div
+          class="border border-gray-200 flex mb-4 rounded-sm relative cursor-pointer transition-fast hover:bg-gray-100"
+          v-for="(menu, index) in menuList"
+          :key="index"
+          @click="editMenu(menu, index)"
+        >
+          <div class="flex items-center pl-4 handle cursor-move">
+            <i class="ri-drag-move-line"></i>
           </div>
-          <div class="text-xs flex items-center">
-            <div class="text-xs flex items-center px-2 rounded border bg-gray-100 border-gray-200 text-gray-500 mr-4">
-              {{ menu.openType }}
-              <i class="ri-external-link-line ml-2" v-if="menu.openType === 'External'"></i>
+          <div class="p-4 flex-1">
+            <div class="text-base text-gray-700 mb-2">
+              {{ menu.name }}
             </div>
-            <div class="text-gray-300">
-              {{ menu.link }}
+            <div class="text-xs flex items-center">
+              <div class="text-xs flex items-center px-2 rounded border bg-gray-100 border-gray-200 text-gray-500 mr-4">
+                {{ menu.openType }}
+                <i class="ri-external-link-line ml-2" v-if="menu.openType === 'External'"></i>
+              </div>
+              <div class="text-gray-300">
+                {{ menu.link }}
+              </div>
             </div>
           </div>
+          <div class="flex items-center px-4">
+            <i class="ri-delete-bin-4-line hover:text-red-700" @click.stop="deleteMenu(menu.name)"></i>
+          </div>
         </div>
-        <div class="flex items-center px-4">
-          <i class="ri-delete-bin-4-line" @click.stop="deleteMenu(menu.name)"></i>
-        </div>
-      </div>
+      </draggable>
     </div>
     <a-drawer
       title="Menu"
@@ -87,6 +89,7 @@ import { ipcRenderer, IpcRendererEvent } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import urlJoin from 'url-join'
+import Draggable from 'vuedraggable'
 import { MenuTypes } from '../../helpers/enums'
 import { IMenu } from '../../interfaces/menu'
 import { IPost } from '../../interfaces/post'
@@ -99,7 +102,11 @@ interface IForm {
   link: string
 }
 
-@Component
+@Component({
+  components: {
+    Draggable,
+  },
+})
 export default class Menu extends Vue {
   @State('site') site!: any
 
@@ -109,6 +116,10 @@ export default class Menu extends Vue {
     openType: MenuTypes.Internal,
     link: '',
   }
+
+  menuList: any = []
+
+  draggleList: any = []
 
   visible = false
 
@@ -143,6 +154,10 @@ export default class Menu extends Vue {
     return this.form.name && this.form.link
   }
 
+  mounted() {
+    this.menuList = [...this.site.menus]
+  }
+
   newMenu() {
     this.form.name = null
     this.form.index = null
@@ -166,9 +181,13 @@ export default class Menu extends Vue {
   }
 
   saveMenu() {
-    console.log('click save menu', this.form)
     ipcRenderer.send('menu-save', { ...this.form })
     ipcRenderer.once('menu-saved', (event: IpcRendererEvent, result: any) => {
+      if (typeof this.form.index !== 'number') {
+        this.menuList.push(this.form)
+      } else {
+        this.menuList[this.form.index] = this.form
+      }
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('menuSuccess'))
       this.visible = false
@@ -187,11 +206,23 @@ export default class Menu extends Vue {
       onOk: () => {
         ipcRenderer.send('menu-delete', menuValue)
         ipcRenderer.once('menu-deleted', (event: IpcRendererEvent, result: any) => {
+          const foundIndex = this.menuList.findIndex((item: IMenu) => item.name === menuValue)
+          this.menuList.splice(foundIndex, 1)
+
           this.$bus.$emit('site-reload')
           this.$message.success(this.$t('menuDelete'))
           this.visible = false
         })
       },
+    })
+  }
+
+  async handleMenuSort() {
+    ipcRenderer.send('menu-sort', this.menuList)
+    ipcRenderer.once('menu-sorted', (event: IpcRendererEvent, result: any) => {
+      this.$bus.$emit('site-reload')
+      this.$message.success(this.$t('menuSuccess'))
+      ga.event('Menu', 'Menu - sort', { evLabel: '' })
     })
   }
 }

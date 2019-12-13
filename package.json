@@ -68,6 +68,7 @@
     "vue-router": "^3.0.1",
     "vue-shortkey": "^3.1.7",
     "vue2-transitions": "^0.2.3",
+    "vuedraggable": "^2.23.2",
     "vuex": "^3.0.1",
     "vuex-class": "^0.3.1"
   },

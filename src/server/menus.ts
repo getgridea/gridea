@@ -22,6 +22,11 @@ export default class Menus extends Model {
     return menus
   }
 
+  public async saveMenus(menus: IMenu[]) {
+    await this.$posts.set('menus', menus).write()
+    return menus
+  }
+
   public async deleteMenu(menuValue: string) {
     const menu = await this.$posts.get('menus').remove({ name: menuValue }).write()
     return menu

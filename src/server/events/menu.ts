@@ -10,6 +10,8 @@ export default class MenuEvents {
     ipcMain.removeAllListeners('menu-deleted')
     ipcMain.removeAllListeners('menu-save')
     ipcMain.removeAllListeners('menu-saved')
+    ipcMain.removeAllListeners('menu-sort')
+    ipcMain.removeAllListeners('menu-sorted')
 
     ipcMain.on('menu-delete', async (event: IpcMainEvent, menuName: string) => {
       const data = await menus.deleteMenu(menuName)
@@ -19,6 +21,11 @@ export default class MenuEvents {
     ipcMain.on('menu-save', async (event: IpcMainEvent, menu: IMenu) => {
       const data = await menus.saveMenu(menu)
       event.sender.send('menu-saved', data)
+    })
+
+    ipcMain.on('menu-sort', async (event: IpcMainEvent, menuList: IMenu[]) => {
+      const data = await menus.saveMenus(menuList)
+      event.sender.send('menu-sorted', data)
     })
   }
 }

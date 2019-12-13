@@ -8,24 +8,33 @@
       </a-tooltip>
     </a-row>
     <div class="content-container">
-      <a-table
-        :columns="columns"
-        :dataSource="site.menus"
-        rowKey="name"
-        :pagination="false"
+      <div
+        class="border border-gray-200 flex mb-4 rounded-sm relative cursor-pointer transition-fast hover:bg-gray-100"
+        v-for="(menu, index) in site.menus"
+        :key="index"
+        @click="editMenu(menu, index)"
       >
-        <a
-          class="menu-title"
-          href="javascript:;"
-          slot="name"
-          slot-scope="text, record, index"
-          @click="editMenu(record, index)"
-        ><i class="zwicon-hamburger-menu menu-icon"></i> {{ text }}</a>
-        <a-tag slot="openType" slot-scope="text" :color="text === 'Internal' ? 'purple' : 'blue' ">{{ text }}</a-tag>
-        <span slot="action" slot-scope="record">
-          <i class="zwicon-trash delete-icon" @click="deleteMenu(record.name)"></i>
-        </span>
-      </a-table>
+        <div class="flex items-center px-4">
+          <i class="ri-drag-move-line"></i>
+        </div>
+        <div class="p-4 flex-1">
+          <div class="text-base text-gray-700 mb-2">
+            {{ menu.name }}
+          </div>
+          <div class="text-xs flex items-center">
+            <div class="text-xs flex items-center px-2 rounded border bg-gray-100 border-gray-200 text-gray-500 mr-4">
+              {{ menu.openType }}
+              <i class="ri-external-link-line ml-2" v-if="menu.openType === 'External'"></i>
+            </div>
+            <div class="text-gray-300">
+              {{ menu.link }}
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center px-4">
+          <i class="ri-delete-bin-4-line" @click.stop="deleteMenu(menu.name)"></i>
+        </div>
+      </div>
     </div>
     <a-drawer
       title="Menu"
@@ -104,30 +113,6 @@ export default class Menu extends Vue {
   visible = false
 
   menuTypes = MenuTypes
-
-  get columns() {
-    return [
-      {
-        title: this.$t('name'),
-        dataIndex: 'name',
-        scopedSlots: { customRender: 'name' },
-      },
-      {
-        title: this.$t('openType'),
-        dataIndex: 'openType',
-        scopedSlots: { customRender: 'openType' },
-      },
-      {
-        title: this.$t('link'),
-        dataIndex: 'link',
-      },
-      {
-        title: this.$t('actions'),
-        key: 'action',
-        scopedSlots: { customRender: 'action' },
-      },
-    ]
-  }
 
   get menuLinks() {
     const { setting, themeConfig } = this.site

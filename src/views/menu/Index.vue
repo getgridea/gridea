@@ -10,7 +10,7 @@
     <div class="content-container">
       <draggable v-model="menuList" handle=".handle" @change="handleMenuSort">
         <div
-          class="border border-gray-200 flex mb-4 rounded-sm relative cursor-pointer transition-fast hover:bg-gray-100"
+          class="menu-container flex mb-2 rounded-sm relative cursor-pointer transition-fast hover:bg-gray-100"
           v-for="(menu, index) in menuList"
           :key="index"
           @click="editMenu(menu, index)"
@@ -234,6 +234,9 @@ export default class Menu extends Vue {
 }
 .menu-icon {
   font-size: 18px;
+}
+.menu-container {
+  box-shadow: inset 0 0 0 1px #eaeaea;
 }
 .menu-title {
   color: #373530;

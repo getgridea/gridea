@@ -11,8 +11,9 @@
         <a-menu mode="inline" :defaultSelectedKeys="['articles']" @click="clickMenu">
           <a-menu-item key="articles">
             <div class="menu-item">
-              <div>
-                <i class="zwicon-document menu-icon"></i>
+              <div class="flex items-center">
+                <!-- <i class="zwicon-document menu-icon"></i> -->
+                <i class="ri-article-line mr-2 text-base"></i>
                 <span class="nav-text">{{ $t('article') }}</span>
               </div>
               <span class="number">{{ site.posts.length }}</span>
@@ -20,8 +21,9 @@
           </a-menu-item>
           <a-menu-item key="menu">
             <div class="menu-item">
-              <div>
-                <i class="zwicon-grid menu-icon"></i>
+              <div class="flex items-center">
+                <!-- <i class="zwicon-grid menu-icon"></i> -->
+                <i class="ri-menu-2-line mr-2 text-base"></i>
                 <span class="nav-text">{{ $t('menu') }}</span>
               </div>
               <span class="number">{{ site.menus.length }}</span>
@@ -29,20 +31,27 @@
           </a-menu-item>
           <a-menu-item key="tags">
             <div class="menu-item">
-              <div>
-                <i class="zwicon-price-tag menu-icon"></i>
+              <div class="flex items-center">
+                <!-- <i class="zwicon-price-tag menu-icon"></i> -->
+                <i class="ri-price-tag-3-line mr-2 text-base"></i>
                 <span class="nav-text">{{ $t('tag') }}</span>
               </div>
               <span class="number">{{ site.tags.length }}</span>
             </div>
           </a-menu-item>
           <a-menu-item key="theme">
-            <i class="zwicon-palette menu-icon"></i>
-            <span class="nav-text">{{ $t('theme') }}</span>
+            <!-- <i class="zwicon-palette menu-icon"></i> -->
+            <div class="flex items-center">
+              <i class="ri-t-shirt-line mr-2 text-base"></i>
+              <span class="nav-text">{{ $t('theme') }}</span>
+            </div>
           </a-menu-item>
           <a-menu-item key="setting">
-            <i class="zwicon-server-stack menu-icon"></i>
-            <span class="nav-text">{{ $t('remote') }}</span>
+            <!-- <i class="zwicon-server-stack menu-icon"></i> -->
+            <div class="flex items-center">
+              <i class="ri-server-line mr-2 text-base"></i>
+              <span class="nav-text">{{ $t('remote') }}</span>
+            </div>
           </a-menu-item>
         </a-menu>
       </div>

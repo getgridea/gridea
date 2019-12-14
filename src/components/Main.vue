@@ -8,49 +8,18 @@
         <div class="logo">
           <img class="img" src="@/assets/logo.png">
         </div>
-        <a-menu mode="inline" :defaultSelectedKeys="['articles']" @click="clickMenu">
-          <a-menu-item key="articles">
+        <a-menu mode="inline" :defaultSelectedKeys="['/articles']" @click="clickMenu">
+          <a-menu-item :key="menu.router" v-for="menu in sideMenus">
             <div class="menu-item">
               <div class="flex items-center">
-                <!-- <i class="zwicon-document menu-icon"></i> -->
-                <i class="ri-article-line mr-2 text-base"></i>
-                <span class="nav-text">{{ $t('article') }}</span>
+                <i
+                  class="mr-2 text-base"
+                  :class="{ [menu.icon]: true }"
+                  :style="{ color: currentRouter === menu.router ? '#f9d757' : 'inherit' }"
+                ></i>
+                <span class="nav-text">{{ menu.text }}</span>
               </div>
-              <span class="number">{{ site.posts.length }}</span>
-            </div>
-          </a-menu-item>
-          <a-menu-item key="menu">
-            <div class="menu-item">
-              <div class="flex items-center">
-                <!-- <i class="zwicon-grid menu-icon"></i> -->
-                <i class="ri-menu-2-line mr-2 text-base"></i>
-                <span class="nav-text">{{ $t('menu') }}</span>
-              </div>
-              <span class="number">{{ site.menus.length }}</span>
-            </div>
-          </a-menu-item>
-          <a-menu-item key="tags">
-            <div class="menu-item">
-              <div class="flex items-center">
-                <!-- <i class="zwicon-price-tag menu-icon"></i> -->
-                <i class="ri-price-tag-3-line mr-2 text-base"></i>
-                <span class="nav-text">{{ $t('tag') }}</span>
-              </div>
-              <span class="number">{{ site.tags.length }}</span>
-            </div>
-          </a-menu-item>
-          <a-menu-item key="theme">
-            <!-- <i class="zwicon-palette menu-icon"></i> -->
-            <div class="flex items-center">
-              <i class="ri-t-shirt-line mr-2 text-base"></i>
-              <span class="nav-text">{{ $t('theme') }}</span>
-            </div>
-          </a-menu-item>
-          <a-menu-item key="setting">
-            <!-- <i class="zwicon-server-stack menu-icon"></i> -->
-            <div class="flex items-center">
-              <i class="ri-server-line mr-2 text-base"></i>
-              <span class="nav-text">{{ $t('remote') }}</span>
+              <span class="number">{{ menu.count }}</span>
             </div>
           </a-menu-item>
         </a-menu>
@@ -152,6 +121,43 @@ export default class App extends Vue {
   logModalVisible = false
 
   log: any = {}
+
+  get currentRouter() {
+    return this.$route.path
+  }
+  
+  get sideMenus() {
+    return [
+      {
+        icon: 'ri-article-line',
+        text: this.$t('article'),
+        count: this.site.posts.length,
+        router: '/articles',
+      },
+      {
+        icon: 'ri-menu-2-line',
+        text: this.$t('menu'),
+        count: this.site.menus.length,
+        router: '/menu',
+      },
+      {
+        icon: 'ri-price-tag-3-line',
+        text: this.$t('tag'),
+        count: this.site.tags.length,
+        router: '/tags',
+      },
+      {
+        icon: 'ri-t-shirt-line',
+        text: this.$t('theme'),
+        router: '/theme',
+      },
+      {
+        icon: 'ri-server-line',
+        text: this.$t('remote'),
+        router: '/setting',
+      },
+    ]
+  }
 
   created() {
     this.$bus.$on('site-reload', () => {
@@ -319,7 +325,9 @@ export default class App extends Vue {
 }
 
 /deep/ .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: #ece9e3;
+  background-color: #fff;
+  // @apply shadow;
+  color: #000;
 }
 
 /deep/ .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {

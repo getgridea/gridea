@@ -115,6 +115,10 @@
   line-height: 36px;
 }
 
+.ant-menu-item:active, .ant-menu-submenu-title:active {
+  background: inherit;
+}
+
 .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link, .ant-pagination-item {
   border: none;
   &:hover {
@@ -220,10 +224,8 @@
 .ant-menu-inline .ant-menu-item, .ant-menu-inline .ant-menu-submenu-title {
   width: 90%;
   margin-left: 5%;
-  border-radius: 2px;
-  &:hover {
-    background: #efebe385;
-  }
+  border-radius: 8px;
+  color: #666;
 }
 
 .menu-tab {

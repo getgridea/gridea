@@ -171,6 +171,26 @@ export default class App extends Vue {
     })
   }
 
+  mounted() {
+    // @see https://docs.headwayapp.co/widget for more configuration options.
+    const config = {
+      selector: '.version-container',
+      account: 'xbrnVx',
+      translations: {
+        title: 'Gridea News',
+        readMore: 'Read more',
+        labels: {
+          'new': 'News',
+          'improvement': 'Updates',
+          'fix': 'Fixes',
+        },
+        footer: 'Read more 👉',
+      },
+    }
+    // @ts-ignore
+    Headway.init(config)
+  }
+
   clickMenu(e: any) {
     this.$router.push(e.key)
   }

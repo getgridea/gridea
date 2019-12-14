@@ -62,7 +62,7 @@
       <div class="version-info" v-html="updateContent"></div>
     </a-modal>
 
-    <a-modal :width="900" :visible="systemModalVisible" :footer="null" @cancel="systemModalVisible = false" :maskClosable="false">
+    <a-modal :width="900" :visible="systemModalVisible" :footer="null" @cancel="systemModalVisible = false">
       <app-system />
     </a-modal>
 

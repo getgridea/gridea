@@ -18,8 +18,8 @@
             <div slot="dropdownRender" slot-scope="menu">
               <v-nodes :vnodes="menu"/>
               <a-divider style="margin: 4px 0;" />
-              <div style="padding: 8px; cursor: pointer;" @click="openPage('https://gridea.dev/themes/')">
-                <a-icon type="picture" /> {{ $t('moreThemes') }}
+              <div class="p-2 flex items-center cursor-pointer" @click="openPage('https://gridea.dev/themes/')">
+                <i class="ri-t-shirt-line mr-2"></i> {{ $t('moreThemes') }}
               </div>
             </div>
           </a-select>

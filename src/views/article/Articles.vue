@@ -41,12 +41,24 @@
             </div>
             <div class="flex-1">
               <a class="post-title block text-base text-gray-700 mb-2">{{ post.data.title }}</a>
-              <div class="text-xs flex items-center">
-                <div class="flex items-center mr-2 text-gray-400">
+              <div class="text-xs flex items-center text-gray-300">
+                <div class="text-xs flex items-center mr-2">
+                  <div class="rounded-full w-1 h-1 mr-1" :class="{ 'bg-green-500': post.data.published, 'bg-gray-500': !post.data.published }"></div>
+                  {{ post.data.published ? $t('published') : $t('draft') }}
+                </div>
+                <div class="flex items-center">
                   <i class="ri-calendar-line mr-1"></i> {{ $moment(post.data.date).format('YYYY-MM-DD') }}
                 </div>
-                <div class="text-xs flex items-center px-2 rounded border" :class="{ 'bg-green-100 border-green-200 text-green-400': post.data.published, 'bg-gray-100 border-gray-200 text-gray-500': !post.data.published }">
-                  {{ post.data.published ? $t('published') : $t('draft') }}
+                <div class="flex-1 flex flex-wrap items-center ml-2" v-if="(post.data.tags || []).length > 0">
+                  <i class="ri-price-tag-3-line"></i>
+                  <div v-for="(tag, index) in post.data.tags" :key="index">
+                    <div class="text-xs ml-1 flex" v-if="index < 2">
+                      {{ tag }}
+                    </div>
+                  </div>
+                  <div v-if="(post.data.tags || []).length > 2" class="ml-1">
+                    ...
+                  </div>
                 </div>
               </div>
             </div>

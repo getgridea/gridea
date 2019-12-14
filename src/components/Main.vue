@@ -34,10 +34,10 @@
           {{ $t('syncSite') }}
         </a-button>
         <div class="version-container" :class="{ 'version-dot': hasUpdate }">
-          <i class="zwicon-slider-circle-h text-lg cursor-pointer" @click="systemModalVisible = true"></i>
-          <i class="zwicon-web web-btn" @click="goWeb" v-if="site.setting.domain"></i>
+          <i class="ri-equalizer-line text-base" @click="systemModalVisible = true"></i>
+          <i class="ri-earth-line web-btn" @click="goWeb" v-if="site.setting.domain"></i>
           <a-tooltip :title="`🌟 ${$t('starSupport')}`">
-            <a-icon type="github" style="font-size: 14px; cursor: pointer;" @click="handleGithubClick" />
+            <i class="ri-github-line text-base" @click="handleGithubClick"></i>
           </a-tooltip>
         </div>
       </div>

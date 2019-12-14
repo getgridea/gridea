@@ -105,6 +105,7 @@ const message = {
     writingIn: '写作于',
     words: '字 数',
     readingTime: '阅读时间',
+    version: '版本',
   },
   zh_TW: {
     preview: '預 覽',
@@ -213,6 +214,7 @@ const message = {
     writingIn: '寫作於',
     words: '字 數',
     readingTime: '閱讀時間',
+    version: '版本',
   },
   en: {
     preview: 'Preview',
@@ -320,6 +322,7 @@ const message = {
     writingIn: 'Writing in',
     words: 'Words',
     readingTime: 'Reading time',
+    version: 'Version',
   },
 }
 

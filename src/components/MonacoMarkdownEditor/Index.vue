@@ -58,6 +58,7 @@ export default class MonacoMarkdownEditor extends Vue {
       lineDecorationsWidth: 0,
       occurrencesHighlight: false,
       automaticLayout: true,
+      fontFamily: 'PingFang SC,-apple-system,SF UI Text,Lucida Grande,STheiti,Microsoft YaHei,sans-serif',
     })
 
     const extension = new MonacoMarkdown.MonacoMarkdownExtension()

@@ -1,12 +1,13 @@
 <template>
-  <div>
+  <div class="mb-4 py-4 border-b border-gray-200">
+    <div class="text-base font-medium mb-4">{{ $t('sourceFolder') }}</div>
     <a-form>
-      <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-form-item :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-input v-model="currentFolderPath" read-only>
           <i slot="addonAfter" class="zwicon-folder-open px-2" @click="handleFolderSelect"></i>
         </a-input>
       </a-form-item>
-      <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-form-item :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-button type="primary" @click="save">{{ $t('save') }}</a-button>
       </a-form-item>
     </a-form>

@@ -477,7 +477,7 @@ export default class ArticleUpdate extends Vue {
     }
 
     // 文件名改变之后，删除原来文件
-    if (this.form.fileName !== this.originalFileName) {
+    if (this.form.fileName.toLowerCase() !== this.originalFileName.toLowerCase()) {
       this.form.deleteFileName = this.originalFileName
     }
 

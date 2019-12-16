@@ -12,10 +12,11 @@ export function formatYamlString(string: any) {
 export const formatThemeCustomConfigToRender = (config: any, currentThemeConfig: any) => {
   for (const configItem of currentThemeConfig) {
     const configValue = config[configItem.name]
-
     if (configItem.type === 'markdown') {
+      if (!configValue) continue
+
       config[configItem.name] = markdown.render(configValue)
-    } else if (configItem.type === 'array') {
+    } else if (configItem.type === 'array' && configValue) {
       for (let arrItemIndex = 0; arrItemIndex < configValue.length; arrItemIndex += 1) {
         const foundConfigItem = currentThemeConfig.find((i: any) => i.name === configItem.name)
         const arrayItemKeys = Object.keys(configValue[arrItemIndex])
@@ -26,7 +27,8 @@ export const formatThemeCustomConfigToRender = (config: any, currentThemeConfig:
 
           if (foundMarkdownField) {
             const fieldValue = configValue[arrItemIndex][key]
-            
+            if (!fieldValue) continue
+
             configValue[arrItemIndex][key] = markdown.render(fieldValue)
           }
         }

@@ -53,6 +53,7 @@ module.exports = {
     'consistent-return': 0,
     'import/no-extraneous-dependencies': 0,
     'global-require': 0,
+    'no-continue': 0,
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',

@@ -459,6 +459,9 @@ export default class Renderer extends Model {
       })
     
     const renderData = {
+      menus: this.menuData,
+      themeConfig: this.db.themeConfig,
+      commentSetting: this.db.commentSetting,
       site: this.siteData,
     }
 

@@ -68,10 +68,12 @@ export default class Renderer extends Model {
     await this.renderPostDetail()
     await this.renderTagDetail()
 
+    // Need before `renderCustomPage`, because maybe theme custom page include a `404 page`
+    await this.copyFiles()
+
     // Render custom page
     await this.renderCustomPage()
 
-    await this.copyFiles()
     await this.buildCname()
 
     await this.buildFeed()
@@ -466,9 +468,14 @@ export default class Renderer extends Model {
     }
 
     customTemplates.forEach(async (name: string) => {
-      const renderFolder = urlJoin(this.outputDir, name.substring(0, name.length - 4))
-      const renderPath = urlJoin(renderFolder, 'index.html')
+      let renderFolder = urlJoin(this.outputDir, name.substring(0, name.length - 4))
+      let renderPath = urlJoin(renderFolder, 'index.html')
       let html = ''
+
+      if (name === '404.ejs') {
+        renderFolder = this.outputDir
+        renderPath = urlJoin(renderFolder, '404.html')
+      }
 
       await fse.ensureDirSync(renderFolder)
       await ejs.renderFile(urlJoin(this.themePath, 'templates', name), renderData, async (err: any, str) => {

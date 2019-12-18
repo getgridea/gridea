@@ -33,7 +33,7 @@ function createWindow() {
       nodeIntegration: true,
     },
     // frame: false, // 去除默认窗口栏
-    titleBarStyle: 'hidden' as ('hidden' | 'default' | 'hiddenInset' | 'customButtonsOnHover' | undefined),
+    titleBarStyle: 'hiddenInset' as ('hidden' | 'default' | 'hiddenInset' | 'customButtonsOnHover' | undefined),
   }
 
   if (process.platform !== 'darwin') {

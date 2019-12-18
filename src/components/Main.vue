@@ -188,7 +188,10 @@ export default class App extends Vue {
       },
     }
     // @ts-ignore
-    Headway.init(config)
+    if (window.Headway) {
+      // @ts-ignore
+      Headway.init(config)
+    }
   }
 
   clickMenu(e: any) {

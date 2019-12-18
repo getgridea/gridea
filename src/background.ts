@@ -6,6 +6,7 @@ import {
 import {
   createProtocol,
 } from 'vue-cli-plugin-electron-builder/lib'
+import { autoUpdater } from 'electron-updater'
 import App from './server/app'
 import messages from './assets/locales-menu'
 import initServer from './server'
@@ -50,6 +51,7 @@ function createWindow() {
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
+    autoUpdater.checkForUpdatesAndNotify()
   }
 
   win.on('closed', () => {

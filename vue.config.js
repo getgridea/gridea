@@ -63,9 +63,9 @@ module.exports = {
         },
         publish: ['github'],
       },
-      mainProcessWatch: [
-        'src/server/**/*',
-      ],
+      // mainProcessWatch: [
+      //   'src/server/**/*',
+      // ],
     },
   },
 }

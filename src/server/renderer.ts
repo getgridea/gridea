@@ -85,7 +85,7 @@ export default class Renderer extends Model {
   async loadConfig() {
     this.themePath = urlJoin(this.appDir, 'themes', this.db.themeConfig.themeName)
 
-    await fse.ensureDir(urlJoin(this.appDir, 'output'))
+    await fse.ensureDirSync(urlJoin(this.appDir, 'output'))
   }
 
   /**
@@ -135,6 +135,7 @@ export default class Renderer extends Model {
           hideInList: !!item.data.hideInList,
           isTop: !!item.data.isTop,
           stats,
+          description: content.replace(/<[^>]*>/g, '').substring(0, 120),
         }
 
         result.toc = toc
@@ -253,11 +254,11 @@ export default class Renderer extends Model {
       renderData.site.isHomepage = !archivePath && !i
 
       if (i === 0 && excludeHidePostsData.length > pageSize) {
-        fse.ensureDir(urlJoin(this.outputDir, archivePath, 'page'))
+        fse.ensureDirSync(urlJoin(this.outputDir, archivePath, 'page'))
 
         renderData.pagination.next = urlJoin(domain, archivePath, 'page', '2')
       } else if (i > 0 && excludeHidePostsData.length > pageSize) {
-        fse.ensureDir(urlJoin(this.outputDir, archivePath, 'page', `${i + 1}`))
+        fse.ensureDirSync(urlJoin(this.outputDir, archivePath, 'page', `${i + 1}`))
 
         renderPath = urlJoin(this.outputDir, archivePath, 'page', `${i + 1}`, 'index.html')
 
@@ -269,7 +270,7 @@ export default class Renderer extends Model {
           ? urlJoin(domain, archivePath, 'page', `${i + 2}/`)
           : ''
       } else {
-        fse.ensureDir(urlJoin(this.outputDir, archivePath))
+        fse.ensureDirSync(urlJoin(this.outputDir, archivePath))
       }
 
       renderFile(renderTemplatePath, renderData)
@@ -343,7 +344,7 @@ export default class Renderer extends Model {
     }
     let html = ''
 
-    await fse.ensureDir(tagsFolder)
+    await fse.ensureDirSync(tagsFolder)
     await ejs.renderFile(urlJoin(this.themePath, 'templates', 'tags.ejs'), renderData, {}, async (err: any, str) => {
       if (err) {
         console.log('❌ Render tags page error', err)
@@ -502,7 +503,7 @@ export default class Renderer extends Model {
     const lessFilePath = urlJoin(this.themePath, 'assets', 'styles', 'main.less')
     const cssFolderPath = urlJoin(this.outputDir, 'styles')
 
-    await fse.ensureDir(cssFolderPath)
+    await fse.ensureDirSync(cssFolderPath)
 
     const lessString = await fs.readFileSync(lessFilePath, 'utf8')
     await less.render(lessString, { filename: lessFilePath }, async (err: any, cssString: Less.RenderOutput) => {
@@ -592,19 +593,19 @@ export default class Renderer extends Model {
     const postImageInputPath = urlJoin(this.appDir, 'post-images')
     const postImageOutputPath = urlJoin(this.outputDir, 'post-images')
 
-    await fse.ensureDir(postImageOutputPath)
+    await fse.ensureDirSync(postImageOutputPath)
     await fse.copySync(postImageInputPath, postImageOutputPath)
 
     const imagesInputPath = urlJoin(this.appDir, 'images')
     const imagesOutputPath = urlJoin(this.outputDir, 'images')
 
-    await fse.ensureDir(imagesOutputPath)
+    await fse.ensureDirSync(imagesOutputPath)
     await fse.copySync(imagesInputPath, imagesOutputPath)
 
     const mediaInputPath = urlJoin(this.themePath, 'assets', 'media')
     const mediaOutputPath = urlJoin(this.outputDir, 'media')
 
-    await fse.ensureDir(mediaInputPath)
+    await fse.ensureDirSync(mediaInputPath)
     await fse.copySync(mediaInputPath, mediaOutputPath)
 
     // Copy /static

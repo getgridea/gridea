@@ -70,4 +70,5 @@ export interface IPostRenderData {
   stats: IStats
   nextPost?: IPostRenderData
   prevPost?: IPostRenderData
+  description: string
 }

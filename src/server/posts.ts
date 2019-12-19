@@ -69,7 +69,7 @@ isTop: ${data.isTop || false}
 ${postMatter.content}`
 
           fixedResults[index] = mdStr
-          await fse.writeFileSync(`${this.postDir}/${files[index]}`, mdStr)
+          fse.writeFileSync(`${this.postDir}/${files[index]}`, mdStr)
         }
       }
     }))
@@ -181,11 +181,11 @@ ${content}`
         const filePath = `${this.postImageDir}/${post.fileName}.${extendName}`
 
         if (post.featureImage.path !== filePath) {
-          await fse.copySync(post.featureImage.path, filePath)
+          fse.copySync(post.featureImage.path, filePath)
 
           // Clean the old file
           if (post.featureImage.path.includes(this.postImageDir)) {
-            await fse.removeSync(post.featureImage.path)
+            fse.removeSync(post.featureImage.path)
           }
         }
       }
@@ -195,7 +195,7 @@ ${content}`
 
       // Clean the old file
       if (post.deleteFileName) {
-        await fse.removeSync(`${this.postDir}/${post.deleteFileName}.md`)
+        fse.removeSync(`${this.postDir}/${post.deleteFileName}.md`)
       }
     } catch (e) {
       console.error('ERROR: ', e)
@@ -206,11 +206,11 @@ ${content}`
   async deletePost(post: IPostDb) {
     try {
       const postUrl = `${this.postDir}/${post.fileName}.md`
-      await fse.removeSync(postUrl)
+      fse.removeSync(postUrl)
 
       // Clean feature image
       if (post.data.feature) {
-        await fse.removeSync(post.data.feature.replace('file://', ''))
+        fse.removeSync(post.data.feature.replace('file://', ''))
       }
 
       // Clean post content image
@@ -222,7 +222,7 @@ ${content}`
           return item.substring(index + 1, item.length - 1)
         })
         postImagePaths.forEach(async (filePath: string) => {
-          await fse.removeSync(filePath.replace('file://', ''))
+          fse.removeSync(filePath.replace('file://', ''))
         })
       }
       return true

@@ -155,8 +155,8 @@ export default class App {
       const appConfigPath = path.join(appConfigFolder, 'config.json')
       const jsonString = `{"sourceFolder": "${sourceFolderPath || this.appDir}"}`
 
-      await fse.writeFileSync(appConfigPath, jsonString)
-      const appConfig = await fse.readJsonSync(appConfigPath)
+      fse.writeFileSync(appConfigPath, jsonString)
+      const appConfig = fse.readJsonSync(appConfigPath)
       this.appDir = appConfig.sourceFolder
       this.updateStaticServer()
 
@@ -185,19 +185,19 @@ export default class App {
       // if exist `.hve-notes` config folder, change folder name to `.gridea`
       try {
         if (!fse.pathExistsSync(appConfigFolder) && fse.pathExistsSync(appConfigFolderOld)) {
-          await fse.renameSync(appConfigFolderOld, appConfigFolder)
+          fse.renameSync(appConfigFolderOld, appConfigFolder)
         }
       } catch (e) {
         console.log('Rename Error: ', e)
       }
 
       if (!fse.pathExistsSync(appConfigFolder)) {
-        await fse.mkdirSync(appConfigFolder)
+        fse.mkdirSync(appConfigFolder)
         const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
-        await fse.writeFileSync(appConfigPath, jsonString)
+        fse.writeFileSync(appConfigPath, jsonString)
       }
 
-      const appConfig = await fse.readJsonSync(appConfigPath)
+      const appConfig = fse.readJsonSync(appConfigPath)
       this.appDir = appConfig.sourceFolder
 
       // Site folder exists
@@ -234,7 +234,7 @@ export default class App {
       // Site folder not exists
       this.appDir = defaultAppDir
       const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
-      await fse.writeFileSync(appConfigPath, jsonString)
+      fse.writeFileSync(appConfigPath, jsonString)
       fse.mkdirSync(this.appDir)
 
       fse.copySync(

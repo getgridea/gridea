@@ -85,7 +85,7 @@ export default class Renderer extends Model {
   async loadConfig() {
     this.themePath = urlJoin(this.appDir, 'themes', this.db.themeConfig.themeName)
 
-    await fse.ensureDirSync(urlJoin(this.appDir, 'output'))
+    fse.ensureDirSync(urlJoin(this.appDir, 'output'))
   }
 
   /**
@@ -344,7 +344,7 @@ export default class Renderer extends Model {
     }
     let html = ''
 
-    await fse.ensureDirSync(tagsFolder)
+    fse.ensureDirSync(tagsFolder)
     await ejs.renderFile(urlJoin(this.themePath, 'templates', 'tags.ejs'), renderData, {}, async (err: any, str) => {
       if (err) {
         console.log('❌ Render tags page error', err)
@@ -358,7 +358,7 @@ export default class Renderer extends Model {
       }
     })
     console.log('👏  Tags Page:', renderPath)
-    await fs.writeFileSync(renderPath, html)
+    fs.writeFileSync(renderPath, html)
   }
 
   /**
@@ -439,7 +439,7 @@ export default class Renderer extends Model {
    * Render custom page, eg. friends.ejs, about.ejs, home.ejs, projects.ejs...
    */
   async renderCustomPage() {
-    const files = await fse.readdirSync(urlJoin(this.themePath, 'templates'), { withFileTypes: true })
+    const files = fse.readdirSync(urlJoin(this.themePath, 'templates'), { withFileTypes: true })
     const customTemplates = files
       .filter(item => !item.isDirectory())
       .map(item => item.name)
@@ -478,7 +478,7 @@ export default class Renderer extends Model {
         renderPath = urlJoin(renderFolder, '404.html')
       }
 
-      await fse.ensureDirSync(renderFolder)
+      fse.ensureDirSync(renderFolder)
       await ejs.renderFile(urlJoin(this.themePath, 'templates', name), renderData, async (err: any, str) => {
         if (err) {
           console.error('❌ Render custom page error', err)
@@ -491,7 +491,7 @@ export default class Renderer extends Model {
           html = str
         }
       })
-      await fse.writeFileSync(renderPath, html)
+      fse.writeFileSync(renderPath, html)
       console.log('✅ Render custom page success', renderPath)
     })
   }
@@ -503,10 +503,10 @@ export default class Renderer extends Model {
     const lessFilePath = urlJoin(this.themePath, 'assets', 'styles', 'main.less')
     const cssFolderPath = urlJoin(this.outputDir, 'styles')
 
-    await fse.ensureDirSync(cssFolderPath)
+    fse.ensureDirSync(cssFolderPath)
 
-    const lessString = await fs.readFileSync(lessFilePath, 'utf8')
-    await less.render(lessString, { filename: lessFilePath }, async (err: any, cssString: Less.RenderOutput) => {
+    const lessString = fs.readFileSync(lessFilePath, 'utf8')
+    less.render(lessString, { filename: lessFilePath }, async (err: any, cssString: Less.RenderOutput) => {
       if (err) {
         console.log(err)
       }
@@ -527,7 +527,7 @@ export default class Renderer extends Model {
         css += customCss
       }
 
-      await fs.writeFileSync(urlJoin(cssFolderPath, 'main.css'), css)
+      fs.writeFileSync(urlJoin(cssFolderPath, 'main.css'), css)
     })
   }
 
@@ -538,9 +538,9 @@ export default class Renderer extends Model {
     const cnamePath = urlJoin(this.outputDir, 'CNAME')
 
     if (this.db.setting.cname) {
-      await fs.writeFileSync(cnamePath, this.db.setting.cname)
+      fs.writeFileSync(cnamePath, this.db.setting.cname)
     } else {
-      await fse.removeSync(cnamePath)
+      fse.removeSync(cnamePath)
     }
   }
 
@@ -583,7 +583,7 @@ export default class Renderer extends Model {
       })
     })
 
-    await fs.writeFileSync(urlJoin(this.outputDir, feedFilename), feed.atom1())
+    fs.writeFileSync(urlJoin(this.outputDir, feedFilename), feed.atom1())
   }
 
   /**
@@ -593,31 +593,31 @@ export default class Renderer extends Model {
     const postImageInputPath = urlJoin(this.appDir, 'post-images')
     const postImageOutputPath = urlJoin(this.outputDir, 'post-images')
 
-    await fse.ensureDirSync(postImageOutputPath)
-    await fse.copySync(postImageInputPath, postImageOutputPath)
+    fse.ensureDirSync(postImageOutputPath)
+    fse.copySync(postImageInputPath, postImageOutputPath)
 
     const imagesInputPath = urlJoin(this.appDir, 'images')
     const imagesOutputPath = urlJoin(this.outputDir, 'images')
 
-    await fse.ensureDirSync(imagesOutputPath)
-    await fse.copySync(imagesInputPath, imagesOutputPath)
+    fse.ensureDirSync(imagesOutputPath)
+    fse.copySync(imagesInputPath, imagesOutputPath)
 
     const mediaInputPath = urlJoin(this.themePath, 'assets', 'media')
     const mediaOutputPath = urlJoin(this.outputDir, 'media')
 
-    await fse.ensureDirSync(mediaInputPath)
-    await fse.copySync(mediaInputPath, mediaOutputPath)
+    fse.ensureDirSync(mediaInputPath)
+    fse.copySync(mediaInputPath, mediaOutputPath)
 
     // Copy /static
-    await fse.copySync(urlJoin(this.appDir, 'static'), this.outputDir)
+    fse.copySync(urlJoin(this.appDir, 'static'), this.outputDir)
 
     // Copy favicon.ico
-    await fse.copyFileSync(urlJoin(this.appDir, 'favicon.ico'), urlJoin(this.outputDir, 'favicon.ico'))
+    fse.copyFileSync(urlJoin(this.appDir, 'favicon.ico'), urlJoin(this.outputDir, 'favicon.ico'))
   }
 
   async clearOutputFolder() {
     const { outputDir } = this
-    const files = await fse.readdirSync(outputDir, { withFileTypes: true })
+    const files = fse.readdirSync(outputDir, { withFileTypes: true })
     const needClearPath = files
       .map(item => item.name)
       .filter(junk.not)
@@ -625,7 +625,7 @@ export default class Renderer extends Model {
     
     try {
       needClearPath.forEach(async (name: string) => {
-        await fse.removeSync(urlJoin(outputDir, name))
+        fse.removeSync(urlJoin(outputDir, name))
       })
     } catch (e) {
       console.log('Delete file error', e)

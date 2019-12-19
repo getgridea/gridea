@@ -36,7 +36,7 @@ export default class Theme extends Model {
       }
       const themeConfigPath = path.join(this.themeDir, item, 'config.json')
       if (fse.existsSync(themeConfigPath)) {
-        const config = await fse.readJSONSync(themeConfigPath)
+        const config = fse.readJSONSync(themeConfigPath)
         data.name = config.name
         data.version = config.version
         data.author = config.repository
@@ -67,7 +67,7 @@ export default class Theme extends Model {
     const themeConfigBackupPath = path.join(this.appDir, 'config', `theme.${themeConfig.themeName}.config.json`)
     const existThemeConfigBackupFile = await fse.pathExists(themeConfigBackupPath)
     if (existThemeConfigBackupFile) {
-      const config = await fse.readJSONSync(themeConfigBackupPath)
+      const config = fse.readJSONSync(themeConfigBackupPath)
       await this.$theme.set('customConfig', config).write()
     } else {
       await this.$theme.set('customConfig', {}).write()
@@ -174,7 +174,7 @@ export default class Theme extends Model {
 
     // Backup theme custom config
     const themeConfigBackupPath = path.join(this.appDir, 'config', `theme.${this.db.themeConfig.themeName}.config.json`)
-    await fse.writeJSONSync(themeConfigBackupPath, config)
+    fse.writeJSONSync(themeConfigBackupPath, config)
     return config
   }
 
@@ -184,7 +184,6 @@ export default class Theme extends Model {
 
   public async getThemeCustomConfig() {
     const config = await this.$theme.get('customConfig').value()
-    // TODO: 解析 markdown 类型的自定义数据
     return config
   }
 
@@ -195,7 +194,7 @@ export default class Theme extends Model {
     const themeConfigPath = path.join(this.currentThemePath, 'config.json')
     const existThemeConfigFile = await fse.pathExists(themeConfigPath)
     if (existThemeConfigFile) {
-      const themeConfig = await fse.readJSONSync(themeConfigPath)
+      const themeConfig = fse.readJSONSync(themeConfigPath)
       if (themeConfig && themeConfig.customConfig) {
         return themeConfig.customConfig
       }

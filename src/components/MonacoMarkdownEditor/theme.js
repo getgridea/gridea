@@ -23,6 +23,68 @@ export default {
       'token': 'keyword',
     },
     {
+      'fontStyle': 'bold',
+      'token': 'markup.heading',
+    },
+    {
+      'fontStyle': 'bold',
+      'token': 'markup.bold',
+    },
+    // ie bold/italic/heading/list marks
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.constant.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.bold.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.italic.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.heading.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.heading.begin.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.heading.end.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.heading.setext.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.list_item.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'markup.list.numbered.bullet.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.bold.begin.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.bold.end.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.italic.begin.markdown',
+    },
+    {
+      'foreground': 'B9B9B9',
+      'token': 'punctuation.definition.italic.end.markdown',
+    },
+
+    {
       'foreground': 'b7791f',
       'token': 'support.constant.property-value',
     },
@@ -114,5 +176,6 @@ export default {
     'editor.lineHighlightBackground': '#FFFBD1',
     'editorCursor.foreground': '#000000',
     'editorWhitespace.foreground': '#BFBFBF',
+    'textLink.foreground': '#666',
   },
 }

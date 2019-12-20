@@ -184,9 +184,9 @@ export default class Menu extends Vue {
     ipcRenderer.send('menu-save', { ...this.form })
     ipcRenderer.once('menu-saved', (event: IpcRendererEvent, result: any) => {
       if (typeof this.form.index !== 'number') {
-        this.menuList.push(this.form)
+        this.menuList.push({ ...this.form })
       } else {
-        this.menuList[this.form.index] = this.form
+        this.menuList[this.form.index] = { ...this.form }
       }
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('menuSuccess'))

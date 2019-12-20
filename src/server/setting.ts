@@ -31,7 +31,7 @@ export default class Setting extends Model {
   }
 
   async uploadFavicon(filePath: string) {
-    const faviconPath = path.join(this.appDir, 'output/favicon.ico')
+    const faviconPath = path.join(this.appDir, 'favicon.ico')
     fse.copySync(filePath, faviconPath)
   }
 

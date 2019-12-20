@@ -46,7 +46,7 @@ export default class FaviconSetting extends Vue {
   faviconPath = ''
 
   mounted() {
-    this.faviconPath = path.join('file://', this.site.appDir, 'output', `favicon.ico?a=${Math.random()}`)
+    this.faviconPath = path.join('file://', this.site.appDir, `favicon.ico?a=${Math.random()}`)
   }
 
   beforeUpload(file: any) {
@@ -72,7 +72,7 @@ export default class FaviconSetting extends Vue {
     ipcRenderer.once('favicon-uploaded', (event: IpcRendererEvent, result: any) => {
       this.file = null
       this.$bus.$emit('site-reload')
-      this.faviconPath = path.join('file://', this.site.appDir, 'output', `favicon.ico?a=${Math.random()}`)
+      this.faviconPath = path.join('file://', this.site.appDir, `favicon.ico?a=${Math.random()}`)
       this.$message.success(this.$t('faviconSettingSuccess'))
     })
   }

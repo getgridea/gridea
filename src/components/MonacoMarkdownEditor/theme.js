@@ -3,7 +3,7 @@ export default {
   'inherit': true,
   'rules': [
     {
-      'foreground': 'bcc8ba',
+      'foreground': '888888',
       'token': 'comment',
     },
     {
@@ -108,7 +108,7 @@ export default {
     },
   ],
   'colors': {
-    'editor.foreground': '#000000',
+    'editor.foreground': '#333333',
     'editor.background': '#FFFFFF',
     'editor.selectionBackground': '#BDD5FC',
     'editor.lineHighlightBackground': '#FFFBD1',

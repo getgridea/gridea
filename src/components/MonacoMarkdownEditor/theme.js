@@ -3,12 +3,32 @@ export default {
   'inherit': true,
   'rules': [
     {
-      'foreground': '888888',
+      'foreground': '999999',
       'token': 'comment',
     },
     {
-      'foreground': '5d90cd',
+      'foreground': 'e88501',
       'token': 'string',
+    },
+    {
+      'foreground': '999999',
+      'token': 'string.link',
+    },
+    {
+      'foreground': '999999',
+      'token': 'variable.source',
+    },
+    {
+      'foreground': '4C51BF',
+      'token': 'variable',
+    },
+    {
+      'foreground': '2B6CB0',
+      'token': 'markup.list',
+    },
+    {
+      'foreground': '2B6CB0',
+      'token': 'markup.underline.link',
     },
     {
       'foreground': '46a609',
@@ -30,58 +50,78 @@ export default {
       'fontStyle': 'bold',
       'token': 'markup.bold',
     },
+    {
+      'fontStyle': 'italic',
+      'token': 'markup.italic',
+    },
     // ie bold/italic/heading/list marks
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.constant.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.bold.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.italic.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.heading.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.heading.begin.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.heading.end.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.heading.setext.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.list_item.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'markup.list.numbered.bullet.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.bold.begin.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.bold.end.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.italic.begin.markdown',
     },
     {
-      'foreground': 'B9B9B9',
+      'foreground': '999999',
       'token': 'punctuation.definition.italic.end.markdown',
+    },
+    {
+      'foreground': '999999',
+      'token': 'punctuation.definition.variable.begin.markdown',
+    },
+    {
+      'foreground': '999999',
+      'token': 'punctuation.definition.variable.end.markdown',
+    },
+    {
+      'foreground': '999999',
+      'token': 'punctuation.definition.link.begin.markdown',
+    },
+    {
+      'foreground': '999999',
+      'token': 'punctuation.definition.link.end.markdown',
     },
 
     {

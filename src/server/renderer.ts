@@ -135,7 +135,7 @@ export default class Renderer extends Model {
           hideInList: !!item.data.hideInList,
           isTop: !!item.data.isTop,
           stats,
-          description: `${content.replace(/<[^>]*>/g, '').substring(0, 120)}...`,
+          description: `${content.replace(/<[^>]*>/g, '').substring(0, 120)}${content[121] ? '...' : ''}`,
         }
 
         result.toc = toc

@@ -62,9 +62,9 @@
       <div class="version-info" v-html="updateContent"></div>
     </a-modal>
 
-    <a-modal :width="900" :visible="systemModalVisible" :footer="null" @cancel="systemModalVisible = false">
+    <!-- <a-modal :width="900" :visible="systemModalVisible" :footer="null" @cancel="systemModalVisible = false">
       <app-system />
-    </a-modal>
+    </a-modal> -->
 
     <a-modal :width="900" :visible="logModalVisible" :footer="null" @cancel="logModalVisible = false">
       <h2>{{ log.type }}</h2>
@@ -72,6 +72,16 @@
         {{ log.message }}
       </pre>
     </a-modal>
+
+    <a-drawer
+      title=""
+      placement="bottom"
+      height="100%"
+      @close="systemModalVisible = false"
+      :visible="systemModalVisible"
+    >
+      <app-system />
+    </a-drawer>
 
   </a-layout>
 </template>

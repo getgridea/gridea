@@ -33,7 +33,13 @@ export default class Deploy extends Model {
     }
     try {
       const { setting } = this.db
-      const isRepo = await this.git.checkIsRepo()
+      let isRepo = false
+      try {
+        isRepo = await this.git.checkIsRepo()
+      } catch (e) {
+        console.log('Not a repo', e.message)
+      }
+
       if (!setting.username || !setting.repository || !setting.token) {
         return {
           success: false,

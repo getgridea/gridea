@@ -51,7 +51,7 @@
     </a-layout>
 
     <a-modal :visible="syncErrorModalVisible" :footer="null" @cancel="syncErrorModalVisible = false" :maskClosable="false">
-      🙁 {{ $t('syncError1') }} <a @click="openInBrowser('https://gridea.dev/docs/faq.html')">FAQ</a> {{ $t('or') }} <a @click="openInBrowser('https://github.com/getgridea/gridea/issues')">Issues</a> {{ $t('syncError2') }}
+      🙁 {{ $t('syncError1') }} <a @click="openInBrowser('https://gridea.dev/')">FAQ</a> {{ $t('or') }} <a @click="openInBrowser('https://github.com/getgridea/gridea/issues')">Issues</a> {{ $t('syncError2') }}
     </a-modal>
 
     <a-modal title="🔥 New Version" :visible="updateModalVisible" :footer="null" @cancel="updateModalVisible = false" :maskClosable="false">

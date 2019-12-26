@@ -168,6 +168,13 @@
       "value": "",
       "type": "input",
       "note": "UA-xxxxxxxxx-x"
+    },
+    {
+      "name": "metaDescription",
+      "label": "Meta Description",
+      "group": "SEO",
+      "value": "",
+      "type": "input"
     }
   ]
 }

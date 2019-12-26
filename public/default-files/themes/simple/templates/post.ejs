@@ -2,6 +2,8 @@
 <html>
   <head>
     <%- include('./_blocks/head', { siteTitle: `${post.title} | ${themeConfig.siteName}` }) %>
+    <meta name="description" content="<%- post.description %>" />
+    <meta name="keywords" content="<%- post.tags.map(tag => tag.name).join(',') %>" />
   </head>
   <body>
     <div id="app" class="main">
@@ -17,7 +19,7 @@
               <div class="feature-container" style="background-image: url('<%= post.feature %>')">
               </div>
             <% } %>
-            <div class="post-content">
+            <div class="post-content" v-pre>
               <%- post.content %>
             </div>
             <% if (post.tags.length > 0) { %>

@@ -25,7 +25,7 @@
     <% ['github', 'twitter', 'weibo', 'zhihu', 'facebook'].forEach((item) => { %>
       <% if (site.customConfig[item]) { %>
         <a href="<%= site.customConfig[item] %>" target="_blank">
-          <i class="fab fa-<%= item %>"></i>
+          <i class="ri-<%= item %>-line"></i>
         </a>
       <% } %>
     <% }) %>

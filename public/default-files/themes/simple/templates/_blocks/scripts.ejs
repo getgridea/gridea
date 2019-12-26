@@ -1,10 +1,7 @@
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
 <script type="application/javascript">
 
 AOS.init();
-
-hljs.initHighlightingOnLoad()
 
 var app = new Vue({
   el: '#app',
@@ -14,6 +11,13 @@ var app = new Vue({
 })
 
 </script>
+
+<% if (site.customConfig.renderCode) { %>
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+<% } %>
 
 <% if (typeof commentSetting !== 'undefined' && commentSetting.showComment) { %>
 

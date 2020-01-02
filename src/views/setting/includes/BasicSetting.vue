@@ -48,7 +48,10 @@
             <a-icon class="icon" slot="addonAfter" :type="passVisible ? 'eye-invisible' : 'eye'" @click="passVisible = !passVisible" />
           </a-input>
         </a-form-item>
-        <a-form-item label="Remote Path" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false" help="请填写绝对路径，例如：/home/username/www/">
+        <a-form-item label="Private Key" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false" :help="$t('privateKeyTip')">
+          <a-input v-model="form.privateKey" />
+        </a-form-item>
+        <a-form-item label="Remote Path" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false" :help="$t('remotePathTip')">
           <a-input v-model="form.remotePath" />
         </a-form-item>
       </template>
@@ -99,6 +102,7 @@ export default class BasicSetting extends Vue {
     port: '22',
     server: '',
     password: '',
+    privateKey: '',
     remotePath: '',
   }
 
@@ -110,13 +114,13 @@ export default class BasicSetting extends Vue {
       && form.branch
       && form.username
       && form.token
-    
+
     const sftpPlatformValid = ['sftp'].includes(form.platform)
       && form.port
       && form.server
       && form.username
-      && form.password
       && form.remotePath
+      && (form.password || form.privateKey)
 
     return pagesPlatfomValid || sftpPlatformValid
   }

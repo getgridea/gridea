@@ -1,9 +1,19 @@
 import * as fse from 'fs-extra'
+// import * as fs from 'fs'
 import path from 'path'
 import SftpClient from 'ssh2-sftp-client'
 import NodeSsh from 'node-ssh'
 import normalizePath from 'normalize-path'
 import Model from '../../model'
+
+type sftpConnectConfig = {
+  host: string;
+  port: number;
+  type?: string;
+  username: string;
+  password?: string;
+  privateKey?: string | Buffer;
+}
 
 export default class SftpDeploy extends Model {
   // connect: SftpClient
@@ -22,11 +32,24 @@ export default class SftpDeploy extends Model {
     const client = new SftpClient()
 
     const { setting } = this.db
-    const connectConfig = {
+
+    const connectConfig: sftpConnectConfig = {
       host: setting.server,
       port: Number(setting.port),
       username: setting.username,
-      password: setting.password,
+    }
+
+    if (setting.privateKey) {
+      try {
+        connectConfig.privateKey = fse.readFileSync(setting.privateKey)
+      } catch (e) {
+        console.error('SFTP Test Remote Error: ', e.message)
+        result.success = false
+        result.message = e.message
+        return result
+      }
+    } else {
+      connectConfig.password = setting.password
     }
 
     const testFilename = 'gridea.txt'
@@ -58,7 +81,7 @@ export default class SftpDeploy extends Model {
     } finally {
       await client.end()
     }
-    
+
     return result
   }
 
@@ -71,12 +94,19 @@ export default class SftpDeploy extends Model {
     const client = new NodeSsh()
 
     const { setting } = this.db
-    const connectConfig = {
+
+    const connectConfig: sftpConnectConfig = {
       host: setting.server,
       port: Number(setting.port),
-      username: setting.username,
-      password: setting.password,
       type: 'sftp',
+      username: setting.username,
+    }
+
+    // node-ssh: privateKey is path string.
+    if (setting.privateKey) {
+      connectConfig.privateKey = setting.privateKey
+    } else {
+      connectConfig.password = setting.password
     }
 
     const localPath = normalizePath(path.join(this.appDir, 'output'))

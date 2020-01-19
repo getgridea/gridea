@@ -50,11 +50,9 @@ export default class Deploy extends Model {
         await this.git.init()
         await this.git.addConfig('user.name', setting.username)
         await this.git.addConfig('user.email', setting.email)
-        await this.git.add('./*')
-        await this.git.commit('first commit')
-        await this.git.addRemote('origin', this.remoteUrl)
       }
 
+      await this.git.addRemote('origin', this.remoteUrl)
       await this.git.raw(['remote', 'set-url', 'origin', this.remoteUrl])
       const data = await this.git.listRemote([])
     } catch (e) {

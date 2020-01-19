@@ -609,10 +609,16 @@ export default class Renderer extends Model {
     fse.copySync(mediaInputPath, mediaOutputPath)
 
     // Copy /static
-    fse.copySync(urlJoin(this.appDir, 'static'), this.outputDir)
+    const staticFilesPath = urlJoin(this.appDir, 'static')
+    if (fse.existsSync(staticFilesPath)) {
+      fse.copySync(staticFilesPath, this.outputDir)
+    }
 
     // Copy favicon.ico
-    fse.copyFileSync(urlJoin(this.appDir, 'favicon.ico'), urlJoin(this.outputDir, 'favicon.ico'))
+    const faviconPath = urlJoin(this.appDir, 'favicon.ico')
+    if (fse.existsSync(faviconPath)) {
+      fse.copyFileSync(faviconPath, urlJoin(this.outputDir, 'favicon.ico'))
+    }
   }
 
   async clearOutputFolder() {

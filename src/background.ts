@@ -7,9 +7,12 @@ import {
   createProtocol,
 } from 'vue-cli-plugin-electron-builder/lib'
 import { autoUpdater } from 'electron-updater'
+import { init } from '@sentry/electron/dist/main'
 import App from './server/app'
 import messages from './assets/locales-menu'
 import initServer from './server'
+
+init({ dsn: 'https://6a6dacc57a6a4e27a88eb31596c152f8@sentry.io/1887150' })
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 

@@ -52,8 +52,11 @@ export default class Deploy extends Model {
         await this.git.addConfig('user.email', setting.email)
       }
 
-      await this.git.addRemote('origin', this.remoteUrl)
-      await this.git.raw(['remote', 'set-url', 'origin', this.remoteUrl])
+      try {
+        await this.git.raw(['remote', 'set-url', 'origin', this.remoteUrl])
+      } catch (e) {
+        await this.git.addRemote('origin', this.remoteUrl)
+      }
       const data = await this.git.listRemote([])
     } catch (e) {
       console.log('Test Remote Error: ', e.message)

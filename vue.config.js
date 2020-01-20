@@ -21,6 +21,7 @@ module.exports = {
   },
   pluginOptions: {
     electronBuilder: {
+      nodeIntegration: true,
       builderOptions: {
         productName: 'Gridea',
         win: {

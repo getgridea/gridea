@@ -17,7 +17,7 @@ export default class Deploy extends Model {
     const { setting } = this.db
     this.platformAddress = ({
       github: 'github.com',
-      coding: 'e.coding.net',
+      coding: 'git.coding.net',
     } as any)[setting.platform || 'github']
     this.remoteUrl = `https://${setting.username}:${setting.token}@${this.platformAddress}/${setting.username}/${setting.repository}.git`
     this.git = simpleGit(this.outputDir)

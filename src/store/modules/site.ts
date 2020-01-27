@@ -59,6 +59,7 @@ const siteState: Site = {
     port: '22',
     server: '',
     password: '',
+    privateKey: '',
     remotePath: '',
   },
   commentSetting: {

@@ -10,6 +10,7 @@ export interface ISetting {
   port: string
   server: string
   password: string
+  privateKey: string
   remotePath: string
   [index: string]: string
 }

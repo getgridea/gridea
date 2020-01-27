@@ -75,6 +75,7 @@ export default class App {
         port: '22',
         server: '',
         password: '',
+        privateKey: '',
         remotePath: '',
       },
       commentSetting: {

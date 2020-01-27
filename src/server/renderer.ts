@@ -615,9 +615,9 @@ export default class Renderer extends Model {
     }
 
     // Copy favicon.ico
-    const faviconPath = urlJoin(this.appDir, 'favicon.ico')
-    if (fse.existsSync(faviconPath)) {
-      fse.copyFileSync(faviconPath, urlJoin(this.outputDir, 'favicon.ico'))
+    const faviconInputPath = urlJoin(this.appDir, 'favicon.ico')
+    if (fse.existsSync(faviconInputPath)) {
+      fse.copyFileSync(faviconInputPath, urlJoin(this.outputDir, 'favicon.ico'))
     }
   }
 

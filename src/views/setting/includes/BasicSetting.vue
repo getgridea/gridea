@@ -30,7 +30,7 @@
           </a-input>
         </a-form-item>
         <a-form-item label="CNAME" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-input v-model="form.cname" />
+          <a-input v-model="form.cname" placeholder="mydomain.com" />
         </a-form-item>
       </template>
       <template v-if="['sftp'].includes(form.platform)">

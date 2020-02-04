@@ -30,8 +30,10 @@
           {{ $t('preview') }}
         </a-button>
         <a-button class="sync-btn" block type="primary" :loading="publishLoading" @click="publish">
-          <i class="zwicon-deploy"></i>
-          {{ $t('syncSite') }}
+          <template v-if="!publishLoading">
+            <i class="zwicon-deploy"></i>
+            {{ $t('syncSite') }}
+          </template>
         </a-button>
         <div class="version-container" :class="{ 'version-dot': hasUpdate }">
           <i class="ri-equalizer-line text-base" @click="systemModalVisible = true"></i>

@@ -125,13 +125,13 @@ export default class Renderer extends Model {
           title: item.data.title,
           tags: this.db.tags
             .filter((tag: ITag) => currentTags.find(i => i === tag.name))
-            .map((tag: ITag) => ({ ...tag, link: urlJoin(themeConfig.domain, themeConfig.tagPath, `${tag.slug}`) })),
+            .map((tag: ITag) => ({ ...tag, link: urlJoin(themeConfig.domain, themeConfig.tagPath, `${tag.slug}`, '/') })),
           date: item.data.date,
           dateFormat: (themeConfig.dateFormat && moment(item.data.date).format(themeConfig.dateFormat)) || item.data.date,
           feature: item.data.feature && !item.data.feature.includes('http')
             ? `${helper.changeFeatureImageUrlLocalToDomain(item.data.feature, themeConfig.domain)}`
             : item.data.feature || '',
-          link: urlJoin(themeConfig.domain, themeConfig.postPath, item.fileName),
+          link: urlJoin(themeConfig.domain, themeConfig.postPath, item.fileName, '/'),
           hideInList: !!item.data.hideInList,
           isTop: !!item.data.isTop,
           stats,

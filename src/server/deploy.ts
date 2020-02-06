@@ -1,4 +1,6 @@
 import simpleGit, { SimpleGit } from 'simple-git/promise'
+import * as isoGit from 'isomorphic-git'
+import fs from 'fs'
 import moment from 'moment'
 import Model from './model'
 
@@ -32,32 +34,34 @@ export default class Deploy extends Model {
       message: '',
     }
     try {
-      const { setting } = this.db
-      let isRepo = false
-      try {
-        isRepo = await this.git.checkIsRepo()
-      } catch (e) {
-        console.log('Not a repo', e.message)
-      }
+      const remotes = await isoGit.listRemotes({ fs, dir: this.outputDir })
+      console.log('remotes', remotes)
+      // const { setting } = this.db
+      // let isRepo = false
+      // try {
+      //   isRepo = await this.git.checkIsRepo()
+      // } catch (e) {
+      //   console.log('Not a repo', e.message)
+      // }
 
-      if (!setting.username || !setting.repository || !setting.token) {
-        return {
-          success: false,
-          message: 'Username、repository、token is required',
-        }
-      }
-      if (!isRepo) {
-        await this.git.init()
-        await this.git.addConfig('user.name', setting.username)
-        await this.git.addConfig('user.email', setting.email)
-      }
+      // if (!setting.username || !setting.repository || !setting.token) {
+      //   return {
+      //     success: false,
+      //     message: 'Username、repository、token is required',
+      //   }
+      // }
+      // if (!isRepo) {
+      //   await this.git.init()
+      //   await this.git.addConfig('user.name', setting.username)
+      //   await this.git.addConfig('user.email', setting.email)
+      // }
 
-      try {
-        await this.git.raw(['remote', 'set-url', 'origin', this.remoteUrl])
-      } catch (e) {
-        await this.git.addRemote('origin', this.remoteUrl)
-      }
-      const data = await this.git.listRemote([])
+      // try {
+      //   await this.git.raw(['remote', 'set-url', 'origin', this.remoteUrl])
+      // } catch (e) {
+      //   await this.git.addRemote('origin', this.remoteUrl)
+      // }
+      // const data = await this.git.listRemote([])
     } catch (e) {
       console.log('Test Remote Error: ', e.message)
       result.success = false

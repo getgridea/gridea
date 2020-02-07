@@ -1,13 +1,11 @@
-import simpleGit, { SimpleGit } from 'simple-git/promise'
-import * as isoGit from 'isomorphic-git'
 import fs from 'fs'
 import moment from 'moment'
+// @ts-ignore
+import * as git from 'isomorphic-git/dist/for-node/isomorphic-git/index'
 import Model from './model'
 
 export default class Deploy extends Model {
   outputDir: string = `${this.appDir}/output`
-
-  git: SimpleGit
 
   remoteUrl = ''
 
@@ -22,7 +20,6 @@ export default class Deploy extends Model {
       coding: 'git.coding.net',
     } as any)[setting.platform || 'github']
     this.remoteUrl = `https://${setting.username}:${setting.token}@${this.platformAddress}/${setting.username}/${setting.repository}.git`
-    this.git = simpleGit(this.outputDir)
   }
 
   /**
@@ -34,34 +31,41 @@ export default class Deploy extends Model {
       message: '',
     }
     try {
-      const remotes = await isoGit.listRemotes({ fs, dir: this.outputDir })
-      console.log('remotes', remotes)
-      // const { setting } = this.db
-      // let isRepo = false
-      // try {
-      //   isRepo = await this.git.checkIsRepo()
-      // } catch (e) {
-      //   console.log('Not a repo', e.message)
-      // }
+      const { setting } = this.db
+      let isRepo = false
+      try {
+        await git.currentBranch({ fs, dir: this.outputDir })
+        isRepo = true
+      } catch (e) {
+        console.log('Not a repo', e.message)
+      }
 
-      // if (!setting.username || !setting.repository || !setting.token) {
-      //   return {
-      //     success: false,
-      //     message: 'Username、repository、token is required',
-      //   }
-      // }
-      // if (!isRepo) {
-      //   await this.git.init()
-      //   await this.git.addConfig('user.name', setting.username)
-      //   await this.git.addConfig('user.email', setting.email)
-      // }
+      if (!setting.username || !setting.repository || !setting.token) {
+        return {
+          success: false,
+          message: 'Username、repository、token is required',
+        }
+      }
+      if (!isRepo) {
+        await git.init({ fs, dir: this.outputDir })
+        await git.config({
+          fs,
+          dir: this.outputDir,
+          path: 'user.name',
+          value: setting.username,
+        })
+        await git.config({
+          fs,
+          dir: this.outputDir,
+          path: 'user.email',
+          value: setting.email,
+        })
+      }
 
-      // try {
-      //   await this.git.raw(['remote', 'set-url', 'origin', this.remoteUrl])
-      // } catch (e) {
-      //   await this.git.addRemote('origin', this.remoteUrl)
-      // }
-      // const data = await this.git.listRemote([])
+      await git.addRemote({
+        fs, dir: this.outputDir, remote: 'origin', url: this.remoteUrl, force: true,
+      })
+      await git.listRemotes({ fs, dir: this.outputDir })
     } catch (e) {
       console.log('Test Remote Error: ', e.message)
       result.success = false
@@ -77,8 +81,13 @@ export default class Deploy extends Model {
       message: '',
       localBranchs: {},
     }
-    const isRepo = await this.git.checkIsRepo()
-    console.log(isRepo)
+    let isRepo = false
+    try {
+      await git.currentBranch({ fs, dir: this.outputDir })
+      isRepo = true
+    } catch (e) {
+      console.log('Not a repo', e.message)
+    }
     if (isRepo) {
       result = await this.commonPush()
     } else {
@@ -89,21 +98,44 @@ export default class Deploy extends Model {
 
   async firstPush() {
     const { setting } = this.db
-    let localBranchs = {}
+    const localBranchs = {}
     console.log('first push')
 
     try {
-      await this.git.init()
-      await this.git.addConfig('user.name', setting.username)
-      await this.git.addConfig('user.email', setting.email)
-      await this.git.add('./*')
-      await this.git.commit('first commit')
-      await this.git.addRemote('origin', this.remoteUrl)
-      localBranchs = await this.checkCurrentBranch()
-      await this.git.push('origin', setting.branch, { '--force': true })
+      await git.init({ fs, dir: this.outputDir })
+      await git.config({
+        fs,
+        dir: this.outputDir,
+        path: 'user.name',
+        value: setting.username,
+      })
+      await git.config({
+        fs,
+        dir: this.outputDir,
+        path: 'user.email',
+        value: setting.email,
+      })
+      await git.add({ fs, dir: this.outputDir, filepath: './*' })
+      await git.commit({
+        fs,
+        dir: this.outputDir,
+        message: `update from gridea: ${moment().format('YYYY-MM-DD HH:mm:ss')}`,
+      })
+      await git.addRemote({
+        fs, dir: this.outputDir, remote: 'origin', url: this.remoteUrl, force: true,
+      })
+      // await git.fastCheckout({ fs, dir: this.outputDir, ref: setting.branch })
+      await this.checkCurrentBranch()
+      const pushRes = await git.push({
+        fs,
+        dir: this.outputDir,
+        remote: 'origin',
+        ref: setting.branch,
+        force: true,
+      })
       return {
         success: true,
-        data: localBranchs,
+        data: pushRes,
         message: '',
         localBranchs,
       }
@@ -121,24 +153,36 @@ export default class Deploy extends Model {
   async commonPush() {
     console.log('common push')
     const { setting } = this.db
-    let localBranchs = {}
+    const localBranchs = {}
     try {
-      const statusSummary = await this.git.status()
-      console.log(statusSummary)
-      await this.git.raw(['remote', 'set-url', 'origin', this.remoteUrl])
+      const statusSummary = await git.status({ fs, dir: this.outputDir, filepath: '.' })
+      console.log('statusSummary', statusSummary)
+      await git.addRemote({
+        fs, dir: this.outputDir, remote: 'origin', url: this.remoteUrl, force: true,
+      })
 
-      if (statusSummary.modified.length > 0 || statusSummary.not_added.length > 0) {
-        await this.git.add('./*')
-        await this.git.commit(`update from gridea: ${moment().format('YYYY-MM-DD HH:mm:ss')}`)
-        localBranchs = await this.checkCurrentBranch()
-        await this.git.push('origin', this.db.setting.branch, { '--force': true })
-      } else {
-        await this.checkCurrentBranch()
-        await this.git.push('origin', this.db.setting.branch, { '--force': true })
+      if (statusSummary !== 'unmodified') {
+        await git.add({ fs, dir: this.outputDir, filepath: '.' })
+        await git.commit({
+          fs,
+          dir: this.outputDir,
+          message: `update from gridea: ${moment().format('YYYY-MM-DD HH:mm:ss')}`,
+        })
       }
+
+      await this.checkCurrentBranch()
+
+      const pushRes = await git.push({
+        fs,
+        dir: this.outputDir,
+        remote: 'origin',
+        ref: setting.branch,
+        force: true,
+      })
+      console.log('pushRes', pushRes)
       return {
         success: true,
-        data: localBranchs,
+        data: pushRes,
         message: '',
         localBranchs,
       }
@@ -154,34 +198,20 @@ export default class Deploy extends Model {
   }
 
   /**
-   * Check whether the branch needs to be switched
+   * Check whether the branch needs to be switched,
+   * FIXME: if branch is change, then the fist push is not work. so need to push again.
    */
   async checkCurrentBranch() {
     const { setting } = this.db
-    const currentBranch = (await this.git.revparse(['--abbrev-ref', 'HEAD']) || 'master').replace(/\n/g, '')
-    let hasNewBranch = true
-    console.log(currentBranch)
-
-    const list = await this.git.branch([])
-    list.all.forEach((item: string) => {
-      if (item === setting.branch) {
-        hasNewBranch = false
-      }
-    })
+    const currentBranch = await git.currentBranch({ fs, dir: this.outputDir, fullname: false })
+    const localBranches = await git.listBranches({ fs, dir: this.outputDir })
 
     if (currentBranch !== setting.branch) {
-      if (hasNewBranch) {
-        await this.git.checkout(['-b', setting.branch])
-      } else {
-        try {
-          await this.git.deleteLocalBranch(setting.branch)
-        } catch (e) {
-          console.log(e)
-        } finally {
-          await this.git.checkout(['-b', setting.branch])
-        }
+      if (!localBranches.includes(setting.branch)) {
+        await git.branch({ fs, dir: this.outputDir, ref: setting.branch })
       }
+
+      await git.fastCheckout({ fs, dir: this.outputDir, ref: setting.branch })
     }
-    return {}
   }
 }

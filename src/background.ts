@@ -1,5 +1,3 @@
-'use strict'
-
 import {
   app, protocol, BrowserWindow, Menu, shell,
 } from 'electron'

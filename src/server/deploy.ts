@@ -1,8 +1,10 @@
 import fs from 'fs'
 import moment from 'moment'
 // @ts-ignore
-import * as git from 'isomorphic-git/dist/for-node/isomorphic-git/index'
+import * as git from 'isomorphic-git/dist'
 import Model from './model'
+
+const { http } = require('isomorphic-git/dist/http')
 
 export default class Deploy extends Model {
   outputDir: string = `${this.appDir}/output`
@@ -48,13 +50,13 @@ export default class Deploy extends Model {
       }
       if (!isRepo) {
         await git.init({ fs, dir: this.outputDir })
-        await git.config({
+        await git.setConfig({
           fs,
           dir: this.outputDir,
           path: 'user.name',
           value: setting.username,
         })
-        await git.config({
+        await git.setConfig({
           fs,
           dir: this.outputDir,
           path: 'user.email',
@@ -91,7 +93,7 @@ export default class Deploy extends Model {
     if (isRepo) {
       result = await this.commonPush()
     } else {
-      result = await this.firstPush()
+      // result = await this.firstPush()
     }
     return result
   }
@@ -103,19 +105,19 @@ export default class Deploy extends Model {
 
     try {
       await git.init({ fs, dir: this.outputDir })
-      await git.config({
+      await git.setConfig({
         fs,
         dir: this.outputDir,
         path: 'user.name',
         value: setting.username,
       })
-      await git.config({
+      await git.setConfig({
         fs,
         dir: this.outputDir,
         path: 'user.email',
         value: setting.email,
       })
-      await git.add({ fs, dir: this.outputDir, filepath: './*' })
+      await git.add({ fs, dir: this.outputDir, filepath: '.' })
       await git.commit({
         fs,
         dir: this.outputDir,
@@ -126,16 +128,17 @@ export default class Deploy extends Model {
       })
       // await git.fastCheckout({ fs, dir: this.outputDir, ref: setting.branch })
       await this.checkCurrentBranch()
-      const pushRes = await git.push({
-        fs,
-        dir: this.outputDir,
-        remote: 'origin',
-        ref: setting.branch,
-        force: true,
-      })
+      // const pushRes = await git.push({
+      //   fs,
+      //   dir: this.outputDir,
+      //   remote: 'origin',
+      //   ref: setting.branch,
+      //   force: true,
+      //   http,
+      // })
       return {
         success: true,
-        data: pushRes,
+        // data: pushRes,
         message: '',
         localBranchs,
       }
@@ -172,17 +175,18 @@ export default class Deploy extends Model {
 
       await this.checkCurrentBranch()
 
-      const pushRes = await git.push({
-        fs,
-        dir: this.outputDir,
-        remote: 'origin',
-        ref: setting.branch,
-        force: true,
-      })
-      console.log('pushRes', pushRes)
+      // const pushRes = await git.push({
+      //   fs,
+      //   dir: this.outputDir,
+      //   remote: 'origin',
+      //   ref: setting.branch,
+      //   force: true,
+      //   http,
+      // })
+      // console.log('pushRes', pushRes)
       return {
         success: true,
-        data: pushRes,
+        // data: pushRes,
         message: '',
         localBranchs,
       }
@@ -211,7 +215,7 @@ export default class Deploy extends Model {
         await git.branch({ fs, dir: this.outputDir, ref: setting.branch })
       }
 
-      await git.fastCheckout({ fs, dir: this.outputDir, ref: setting.branch })
+      await git.checkout({ fs, dir: this.outputDir, ref: setting.branch })
     }
   }
 }

@@ -5171,11 +5171,6 @@ globalthis@^1.0.0:
     function-bind "^1.1.1"
     object-keys "^1.0.12"
 
-globalyzer@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/globalyzer/-/globalyzer-0.1.4.tgz#bc8e273afe1ac7c24eea8def5b802340c5cc534f"
-  integrity sha512-LeguVWaxgHN0MNbWC6YljNMzHkrCny9fzjmEUdnF1kQ7wATFD1RHFRqA1qxaX2tgxGENlcxjOflopBwj3YZiXA==
-
 globby@^6.1.0:
   version "6.1.0"
   resolved "http://registry.npm.taobao.org/globby/download/globby-6.1.0.tgz#f5a6d70e8395e21c858fb0489d64df02424d506c"
@@ -5210,11 +5205,6 @@ globby@^9.2.0:
     ignore "^4.0.3"
     pify "^4.0.1"
     slash "^2.0.0"
-
-globrex@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/globrex/-/globrex-0.1.2.tgz#dd5d9ec826232730cd6793a5e33a9302985e6098"
-  integrity sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==
 
 good-listener@^1.2.2:
   version "1.2.2"
@@ -6118,18 +6108,16 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/isobject/download/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
-isomorphic-git@^0.78.3:
-  version "0.78.3"
-  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-0.78.3.tgz#563d60f5f73868ba13701a33047fe356bacdca1f"
-  integrity sha512-3c8uqIg9tBBXFwypdlIo7yPM1x3uc7mNt4qbUvG2NPt8QYN1OFWo0MDNgHYfRIQWsgd8aux/qC3QnKyVqaq0TQ==
+isomorphic-git@1.0.0-beta.19:
+  version "1.0.0-beta.19"
+  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-1.0.0-beta.19.tgz#421f0ae9de00c3ff967726f8eb5a0602929110ad"
+  integrity sha512-kJPF9R0HUdJmZcRWyYDH0ac2U3fCggScpU1Yn9kMZH8z+QEcNkCARPwH+bAKhaAYIQeb1ln3hufrGpAm/Ba8Gg==
   dependencies:
     async-lock "^1.1.0"
     clean-git-ref "^2.0.1"
     crc-32 "^1.2.0"
     diff3 "0.0.3"
     git-apply-delta "0.0.7"
-    globalyzer "^0.1.4"
-    globrex "^0.1.2"
     ignore "^5.1.4"
     marky "^1.2.1"
     minimisted "^2.0.0"

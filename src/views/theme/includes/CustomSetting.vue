@@ -232,7 +232,7 @@ export default class ThemeCustomSetting extends Vue {
     const list = this.site.posts.map((post: any) => {
       return {
         ...post,
-        link: urlJoin(this.site.setting.domain, this.site.themeConfig.postPath, post.fileName),
+        link: urlJoin(this.site.setting.domain, this.site.themeConfig.postPath, post.fileName, '/'),
       }
     }).filter((post: any) => post.data.published)
     
@@ -305,6 +305,7 @@ export default class ThemeCustomSetting extends Vue {
   }
 
   handlePostSelected(postUrl: string, name: string, arrayIndex?: number, fieldName?: string) {
+    console.log('postUrl', postUrl)
     if (arrayIndex === undefined) {
       this.form[name] = postUrl
     } else if (arrayIndex !== undefined && fieldName !== undefined) {

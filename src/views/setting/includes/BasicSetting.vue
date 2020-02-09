@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-form :form="form" style="padding-bottom: 48px;">
-      <a-form-item label="Platform" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-form-item :label="$t('platform')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-radio-group name="platform" v-model="form.platform">
           <a-radio value="github">Github Pages</a-radio>
           <a-radio value="coding">Coding Pages</a-radio>
@@ -24,7 +24,10 @@
         <a-form-item :label="$t('email')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input v-model="form.email" />
         </a-form-item>
-        <a-form-item label="Token" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+        <a-form-item v-if="form.platform === 'coding'" :label="$t('tokenUsername')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.tokenUsername" />
+        </a-form-item>
+        <a-form-item :label="$t('token')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input :type="passVisible ? '' : 'password'" v-model="form.token">
             <a-icon class="icon" slot="addonAfter" :type="passVisible ? 'eye-invisible' : 'eye'" @click="passVisible = !passVisible" />
           </a-input>
@@ -97,6 +100,7 @@ export default class BasicSetting extends Vue {
     branch: '',
     username: '',
     email: '',
+    tokenUsername: '',
     token: '',
     cname: '',
     port: '22',
@@ -108,12 +112,12 @@ export default class BasicSetting extends Vue {
 
   get canSubmit() {
     const { form } = this
-    const pagesPlatfomValid = ['github', 'coding'].includes(form.platform)
-      && form.domain
+    const baseValid = form.domain
       && form.repository
       && form.branch
       && form.username
       && form.token
+    const pagesPlatfomValid = baseValid && (form.platform === 'github' || (form.platform === 'coding' && form.tokenUsername))
 
     const sftpPlatformValid = ['sftp'].includes(form.platform)
       && form.port

@@ -5,6 +5,7 @@ export interface ISetting {
   branch: string
   username: string
   email: string
+  tokenUsername: string
   token: string
   cname: string
   port: string

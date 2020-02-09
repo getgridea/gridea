@@ -54,6 +54,7 @@ const siteState: Site = {
     branch: '',
     username: '',
     email: '',
+    tokenUsername: '',
     token: '',
     cname: '',
     port: '22',

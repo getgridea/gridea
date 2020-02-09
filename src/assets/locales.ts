@@ -77,7 +77,7 @@ const message = {
     remotePathTip: '请填写绝对路径，例如：/home/username/www/',
     testConnection: '检测远程连接',
     connectSuccess: '远程连接成功',
-    connectFailed: '远程连接失败，请检查仓库、用户名和 Token 设置',
+    connectFailed: '远程连接失败，请检查仓库、用户名和令牌设置',
     sourceFolder: '站点源文件路径',
     language: '语 言',
     inConfig: '配置中',
@@ -108,6 +108,9 @@ const message = {
     words: '字 数',
     readingTime: '阅读时间',
     version: '版本',
+    token: '令牌',
+    tokenUsername: '令牌用户名',
+    platform: '平台',
   },
   zh_TW: {
     preview: '預 覽',
@@ -188,7 +191,7 @@ const message = {
     remotePathTip: '請填寫絕對路徑，例如：/home/username/www/',
     testConnection: '檢測遠程連接',
     connectSuccess: '遠程連接成功',
-    connectFailed: '遠程連接失敗，請檢查倉庫、用戶名和 Token 設置',
+    connectFailed: '遠程連接失敗，請檢查倉庫、用戶名和令牌設置',
     sourceFolder: '站点源文件路径',
     language: '語 言',
     inConfig: '配置中',
@@ -219,6 +222,9 @@ const message = {
     words: '字 數',
     readingTime: '閱讀時間',
     version: '版本',
+    token: '令牌',
+    tokenUsername: '令牌用户名',
+    platform: '平臺',
   },
   en: {
     preview: 'Preview',
@@ -329,6 +335,9 @@ const message = {
     words: 'Words',
     readingTime: 'Reading time',
     version: 'Version',
+    token: 'Token',
+    tokenUsername: 'Token Username',
+    platform: 'Platform',
   },
 }
 

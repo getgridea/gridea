@@ -70,6 +70,7 @@ export default class App {
         branch: '',
         username: '',
         email: '',
+        tokenUsername: '',
         token: '',
         cname: '',
         port: '22',

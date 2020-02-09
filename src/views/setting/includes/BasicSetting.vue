@@ -16,7 +16,7 @@
           <a-input v-model="form.repository" />
         </a-form-item>
         <a-form-item :label="$t('branch')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-input v-model="form.branch" />
+          <a-input v-model="form.branch" placeholder="master" />
         </a-form-item>
         <a-form-item :label="$t('username')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input v-model="form.username" />

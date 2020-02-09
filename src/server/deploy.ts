@@ -74,6 +74,8 @@ export default class Deploy extends Model {
         core: 'default',
         url: this.remoteUrl,
       })
+      console.log('info', info)
+      result.message = info
     } catch (e) {
       console.log('Test Remote Error: ', e.message)
       result.success = false

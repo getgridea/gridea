@@ -9,7 +9,13 @@
         </a-radio-group>
       </a-form-item>
       <a-form-item :label="$t('domain')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-input v-model="form.domain" placeholder="http(s)://" />
+        <a-input-group compact>
+          <a-select v-model="protocol" style="width: 96px">
+            <a-select-option value="https://">https://</a-select-option>
+            <a-select-option value="http://">http://</a-select-option>
+          </a-select>
+          <a-input v-model="form.domain" placeholder="mydomain.com" style="width: calc(100% - 96px);" />
+        </a-input-group>
       </a-form-item>
       <template v-if="['github', 'coding'].includes(form.platform)">
         <a-form-item :label="$t('repository')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
@@ -46,12 +52,18 @@
         <a-form-item label="Username" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input v-model="form.username" />
         </a-form-item>
-        <a-form-item label="Password" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+        <a-form-item label="Connect Type" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-radio-group name="remoteType" v-model="remoteType">
+            <a-radio value="password">Password</a-radio>
+            <a-radio value="key">SSH Key</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item label="Password" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false" v-if="remoteType === 'password'">
           <a-input v-model="form.password" :type="passVisible ? '' : 'password'">
             <a-icon class="icon" slot="addonAfter" :type="passVisible ? 'eye-invisible' : 'eye'" @click="passVisible = !passVisible" />
           </a-input>
         </a-form-item>
-        <a-form-item label="Private Key" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false" :help="$t('privateKeyTip')">
+        <a-form-item label="Private Key Path" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false" :help="$t('privateKeyTip')" v-else>
           <a-input v-model="form.privateKey" />
         </a-form-item>
         <a-form-item label="Remote Path" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false" :help="$t('remotePathTip')">
@@ -93,6 +105,8 @@ export default class BasicSetting extends Vue {
     wrapper: { span: 12 },
   }
 
+  protocol = 'https://'
+
   form: ISetting = {
     platform: 'github',
     domain: '',
@@ -109,6 +123,8 @@ export default class BasicSetting extends Vue {
     privateKey: '',
     remotePath: '',
   }
+
+  remoteType = 'password'
 
   get canSubmit() {
     const { form } = this
@@ -133,8 +149,20 @@ export default class BasicSetting extends Vue {
     const { form, site: { setting } } = this
     console.log('setting', setting)
     Object.keys(form).forEach((key: string) => {
-      form[key] = setting[key]
+      if (key === 'domain') {
+        const protocolEndIndex = setting[key].indexOf('://')
+        if (protocolEndIndex !== -1) {
+          form[key] = setting[key].substring(protocolEndIndex + 3)
+          this.protocol = setting[key].substring(0, protocolEndIndex + 3)
+        }
+      } else {
+        form[key] = setting[key]
+      }
     })
+
+    if (form.privateKey) {
+      this.remoteType = 'key'
+    }
   }
 
   /**
@@ -153,7 +181,18 @@ export default class BasicSetting extends Vue {
     const formValid = this.checkFormValid()
     if (!formValid) { return false }
 
-    ipcRenderer.send('setting-save', this.form)
+    const form = {
+      ...this.form,
+      domain: `${this.protocol}${this.form.domain}`,
+    }
+
+    if (this.remoteType === 'password') {
+      form.privateKey = ''
+    } else {
+      form.password = ''
+    }
+
+    ipcRenderer.send('setting-save', form)
     ipcRenderer.once('setting-saved', (event: IpcRendererEvent, result: any) => {
       this.$bus.$emit('site-reload')
       this.$message.success(this.$t('basicSettingSuccess'))
@@ -163,7 +202,12 @@ export default class BasicSetting extends Vue {
   }
 
   async remoteDetect() {
-    ipcRenderer.send('setting-save', this.form)
+    const form = {
+      ...this.form,
+      domain: `${this.protocol}${this.form.domain}`,
+    }
+
+    ipcRenderer.send('setting-save', form)
     ipcRenderer.once('setting-saved', () => {
       ipcRenderer.send('app-site-reload')
       ipcRenderer.once('app-site-loaded', () => {

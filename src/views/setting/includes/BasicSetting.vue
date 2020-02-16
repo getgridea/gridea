@@ -165,21 +165,21 @@ export default class BasicSetting extends Vue {
     }
   }
 
-  /**
-   * check form validate
-   * @returns {boolean}
-   */
-  checkFormValid() {
-    if (!['https://', 'http://'].some(d => this.form.domain.startsWith(d))) {
-      this.$message.warn(this.$t('domainShouldStartsWithWarn'))
-      return false
-    }
-    return true
-  }
+  // /**
+  //  * check form validate
+  //  * @returns {boolean}
+  //  */
+  // checkFormValid() {
+  //   // if (!['https://', 'http://'].some(d => this.form.domain.startsWith(d))) {
+  //   //   this.$message.warn(this.$t('domainShouldStartsWithWarn'))
+  //   //   return false
+  //   // }
+  //   return true
+  // }
 
   submit() {
-    const formValid = this.checkFormValid()
-    if (!formValid) { return false }
+    // const formValid = this.checkFormValid()
+    // if (!formValid) { return false }
 
     const form = {
       ...this.form,

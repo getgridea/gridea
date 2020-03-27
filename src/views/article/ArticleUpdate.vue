@@ -162,8 +162,8 @@
 
           <a-collapse-panel :header="$t('featureImage')" key="4">
             <a-radio-group style="margin-bottom: 16px;" defaultValue="a" buttonStyle="solid" v-model="featureType" size="small">
-              <a-radio-button value="DEFAULT">默认</a-radio-button>
-              <a-radio-button value="EXTERNAL">外链</a-radio-button>
+              <a-radio-button value="DEFAULT">{{$t('default')}}</a-radio-button>
+              <a-radio-button value="EXTERNAL">{{$t('external')}}</a-radio-button>
             </a-radio-group>
             <div v-if="featureType === 'DEFAULT'">
               <a-upload
@@ -185,7 +185,7 @@
             </div>
             <div v-if="featureType === 'EXTERNAL'">
               <a-input v-model="form.featureImagePath"></a-input>
-              <div class="tip-text">路径必须包含 http 或 https</div>
+              <div class="tip-text">{{$t('pathContainHttps')}}</div>
               <div class="feature-image-container" v-if="form.featureImagePath">
                 <img class="feature-image" :src="form.featureImagePath" height="150">
               </div>
@@ -194,7 +194,7 @@
           <a-collapse-panel :header="$t('hideInList')" key="5">
             <a-switch v-model="form.hideInList"></a-switch>
           </a-collapse-panel>
-          <a-collapse-panel header="置顶文章" key="6">
+          <a-collapse-panel :header="$t('topArticles')" key="6">
             <a-switch v-model="form.isTop"></a-switch>
           </a-collapse-panel>
         </a-collapse>

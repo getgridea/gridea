@@ -57,31 +57,32 @@
           </a-radio-group>
         </a-form-item>
 
-        <a-form-item label="文章 URL 路径" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+
+        <a-form-item :label="$t('articleUrlPath')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-radio-group name="postPath" v-model="form.postPath">
             <a-tooltip placement="bottom" title="example.com/post/xxx">
-              <a-radio value="post">默认</a-radio>
+              <a-radio value="post">{{$t('default')}}</a-radio>
             </a-tooltip>
             <a-tooltip placement="bottom" title="example.com/xxx">
-              <a-radio value="">精简</a-radio>
+              <a-radio value="">{{$t('concise')}}</a-radio>
             </a-tooltip>
           </a-radio-group>
         </a-form-item>
 
-        <a-form-item label="标签 URL 路径" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+        <a-form-item :label="$t('tagUrlPath')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-radio-group name="tagPath" v-model="form.tagPath">
             <a-tooltip placement="bottom" title="example.com/tag/xxx">
-              <a-radio value="tag">默认</a-radio>
+              <a-radio value="tag">{{$t('default')}}</a-radio>
             </a-tooltip>
             <a-tooltip placement="bottom" title="example.com/xxx">
-              <a-radio value="">精简</a-radio>
+              <a-radio value="">{{$t('concise')}}</a-radio>
             </a-tooltip>
           </a-radio-group>
         </a-form-item>
 
         <ValidationProvider name="archivesPath" rules="required" v-slot="slotProps">
           <a-form-item
-            label="归档路径前缀"
+            :label="$t('archivePathPrefix')"
             :labelCol="formLayout.label"
             :wrapperCol="formLayout.wrapper"
             :colon="false"
@@ -98,11 +99,11 @@
         </a-form-item>
         <a-form-item label="RSS/Feed" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-radio-group name="tagUrlFormat" v-model="form.feedFullText">
-            <a-radio :value="true">显示全文</a-radio>
-            <a-radio :value="false">仅显示摘要</a-radio>
+            <a-radio :value="true">{{$t('showFullText')}}</a-radio>
+            <a-radio :value="false">{{$t('showAbstractOnly')}}</a-radio>
           </a-radio-group>
         </a-form-item>
-        <a-form-item label="RSS/Feed 文章数量" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+        <a-form-item :label="$t('numberArticlesRSS')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input-number :min="0" :max="10000" v-model="form.feedCount" />
         </a-form-item>
         <footer-box>

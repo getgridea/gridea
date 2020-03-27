@@ -44,6 +44,21 @@ const messages: any = {
     close: 'Close Window',
     quit: 'Quit',
   },
+  'fr-FR': {
+    edit: 'Éditer',
+    help: 'Aide',
+    save: 'Enregistrer',
+    undo: 'Annuler',
+    redo: 'Refaire',
+    cut: 'Couper',
+    copy: 'Copier',
+    paste: 'Coller',
+    delete: 'Supprimer',
+    selectall: 'Tout sélectionner',
+    toggledevtools: 'Toogle Developer Tools',
+    close: 'Fermer',
+    quit: 'Quitter',
+  },
 }
 
 export default messages

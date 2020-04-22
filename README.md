@@ -30,9 +30,6 @@
 
 </div>
 
-## Dependencies
-⚠️Requires [git](https://git-scm.com/downloads) to be installed and that it can be called using the command git.
-
 English | [简体中文](https://github.com/getgridea/gridea/blob/master/README-zh_CN.md)  | [繁體中文](https://github.com/getgridea/gridea/blob/master/README-zh_TW.md)
 
 **[CHANGELOG](https://github.com/getgridea/gridea/blob/master/CHANGELOG.md)**  
@@ -101,4 +98,4 @@ We welcome all contributions.You can submit any ideas as [pull requests](https:/
 </div>
 
 ## License
-[MIT](https://github.com/getgridea/gridea/blob/master/LICENSE). Copyright (c) 2019 EryouHao
+[MIT](https://github.com/getgridea/gridea/blob/master/LICENSE). Copyright (c) 2020 EryouHao

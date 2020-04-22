@@ -29,9 +29,6 @@
   <img src="gridea-app.png">
 </div>
 
-## 依賴
-**⚠️需要安装 [git](https://git-scm.com/downloads) 並且可以使用命令 `git` 調用它。**
-
 [English](https://github.com/getgridea/gridea/blob/master/README.md) | [简体中文](https://github.com/getgridea/gridea/blob/master/README-zh_CN.md) | 繁體中文
 
 **[更新日誌](https://github.com/getgridea/gridea/blob/master/CHANGELOG.md)**  
@@ -97,4 +94,4 @@ $ yarn electron:build
 </div>
 
 ## License
-[MIT](https://github.com/getgridea/gridea/blob/master/LICENSE). Copyright (c) 2019 EryouHao
+[MIT](https://github.com/getgridea/gridea/blob/master/LICENSE). Copyright (c) 2020 EryouHao

@@ -8,6 +8,7 @@
           <a-radio value="en">English</a-radio>
           <a-radio value="zh_TW">繁體中文</a-radio>
           <a-radio value="fr_FR">Français</a-radio>
+          <a-radio value="ja_JP">日本語</a-radio>
         </a-radio-group>
       </a-form-item>
       <a-form-item :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">

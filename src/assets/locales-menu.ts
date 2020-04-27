@@ -59,6 +59,21 @@ const messages: any = {
     close: 'Fermer',
     quit: 'Quitter',
   },
+  'ja-JP': {
+    edit: '編集',
+    help: 'ヘルプ',
+    save: 'セーブ',
+    undo: '取り消す',
+    redo: 'やり直す',
+    cut: 'カット',
+    copy: 'コピー',
+    paste: 'ペースト',
+    delete: '削除',
+    selectall: '全て選択',
+    toggledevtools: '開発者ツール',
+    close: '閉じる',
+    quit: '終了',
+  },
 }
 
 export default messages

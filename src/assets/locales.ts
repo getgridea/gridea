@@ -601,7 +601,7 @@ const message = {
     noSaveAndBack: 'つづく',
     insertImage: 'イマージを挿入します',
     insertMore: '摘要標記を挿入します',
-    writingIn: '写作于',
+    writingIn: '作成地',
     words: '字数',
     readingTime: '読む時間',
     version: 'バージョン',

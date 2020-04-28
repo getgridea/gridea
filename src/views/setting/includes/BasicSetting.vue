@@ -5,6 +5,7 @@
         <a-radio-group name="platform" v-model="form.platform">
           <a-radio value="github">Github Pages</a-radio>
           <a-radio value="coding">Coding Pages</a-radio>
+          <a-radio value="gitee">Gitee Pages</a-radio>
           <a-radio value="sftp">SFTP</a-radio>
         </a-radio-group>
       </a-form-item>
@@ -17,7 +18,7 @@
           <a-input v-model="form.domain" placeholder="mydomain.com" style="width: calc(100% - 96px);" />
         </a-input-group>
       </a-form-item>
-      <template v-if="['github', 'coding'].includes(form.platform)">
+      <template v-if="['github', 'coding', 'gitee'].includes(form.platform)">
         <a-form-item :label="$t('repository')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input v-model="form.repository" />
         </a-form-item>
@@ -133,7 +134,7 @@ export default class BasicSetting extends Vue {
       && form.branch
       && form.username
       && form.token
-    const pagesPlatfomValid = baseValid && (form.platform === 'github' || (form.platform === 'coding' && form.tokenUsername))
+    const pagesPlatfomValid = baseValid && (form.platform === 'gitee' || form.platform === 'github' || (form.platform === 'coding' && form.tokenUsername))
 
     const sftpPlatformValid = ['sftp'].includes(form.platform)
       && form.port

@@ -18,10 +18,13 @@ export default class Deploy extends Model {
     this.platformAddress = ({
       github: 'github.com',
       coding: 'e.coding.net',
+      gitee: 'gitee.com',
     } as any)[setting.platform || 'github']
+
     const preUrl = ({
       github: `${setting.username}:${setting.token}`,
       coding: `${setting.tokenUsername}:${setting.token}`,
+      gitee: `${setting.username}:${setting.token}`,
     } as any)[setting.platform || 'github']
 
     this.remoteUrl = `https://${preUrl}@${this.platformAddress}/${setting.username}/${setting.repository}.git`

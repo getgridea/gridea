@@ -81,7 +81,7 @@ $ yarn electron:build
 ```
 
 
-## Contract
+## Contact
 [Telegram Channel](https://t.me/joinchat/AAAAAEj82_lma0Y1wmyqUQ) | [Telegram Group](https://t.me/joinchat/IDY0ahRqb8NPodv95BNpBg)  | QQ 1 Group: 970332209 | QQ 2 Group: 923131213 | Author Twitter: @EryouHao
 
 ## Example Screenshots

@@ -87,7 +87,7 @@ $ yarn electron:build
 
 ## 使用说明
 一个配置实例：
-这里我把Gridea仿在我的OneDrive里了：
+**多设备同步**：这里我把Gridea放在我的OneDrive里了：
 ![OneDrive](https://github.com/StevenJokes/StevenJokes.github.io/blob/master/post-images/1583506458862.png)
 用**独立域名CNAME**的同学注意啦！！！
 ![大坑](https://github.com/StevenJokes/StevenJokes.github.io/blob/master/post-images/1593632122733.png)

@@ -9,7 +9,7 @@
     一個靜態博客寫作客戶端
   </h3>
 
-  [下 載](https://github.com/getgridea/gridea/releases) | [主 頁](http://hvenotes.fehey.com/)
+  [下 載](https://github.com/getgridea/gridea/releases) | [主 頁](https://gridea.dev/)
 
   <a href="https://github.com/getgridea/gridea/releases/latest">
     <img src="https://img.shields.io/github/release/getgridea/gridea.svg?style=flat-square" alt="">

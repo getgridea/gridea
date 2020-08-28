@@ -9,7 +9,7 @@
     A static blog writing client
   </h3>
 
-  [Download](https://github.com/getgridea/gridea/releases) | [Homepage](http://hvenotes.fehey.com/)
+  [Download](https://github.com/getgridea/gridea/releases) | [Homepage](https://gridea.dev/)
 
   <a href="https://github.com/getgridea/gridea/releases/latest">
     <img src="https://img.shields.io/github/release/getgridea/gridea.svg?style=flat-square" alt="">

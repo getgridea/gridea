@@ -19,7 +19,8 @@
       "clientId": "",
       "clientSecret": "",
       "owner": "",
-      "repository": ""
+      "repository": "",
+      "proxy": ""
     },
     "showComment": false
   }

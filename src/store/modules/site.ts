@@ -71,6 +71,7 @@ const siteState: Site = {
       clientSecret: '',
       repository: '',
       owner: '',
+      proxy: '',
     },
     disqusSetting: {
       api: '',

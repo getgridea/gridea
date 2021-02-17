@@ -8,6 +8,7 @@ export interface IGitalkSetting {
   clientSecret: string
   repository: string
   owner: string
+  proxy: string
 }
 
 export interface ICommentSetting {

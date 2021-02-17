@@ -11,6 +11,7 @@
     repo: '<%= commentSetting.gitalkSetting.repository %>',
     owner: '<%= commentSetting.gitalkSetting.owner %>',
     admin: ['<%= commentSetting.gitalkSetting.owner %>'],
+    proxy: '<%= commentSetting.gitalkSetting.proxy %>',
     id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
     distractionFreeMode: false  // Facebook-like distraction free mode
   })

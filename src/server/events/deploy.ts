@@ -5,8 +5,6 @@ import SftpDeploy from '../plugins/deploys/sftp'
 
 export default class DeployEvents {
   constructor(appInstance: any) {
-    const { platform } = appInstance.db.setting.platform
-
     const deploy = new Deploy(appInstance)
     const sftp = new SftpDeploy(appInstance)
     const renderer = new Renderer(appInstance)
@@ -21,7 +19,7 @@ export default class DeployEvents {
         'github': deploy,
         'coding': deploy,
         'sftp': sftp,
-      } as any)[platform]
+      } as any)[appInstance.db.setting.platform]
 
       // render
       renderer.db.themeConfig.domain = renderer.db.setting.domain
@@ -37,7 +35,7 @@ export default class DeployEvents {
         'github': deploy,
         'coding': deploy,
         'sftp': sftp,
-      } as any)[platform]
+      } as any)[appInstance.db.setting.platform]
 
       const result = await client.remoteDetect()
       event.sender.send('remote-detected', result)

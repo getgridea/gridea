@@ -53,7 +53,7 @@
     "monaco-markdown": "^0.0.6",
     "node-ssh": "^6.0.0",
     "normalize-path": "^3.0.0",
-    "prismjs": "^1.16.0",
+    "prismjs": "^1.24.0",
     "shortid": "^2.2.14",
     "slug": "^0.9.3",
     "ssh2-sftp-client": "^4.2.4",

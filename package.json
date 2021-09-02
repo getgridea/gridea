@@ -33,7 +33,7 @@
     "feed": "^2.0.4",
     "fs-extra": "^7.0.1",
     "gray-matter": "^4.0.1",
-    "isomorphic-git": "^0.78.3",
+    "isomorphic-git": "^1.8.2",
     "junk": "^3.1.0",
     "less": "^3.9.0",
     "lowdb": "^1.0.0",

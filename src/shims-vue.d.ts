@@ -71,3 +71,5 @@ declare module 'vuedraggable' {
 
   export default draggableComponent
 }
+
+declare module 'ls-all'

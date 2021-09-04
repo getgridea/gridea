@@ -2,6 +2,7 @@ import { ipcMain, IpcMainEvent } from 'electron'
 import Deploy from '../deploy'
 import Renderer from '../renderer'
 import SftpDeploy from '../plugins/deploys/sftp'
+import GitHubDeploy from '../plugins/deploys/github'
 
 export default class DeployEvents {
   constructor(appInstance: any) {
@@ -9,6 +10,7 @@ export default class DeployEvents {
     
     const deploy = new Deploy(appInstance)
     const sftp = new SftpDeploy(appInstance)
+    const github = new GitHubDeploy(appInstance)
     const renderer = new Renderer(appInstance)
 
     ipcMain.removeAllListeners('site-publish')
@@ -18,7 +20,7 @@ export default class DeployEvents {
 
     ipcMain.on('site-publish', async (event: IpcMainEvent, params: any) => {
       const client = ({
-        'github': deploy,
+        'github': github,
         'coding': deploy,
         'sftp': sftp,
       } as any)[platform]
@@ -34,7 +36,7 @@ export default class DeployEvents {
 
     ipcMain.on('remote-detect', async (event: IpcMainEvent, params: any) => {
       const client = ({
-        'github': deploy,
+        'github': github,
         'coding': deploy,
         'sftp': sftp,
       } as any)[platform]

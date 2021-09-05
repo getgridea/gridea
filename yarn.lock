@@ -714,6 +714,14 @@
     global-agent "^2.0.2"
     global-tunnel-ng "^2.7.1"
 
+"@fehey/monaco-markdown@^0.0.3":
+  version "0.0.3"
+  resolved "http://bnpm.byted.org/@fehey/monaco-markdown/-/monaco-markdown-0.0.3.tgz#5d83c34efd13a04246dc86f475e75c2568a59af5"
+  integrity sha1-XYPDTv0ToEJG3Ib0dedcJWilmvU=
+  dependencies:
+    monaco-editor "^0.17.1"
+    string-similarity "^3.0.0"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -7821,14 +7829,6 @@ monaco-editor@^0.17.1:
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.17.1.tgz#8fbe96ca54bfa75262706e044f8f780e904aa45c"
   integrity sha512-JAc0mtW7NeO+0SwPRcdkfDbWLgkqL9WfP1NbpP9wNASsW6oWqgZqNIWt4teymGjZIXTElx3dnQmUYHmVrJ7HxA==
-
-monaco-markdown@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/monaco-markdown/-/monaco-markdown-0.0.6.tgz#1da655869fc3deeb3336c3076864a20e613b146e"
-  integrity sha512-y5gXvnyGfry6e8RsHUtQBiYjvSM7wU55qa0wrwmL2A2QMZMtzNVdZ3kMxw9lYGRbpB9a1LtsUys7zooi2MoeqQ==
-  dependencies:
-    monaco-editor "^0.17.1"
-    string-similarity "^3.0.0"
 
 move-concurrently@^1.0.1:
   version "1.0.1"

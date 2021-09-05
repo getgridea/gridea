@@ -22,6 +22,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fehey/monaco-markdown": "^0.0.3",
     "@iktakahiro/markdown-it-katex": "^3.1.0",
     "@octokit/rest": "^18.10.0",
     "@sentry/electron": "^1.2.0",
@@ -52,7 +53,6 @@
     "markdown-it-sup": "^1.0.0",
     "markdown-it-toc-and-anchor": "^4.2.0",
     "moment": "^2.24.0",
-    "monaco-markdown": "^0.0.6",
     "node-ssh": "^6.0.0",
     "normalize-path": "^3.0.0",
     "prismjs": "^1.16.0",

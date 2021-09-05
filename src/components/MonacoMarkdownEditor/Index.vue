@@ -10,7 +10,7 @@ import {
   Vue, Component, Prop, Watch, Model,
 } from 'vue-property-decorator'
 import * as monaco from 'monaco-editor'
-import * as MonacoMarkdown from 'monaco-markdown'
+import * as MonacoMarkdown from '@fehey/monaco-markdown'
 import theme from './theme'
 
 @Component

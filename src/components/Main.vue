@@ -53,7 +53,8 @@
     </a-layout>
 
     <a-modal :visible="syncErrorModalVisible" :footer="null" @cancel="syncErrorModalVisible = false" :maskClosable="false">
-      🙁 {{ $t('syncError1') }} <a @click="openInBrowser('https://gridea.dev/')">FAQ</a> {{ $t('or') }} <a @click="openInBrowser('https://github.com/getgridea/gridea/issues')">Issues</a> {{ $t('syncError2') }}
+      <div>🙁 {{ $t('syncError1') }} <a @click="openInBrowser('https://gridea.dev/')">FAQ</a> {{ $t('or') }} <a @click="openInBrowser('https://github.com/getgridea/gridea/issues')">Issues</a> {{ $t('syncError2') }}</div>
+      <div class="sync-error-message">{{ syncErrorMessage }}</div>
     </a-modal>
 
     <a-modal title="🔥 New Version" :visible="updateModalVisible" :footer="null" @cancel="updateModalVisible = false" :maskClosable="false">
@@ -123,6 +124,8 @@ export default class App extends Vue {
   newVersion = ''
   
   syncErrorModalVisible = false
+
+  syncErrorMessage = ''
 
   updateModalVisible = false
   
@@ -260,6 +263,7 @@ export default class App extends Vue {
         ga.event('Publish', 'Publish - success', { evLabel: this.site.setting.domain })
       } else {
         this.syncErrorModalVisible = true
+        this.syncErrorMessage = result.message
 
         ga.event('Publish', 'Publish - failed', { evLabel: this.site.setting.domain })
       }
@@ -531,5 +535,9 @@ export default class App extends Vue {
   text-align: center;
   padding: 16px 0;
   background: #fafafa;
+}
+
+.sync-error-message {
+  margin-top: 16px;
 }
 </style>

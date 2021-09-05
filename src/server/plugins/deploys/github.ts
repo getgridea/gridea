@@ -12,6 +12,10 @@ export default class GitHubDeploy extends Model {
 
   private uploadedBlobs: any
 
+  private filesToUpdate: number
+
+  private filesUpdated: number
+
   constructor(appInstance: any) {
     super(appInstance)
 
@@ -20,6 +24,9 @@ export default class GitHubDeploy extends Model {
     })
 
     this.uploadedBlobs = {}
+
+    this.filesToUpdate = 0
+    this.filesUpdated = 0
   }
 
   async remoteDetect() {
@@ -143,7 +150,9 @@ export default class GitHubDeploy extends Model {
       recurse: true,
       flatten: true,
     }).then((files: any) => {
-      const localTree = files.filter((file: any) => !file.mode.dir)
+      const localTree = files
+        .filter((file: any) => !file.mode.dir)
+        .filter((file: any) => !file.path.includes('output/.git'))
         .map((file: any) => {
           let calculatedHash = ''
           let fileSize = fs.statSync(file.path).size
@@ -176,17 +185,22 @@ export default class GitHubDeploy extends Model {
   }
 
   async getNewTreeBasedOnDiffs(remoteTree: any, localTree: any) {
+    this.filesToUpdate = 0
+    this.filesUpdated = 0
+
     for (const localFile of localTree) {
       const remoteFile = this.findRemoteFile(localFile.path, remoteTree)
 
       if (remoteFile === false) {
         localFile.getBlob = true
+        this.filesToUpdate += 1
         continue
       }
 
       if (localFile.sha === false) {
         if (remoteFile.size !== localFile.size) {
           localFile.getBlob = true
+          this.filesToUpdate += 1
           continue
         }
 
@@ -196,6 +210,7 @@ export default class GitHubDeploy extends Model {
 
       if (localFile.sha !== remoteFile.sha) {
         localFile.getBlob = true
+        this.filesToUpdate += 1
         continue
       }
     }
@@ -204,6 +219,12 @@ export default class GitHubDeploy extends Model {
   }
 
   async createBlobs(files: any, reuploadSession = false) {
+    const result = await this.getAPIRateLimit()
+  
+    if (result.remaining < this.filesToUpdate + 10) {
+      throw Error(`Your GitHub API request limit were exceed (${parseInt(`${result.remaining}`, 10)} requests left). Please wait till (${moment(parseInt(`${result.reset * 1000}`, 10)).format('MMMM Do YYYY, h:mm:ss a')} UTC) and then try again.`)
+    }
+
     const filesToUpdate = []
 
     for (let i = 0; i < files.length; i++) {
@@ -256,6 +277,8 @@ export default class GitHubDeploy extends Model {
     if (res.data) {
       this.uploadedBlobs[filePath] = res.data.sha
       console.log(`[${new Date().toUTCString()}] CREATED BLOB: ${filePath} - ${res.data.sha}`)
+
+      this.filesUpdated += 1
 
       return res.data.sha
     }
@@ -328,6 +351,11 @@ export default class GitHubDeploy extends Model {
     })
 
     return res
+  }
+
+  async getAPIRateLimit() {
+    const res = await this.octokit.rest.rateLimit.get()
+    return res.data.resources.core
   }
 
   isBinaryFile(fullPath: string) {

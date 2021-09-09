@@ -26,11 +26,16 @@ export default class DeployEvents {
       } as any)[platform]
       
       // render
+      console.time('site-publish-render')
+
       renderer.db.themeConfig.domain = renderer.db.setting.domain
       await renderer.renderAll()
+      console.timeEnd('site-publish-render')
       
       // publish
+      console.time('site-publish')
       const result = await client.publish()
+      console.timeEnd('site-publish')
       event.sender.send('site-published', result)
     })
 

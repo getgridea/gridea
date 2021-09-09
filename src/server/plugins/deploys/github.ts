@@ -152,7 +152,7 @@ export default class GitHubDeploy extends Model {
     }).then((files: any) => {
       const localTree = files
         .filter((file: any) => !file.mode.dir)
-        .filter((file: any) => !file.path.includes('output/.git'))
+        .filter((file: any) => !file.path.includes('.git'))
         .map((file: any) => {
           let calculatedHash = ''
           let fileSize = fs.statSync(file.path).size
@@ -235,7 +235,7 @@ export default class GitHubDeploy extends Model {
       }
     }
 
-    const parallelOperations = 1
+    const parallelOperations = 20
 
     for (let i = 0; i < filesToUpdate.length; i += parallelOperations) {
       const requests = []

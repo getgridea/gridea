@@ -64,7 +64,7 @@ export default class App {
       currentThemeConfig: [],
       themes: [],
       setting: {
-        platform: 'github',
+        platform: 'netlify',
         domain: '',
         repository: '',
         branch: '',
@@ -78,6 +78,8 @@ export default class App {
         password: '',
         privateKey: '',
         remotePath: '',
+        netlifySiteId: '',
+        netlifyAccessToken: '',
       },
       commentSetting: {
         showComment: false,

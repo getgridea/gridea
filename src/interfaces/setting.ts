@@ -1,5 +1,5 @@
 export interface ISetting {
-  platform: 'github' | 'coding' | 'sftp'
+  platform: 'github' | 'coding' | 'sftp' | 'netlify'
   domain: string
   repository: string
   branch: string
@@ -13,6 +13,8 @@ export interface ISetting {
   password: string
   privateKey: string
   remotePath: string
+  netlifyAccessToken: string
+  netlifySiteId: string
   [index: string]: string
 }
 

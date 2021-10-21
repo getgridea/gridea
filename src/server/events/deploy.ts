@@ -3,6 +3,7 @@ import Deploy from '../deploy'
 import Renderer from '../renderer'
 import SftpDeploy from '../plugins/deploys/sftp'
 import GitHubDeploy from '../plugins/deploys/github'
+import NetlifyDeploy from '../plugins/deploys/netlify'
 
 export default class DeployEvents {
   constructor(appInstance: any) {
@@ -11,6 +12,7 @@ export default class DeployEvents {
     const deploy = new Deploy(appInstance)
     const sftp = new SftpDeploy(appInstance)
     const github = new GitHubDeploy(appInstance)
+    const netlify = new NetlifyDeploy(appInstance)
     const renderer = new Renderer(appInstance)
 
     ipcMain.removeAllListeners('site-publish')
@@ -23,7 +25,8 @@ export default class DeployEvents {
         'github': github,
         'coding': deploy,
         'sftp': sftp,
-      } as any)[platform]
+        'netlify': netlify,
+      } as any)['netlify' || platform]
       
       // render
       console.time('site-publish-render')
@@ -44,7 +47,8 @@ export default class DeployEvents {
         'github': github,
         'coding': deploy,
         'sftp': sftp,
-      } as any)[platform]
+        'netlify': netlify,
+      } as any)['netlify' || platform]
 
       const result = await client.remoteDetect()
       event.sender.send('remote-detected', result)

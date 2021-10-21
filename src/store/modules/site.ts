@@ -48,7 +48,7 @@ const siteState: Site = {
   currentThemeConfig: {},
   themes: [],
   setting: {
-    platform: 'github',
+    platform: 'netlify',
     domain: '',
     repository: '',
     branch: '',
@@ -62,6 +62,8 @@ const siteState: Site = {
     password: '',
     privateKey: '',
     remotePath: '',
+    netlifySiteId: '',
+    netlifyAccessToken: '',
   },
   commentSetting: {
     showComment: false,

@@ -95,11 +95,11 @@ import { Vue, Component } from 'vue-property-decorator'
 import axios from 'axios'
 import { State, Action } from 'vuex-class'
 import AppSystem from './AppSystem/Index.vue'
-import ISnackbar from '../interfaces/snackbar'
 import { Site } from '../store/modules/site'
 import * as pkg from '../../package.json'
 import markdown from '../server/plugins/markdown'
 import ga from '../helpers/analytics'
+import { getCurrentProxy } from '../helpers/proxy'
 
 @Component({
   components: {
@@ -243,7 +243,7 @@ export default class App extends Vue {
     })
   }
 
-  public publish() {
+  public async publish() {
     const { setting } = this.site
     if (setting.platform === 'netlify' && !setting.netlifyAccessToken && !setting.netlifySiteId) {
       this.$message.error(`🙁  ${this.$t('syncWarning')}`)
@@ -255,7 +255,8 @@ export default class App extends Vue {
       return false
     }
 
-    ipcRenderer.send('site-publish')
+    const proxy = await getCurrentProxy(setting.platform)
+    ipcRenderer.send('site-publish', { proxy })
     this.publishLoading = true
 
     ga.event('Publish', 'Publish - start', { evLabel: this.site.setting.domain })

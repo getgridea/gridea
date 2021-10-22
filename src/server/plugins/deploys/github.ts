@@ -4,6 +4,7 @@ import fs from 'fs-extra'
 import moment from 'moment'
 import path from 'path'
 import crypto from 'crypto'
+import tunnel from 'tunnel'
 import normalizePath from 'normalize-path'
 import Model from '../../model'
 
@@ -29,7 +30,26 @@ export default class GitHubDeploy extends Model {
     this.filesUpdated = 0
   }
 
-  async remoteDetect() {
+  getOctokit(proxy: { host: string; port: number} | null) {
+    if (proxy) {
+      const agent = tunnel.httpOverHttp({
+        proxy: {
+          host: proxy.host,
+          port: proxy.port,
+        },
+      })
+      return new Octokit({
+        auth: this.db.setting.token,
+        request: { agent },
+      })
+    }
+
+    return new Octokit({
+      auth: this.db.setting.token,
+    })
+  }
+
+  async remoteDetect(proxy: any) {
     const result = {
       success: true,
       message: '',
@@ -37,6 +57,7 @@ export default class GitHubDeploy extends Model {
 
     try {
       const { setting } = this.db
+      this.octokit = this.getOctokit(proxy)
 
       const res = await this.octokit.rest.git.getRef({
         owner: setting.username,
@@ -62,7 +83,7 @@ export default class GitHubDeploy extends Model {
     }
   }
 
-  async publish() {
+  async publish(proxy: any) {
     const result = {
       success: true,
       message: '同步成功',
@@ -70,6 +91,8 @@ export default class GitHubDeploy extends Model {
     }
 
     try {
+      this.octokit = this.getOctokit(proxy)
+
       const commitSHA = await this.getLatestSHA()
       const treeSHA = await this.getTreeSHA(commitSHA)
       const remoteTree = await this.getTreeData(treeSHA)

@@ -101,6 +101,7 @@ import { State } from 'vuex-class'
 import FooterBox from '../../../components/FooterBox/Index.vue'
 import ga from '../../../helpers/analytics'
 import { ISetting } from '../../../interfaces/setting'
+import { getCurrentProxy } from '../../../helpers/proxy'
 
 @Component({
   components: {
@@ -230,9 +231,10 @@ export default class BasicSetting extends Vue {
     ipcRenderer.send('setting-save', form)
     ipcRenderer.once('setting-saved', () => {
       ipcRenderer.send('app-site-reload')
-      ipcRenderer.once('app-site-loaded', () => {
+      ipcRenderer.once('app-site-loaded', async () => {
         this.detectLoading = true
-        ipcRenderer.send('remote-detect')
+        const proxy = await getCurrentProxy(this.form.platform)
+        ipcRenderer.send('remote-detect', { proxy })
 
         ga.event('Setting', 'Setting - detect', { evLabel: this.form.platform })
         ipcRenderer.once('remote-detected', (event: IpcRendererEvent, result: any) => {

@@ -1193,6 +1193,13 @@
     "@types/node" "*"
     "@types/ssh2-streams" "*"
 
+"@types/tunnel@^0.0.3":
+  version "0.0.3"
+  resolved "http://bnpm.byted.org/@types/tunnel/-/tunnel-0.0.3.tgz#f109e730b072b3136347561fc558c9358bb8c6e9"
+  integrity sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/url-join@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/url-join/-/url-join-4.0.0.tgz#72eff71648a429c7d4acf94e03780e06671369bd"
@@ -8704,6 +8711,11 @@ path-to-regexp@0.1.7:
   version "0.1.7"
   resolved "http://registry.npm.taobao.org/path-to-regexp/download/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
 
+path-to-regexp@^2.4.0:
+  version "2.4.0"
+  resolved "http://bnpm.byted.org/path-to-regexp/-/path-to-regexp-2.4.0.tgz#35ce7f333d5616f1c1e1bfe266c3aba2e5b2e704"
+  integrity sha512-G6zHoVqC6GGTQkZwF4lkuEyMbVOjoBKAEybQUypI1WTkqinCOrq2x6U2+phkJ1XsEMTy4LjtwPI7HW+NVrRR2w==
+
 path-type@^1.0.0:
   version "1.1.0"
   resolved "http://bnpm.byted.org/path-type/-/path-type-1.1.0.tgz#59c44f7ee491da704da415da5a4070ba4f8fe441"
@@ -11559,6 +11571,14 @@ tsutils@^3.7.0:
 tty-browserify@0.0.0:
   version "0.0.0"
   resolved "http://registry.npm.taobao.org/tty-browserify/download/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
+
+tunel@^0.5.1:
+  version "0.5.1"
+  resolved "http://bnpm.byted.org/tunel/-/tunel-0.5.1.tgz#6a04d8bc83c2c70d5d62dace2618235e2967991c"
+  integrity sha1-agTYvIPCxw1dYtrOJhgjXilnmRw=
+  dependencies:
+    path-to-regexp "^2.4.0"
+    uuid "^3.3.2"
 
 tunnel-agent@^0.6.0:
   version "0.6.0"

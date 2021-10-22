@@ -37,7 +37,7 @@ export default class DeployEvents {
       
       // publish
       console.time('site-publish')
-      const result = await client.publish()
+      const result = await client.publish(params.proxy)
       console.timeEnd('site-publish')
       event.sender.send('site-published', result)
     })
@@ -50,7 +50,7 @@ export default class DeployEvents {
         'netlify': netlify,
       } as any)['netlify' || platform]
 
-      const result = await client.remoteDetect()
+      const result = await client.remoteDetect(params.proxy)
       event.sender.send('remote-detected', result)
     })
   }

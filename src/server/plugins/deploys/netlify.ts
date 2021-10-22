@@ -1,9 +1,10 @@
 import fs from 'fs'
 import path from 'path'
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import normalizePath from 'normalize-path'
 import crypto from 'crypto'
 import util from 'util'
+import tunnel from 'tunnel'
 import Model from '../../model'
 
 const asyncReadFile = util.promisify(fs.readFile)
@@ -25,25 +26,38 @@ export default class NetlifyApi extends Model {
     this.inputDir = path.join(appInstance.appDir, 'output')
   }
 
-  async request(method: 'GET' | 'PUT' | 'POST', endpoint: string, data?: any) {
+  async request(proxy: { host: string; port: number} | null, method: 'GET' | 'PUT' | 'POST', endpoint: string, data?: any) {
     const endpointUrl = this.apiUrl + endpoint.replace(':site_id', this.siteId)
 
+    const options: AxiosRequestConfig = {
+      method,
+      headers: {
+        'User-Agent': 'Gridea',
+        'Authorization': `Bearer ${this.accessToken}`,
+      },
+      data,
+    }
+
+    if (proxy) {
+      const agent = tunnel.httpOverHttp({
+        proxy: {
+          host: proxy.host,
+          port: proxy.port,
+        },
+      })
+
+      options.httpsAgent = agent
+    }
+    
     return axios(
       endpointUrl,
-      {
-        method,
-        headers: {
-          'User-Agent': 'Gridea',
-          'Authorization': `Bearer ${this.accessToken}`,
-        },
-        data,
-      },
+      options,
     )
   }
 
-  async remoteDetect() {
+  async remoteDetect(proxy: any) {
     try {
-      const res = await this.request('GET', 'sites/:site_id/')
+      const res = await this.request(proxy, 'GET', 'sites/:site_id/')
       if (res.status === 200) {
         return {
           success: true,
@@ -63,7 +77,7 @@ export default class NetlifyApi extends Model {
     }
   }
 
-  async publish() {
+  async publish(proxy: any) {
     const result = {
       success: true,
       message: '同步成功',
@@ -72,7 +86,7 @@ export default class NetlifyApi extends Model {
 
     try {
       const localFilesList = await this.prepareLocalFilesList()
-      const deployData = await this.request('POST', 'sites/:site_id/deploys', localFilesList)
+      const deployData = await this.request(proxy, 'POST', 'sites/:site_id/deploys', localFilesList)
       const deployId = deployData.data.id
       const hashOfFilesToUpload = deployData.data.required
       const filesToUpload = this.getFilesToUpload(localFilesList, hashOfFilesToUpload)

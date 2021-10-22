@@ -32,6 +32,7 @@ function createWindow() {
     webPreferences: {
       webSecurity: false, // FIXED: Not allowed to load local resource
       nodeIntegration: true,
+      enableRemoteModule: true,
     },
     // frame: false, // 去除默认窗口栏
     titleBarStyle: 'hiddenInset' as ('hidden' | 'default' | 'hiddenInset' | 'customButtonsOnHover' | undefined),

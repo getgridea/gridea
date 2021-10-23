@@ -1,6 +1,6 @@
 {
   "config": {
-    "platform": "github",
+    "platform": "netlify",
     "domain": "",
     "repository": "",
     "branch": "",

@@ -6,7 +6,7 @@
     >
       <div class="top-container">
         <div class="logo">
-          <img class="img" src="@/assets/logo.png">
+          <!-- <img class="img" src="@/assets/logo.png"> -->
         </div>
         <a-menu mode="inline" :defaultSelectedKeys="['/articles']" @click="clickMenu">
           <a-menu-item :key="menu.router" v-for="menu in sideMenus">

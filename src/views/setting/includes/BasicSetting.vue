@@ -245,7 +245,11 @@ export default class BasicSetting extends Vue {
 
             ga.event('Setting', 'Setting - detect-success', { evLabel: this.form.platform })
           } else {
-            this.$message.error(this.$t('connectFailed'))
+            if (form.platform === 'netlify') {
+              this.$message.error(this.$t('connectFailedNetlify'))
+            } else {
+              this.$message.error(this.$t('connectFailed'))
+            }
 
             ga.event('Setting', 'Setting - detect-failed', { evLabel: this.form.platform })
           }

@@ -2,10 +2,10 @@ import { remote } from 'electron'
 
 export const getCurrentProxy = async (platform: string) => {
   const { session } = remote.getCurrentWindow().webContents
-  const url = {
+  const url = ({
     github: 'https://api.github.com',
     netlify: 'https://api.netlify.com',
-  }[platform] || ''
+  } as any)[platform] || ''
 
   if (!url) {
     return null

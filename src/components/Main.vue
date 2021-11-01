@@ -89,6 +89,7 @@
 </template>
 
 <script lang="ts">
+import { VNodeChildren } from 'vue'
 import { ipcRenderer, IpcRendererEvent, shell } from 'electron'
 import { Vue, Component } from 'vue-property-decorator'
 import axios from 'axios'
@@ -121,11 +122,11 @@ export default class App extends Vue {
   hasUpdate = false
 
   newVersion = ''
-  
+
   syncErrorModalVisible = false
 
   updateModalVisible = false
-  
+
   systemModalVisible = false
 
   updateContent = ''
@@ -137,7 +138,7 @@ export default class App extends Vue {
   get currentRouter() {
     return this.$route.path
   }
-  
+
   get sideMenus() {
     return [
       {
@@ -226,15 +227,34 @@ export default class App extends Vue {
     ga.event('Preview', 'Preview - start', { evLabel: this.site.setting.domain })
 
     ipcRenderer.once('html-rendered', (event: IpcRendererEvent, result: any) => {
-      this.$message.success(`🎉  ${this.$t('renderSuccess')}`)
+      // this.$message.success(`🎉  ${this.$t('renderSuccess')}`)
 
       ga.event('Preview', 'Preview - success', { evLabel: this.site.setting.domain })
 
       ipcRenderer.send('app-preview-server-port-get')
       ipcRenderer.once(
         'app-preview-server-port-got',
-        (portGotEvent: IpcRendererEvent, port: any) => {
-          this.openInBrowser(`http://localhost:${port}`)
+        (portGotEvent: IpcRendererEvent, port: number | string | null) => {
+          if (!port && typeof port !== 'number') {
+            this.$message.config({
+              top: '36px',
+            })
+            this.$message.open({
+              content: (h: Vue.CreateElement) => {
+                const errStyle = {
+                  display: 'inline-block',
+                  maxWidth: '800px',
+                }
+                return h('span', {
+                  style: errStyle,
+                }, `❌ ${this.$t('renderError')}` as any as VNodeChildren)
+              },
+              icon: '',
+            })
+          } else {
+            this.$message.success(`🎉  ${this.$t('renderSuccess')}`)
+            this.openInBrowser(`http://localhost:${port}`)
+          }
         },
       )
     })
@@ -480,7 +500,7 @@ export default class App extends Vue {
     list-style-type: none;
     font-size: 14px;
     margin: 30px 20px;
-    
+
     ul,
     ol {
       margin: 20px 20px 10px;
@@ -493,14 +513,14 @@ export default class App extends Vue {
 
   /deep/ ul > li {
       display: table-row;
-      
+
       &:before {
         content:'\25CF';
         color: #fad849;
         padding-right: 10px;
         display: table-cell;
       }
-      
+
       + li:before {
         padding-top: 10px;
       }

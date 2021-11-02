@@ -32,6 +32,7 @@ function createWindow() {
     webPreferences: {
       webSecurity: false, // FIXED: Not allowed to load local resource
       nodeIntegration: true,
+      enableRemoteModule: true, // FIXED: 兼容 electron@11.0.1
     },
     // frame: false, // 去除默认窗口栏
     titleBarStyle: 'hiddenInset' as ('hidden' | 'default' | 'hiddenInset' | 'customButtonsOnHover' | undefined),
@@ -40,7 +41,7 @@ function createWindow() {
   if (process.platform !== 'darwin') {
     winOption.icon = `${__dirname}/app-icons/gridea.png`
   }
-  
+
   win = new BrowserWindow(winOption)
   win.setTitle('Gridea')
 

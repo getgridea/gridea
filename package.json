@@ -38,7 +38,7 @@
     "less": "^3.9.0",
     "lowdb": "^1.0.0",
     "macaddress": "^0.2.9",
-    "markdown-it": "^8.4.2",
+    "markdown-it": "^12.3.2",
     "markdown-it-abbr": "^1.0.4",
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-footnote": "^3.0.1",

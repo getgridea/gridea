@@ -7,6 +7,7 @@ import Model from './model'
 // import http from './plugins/deploys/git-http-proxy'
 
 const http = require('./plugins/deploys/git-http-proxy')
+
 export default class Deploy extends Model {
   outputDir: string = `${this.appDir}/output`
 

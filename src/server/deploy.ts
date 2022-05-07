@@ -1,9 +1,12 @@
 import fs from 'fs'
 import moment from 'moment'
 // @ts-ignore
-import * as git from 'isomorphic-git/dist/for-node/isomorphic-git'
+import git from 'isomorphic-git'
+// import http from 'isomorphic-git/http/node'
 import Model from './model'
+// import http from './plugins/deploys/git-http-proxy'
 
+const http = require('./plugins/deploys/git-http-proxy')
 export default class Deploy extends Model {
   outputDir: string = `${this.appDir}/output`
 
@@ -33,7 +36,7 @@ export default class Deploy extends Model {
   async remoteDetect() {
     const result = {
       success: true,
-      message: '',
+      message: [''],
     }
     try {
       const { setting } = this.db
@@ -53,13 +56,13 @@ export default class Deploy extends Model {
       }
       if (!isRepo) {
         await git.init({ fs, dir: this.outputDir })
-        await git.config({
+        await git.setConfig({
           fs,
           dir: this.outputDir,
           path: 'user.name',
           value: setting.username,
         })
-        await git.config({
+        await git.setConfig({
           fs,
           dir: this.outputDir,
           path: 'user.email',
@@ -71,13 +74,13 @@ export default class Deploy extends Model {
         fs, dir: this.outputDir, remote: 'origin', url: this.remoteUrl, force: true,
       })
       const info = await git.getRemoteInfo({
-        core: 'default',
+        http,
         url: this.remoteUrl,
       })
       console.log('info', info)
-      result.message = info
+      result.message = info.capabilities
     } catch (e) {
-      console.log('Test Remote Error: ', e.message)
+      console.log('Test Remote Error: ', e)
       result.success = false
       result.message = e.message
     }
@@ -113,13 +116,13 @@ export default class Deploy extends Model {
 
     try {
       await git.init({ fs, dir: this.outputDir })
-      await git.config({
+      await git.setConfig({
         fs,
         dir: this.outputDir,
         path: 'user.name',
         value: setting.username,
       })
-      await git.config({
+      await git.setConfig({
         fs,
         dir: this.outputDir,
         path: 'user.email',
@@ -138,6 +141,7 @@ export default class Deploy extends Model {
       await this.checkCurrentBranch()
       const pushRes = await git.push({
         fs,
+        http,
         dir: this.outputDir,
         remote: 'origin',
         ref: setting.branch,
@@ -184,6 +188,7 @@ export default class Deploy extends Model {
 
       const pushRes = await git.push({
         fs,
+        http,
         dir: this.outputDir,
         remote: 'origin',
         ref: setting.branch,
@@ -221,7 +226,7 @@ export default class Deploy extends Model {
         await git.branch({ fs, dir: this.outputDir, ref: setting.branch })
       }
 
-      await git.fastCheckout({ fs, dir: this.outputDir, ref: setting.branch })
+      await git.checkout({ fs, dir: this.outputDir, ref: setting.branch })
     }
   }
 }

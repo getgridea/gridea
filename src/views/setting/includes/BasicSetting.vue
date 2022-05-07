@@ -70,6 +70,21 @@
           <a-input v-model="form.remotePath" />
         </a-form-item>
       </template>
+      <a-form-item :label="$t('Proxy')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+        <a-switch v-model="proxyform.enabledProxy"/>
+      </a-form-item>
+      <a-form-item :label="$t('ProxyAddress')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input-group compact>
+          <a-select v-model="protocol" style="width: 96px">
+            <a-select-option value="http://">http://</a-select-option>
+            <a-select-option value="https://">https://</a-select-option>
+          </a-select>
+          <a-input v-model="proxyform.proxyPath" style="width: calc(100% - 96px);" />
+        </a-input-group>
+      </a-form-item>
+      <a-form-item :label="$t('ProxyPort')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+        <a-input v-model="proxyform.proxyPort" />
+      </a-form-item>
       <footer-box>
         <div class="flex justify-between">
           <a-button :disabled="!canSubmit" :loading="detectLoading" @click="remoteDetect" style="margin-right: 16px;">{{ $t('testConnection') }}</a-button>
@@ -86,7 +101,7 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import FooterBox from '../../../components/FooterBox/Index.vue'
 import ga from '../../../helpers/analytics'
-import { ISetting } from '../../../interfaces/setting'
+import { IProxySetting, ISetting } from '../../../interfaces/setting'
 
 @Component({
   components: {
@@ -122,6 +137,12 @@ export default class BasicSetting extends Vue {
     password: '',
     privateKey: '',
     remotePath: '',
+  }
+
+  proxyform:IProxySetting = {
+    proxyPath: '',
+    proxyPort: '',
+    enabledProxy: false,
   }
 
   remoteType = 'password'

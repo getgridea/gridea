@@ -123,6 +123,9 @@ const message = {
     showFullText: '显示全文',
     showAbstractOnly: '仅显示摘要',
     numberArticlesRSS: 'RSS/Feed 文章数量',
+    Proxy: '代理',
+    ProxyAddress: '地址',
+    ProxyPort: '端口',
   },
   zh_TW: {
     preview: '預 覽',
@@ -249,6 +252,9 @@ const message = {
     showFullText: '显示全文',
     showAbstractOnly: '仅显示摘要',
     numberArticlesRSS: 'RSS/Feed 文章数量',
+    Proxy: '代理',
+    ProxyAddress: '地址',
+    ProxyPort: '端口',
   },
   en: {
     preview: 'Preview',
@@ -374,6 +380,9 @@ const message = {
     showFullText: 'Show full text',
     showAbstractOnly: 'Show abstract only',
     numberArticlesRSS: 'Number articles RSS/Feed',
+    Proxy: 'Proxy',
+    ProxyAddress: 'Proxy Address',
+    ProxyPort: 'Proxy Port',
   },
   fr_FR: {
     preview: 'Aperçu',
@@ -499,6 +508,9 @@ const message = {
     showFullText: 'Tout afficher',
     showAbstractOnly: 'Afficher seulement le résumé',
     numberArticlesRSS: 'Nombre d\'articles RSS/Feed',
+    Proxy: 'Proxy',
+    ProxyAddress: 'Proxy Address',
+    ProxyPort: 'Proxy Port',
   },
   ja_JP: {
     preview: 'プレビュー',
@@ -624,6 +636,9 @@ const message = {
     showFullText: '全文を表示します',
     showAbstractOnly: '摘要のみを表示します',
     numberArticlesRSS: 'RSS/Feed 文書数量',
+    Proxy: 'プロキシ',
+    ProxyAddress: 'プロキシアドレス',
+    ProxyPort: 'プロキシポート',
   },
 }
 

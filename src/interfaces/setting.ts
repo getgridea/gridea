@@ -34,3 +34,11 @@ export interface ICommentSetting {
   disqusSetting: IDisqusSetting
   gitalkSetting: IGitalkSetting
 }
+
+export interface IProxySetting{
+  proxyPath: string
+  proxyPort: string
+  enabledProxy: boolean
+}
+
+

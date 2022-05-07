@@ -4,8 +4,6 @@ import moment from 'moment'
 import git from 'isomorphic-git'
 // import http from 'isomorphic-git/http/node'
 import Model from './model'
-// import http from './plugins/deploys/git-http-proxy'
-
 const http = require('./plugins/deploys/git-http-proxy')
 
 export default class Deploy extends Model {

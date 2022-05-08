@@ -180,12 +180,6 @@ export default class BasicSetting extends Vue {
           form[key] = setting[key].substring(protocolEndIndex + 3)
           this.protocol = setting[key].substring(0, protocolEndIndex + 3)
         }
-      } else if (key === 'proxyPath') {
-        const protocolEndIndex = setting[key].indexOf('://')
-        if (protocolEndIndex !== -1) {
-          form[key] = setting[key].substring(protocolEndIndex + 3)
-          this.proxyprotocol = setting[key].substring(0, protocolEndIndex + 3)
-        }
       } else {
         form[key] = setting[key]
       }

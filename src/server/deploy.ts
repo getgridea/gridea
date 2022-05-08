@@ -1,12 +1,13 @@
 import fs from 'fs'
 import moment from 'moment'
 // @ts-ignore
-// import * as git from 'isomorphic-git'
-// import http from 'isomorphic-git/http/node'
 import Model from './model'
+import GitProxy from './plugins/deploys/gitproxy'
+import { IApplicationDb, IApplication } from './interfaces/application'
+
+const http = new GitProxy()
 
 const git = require('isomorphic-git')
-const http = require('./plugins/deploys/git-http-proxy')
 
 export default class Deploy extends Model {
   outputDir: string = `${this.appDir}/output`
@@ -17,7 +18,6 @@ export default class Deploy extends Model {
 
   constructor(appInstance: any) {
     super(appInstance)
-    
     const { setting } = this.db
     this.platformAddress = ({
       github: 'github.com',
@@ -39,6 +39,7 @@ export default class Deploy extends Model {
       success: true,
       message: [''],
     }
+
     try {
       const { setting } = this.db
       let isRepo = false

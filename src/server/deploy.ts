@@ -1,9 +1,11 @@
 import fs from 'fs'
 import moment from 'moment'
 // @ts-ignore
-import git from 'isomorphic-git'
+// import * as git from 'isomorphic-git'
 // import http from 'isomorphic-git/http/node'
 import Model from './model'
+
+const git = require('isomorphic-git')
 const http = require('./plugins/deploys/git-http-proxy')
 
 export default class Deploy extends Model {

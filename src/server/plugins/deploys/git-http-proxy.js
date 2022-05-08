@@ -1,19 +1,20 @@
 'use strict'
-// const { IProxySetting } = require("../../interfaces/setting");
+
 const { HttpProxyAgent, HttpsProxyAgent } = require('hpagent')
 const get = require('simple-get')
+const { ISetting } = require('../../interfaces/setting')
 
 async function request({
   url, method, headers, body,
 }) {
   body = await mergeBuffers(body)
-  const proxy = url.startsWith("https:")
+  const proxy = url.startsWith('https:')
     ? { Agent: HttpsProxyAgent }
     : { Agent: HttpProxyAgent }
-  const agent = IProxySetting.enabledProxy
+  const agent = ISetting.enabledProxy === 'proxy'
     ? new proxy.Agent({
-        proxy: `${IProxySetting.proxyPath}:${IProxySetting.proxyPort}`
-      })
+      proxy: `${proxyPath}:${proxyPort}`,
+    })
     : undefined
   // const agent = new proxy.Agent({ proxy: 'http://127.0.0.1:1081' })
   return new Promise((resolve, reject) => get({
@@ -46,5 +47,3 @@ function transformResponse(res) {
   }
 }
 module.exports = { request }
-
-

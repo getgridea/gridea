@@ -13,6 +13,9 @@ export interface ISetting {
   password: string
   privateKey: string
   remotePath: string
+  proxyPath: string
+  proxyPort: string
+  enabledProxy: 'direct' | 'proxy'
   [index: string]: string
 }
 
@@ -34,11 +37,3 @@ export interface ICommentSetting {
   disqusSetting: IDisqusSetting
   gitalkSetting: IGitalkSetting
 }
-
-export interface IProxySetting{
-  proxyPath: string
-  proxyPort: string
-  enabledProxy: boolean
-}
-
-

@@ -62,6 +62,9 @@ const siteState: Site = {
     password: '',
     privateKey: '',
     remotePath: '',
+    proxyPath: '',
+    proxyPort: '',
+    enabledProxy: 'direct',
   },
   commentSetting: {
     showComment: false,

@@ -71,20 +71,25 @@
         </a-form-item>
       </template>
       <a-form-item :label="$t('Proxy')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-switch v-model="proxyform.enabledProxy"/>
+        <a-radio-group name="Proxy" v-model="form.enabledProxy">
+          <a-radio value="direct">Direct</a-radio>
+          <a-radio value="proxy">Proxy</a-radio>
+        </a-radio-group>
       </a-form-item>
-      <a-form-item :label="$t('ProxyAddress')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-          <a-input-group compact>
-          <a-select v-model="protocol" style="width: 96px">
-            <a-select-option value="http://">http://</a-select-option>
-            <a-select-option value="https://">https://</a-select-option>
-          </a-select>
-          <a-input v-model="proxyform.proxyPath" style="width: calc(100% - 96px);" />
-        </a-input-group>
-      </a-form-item>
-      <a-form-item :label="$t('ProxyPort')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-        <a-input v-model="proxyform.proxyPort" />
-      </a-form-item>
+      <template v-if="['proxy'].includes(form.enabledProxy)">
+        <a-form-item :label="$t('ProxyAddress')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+            <a-input-group compact>
+            <a-select v-model="proxyprotocol" style="width: 96px">
+              <a-select-option value="http://">http://</a-select-option>
+              <a-select-option value="https://">https://</a-select-option>
+            </a-select>
+            <a-input v-model="form.proxyPath" style="width: calc(100% - 96px);" />
+          </a-input-group>
+        </a-form-item>
+        <a-form-item :label="$t('ProxyPort')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.proxyPort" />
+        </a-form-item>
+      </template>
       <footer-box>
         <div class="flex justify-between">
           <a-button :disabled="!canSubmit" :loading="detectLoading" @click="remoteDetect" style="margin-right: 16px;">{{ $t('testConnection') }}</a-button>
@@ -101,7 +106,7 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import FooterBox from '../../../components/FooterBox/Index.vue'
 import ga from '../../../helpers/analytics'
-import { IProxySetting, ISetting } from '../../../interfaces/setting'
+import { ISetting } from '../../../interfaces/setting'
 
 @Component({
   components: {
@@ -122,6 +127,8 @@ export default class BasicSetting extends Vue {
 
   protocol = 'https://'
 
+  proxyprotocol = 'http://'
+
   form: ISetting = {
     platform: 'github',
     domain: '',
@@ -137,12 +144,9 @@ export default class BasicSetting extends Vue {
     password: '',
     privateKey: '',
     remotePath: '',
-  }
-
-  proxyform:IProxySetting = {
     proxyPath: '',
     proxyPort: '',
-    enabledProxy: false,
+    enabledProxy: 'direct',
   }
 
   remoteType = 'password'
@@ -176,6 +180,12 @@ export default class BasicSetting extends Vue {
           form[key] = setting[key].substring(protocolEndIndex + 3)
           this.protocol = setting[key].substring(0, protocolEndIndex + 3)
         }
+      } else if (key === 'proxyPath') {
+        const protocolEndIndex = setting[key].indexOf('://')
+        if (protocolEndIndex !== -1) {
+          form[key] = setting[key].substring(protocolEndIndex + 3)
+          this.proxyprotocol = setting[key].substring(0, protocolEndIndex + 3)
+        }
       } else {
         form[key] = setting[key]
       }
@@ -205,6 +215,7 @@ export default class BasicSetting extends Vue {
     const form = {
       ...this.form,
       domain: `${this.protocol}${this.form.domain}`,
+      proxyPath: `${this.proxyprotocol}${this.form.proxyPath}`,
     }
 
     if (this.remoteType === 'password') {

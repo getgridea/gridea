@@ -70,13 +70,13 @@
           <a-input v-model="form.remotePath" />
         </a-form-item>
       </template>
-      <a-form-item :label="$t('Proxy')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-form-item v-if="form.platform !== 'sftp'" :label="$t('Proxy')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-radio-group name="Proxy" v-model="form.enabledProxy">
           <a-radio value="direct">Direct</a-radio>
           <a-radio value="proxy">Proxy</a-radio>
         </a-radio-group>
       </a-form-item>
-      <template v-if="['proxy'].includes(form.enabledProxy)">
+      <template v-if="['proxy'].includes(form.enabledProxy) && form.platform !== 'sftp'">
         <a-form-item :label="$t('ProxyAddress')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input-group compact>
             <a-input v-model="form.proxyPath" />

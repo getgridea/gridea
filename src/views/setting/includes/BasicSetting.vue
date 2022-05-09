@@ -78,12 +78,8 @@
       </a-form-item>
       <template v-if="['proxy'].includes(form.enabledProxy)">
         <a-form-item :label="$t('ProxyAddress')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
-            <a-input-group compact>
-            <a-select v-model="proxyprotocol" style="width: 96px">
-              <a-select-option value="http://">http://</a-select-option>
-              <a-select-option value="https://">https://</a-select-option>
-            </a-select>
-            <a-input v-model="form.proxyPath" style="width: calc(100% - 96px);" />
+          <a-input-group compact>
+            <a-input v-model="form.proxyPath" />
           </a-input-group>
         </a-form-item>
         <a-form-item :label="$t('ProxyPort')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
@@ -126,8 +122,6 @@ export default class BasicSetting extends Vue {
   }
 
   protocol = 'https://'
-
-  proxyprotocol = 'http://'
 
   form: ISetting = {
     platform: 'github',
@@ -209,7 +203,6 @@ export default class BasicSetting extends Vue {
     const form = {
       ...this.form,
       domain: `${this.protocol}${this.form.domain}`,
-      proxyPath: `${this.proxyprotocol}${this.form.proxyPath}`,
     }
 
     if (this.remoteType === 'password') {

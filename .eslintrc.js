@@ -14,7 +14,6 @@ module.exports = {
         ts: 'never',
       },
     ],
-    'no-use-before-define': 'off',
     'no-restricted-syntax': [
       'error',
       'WithStatement',

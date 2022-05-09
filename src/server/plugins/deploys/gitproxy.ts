@@ -1,15 +1,14 @@
-import e from 'express'
-import { IApplicationDb, IApplication } from '../../interfaces/application'
+import { IApplicationDb } from '../../interfaces/application'
 
 const { HttpProxyAgent, HttpsProxyAgent } = require('hpagent')
 const get = require('simple-get')
 
 export default class GitProxy {
-  db: IApplicationDb;
+  db: IApplicationDb
 
-  constructor(appInstance: IApplication) {
+  constructor(appInstance: any) {
     this.db = appInstance.db
-    console.log('instance git proxy')
+    // console.log('instance git proxy',this.db.setting)
   }
 
   public async request({
@@ -30,7 +29,7 @@ export default class GitProxy {
       : { Agent: HttpProxyAgent }
     const agent = setting.enabledProxy === 'proxy'
       ? new proxy.Agent({
-        proxy: `${setting.proxyPath}:${setting.proxyPort}`,
+        proxy: `http://${setting.proxyPath}:${setting.proxyPort}`,
       })
       : undefined
     // const agent = new proxy.Agent({ proxy: 'http://127.0.0.1:1081' })

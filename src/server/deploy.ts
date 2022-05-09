@@ -3,9 +3,6 @@ import moment from 'moment'
 // @ts-ignore
 import Model from './model'
 import GitProxy from './plugins/deploys/gitproxy'
-import { IApplicationDb, IApplication } from './interfaces/application'
-
-const http = new GitProxy()
 
 const git = require('isomorphic-git')
 
@@ -15,6 +12,8 @@ export default class Deploy extends Model {
   remoteUrl = ''
 
   platformAddress = ''
+
+  http = new GitProxy(this)
 
   constructor(appInstance: any) {
     super(appInstance)
@@ -39,7 +38,6 @@ export default class Deploy extends Model {
       success: true,
       message: [''],
     }
-
     try {
       const { setting } = this.db
       let isRepo = false
@@ -76,7 +74,7 @@ export default class Deploy extends Model {
         fs, dir: this.outputDir, remote: 'origin', url: this.remoteUrl, force: true,
       })
       const info = await git.getRemoteInfo({
-        http,
+        http: this.http,
         url: this.remoteUrl,
       })
       console.log('info', info)
@@ -143,7 +141,7 @@ export default class Deploy extends Model {
       await this.checkCurrentBranch()
       const pushRes = await git.push({
         fs,
-        http,
+        http: this.http,
         dir: this.outputDir,
         remote: 'origin',
         ref: setting.branch,
@@ -190,7 +188,7 @@ export default class Deploy extends Model {
 
       const pushRes = await git.push({
         fs,
-        http,
+        http: this.http,
         dir: this.outputDir,
         remote: 'origin',
         ref: setting.branch,

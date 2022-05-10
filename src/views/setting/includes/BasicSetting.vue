@@ -70,6 +70,22 @@
           <a-input v-model="form.remotePath" />
         </a-form-item>
       </template>
+      <a-form-item v-if="form.platform !== 'sftp'" :label="$t('Proxy')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+        <a-radio-group name="Proxy" v-model="form.enabledProxy">
+          <a-radio value="direct">Direct</a-radio>
+          <a-radio value="proxy">Proxy</a-radio>
+        </a-radio-group>
+      </a-form-item>
+      <template v-if="['proxy'].includes(form.enabledProxy) && form.platform !== 'sftp'">
+        <a-form-item :label="$t('ProxyAddress')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input-group compact>
+            <a-input v-model="form.proxyPath" />
+          </a-input-group>
+        </a-form-item>
+        <a-form-item :label="$t('ProxyPort')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.proxyPort" />
+        </a-form-item>
+      </template>
       <footer-box>
         <div class="flex justify-between">
           <a-button :disabled="!canSubmit" :loading="detectLoading" @click="remoteDetect" style="margin-right: 16px;">{{ $t('testConnection') }}</a-button>
@@ -122,6 +138,9 @@ export default class BasicSetting extends Vue {
     password: '',
     privateKey: '',
     remotePath: '',
+    proxyPath: '',
+    proxyPort: '',
+    enabledProxy: 'direct',
   }
 
   remoteType = 'password'

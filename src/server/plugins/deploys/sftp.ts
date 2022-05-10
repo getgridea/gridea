@@ -119,7 +119,7 @@ export default class SftpDeploy extends Model {
         await client.mkdir(remotePath)
         const res = await client.putDirectory(localPath, remotePath, {
           recursive: true,
-          concurrency: 10,
+          concurrency: 1, // 解决同步丢失js、css、图片文件问题
           validate: function (itemPath: string) {
             const baseName = path.basename(itemPath)
             return baseName.substr(0, 1) !== '.' // do not allow dot files

@@ -13,6 +13,9 @@ export interface ISetting {
   password: string
   privateKey: string
   remotePath: string
+  proxyPath: string
+  proxyPort: string
+  enabledProxy: 'direct' | 'proxy'
   [index: string]: string
 }
 

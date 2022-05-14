@@ -51,7 +51,7 @@
     "markdown-it-sup": "^1.0.0",
     "markdown-it-toc-and-anchor": "^4.2.0",
     "moment": "^2.24.0",
-    "monaco-markdown": "^0.0.6",
+    "monaco-markdown": "^0.0.12",
     "node-ssh": "^6.0.0",
     "normalize-path": "^3.0.0",
     "prismjs": "^1.16.0",

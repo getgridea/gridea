@@ -7577,17 +7577,17 @@ moment@^2.21.0, moment@^2.24.0:
   resolved "http://registry.npm.taobao.org/moment/download/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha1-DQVdU/UFKqZTyfbraLtdEr9cK1s=
 
-monaco-editor@^0.17.1:
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.17.1.tgz#8fbe96ca54bfa75262706e044f8f780e904aa45c"
-  integrity sha512-JAc0mtW7NeO+0SwPRcdkfDbWLgkqL9WfP1NbpP9wNASsW6oWqgZqNIWt4teymGjZIXTElx3dnQmUYHmVrJ7HxA==
+monaco-editor@0.30.1:
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.30.1.tgz#47f8d18a0aa2264fc5654581741ab8d7bec01689"
+  integrity sha512-B/y4+b2O5G2gjuxIFtCE2EkM17R2NM7/3F8x0qcPsqy4V83bitJTIO4TIeZpYlzu/xy6INiY/+84BEm6+7Cmzg==
 
-monaco-markdown@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/monaco-markdown/-/monaco-markdown-0.0.6.tgz#1da655869fc3deeb3336c3076864a20e613b146e"
-  integrity sha512-y5gXvnyGfry6e8RsHUtQBiYjvSM7wU55qa0wrwmL2A2QMZMtzNVdZ3kMxw9lYGRbpB9a1LtsUys7zooi2MoeqQ==
+monaco-markdown@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/monaco-markdown/-/monaco-markdown-0.0.12.tgz#b7a65d34539579872bf366610e6540cb7dd95dad"
+  integrity sha512-KkGheL2pUazZJY2DfBqpHuMQOjILkbYGNtF5MzpT3ZWupKjunkpL7ByKTllBQGKKcVNt5nuRHl7YsKFskWlc6Q==
   dependencies:
-    monaco-editor "^0.17.1"
+    monaco-editor "0.30.1"
     string-similarity "^3.0.0"
 
 move-concurrently@^1.0.1:

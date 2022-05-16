@@ -23,7 +23,7 @@ Bluebird.promisifyAll(fs)
 const helper = new ContentHelper()
 
 export default class Renderer extends Model {
-  outputDir: string = `${this.appDir}/output`
+  outputDir: string = this.buildDir
 
   themePath: string = ''
 
@@ -622,17 +622,8 @@ export default class Renderer extends Model {
   }
 
   async clearOutputFolder() {
-    const { outputDir } = this
-    const files = fse.readdirSync(outputDir, { withFileTypes: true })
-    const needClearPath = files
-      .map(item => item.name)
-      .filter(junk.not)
-      .filter((name: string) => name !== '.git')
-    
     try {
-      needClearPath.forEach(async (name: string) => {
-        fse.removeSync(urlJoin(outputDir, name))
-      })
+      fse.emptyDirSync(this.outputDir)
     } catch (e) {
       console.log('Delete file error', e)
     }

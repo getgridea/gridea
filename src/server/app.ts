@@ -31,12 +31,15 @@ export default class App {
 
   db: IApplicationDb
 
+  buildDir: string
+
   constructor(setting: IApplicationSetting) {
     this.mainWindow = setting.mainWindow
     this.app = setting.app
     this.baseDir = setting.baseDir
     this.appDir = path.join(this.app.getPath('documents'), 'gridea')
     this.previewServer = setting.previewServer
+    this.buildDir = path.join(this.app.getPath('home'), '.gridea', 'output')
 
     this.db = {
       posts: [],
@@ -200,6 +203,11 @@ export default class App {
         fse.mkdirSync(appConfigFolder)
         const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
         fse.writeFileSync(appConfigPath, jsonString)
+      }
+
+      const buildDir = path.join(appConfigFolder, 'output')
+      if (!fse.pathExistsSync(buildDir)) {
+        fse.mkdirSync(buildDir)
       }
 
       const appConfig = fse.readJsonSync(appConfigPath)

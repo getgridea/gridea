@@ -373,6 +373,12 @@ export default class App extends Vue {
 
 /deep/ .ant-menu-item {
   padding-left: 16px !important;
+  transition: all 0.3s;
+  cursor: default;
+
+  &:hover {
+    background-color: #fff;
+  }
 }
 
 /deep/ .ant-menu-vertical .ant-menu-item:after, .ant-menu-vertical-left .ant-menu-item:after, .ant-menu-vertical-right .ant-menu-item:after, .ant-menu-inline .ant-menu-item:after {

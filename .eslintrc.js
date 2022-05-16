@@ -64,6 +64,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 0,
     'global-require': 0,
     'no-continue': 0,
+    'linebreak-style': 0,
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',

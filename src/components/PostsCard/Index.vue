@@ -28,7 +28,7 @@ export default class PostsCard extends Vue {
 .item-container {
   margin: 4px;
   padding: 2px;
-  border-radius: 2px;
+  border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
   &:hover {

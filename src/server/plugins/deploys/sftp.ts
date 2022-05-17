@@ -109,7 +109,7 @@ export default class SftpDeploy extends Model {
       connectConfig.password = setting.password
     }
 
-    const localPath = normalizePath(path.join(this.appDir, 'output'))
+    const localPath = normalizePath(path.join(this.buildDir))
     const remotePath = normalizePath(path.join(setting.remotePath))
 
     try {

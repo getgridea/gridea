@@ -84,6 +84,8 @@ export default class App {
         proxyPath: '',
         proxyPort: '',
         enabledProxy: 'direct',
+        netlifySiteId: '',
+        netlifyAccessToken: '',
       },
       commentSetting: {
         showComment: false,

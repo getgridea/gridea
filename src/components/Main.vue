@@ -262,6 +262,11 @@ export default class App extends Vue {
 
   public publish() {
     const { setting } = this.site
+    if (setting.platform === 'netlify' && !setting.netlifyAccessToken && !setting.netlifySiteId) {
+      this.$message.error(`🙁  ${this.$t('syncWarning')}`)
+      return false
+    }
+
     if (!setting.branch && !setting.domain && !setting.token && !setting.repository) {
       this.$message.error(`🙁  ${this.$t('syncWarning')}`)
       return false

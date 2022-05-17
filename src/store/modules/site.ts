@@ -65,6 +65,8 @@ const siteState: Site = {
     proxyPath: '',
     proxyPort: '',
     enabledProxy: 'direct',
+    netlifySiteId: '',
+    netlifyAccessToken: '',
   },
   commentSetting: {
     showComment: false,

@@ -1,5 +1,5 @@
 export interface ISetting {
-  platform: 'github' | 'coding' | 'sftp'
+  platform: 'github' | 'coding' | 'sftp' | 'gitee' | 'netlify'
   domain: string
   repository: string
   branch: string
@@ -16,6 +16,8 @@ export interface ISetting {
   proxyPath: string
   proxyPort: string
   enabledProxy: 'direct' | 'proxy'
+  netlifyAccessToken: string
+  netlifySiteId: string
   [index: string]: string
 }
 

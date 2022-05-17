@@ -218,7 +218,7 @@ export default class App {
       // Site folder exists
       if (fse.pathExistsSync(this.appDir)) {
         // Check if the `images`, `config`, 'output', `post-images`, 'posts', 'themes', 'static' folder exists, if it does not exist, copy it from default-files
-        ['images', 'config', 'output', 'post-images', 'posts', 'themes', 'static'].forEach((folder: string) => {
+        ['images', 'config', 'post-images', 'posts', 'themes', 'static'].forEach((folder: string) => {
           const folderPath = path.join(this.appDir, folder)
           if (!fse.pathExistsSync(folderPath)) {
             fse.copySync(
@@ -235,7 +235,7 @@ export default class App {
         this.checkTheme('paper')
 
         // move output/favicon.ico to Gridea/favicon.ico
-        const outputFavicon = path.join(this.appDir, 'output', 'favicon.ico')
+        const outputFavicon = path.join(this.buildDir, 'favicon.ico')
         const sourceFavicon = path.join(this.appDir, 'favicon.ico')
         const existFaviconOutput = fse.pathExistsSync(outputFavicon)
         const existFaviconSource = fse.pathExistsSync(sourceFavicon)
@@ -288,8 +288,8 @@ export default class App {
       const routesStack = routers.stack
       routesStack.forEach(removeMiddleware)
     }
-    this.previewServer.use(express.static(`${this.appDir}/output`))
-    console.log(`Preview server: Static dir change to ${this.appDir}/output`)
+    this.previewServer.use(express.static(`${this.buildDir}`))
+    console.log(`Preview server: Static dir change to ${this.buildDir}`)
   }
 
   private initEvents(): void {

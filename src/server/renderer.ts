@@ -85,7 +85,7 @@ export default class Renderer extends Model {
   async loadConfig() {
     this.themePath = urlJoin(this.appDir, 'themes', this.db.themeConfig.themeName)
 
-    fse.ensureDirSync(urlJoin(this.appDir, 'output'))
+    fse.ensureDirSync(urlJoin(this.outputDir))
   }
 
   /**

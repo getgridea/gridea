@@ -13,7 +13,7 @@ feature: /post-images/hello-gridea.png
 
 [Github](https://github.com/getgridea/gridea)  
 [Gridea 主页](https://gridea.dev/)  
-[示例网站](http://fehey.com/)
+[示例网站](https://fehey.com/)
 
 ## 特性👇
 📝  你可以使用最酷的 **Markdown** 语法，进行快速创作  

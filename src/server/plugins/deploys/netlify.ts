@@ -29,7 +29,7 @@ export default class NetlifyApi extends Model {
   async request(method: 'GET' | 'PUT' | 'POST', endpoint: string, data?: any) {
     const endpointUrl = this.apiUrl + endpoint.replace(':site_id', this.siteId)
     const { setting } = this.db
-    const proxy = setting.enabledProxy ? {
+    const proxy = setting.enabledProxy === 'proxy' ? {
       host: setting.proxyPath,
       port: Number(setting.proxyPort),
     } : undefined

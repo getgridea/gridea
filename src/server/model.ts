@@ -7,6 +7,8 @@ import { IApplicationDb, IApplication } from './interfaces/application'
 export default class Model {
   appDir: string
 
+  buildDir: string
+
   $setting: any
 
   $posts: any
@@ -19,6 +21,7 @@ export default class Model {
 
   constructor(appInstance: IApplication) {
     this.appDir = appInstance.appDir
+    this.buildDir = appInstance.buildDir
     this.db = appInstance.db
     this.mainWindow = appInstance.mainWindow
 

@@ -262,6 +262,11 @@ export default class App extends Vue {
 
   public publish() {
     const { setting } = this.site
+    if (setting.platform === 'netlify' && !setting.netlifyAccessToken && !setting.netlifySiteId) {
+      this.$message.error(`🙁  ${this.$t('syncWarning')}`)
+      return false
+    }
+
     if (!setting.branch && !setting.domain && !setting.token && !setting.repository) {
       this.$message.error(`🙁  ${this.$t('syncWarning')}`)
       return false
@@ -373,6 +378,12 @@ export default class App extends Vue {
 
 /deep/ .ant-menu-item {
   padding-left: 16px !important;
+  transition: all 0.3s;
+  cursor: default;
+
+  &:hover {
+    background-color: #fff;
+  }
 }
 
 /deep/ .ant-menu-vertical .ant-menu-item:after, .ant-menu-vertical-left .ant-menu-item:after, .ant-menu-vertical-right .ant-menu-item:after, .ant-menu-inline .ant-menu-item:after {

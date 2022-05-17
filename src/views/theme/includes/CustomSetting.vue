@@ -379,7 +379,7 @@ export default class ThemeCustomSetting extends Vue {
   margin-bottom: 24px;
   padding: 24px;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06);
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 /deep/ .ant-slider-rail {
@@ -394,7 +394,7 @@ export default class ThemeCustomSetting extends Vue {
 }
 
 /deep/ .ant-tabs-nav .ant-tabs-tab-active {
-  color: #434343;
+  color: #1b1b18;
   border-radius: 4px 0 0 4px;
   &::after {
     display: none;

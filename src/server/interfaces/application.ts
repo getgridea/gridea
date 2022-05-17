@@ -30,5 +30,6 @@ export interface IApplication {
   app: any
   baseDir: string
   appDir: string
+  buildDir: string
   db: IApplicationDb
 }

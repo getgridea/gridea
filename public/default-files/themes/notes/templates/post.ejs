@@ -4,7 +4,7 @@
     <meta name="description" content="<%- post.description %>" />
     <meta name="keywords" content="<%- post.tags.map(tag => tag.name).join(',') %>" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
   </head>
   <body>
     <div class="main">
@@ -32,7 +32,7 @@
               <img class="post-feature-image" src="<%= post.feature %>" alt="">
             <% } %>
             <div class="post-content-wrapper">
-              <div class="post-content">
+              <div class="post-content" v-pre>
                 <%- post.content %>
               </div>
               <div class="toc-container">

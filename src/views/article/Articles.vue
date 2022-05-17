@@ -31,7 +31,7 @@
     <div class="content-container">
       <div class="pb-12">
         <div
-          class="post-container flex mb-2 rounded-sm relative cursor-pointer transition-fast hover:bg-gray-100 overflow-hidden"
+          class="post-container flex mb-2 relative cursor-pointer transition-fast hover:bg-gray-100 overflow-hidden"
           v-for="post in currentPostList" :key="post.fileName"
           @click="editPost(post)"
         >
@@ -241,6 +241,7 @@ export default class Articles extends Vue {
 
 .post-container {
   box-shadow: inset 0 0 0 1px #eaeaea;
+  border-radius: 6px;
   &:hover {
     .post-title {
       color: @link-color;

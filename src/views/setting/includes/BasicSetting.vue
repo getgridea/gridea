@@ -4,6 +4,7 @@
       <a-form-item :label="$t('platform')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
         <a-radio-group name="platform" v-model="form.platform">
           <a-radio value="github">Github Pages</a-radio>
+          <a-radio value="netlify">Netlify</a-radio>
           <a-radio value="coding">Coding Pages</a-radio>
           <a-radio value="gitee">Gitee Pages</a-radio>
           <a-radio value="sftp">SFTP</a-radio>
@@ -18,6 +19,19 @@
           <a-input v-model="form.domain" placeholder="mydomain.com" style="width: calc(100% - 96px);" />
         </a-input-group>
       </a-form-item>
+      <template v-if="['netlify'].includes(form.platform)">
+        <a-form-item label="Site ID" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a-input v-model="form.netlifySiteId" />
+        </a-form-item>
+        <a-form-item label="Access Token" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false" v-if="remoteType === 'password'">
+          <a-input v-model="form.netlifyAccessToken" :type="passVisible ? '' : 'password'">
+            <a-icon class="icon" slot="addonAfter" :type="passVisible ? 'eye-invisible' : 'eye'" @click="passVisible = !passVisible" />
+          </a-input>
+        </a-form-item>
+        <a-form-item label=" " :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+          <a href="https://gridea.dev/netlify" target="_blank">如何配置？</a>
+        </a-form-item>
+      </template>
       <template v-if="['github', 'coding', 'gitee'].includes(form.platform)">
         <a-form-item :label="$t('repository')" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
           <a-input v-model="form.repository" />
@@ -142,6 +156,8 @@ export default class BasicSetting extends Vue {
     proxyPath: '',
     proxyPort: '',
     enabledProxy: 'direct',
+    netlifyAccessToken: '',
+    netlifySiteId: '',
   }
 
   remoteType = 'password'
@@ -162,7 +178,11 @@ export default class BasicSetting extends Vue {
       && form.remotePath
       && (form.password || form.privateKey)
 
-    return pagesPlatfomValid || sftpPlatformValid
+    const netlifyPlatformValid = ['netlify'].includes(form.platform)
+      && form.netlifyAccessToken
+      && form.netlifySiteId
+
+    return pagesPlatfomValid || sftpPlatformValid || netlifyPlatformValid
   }
 
   mounted() {

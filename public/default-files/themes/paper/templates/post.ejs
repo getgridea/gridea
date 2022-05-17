@@ -22,7 +22,7 @@
             <% if (post.feature) { %>
               <img src="<%= post.feature %>" alt="<%= post.title %>">
             <% } %>
-            <div class="post-content">
+            <div class="post-content" v-pre>
               <%- post.content %>
             </div>
           </article>

@@ -696,6 +696,9 @@ export default class ArticleUpdate extends Vue {
       border-radius: 20px;
       margin-left: 8px;
       outline: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       transition: all 0.3s;
       i {
         font-weight: bold;

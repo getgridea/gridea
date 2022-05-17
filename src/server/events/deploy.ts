@@ -2,6 +2,7 @@ import { ipcMain, IpcMainEvent } from 'electron'
 import Deploy from '../deploy'
 import Renderer from '../renderer'
 import SftpDeploy from '../plugins/deploys/sftp'
+import NetlifyDeploy from '../plugins/deploys/netlify'
 
 export default class DeployEvents {
   constructor(appInstance: any) {
@@ -10,6 +11,7 @@ export default class DeployEvents {
     const deploy = new Deploy(appInstance)
     const sftp = new SftpDeploy(appInstance)
     const renderer = new Renderer(appInstance)
+    const netlify = new NetlifyDeploy(appInstance)
 
     ipcMain.removeAllListeners('site-publish')
     ipcMain.removeAllListeners('site-published')
@@ -23,6 +25,7 @@ export default class DeployEvents {
         'coding': deploy,
         'gitee': deploy,
         'sftp': sftp,
+        'netlify': netlify,
       } as any)[platform]
       
       // render
@@ -40,6 +43,7 @@ export default class DeployEvents {
         'coding': deploy,
         'gitee': deploy,
         'sftp': sftp,
+        'netlify': netlify,
       } as any)[platform]
       
       const result = await client.remoteDetect()

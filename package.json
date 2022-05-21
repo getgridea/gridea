@@ -57,6 +57,7 @@
     "prismjs": "^1.16.0",
     "shortid": "^2.2.14",
     "simple-get": "^4.0.1",
+    "sitemap": "^7.1.1",
     "slug": "^0.9.3",
     "ssh2-sftp-client": "^4.2.4",
     "striptags": "^3.1.1",

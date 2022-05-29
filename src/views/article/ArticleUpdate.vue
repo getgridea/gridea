@@ -905,7 +905,7 @@ export default class ArticleUpdate extends Vue {
 .preview-container {
   width: 100%;
   flex-shrink: 0;
-  font-family: "Droid Serif","PingFang SC","Hiragino Sans GB","Droid Sans Fallback","Microsoft YaHei",sans-serif;
+  font-family: "Noto Serif","PingFang SC","Hiragino Sans GB","Droid Sans Fallback","Microsoft YaHei",sans-serif;
   font-size: 15px;
 
   /deep/ a {
@@ -1141,7 +1141,7 @@ export default class ArticleUpdate extends Vue {
 .preview-title {
   font-size: 24px;
   font-weight: bold;
-  font-family: "Droid Serif","PingFang SC","Hiragino Sans GB","Droid Sans Fallback","Microsoft YaHei",sans-serif;
+  font-family: "Noto Serif","PingFang SC","Hiragino Sans GB","Droid Sans Fallback","Microsoft YaHei",sans-serif;
 }
 
 .preview-date {
@@ -1211,7 +1211,7 @@ export default class ArticleUpdate extends Vue {
     }
     .number {
       font-size: 18px;
-      font-family: 'Droid Serif';
+      font-family: 'Noto Serif';
     }
   }
 }

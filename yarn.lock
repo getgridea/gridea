@@ -715,6 +715,11 @@
     global-agent "^3.0.0"
     global-tunnel-ng "^2.7.1"
 
+"@fontsource/noto-serif@^4.5.9":
+  version "4.5.9"
+  resolved "https://registry.npmjs.org/@fontsource/noto-serif/-/noto-serif-4.5.9.tgz#dae24fe204a8bfaaf98121efbc3adf0b0682af43"
+  integrity sha512-qvVrkuEwAKGKswmaETS9RVzrGTqlvQRHK60TJ9ncH1RA7ujqb8+o8lLgU3dK3KcggQWWfTa/ozNU8sNc1hXH4g==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.npmjs.org/@hapi/address/-/address-2.1.4.tgz"

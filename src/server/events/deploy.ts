@@ -37,6 +37,17 @@ export default class DeployEvents {
       event.sender.send('site-published', result)
     })
 
+    ipcMain.on('site-render', async (event: IpcMainEvent, params: any) => {
+      // render
+      const result = {
+        success: true,
+        message: '',
+      }
+      renderer.db.themeConfig.domain = renderer.db.setting.domain
+      await renderer.renderAll()
+      event.sender.send('site-rendered', result)
+    })
+
     ipcMain.on('remote-detect', async (event: IpcMainEvent, params: any) => {
       const client = ({
         'github': deploy,

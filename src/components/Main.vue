@@ -29,6 +29,12 @@
           <i class="zwicon-eye"></i>
           {{ $t('preview') }}
         </a-button>
+        <a-button class="Render-btn" block type="primary" :loading="Rendering" @click="RenderOnly">
+          <template v-if="!Rendering">
+            <i class="zwicon-script"></i>
+            {{ $t('RenderSite') }}
+          </template>
+        </a-button>
         <a-button class="sync-btn" block type="primary" :loading="publishLoading" @click="publish">
           <template v-if="!publishLoading">
             <i class="zwicon-deploy"></i>
@@ -118,6 +124,8 @@ export default class App extends Vue {
   drawer = true
 
   publishLoading = false
+
+  Rendering = false
 
   hasUpdate = false
 
@@ -257,6 +265,24 @@ export default class App extends Vue {
           }
         },
       )
+    })
+  }
+  
+  public RenderOnly() {
+    ipcRenderer.send('site-render')
+    this.Rendering = true
+
+    ga.event('Render', 'Render - start', { evLabel: this.site.setting.domain })
+
+    ipcRenderer.once('site-rendered', (event: IpcRendererEvent, result: any) => {
+      console.log(result)
+      if (result.success) {
+        this.$message.success(`🎉  ${this.$t('RenderFinish')}`)
+        ga.event('Render', 'Render - success', { evLabel: this.site.setting.domain })
+      } else {
+        ga.event('Render', 'Render - failed', { evLabel: this.site.setting.domain })
+      }
+      this.Rendering = false
     })
   }
 
@@ -452,6 +478,18 @@ export default class App extends Vue {
   transition: all 0.3s;
   &:hover {
     background: #fafafa;
+  }
+}
+
+.Render-btn {
+  border-radius: 20px;
+  background: linear-gradient(124deg, rgb(113, 118, 124) 0%, rgba(31,31,31,1) 100%);
+  color: #bababa;
+  border: none;
+  transition: all 0.3s;
+  &:hover {
+    background: linear-gradient(124deg, rgb(71, 71, 71) 0%, rgb(31, 31, 31) 100%);
+    border: none;
   }
 }
 

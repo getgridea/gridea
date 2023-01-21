@@ -29,7 +29,7 @@ const messages: any = {
     close: '關閉',
     quit: '退出',
   },
-  'en-US': {
+  'en': {
     edit: 'Edit',
     help: 'Help',
     save: 'Save',
@@ -59,6 +59,21 @@ const messages: any = {
     close: 'Fermer',
     quit: 'Quitter',
   },
+  'ru': {
+    edit: 'Редактировать',
+    help: 'Помощь',
+    save: 'Сохранить',
+    undo: 'Отменить',
+    redo: 'Повторить',
+    cut: 'Вырезать',
+    copy: 'Копировать',
+    paste: 'Вставить',
+    delete: 'Удалить',
+    selectall: 'Выделить всё',
+    toggledevtools: 'Инструменты разработчика',
+    close: 'Закрыть окно',
+    quit: 'Выход',
+  },
   'ja-JP': {
     edit: '編集',
     help: 'ヘルプ',
@@ -73,7 +88,6 @@ const messages: any = {
     toggledevtools: '開発者ツール',
     close: '閉じる',
     quit: '終了',
-  },
+  }
 }
-
 export default messages

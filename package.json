@@ -56,7 +56,7 @@
     "monaco-markdown": "^0.0.6",
     "node-ssh": "^6.0.0",
     "normalize-path": "^3.0.0",
-    "prismjs": "^1.16.0",
+    "prismjs": "^1.27.0",
     "remixicon": "2.3.0",
     "shortid": "^2.2.14",
     "simple-get": "^4.0.1",

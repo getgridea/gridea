@@ -2,6 +2,7 @@
   <div>
     <language-setting></language-setting>
     <source-folder-setting></source-folder-setting>
+    <output-folder-setting></output-folder-setting>
     <version></version>
   </div>
 </template>
@@ -10,12 +11,14 @@
 import { Vue, Component } from 'vue-property-decorator'
 import LanguageSetting from './includes/LanguageSetting.vue'
 import SourceFolderSetting from './includes/SourceFolderSetting.vue'
+import OutputFolderSetting from './includes/OutputFolderSetting.vue'
 import Version from './includes/Version.vue'
 
 @Component({
   components: {
     LanguageSetting,
     SourceFolderSetting,
+    OutputFolderSetting,
     Version,
   },
 })

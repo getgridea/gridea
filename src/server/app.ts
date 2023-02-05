@@ -149,6 +149,7 @@ export default class App {
       ...this.db,
       currentThemeConfig,
       appDir: this.appDir,
+      buildDir: this.buildDir,
       mainWindow: this.mainWindow,
     }
   }
@@ -163,11 +164,31 @@ export default class App {
     try {
       const appConfigFolder = path.join(this.app.getPath('home'), '.gridea')
       const appConfigPath = path.join(appConfigFolder, 'config.json')
-      const jsonString = `{"sourceFolder": "${sourceFolderPath || this.appDir}"}`
+      const jsonString = `{"sourceFolder": "${sourceFolderPath || this.appDir}","outputFolder": "${this.buildDir}"}`
 
       fse.writeFileSync(appConfigPath, jsonString)
       const appConfig = fse.readJsonSync(appConfigPath)
       this.appDir = appConfig.sourceFolder
+      this.updateStaticServer()
+
+      this.checkDir()
+
+      return true
+    } catch (e) {
+      console.log(e)
+      return false
+    }
+  }
+
+  public async saveOutputFolderSetting(outputFolderPath: string = '') {
+    try {
+      const appConfigFolder = path.join(this.app.getPath('home'), '.gridea')
+      const appConfigPath = path.join(appConfigFolder, 'config.json')
+      const jsonString = `{"sourceFolder": "${this.appDir}","outputFolder": "${outputFolderPath || this.buildDir}"}`
+
+      fse.writeFileSync(appConfigPath, jsonString)
+      const appConfig = fse.readJsonSync(appConfigPath)
+      this.buildDir = appConfig.outputFolder
       this.updateStaticServer()
 
       this.checkDir()
@@ -203,17 +224,13 @@ export default class App {
 
       if (!fse.pathExistsSync(appConfigFolder)) {
         fse.mkdirSync(appConfigFolder)
-        const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
+        const jsonString = `{"sourceFolder": "${defaultAppDir},"outputFolder": "${this.buildDir}""}`
         fse.writeFileSync(appConfigPath, jsonString)
-      }
-
-      const buildDir = path.join(appConfigFolder, 'output')
-      if (!fse.pathExistsSync(buildDir)) {
-        fse.mkdirSync(buildDir)
       }
 
       const appConfig = fse.readJsonSync(appConfigPath)
       this.appDir = appConfig.sourceFolder
+      this.buildDir = appConfig.outputFolder
 
       // Site folder exists
       if (fse.pathExistsSync(this.appDir)) {
@@ -248,7 +265,8 @@ export default class App {
 
       // Site folder not exists
       this.appDir = defaultAppDir
-      const jsonString = `{"sourceFolder": "${defaultAppDir}"}`
+      const outputFolder = this.buildDir
+      const jsonString = `{"sourceFolder": "${defaultAppDir}","outputFolder":"${outputFolder}"}`
       fse.writeFileSync(appConfigPath, jsonString)
       fse.mkdirSync(this.appDir)
 

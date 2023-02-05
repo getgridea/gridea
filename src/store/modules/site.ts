@@ -10,6 +10,7 @@ import {
 
 export interface Site {
   appDir: string
+  buildDir: string
   config: any
   posts: IPost[]
   tags: ITag[]
@@ -23,6 +24,7 @@ export interface Site {
 }
 const siteState: Site = {
   appDir: '',
+  buildDir: '',
   config: {},
   posts: [],
   tags: [],
@@ -89,6 +91,7 @@ const mutations: MutationTree<Site> = {
   updateSite(state, siteData: Site) {
     console.log('data', siteData)
     state.appDir = siteData.appDir
+    state.buildDir = siteData.buildDir
     state.posts = siteData.posts
     state.tags = siteData.tags
     state.menus = siteData.menus

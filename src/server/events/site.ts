@@ -9,12 +9,19 @@ export default class SiteEvents {
     ipcMain.removeAllListeners('app-site-loaded')
     ipcMain.removeAllListeners('app-source-folder-setting')
     ipcMain.removeAllListeners('app-source-folder-set')
+    ipcMain.removeAllListeners('app-output-folder-setting')
+    ipcMain.removeAllListeners('app-output-folder-set')
     ipcMain.removeAllListeners('app-preview-server-port-get')
     ipcMain.removeAllListeners('app-preview-server-port-got')
 
     ipcMain.on('app-site-reload', async (event: IpcMainEvent, params: any) => {
       const result = await appInstance.loadSite()
       event.sender.send('app-site-loaded', result)
+    })
+
+    ipcMain.on('app-output-folder-setting', async (event: IpcMainEvent, params: string) => {
+      const result = await appInstance.saveOutputFolderSetting(params)
+      event.sender.send('app-output-folder-set', result)
     })
 
     ipcMain.on('app-source-folder-setting', async (event: IpcMainEvent, params: string) => {

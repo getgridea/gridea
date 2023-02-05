@@ -7,6 +7,7 @@ import moment from 'moment'
 import less from 'less'
 import { Feed } from 'feed'
 import junk from 'junk'
+import { SitemapStream, streamToPromise } from 'sitemap'
 import { wordCount, timeCalc } from '../helpers/words-count'
 import Model from './model'
 import ContentHelper from '../helpers/content-helper'
@@ -77,6 +78,8 @@ export default class Renderer extends Model {
     await this.buildCname()
 
     await this.buildFeed()
+    
+    await this.buildSitemap()
   }
 
   /**
@@ -588,6 +591,56 @@ export default class Renderer extends Model {
     })
 
     fs.writeFileSync(urlJoin(this.outputDir, feedFilename), feed.atom1())
+  }
+
+  async buildSitemap() {
+    const sitemapFilename = 'sitemap.xml'
+    const { themeConfig } = this.db
+    
+    const sitemapStream = new SitemapStream({
+      hostname: themeConfig.domain,
+      lastmodDateOnly: false, // print date not time
+      xmlns: { // trim the xml namespace
+        news: true, // flip to false to omit the xml namespace for news
+        xhtml: false,
+        image: true,
+        video: true,
+        custom: [
+          'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"',
+          'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
+        ],
+      },
+    })
+
+    const menusData = this.menuData
+    menusData.forEach((menu: IMenu) => {
+      sitemapStream.write({
+        url: menu.link,
+        priority: 0.5,
+      })
+    })
+
+    const postsData = this.postsData
+      .filter((item: IPostRenderData) => !item.hideInList)
+    postsData.forEach((post: IPostRenderData) => {
+      const prioritys = post.isTop ? 1 : 0.5
+      sitemapStream.write({
+        url: post.link,
+        priority: prioritys,
+      })
+    })
+
+    const { tagsData } = this
+    tagsData.forEach((tag: ITagRenderData) => {
+      sitemapStream.write({
+        url: tag.link,
+        priority: 0.5,
+      })
+    })
+    
+    sitemapStream.end()
+    const sitedata = await streamToPromise(sitemapStream)
+    fs.writeFileSync(urlJoin(this.outputDir, sitemapFilename), sitedata.toString())
   }
 
   /**

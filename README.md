@@ -22,12 +22,10 @@
   <a href="https://github.com/getgridea/gridea/releases/latest">
     <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/getgridea/gridea/total.svg?color=%2312b886&style=flat-square">
   </a>
-
 </div>
 
 <div align="center">
   <img src="gridea-app-en.png">
-
 </div>
 
 English | [Русский](https://github.com/getgridea/gridea/blob/master/README-ru.md)  | [简体中文](https://github.com/getgridea/gridea/blob/master/README-zh_CN.md)  | [繁體中文](https://github.com/getgridea/gridea/blob/master/README-zh_TW.md)

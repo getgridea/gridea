@@ -15,6 +15,9 @@
     <a-form-item label="Owner" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
       <a-input v-model="form.owner"></a-input>
     </a-form-item>
+    <a-form-item label="Proxy" :labelCol="formLayout.label" :wrapperCol="formLayout.wrapper" :colon="false">
+      <a-input v-model="form.proxy"></a-input>
+    </a-form-item>
   </div>
 </template>
 
@@ -37,6 +40,7 @@ export default class GitalkSetting extends Vue {
     clientSecret: '',
     repository: '',
     owner: '',
+    proxy: '',
   }
 
   mounted() {
@@ -46,6 +50,7 @@ export default class GitalkSetting extends Vue {
     this.form.clientSecret = gitalkSetting.clientSecret
     this.form.repository = gitalkSetting.repository
     this.form.owner = gitalkSetting.owner
+    this.form.proxy = gitalkSetting.proxy
   }
 
   openPage(url: string) {

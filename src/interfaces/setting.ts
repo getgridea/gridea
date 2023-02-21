@@ -30,7 +30,8 @@ export interface IGitalkSetting {
   clientId: string
   clientSecret: string
   repository: string
-  owner: string
+  owner: string,
+  proxy: string
 }
 
 export interface ICommentSetting {

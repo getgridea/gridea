@@ -95,6 +95,7 @@ export default class App {
           clientSecret: '',
           repository: '',
           owner: '',
+          proxy: '',
         },
         disqusSetting: {
           api: '',

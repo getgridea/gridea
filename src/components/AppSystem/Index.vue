@@ -1,8 +1,8 @@
 <template>
   <div>
-    <language-setting></language-setting>
+    <!-- <language-setting></language-setting> -->
     <source-folder-setting></source-folder-setting>
-    <version></version>
+    <!-- <version></version> -->
   </div>
 </template>
 

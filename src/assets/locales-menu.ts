@@ -13,6 +13,7 @@ const messages: any = {
     toggledevtools: '开发者工具',
     close: '关闭',
     quit: '退出',
+    setting: '设置',
   },
   'zh-TW': {
     edit: '编辑',
@@ -28,6 +29,7 @@ const messages: any = {
     toggledevtools: '開發者工具',
     close: '關閉',
     quit: '退出',
+    setting: '设置',
   },
   'en': {
     edit: 'Edit',
@@ -43,6 +45,7 @@ const messages: any = {
     toggledevtools: 'Toogle Developer Tools',
     close: 'Close Window',
     quit: 'Quit',
+    setting: '设置',
   },
   'fr-FR': {
     edit: 'Éditer',
@@ -58,6 +61,7 @@ const messages: any = {
     toggledevtools: 'Toogle Developer Tools',
     close: 'Fermer',
     quit: 'Quitter',
+    setting: '设置',
   },
   'ru': {
     edit: 'Редактировать',
@@ -73,6 +77,7 @@ const messages: any = {
     toggledevtools: 'Инструменты разработчика',
     close: 'Закрыть окно',
     quit: 'Выход',
+    setting: '设置',
   },
   'ja-JP': {
     edit: '編集',
@@ -88,6 +93,7 @@ const messages: any = {
     toggledevtools: '開発者ツール',
     close: '閉じる',
     quit: '終了',
-  }
+    setting: '设置',
+  },
 }
 export default messages

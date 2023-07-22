@@ -3,8 +3,9 @@
     <a-layout-sider
       class="sider"
       :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }"
+      width="0"
     >
-      <div class="top-container">
+      <!-- <div class="top-container">
         <div class="logo">
           <img class="img" src="@/assets/logo.png">
         </div>
@@ -23,29 +24,34 @@
             </div>
           </a-menu-item>
         </a-menu>
-      </div>
+      </div> -->
       <div class="bottom-container">
-        <a-button class="preview-btn" block @click="preview">
-          <i class="zwicon-eye"></i>
-          {{ $t('preview') }}
-        </a-button>
-        <a-button class="sync-btn" block type="primary" :loading="publishLoading" @click="publish">
-          <template v-if="!publishLoading">
-            <i class="zwicon-deploy"></i>
-            {{ $t('syncSite') }}
-          </template>
-        </a-button>
-        <div class="version-container" :class="{ 'version-dot': hasUpdate }">
+        <div style="display: none;">
+          <a-button class="preview-btn" block @click="preview">
+            <i class="zwicon-eye"></i>
+            {{ $t('preview') }}
+          </a-button>
+          <a-button class="sync-btn" block type="primary" :loading="publishLoading" @click="publish">
+            <template v-if="!publishLoading">
+              <i class="zwicon-deploy"></i>
+              {{ $t('syncSite') }}
+            </template>
+          </a-button>
+        </div>
+        <div class="version-container">
           <i class="ri-equalizer-line text-base" @click="systemModalVisible = true"></i>
-          <i class="ri-earth-line web-btn" @click="goWeb" v-if="site.setting.domain"></i>
+          <!-- <i class="ri-earth-line web-btn" @click="goWeb" v-if="site.setting.domain"></i>
           <a-tooltip :title="`🌟 ${$t('starSupport')}`">
             <i class="ri-github-line text-base" @click="handleGithubClick"></i>
-          </a-tooltip>
+          </a-tooltip> -->
         </div>
       </div>
     </a-layout-sider>
     <a-layout class="right-container">
-      <div class="content">
+      <iframe v-if="canShowIframe" class="browser" src="http://localhost:4000">
+
+      </iframe>
+      <div class="content" style="display: none;">
         <keep-alive exclude="Loading,Theme">
           <router-view></router-view>
         </keep-alive>
@@ -133,6 +139,10 @@ export default class App extends Vue {
 
   logModalVisible = false
 
+  previewPath = 'http://localhost:4000'
+
+  canShowIframe = false
+
   log: any = {}
 
   get currentRouter() {
@@ -186,25 +196,34 @@ export default class App extends Vue {
 
   mounted() {
     // @see https://docs.headwayapp.co/widget for more configuration options.
-    const config = {
-      selector: '.version-container',
-      account: 'xbrnVx',
-      translations: {
-        title: 'Gridea News',
-        readMore: 'Read more',
-        labels: {
-          'new': 'News',
-          'improvement': 'Updates',
-          'fix': 'Fixes',
-        },
-        footer: 'Read more 👉',
-      },
-    }
+    // const config = {
+    //   selector: '.version-container',
+    //   account: 'xbrnVx',
+    //   translations: {
+    //     title: 'Gridea News',
+    //     readMore: 'Read more',
+    //     labels: {
+    //       'new': 'News',
+    //       'improvement': 'Updates',
+    //       'fix': 'Fixes',
+    //     },
+    //     footer: 'Read more 👉',
+    //   },
+    // }
     // @ts-ignore
-    if (window.Headway) {
-      // @ts-ignore
-      Headway.init(config)
-    }
+    // if (window.Headway) {
+    //   // @ts-ignore
+    //   Headway.init(config)
+    // }
+
+    setTimeout(() => {
+      this.preview()
+    }, 1000)
+
+    ipcRenderer.removeAllListeners('click-menu-setting')
+    ipcRenderer.on('click-menu-setting', (event: IpcRendererEvent, data: any) => {
+      this.systemModalVisible = !this.systemModalVisible
+    })
   }
 
   clickMenu(e: any) {
@@ -252,8 +271,10 @@ export default class App extends Vue {
               icon: '',
             })
           } else {
-            this.$message.success(`🎉  ${this.$t('renderSuccess')}`)
-            this.openInBrowser(`http://localhost:${port}`)
+            this.previewPath = `http://localhost:${port}`
+            this.canShowIframe = true
+            // this.$message.success(`🎉  ${this.$t('renderSuccess')}`)
+            // this.openInBrowser(`http://localhost:${port}`)
           }
         },
       )
@@ -407,7 +428,7 @@ export default class App extends Vue {
 }
 
 .bottom-container {
-  padding: 24px 32px 8px;
+  padding: 56px 16px 56px;
   button {
     margin: 8px 0;
   }
@@ -415,13 +436,18 @@ export default class App extends Vue {
 
 .right-container {
   background: #fff;
-  margin-left: 8px 8px 8px 208px;
-  padding: 8px 16px 8px 8px;
+  margin-left: 0;
+  padding: 0;
   position: absolute;
-  top: 8px;
-  bottom: 8px;
-  left: 208px;
+  top: 0;
+  bottom: 0;
+  left: 0;
   right: 0px;
+}
+
+.browser {
+  width: 100%;
+  height: 100%;
 }
 .version-container {
   display: flex;

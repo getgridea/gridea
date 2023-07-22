@@ -4,7 +4,7 @@ import {
 import {
   createProtocol,
 } from 'vue-cli-plugin-electron-builder/lib'
-import { autoUpdater } from 'electron-updater'
+// import { autoUpdater } from 'electron-updater'
 import { init } from '@sentry/electron/dist/main'
 import App from './server/app'
 import messages from './assets/locales-menu'
@@ -35,15 +35,15 @@ function createWindow() {
       enableRemoteModule: true, // FIXED: 兼容 electron@11.0.1
     },
     // frame: false, // 去除默认窗口栏
-    titleBarStyle: 'hiddenInset' as ('hidden' | 'default' | 'hiddenInset' | 'customButtonsOnHover' | undefined),
+    // titleBarStyle: 'hiddenInset' as ('hidden' | 'default' | 'hiddenInset' | 'customButtonsOnHover' | undefined),
   }
 
   if (process.platform !== 'darwin') {
-    winOption.icon = `${__dirname}/app-icons/gridea.png`
+    winOption.icon = `${__dirname}/app-icons/wiki.png`
   }
 
   win = new BrowserWindow(winOption)
-  win.setTitle('Gridea')
+  win.setTitle('wiki')
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -53,7 +53,7 @@ function createWindow() {
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
-    autoUpdater.checkForUpdatesAndNotify()
+    // autoUpdater.checkForUpdatesAndNotify()
   }
 
   win.on('closed', () => {
@@ -74,6 +74,13 @@ function createWindow() {
             win.webContents.send('click-menu-save')
           },
         },
+        {
+          label: menuLabels.setting,
+          accelerator: 'CmdOrCtrl+,',
+          click: () => {
+            win.webContents.send('click-menu-setting')
+          },
+        },
         { type: 'separator' },
         { role: 'undo', label: menuLabels.undo },
         { role: 'redo', label: menuLabels.redo },
@@ -92,15 +99,15 @@ function createWindow() {
     {
       role: 'windowMenu',
     },
-    {
-      role: menuLabels.help,
-      submenu: [
-        {
-          label: 'Learn More',
-          click() { shell.openExternal('https://github.com/getgridea/gridea') },
-        },
-      ],
-    },
+    // {
+    //   role: menuLabels.help,
+    //   submenu: [
+    //     {
+    //       label: 'Learn More',
+    //       click() { shell.openExternal('https://github.com/getgridea/gridea') },
+    //     },
+    //   ],
+    // },
   ]
 
   menu = Menu.buildFromTemplate(template)

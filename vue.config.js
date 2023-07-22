@@ -23,9 +23,9 @@ module.exports = {
     electronBuilder: {
       nodeIntegration: true,
       builderOptions: {
-        productName: 'Gridea',
+        productName: 'Wiki',
         win: {
-          icon: './public/app-icons/gridea.ico',
+          icon: './public/app-icons/wiki.png',
           // target: [
           //   {
           //     target: 'nsis',
@@ -37,10 +37,10 @@ module.exports = {
           // ],
         },
         mac: {
-          icon: './public/app-icons/gridea.icns',
+          icon: './public/app-icons/wiki.png',
         },
         linux: {
-          icon: './public/app-icons/gridea.png',
+          icon: './public/app-icons/wiki.png',
           target: [
             {
               target: 'AppImage',
@@ -60,7 +60,7 @@ module.exports = {
           allowToChangeInstallationDirectory: true, // 允许修改安装目录
           createDesktopShortcut: true, // 创建桌面图标
           createStartMenuShortcut: true, // 创建开始菜单图标
-          shortcutName: 'Gridea', // 图标名称
+          shortcutName: 'Wiki', // 图标名称
         },
         publish: ['github'],
       },

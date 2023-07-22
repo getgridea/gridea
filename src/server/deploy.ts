@@ -4,7 +4,9 @@ import moment from 'moment'
 import Model from './model'
 import GitProxy from './plugins/deploys/gitproxy'
 
-const git = require('isomorphic-git')
+// const git = require('isomorphic-git')
+
+const git: any = {}
 
 export default class Deploy extends Model {
   outputDir: string = this.buildDir

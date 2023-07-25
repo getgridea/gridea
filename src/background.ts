@@ -34,6 +34,7 @@ function createWindow() {
       nodeIntegration: true,
       enableRemoteModule: true, // FIXED: 兼容 electron@11.0.1
     },
+    autoHideMenuBar: true,
     // frame: false, // 去除默认窗口栏
     // titleBarStyle: 'hiddenInset' as ('hidden' | 'default' | 'hiddenInset' | 'customButtonsOnHover' | undefined),
   }
@@ -68,37 +69,17 @@ function createWindow() {
       label: menuLabels.edit,
       submenu: [
         {
-          label: menuLabels.save,
-          accelerator: 'CmdOrCtrl+S',
-          click: () => {
-            win.webContents.send('click-menu-save')
-          },
-        },
-        {
-          label: menuLabels.setting,
+          label: '',
           accelerator: 'CmdOrCtrl+,',
           click: () => {
             win.webContents.send('click-menu-setting')
           },
         },
-        { type: 'separator' },
-        { role: 'undo', label: menuLabels.undo },
-        { role: 'redo', label: menuLabels.redo },
-        { type: 'separator' },
-        { role: 'cut', label: menuLabels.cut },
-        { role: 'copy', label: menuLabels.copy },
-        { role: 'paste', label: menuLabels.paste },
-        { role: 'delete', label: menuLabels.delete },
-        { role: 'selectall', label: menuLabels.selectall },
-        { role: 'toggledevtools', label: menuLabels.toggledevtools },
-        { type: 'separator' },
-        { role: 'close', label: menuLabels.close },
-        { role: 'quit', label: menuLabels.quit },
       ],
     },
-    {
-      role: 'windowMenu',
-    },
+    // {
+    //   role: 'windowMenu',
+    // },
     // {
     //   role: menuLabels.help,
     //   submenu: [

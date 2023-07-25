@@ -39,7 +39,7 @@ export default class App {
     this.baseDir = setting.baseDir
     this.appDir = path.join(this.app.getPath('documents'), 'gridea')
     this.previewServer = setting.previewServer
-    this.buildDir = path.join(this.app.getPath('home'), '.gridea', 'output')
+    this.buildDir = path.join(this.appDir, 'output')
 
     this.db = {
       posts: [],

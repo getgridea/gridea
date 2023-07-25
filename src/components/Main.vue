@@ -5,9 +5,10 @@
       :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }"
     >
       <div class="top-container">
-        <div class="logo">
+        <!-- <div class="logo">
           <img class="img" src="@/assets/logo.png">
-        </div>
+        </div> -->
+        <div class="h-12"></div>
         <a-menu mode="inline" :defaultSelectedKeys="['/articles']" @click="clickMenu">
           <a-menu-item :key="menu.router" v-for="menu in sideMenus">
             <div class="menu-item">
@@ -29,19 +30,19 @@
           <i class="zwicon-eye"></i>
           {{ $t('preview') }}
         </a-button>
-        <a-button class="sync-btn" block type="primary" :loading="publishLoading" @click="publish">
+        <!-- <a-button class="sync-btn" block type="primary" :loading="publishLoading" @click="publish">
           <template v-if="!publishLoading">
             <i class="zwicon-deploy"></i>
             {{ $t('syncSite') }}
           </template>
-        </a-button>
-        <div class="version-container" :class="{ 'version-dot': hasUpdate }">
+        </a-button> -->
+        <!-- <div class="version-container" :class="{ 'version-dot': hasUpdate }">
           <i class="ri-equalizer-line text-base" @click="systemModalVisible = true"></i>
           <i class="ri-earth-line web-btn" @click="goWeb" v-if="site.setting.domain"></i>
           <a-tooltip :title="`🌟 ${$t('starSupport')}`">
             <i class="ri-github-line text-base" @click="handleGithubClick"></i>
           </a-tooltip>
-        </div>
+        </div> -->
       </div>
     </a-layout-sider>
     <a-layout class="right-container">
@@ -164,11 +165,11 @@ export default class App extends Vue {
         text: this.$t('theme'),
         router: '/theme',
       },
-      {
-        icon: 'ri-server-line',
-        text: this.$t('remote'),
-        router: '/setting',
-      },
+      // {
+      //   icon: 'ri-server-line',
+      //   text: this.$t('remote'),
+      //   router: '/setting',
+      // },
     ]
   }
 
@@ -176,7 +177,7 @@ export default class App extends Vue {
     this.$bus.$on('site-reload', () => {
       this.reloadSite()
     })
-    this.checkUpdate()
+    // this.checkUpdate()
 
     ipcRenderer.on(('log-error'), (event: any, result: any) => {
       this.log = result
@@ -186,25 +187,25 @@ export default class App extends Vue {
 
   mounted() {
     // @see https://docs.headwayapp.co/widget for more configuration options.
-    const config = {
-      selector: '.version-container',
-      account: 'xbrnVx',
-      translations: {
-        title: 'Gridea News',
-        readMore: 'Read more',
-        labels: {
-          'new': 'News',
-          'improvement': 'Updates',
-          'fix': 'Fixes',
-        },
-        footer: 'Read more 👉',
-      },
-    }
-    // @ts-ignore
-    if (window.Headway) {
-      // @ts-ignore
-      Headway.init(config)
-    }
+    // const config = {
+    //   selector: '.version-container',
+    //   account: 'xbrnVx',
+    //   translations: {
+    //     title: 'Gridea News',
+    //     readMore: 'Read more',
+    //     labels: {
+    //       'new': 'News',
+    //       'improvement': 'Updates',
+    //       'fix': 'Fixes',
+    //     },
+    //     footer: 'Read more 👉',
+    //   },
+    // }
+    // // @ts-ignore
+    // if (window.Headway) {
+    //   // @ts-ignore
+    //   Headway.init(config)
+    // }
   }
 
   clickMenu(e: any) {

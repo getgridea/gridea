@@ -74,6 +74,13 @@ function createWindow() {
             win.webContents.send('click-menu-save')
           },
         },
+        {
+          label: menuLabels.save,
+          accelerator: 'CmdOrCtrl+,',
+          click: () => {
+            win.webContents.send('click-menu-setting')
+          },
+        },
         { type: 'separator' },
         { role: 'undo', label: menuLabels.undo },
         { role: 'redo', label: menuLabels.redo },

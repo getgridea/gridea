@@ -36,13 +36,13 @@
             {{ $t('syncSite') }}
           </template>
         </a-button> -->
-        <!-- <div class="version-container" :class="{ 'version-dot': hasUpdate }">
+        <div class="version-container" :class="{ 'version-dot': hasUpdate }">
           <i class="ri-equalizer-line text-base" @click="systemModalVisible = true"></i>
-          <i class="ri-earth-line web-btn" @click="goWeb" v-if="site.setting.domain"></i>
+          <!-- <i class="ri-earth-line web-btn" @click="goWeb" v-if="site.setting.domain"></i>
           <a-tooltip :title="`🌟 ${$t('starSupport')}`">
             <i class="ri-github-line text-base" @click="handleGithubClick"></i>
-          </a-tooltip>
-        </div> -->
+          </a-tooltip> -->
+        </div>
       </div>
     </a-layout-sider>
     <a-layout class="right-container">
@@ -206,6 +206,11 @@ export default class App extends Vue {
     //   // @ts-ignore
     //   Headway.init(config)
     // }
+
+    ipcRenderer.removeAllListeners('click-menu-setting')
+    ipcRenderer.on('click-menu-setting', (event: IpcRendererEvent, data: any) => {
+      this.systemModalVisible = !this.systemModalVisible
+    })
   }
 
   clickMenu(e: any) {
